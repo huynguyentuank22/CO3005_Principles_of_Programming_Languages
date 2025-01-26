@@ -1,0 +1,5 @@
+add(1, 2);
+                    sub(3, 4)
+                    reset()
+                    calculator.add(3, 4)
+                
