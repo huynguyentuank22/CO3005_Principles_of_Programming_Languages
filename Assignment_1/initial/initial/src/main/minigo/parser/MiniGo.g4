@@ -278,9 +278,9 @@ UNCLOSE_STRING: '"' CHAR* ([\n\r] | EOF) {
     ESC = ['\r', '\n']
     text = str(self.text)
     if text[-1] in ESC:
-        raise UncloseString(text[1:-1])
+        raise UncloseString(text[:-1])
     else:
-        raise UncloseString(text[1:])
+        raise UncloseString(text[:])
     };
 
 // mode NLSEMI;
