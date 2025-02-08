@@ -1,1 +1,1 @@
-Unclosed string: Hello world
+0o123,<EOF>

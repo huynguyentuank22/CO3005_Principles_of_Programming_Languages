@@ -6,8 +6,29 @@ from lexererr import *
 }
 
 @lexer::members {
+def __init__(self, input):
+    super().__init__(input)
+    self.checkVersion("4.9.2")
+    self._interp = LexerATNSimulator(self, self.atn, self.decisionsToDFA, PredictionContextCache())
+    self._actions = None
+    self._predicates = None
+    self.prev_token = None
+
+def check_EOS(self):
+    if not self.prev_token:
+        return False
+    tokens = [
+        self.IDENTIFIER,
+        self.INT_LITERAL, self.FLOAT_LITERAL, self.STRING_LITERAL, self.BOOLEAN_LITERAL, self.NIL_LITERAL,
+        self.INT, self.FLOAT, self.STRING, self.BOOLEAN,
+        self.RETURN, self.BREAK, self.CONTINUE,
+        self.RB, self.RCB, self.RSB
+    ]
+    return self.prev_token.type in tokens
+
 def emit(self):
     tk = self.type
+    token = super().emit()
     if tk == self.UNCLOSE_STRING:       
         result = super().emit();
         raise UncloseString(result.text);
@@ -17,8 +38,9 @@ def emit(self):
     elif tk == self.ERROR_CHAR:
         result = super().emit();
         raise ErrorToken(result.text); 
-    else:
-        return super().emit();
+    elif tk != '\n':
+        self.prev_token = token
+    return token
 }
 
 options{
@@ -27,16 +49,17 @@ options{
 
 program  : stmt+ EOF ;
 
-decl: func_decl | var_decl | const_decl | array_decl | struct_decl | interface_decl;
+decl: func_decl | var_decl | short_var_decl | const_decl | array_decl | short_array_decl | struct_decl | interface_decl;
 assign: assign_array | assign_struct | access_struct;
 call: func_call;
 
-var_decl: VAR? IDENTIFIER (primitive_type (ASSIGN expr)? | ASSIGN expr) SEMICOLON?;
+var_decl: VAR? IDENTIFIER (primitive_type (ASSIGN expr)? | ASSIGN expr) eos;
+short_var_decl: IDENTIFIER DECLARE_ASSIGN expr eos;
 
-const_decl: CONST IDENTIFIER ASSIGN expr SEMICOLON;
+const_decl: CONST IDENTIFIER ASSIGN expr eos;
 
-func_decl: FUNC method? IDENTIFIER LB param_list? RB types? LCB stmt* RCB SEMICOLON?;
-func_call: (IDENTIFIER DOT)? IDENTIFIER LB args? RB SEMICOLON?;
+func_decl: FUNC method? IDENTIFIER LB param_list? RB types? LCB stmt* RCB eos;
+func_call: (IDENTIFIER DOT)? IDENTIFIER LB args? RB eos;
 args: expr (COMMA expr)*;
 
 method: LB IDENTIFIER IDENTIFIER RB;
@@ -49,8 +72,9 @@ literals: INT_LITERAL | FLOAT_LITERAL | STRING_LITERAL | BOOLEAN_LITERAL | NIL_L
 // TYPE DECLARATION
 primitive_type: INT | FLOAT | STRING | BOOLEAN;
 // ARRAY TYPE
-assign_array: IDENTIFIER index_ops+ ASSIGN expr SEMICOLON?;
-array_decl: VAR? IDENTIFIER (array_type | ASSIGN array_literal) SEMICOLON?;
+assign_array: IDENTIFIER index_ops+ ASSIGN expr eos;
+array_decl: VAR IDENTIFIER (array_type | ASSIGN array_literal) eos;
+short_array_decl: IDENTIFIER DECLARE_ASSIGN array_literal eos;
 array_type: dimensions (primitive_type | IDENTIFIER);
 dimensions: (LSB INT_LITERAL RSB)+;
 // END ARRAY TYPE
@@ -62,11 +86,11 @@ ele: ele_list | literals;
 // END ARRAY LITERAL
 
 // STRUCT TYPE
-access_struct: IDENTIFIER DOT IDENTIFIER ASSIGN expr SEMICOLON?;
-assign_struct: IDENTIFIER ASSIGN struct_literal SEMICOLON?;
-struct_decl: TYPE IDENTIFIER struct_type;
+access_struct: IDENTIFIER DOT IDENTIFIER ASSIGN expr eos;
+assign_struct: IDENTIFIER DECLARE_ASSIGN struct_literal eos;
+struct_decl: TYPE IDENTIFIER struct_type eos;
 struct_type: STRUCT LCB fields* RCB;
-fields: IDENTIFIER (primitive_type | array_type | struct_type | IDENTIFIER) SEMICOLON?;
+fields: IDENTIFIER (primitive_type | array_type | struct_type | IDENTIFIER) eos;
 // END STRUCT TYPE
 
 // STRUCT LITERAL
@@ -74,9 +98,9 @@ struct_literal: IDENTIFIER LCB (field_lit (COMMA field_lit)*)? RCB;
 field_lit: IDENTIFIER COLON expr;
 
 // INTERFACE TYPE
-interface_decl: TYPE IDENTIFIER interface_type;
+interface_decl: TYPE IDENTIFIER interface_type eos;
 interface_type: INTERFACE LCB method_decl* RCB;
-method_decl: IDENTIFIER LB param_list? RB types? SEMICOLON?;
+method_decl: IDENTIFIER LB param_list? RB types? eos;
 // END INTERFACE TYPE
 // END TYPE DECLARATION
 
@@ -110,16 +134,18 @@ stmt: decl
     | return_stmt
     ;
 
-asm_stmt: IDENTIFIER index_ops* assign_ops expr SEMICOLON?;
-if_stmt: IF LB expr RB LCB stmt* RCB else_if_stmt* (ELSE LCB stmt* RCB)?;
+asm_stmt: IDENTIFIER index_ops* assign_ops expr eos;
+if_stmt: IF LB expr RB LCB stmt* RCB else_if_stmt* (ELSE LCB stmt* RCB)? eos;
 else_if_stmt: ELSE IF LB expr RB LCB stmt* RCB;
-for_stmt: FOR for_clause LCB stmt* RCB;
+for_stmt: FOR for_clause LCB stmt* RCB eos;
 for_clause: expr | fully_clause | range_clause;
-fully_clause: var_decl? SEMICOLON expr SEMICOLON asm_stmt?;
-range_clause: (IDENTIFIER | '_') COMMA IDENTIFIER ASSIGN RANGE IDENTIFIER;
-break_stmt: BREAK SEMICOLON;
-continue_stmt: CONTINUE SEMICOLON;
-return_stmt: RETURN expr? SEMICOLON;
+fully_clause: init? eos expr? eos update?;
+init: IDENTIFIER (ASSIGN | DECLARE_ASSIGN) expr;
+update: IDENTIFIER index_ops* assign_ops expr;
+range_clause: (IDENTIFIER | '_') COMMA IDENTIFIER DECLARE_ASSIGN RANGE IDENTIFIER;
+break_stmt: BREAK eos;
+continue_stmt: CONTINUE eos;
+return_stmt: RETURN expr? eos;
 // END STATEMENT
 
 // OPERATORS
@@ -130,10 +156,8 @@ assign_ops: PLUS_ASSIGN | MINUS_ASSIGN | MULT_ASSIGN | DIV_ASSIGN | MOD_ASSIGN;
 index_ops: LSB expr RSB;
 // END OPERATORS
 
-// COMMENT
-LINE_COMMENT: '//' ~[\r\n]* -> skip;
-COMMENT: '/*' (COMMENT | .)*? '*/' -> skip;
-// END COMMENT
+// END OF STATEMENT
+eos: SEMICOLON | EOS;
 
 // KEYWORDS
 IF: 'if';
@@ -165,23 +189,24 @@ MUL: '*';
 DIV: '/';
 MOD: '%';
 
-EQ: '==';
-NEQ: '!=';
-LT: '<';
-LE: '<=';
-GT: '>';
-GE: '>=';
+EQ  : '==';
+NEQ : '!=';
+LT  : '<';
+LE  : '<=';
+GT  : '>';
+GE  : '>=';
 
-AND: '&&';
-OR: '||';
-NOT: '!';
+AND : '&&';
+OR  : '||';
+NOT : '!';
 
-ASSIGN      : ':'? '=' ;
-PLUS_ASSIGN : '+=' ;
-MINUS_ASSIGN: '-=' ;
-MULT_ASSIGN : '*=' ;
-DIV_ASSIGN  : '/=' ;
-MOD_ASSIGN  : '%=' ;
+ASSIGN          : '=';
+DECLARE_ASSIGN  : ':=';
+PLUS_ASSIGN     : '+=' ;
+MINUS_ASSIGN    : '-=' ;
+MULT_ASSIGN     : '*=' ;
+DIV_ASSIGN      : '/=' ;
+MOD_ASSIGN      : '%=' ;
 
 DOT: '.';
 // END OPERATORS
@@ -227,10 +252,20 @@ IDENTIFIER: (LETTER | UNDERSCORE) (LETTER | UNDERSCORE | DIGIT )*;
 fragment UNDERSCORE: '_';
 // END IDENTIFIER
 
+// COMMENT
+LINE_COMMENT: '//' ~[\r\n]* -> skip;
+COMMENT: '/*' (COMMENT | .)*? '*/' -> skip;
+// END COMMENT
 
-NL: '\n' -> skip; //skip newlines
-
-WS : [ \t\f\r\n]+ -> skip ; // skip spaces, tabs 
+WS : [ \t\f\r]+ -> skip ; // skip spaces, tabs 
+EOS: ([\r\n]+) {
+    if self != ';':
+        if self.check_EOS():
+            self.text = ';'
+            return self.SEMICOLON
+        else:
+            self.skip()
+};
 
 ERROR_CHAR: . {raise ErrorToken(self.text)};
 
@@ -247,3 +282,11 @@ UNCLOSE_STRING: '"' CHAR* ([\n\r] | EOF) {
     else:
         raise UncloseString(text[1:])
     };
+
+// mode NLSEMI;
+
+// WS_NLSEMI: [ \t] -> skip;
+// COMMENT_NLSEMI: '/*' ~[\r\n]*? '*/' -> skip;
+// LINE_COMMENT_NLSEMI: '//' ~[\r\n]* -> skip;
+// : ([\r\n]+ | ';' | '/*' .*? '*/' | EOF) -> mode(DEFAULT_MODE);
+// OTHER: -> mode(DEFAULT_MODE), skip;

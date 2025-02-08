@@ -3,5 +3,5 @@ type Calculator interface {
                         Subtract(a, b float, c int) float;
                         Reset()
                         SayHello(name string)
-                        }
+                    }
                 

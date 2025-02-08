@@ -59,7 +59,8 @@ class ParserSuite(unittest.TestCase):
                         CreatedBy string
                         UpdatedBy string
                     }
-                }"""
+                }
+                """
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,208))
 
@@ -90,7 +91,7 @@ class ParserSuite(unittest.TestCase):
         input = """var arr [5]int;
                     arr[3] = 10;
                     arr[4] = arr[3] + 5;
-                    a[2][3] := b[2] + 1;
+                    a[2][3] = b[2] + 1;
                 """
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,212))
@@ -138,7 +139,7 @@ class ParserSuite(unittest.TestCase):
                         Subtract(a, b float, c int) float;
                         Reset()
                         SayHello(name string)
-                        }
+                    }
                 """
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,218))
@@ -207,7 +208,7 @@ class ParserSuite(unittest.TestCase):
     def test_nested_for_stmt(self):
         input = """for i := 0; i < 10; i += 1 {
                         for j := 0; j < 10; j += 1 {
-                            sum += i + j;
+                            sum += i + j
                         }
                     }
                 """
