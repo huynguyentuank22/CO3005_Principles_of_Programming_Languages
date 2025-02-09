@@ -1,1 +1,6 @@
-func abc ( ) {a};
+
+        /* 
+        This is a multiline comment 
+        This is a multiline comment 
+        */
+        

@@ -1,1 +1,1 @@
-var,arr,[,5,],int,;,<EOF>
+hello,123,<EOF>

@@ -1,1 +1,1 @@
-func,abc,(,),{,a,},;,<EOF>
+<EOF>

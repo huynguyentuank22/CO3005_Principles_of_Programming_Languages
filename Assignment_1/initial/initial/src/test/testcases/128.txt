@@ -1,1 +1,1 @@
-var arr [5]int;
+"hello" "123"

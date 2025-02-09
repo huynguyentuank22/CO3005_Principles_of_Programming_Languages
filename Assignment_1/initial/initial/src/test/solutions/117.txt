@@ -1,1 +1,1 @@
-0o123,<EOF>
+if,else,for,struct,interface,string,const,var,return,func,int,type,float,boolean,continue,break,range,true,false,<EOF>

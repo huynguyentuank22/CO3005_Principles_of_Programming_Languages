@@ -1,1 +1,1 @@
-123,<EOF>
+123,variable,my,-,variable,<EOF>

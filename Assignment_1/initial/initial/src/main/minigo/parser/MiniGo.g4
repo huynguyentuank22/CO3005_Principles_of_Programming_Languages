@@ -238,8 +238,8 @@ fragment INT_PART: NONZERO_DIGIT DIGIT* | '0';
 fragment DEC_PART: '.' DIGIT*;
 fragment EXP_PART: [eE] [+-]? DIGIT+;
 
-STRING_LITERAL: '"' CHAR* '"';
-fragment CHAR: ESC | ~["\\\r\n];
+STRING_LITERAL: '"' CHAR* '"' {self.text = self.text[1:-1]};
+fragment CHAR: ESC | ~["\\];
 fragment ESC: '\\' ( 'n' | 't' | 'r' | '"' | '\\' );
 fragment INVALID_ESC: '\\' ~[ntr"\\];
 BOOLEAN_LITERAL: TRUE | FALSE;
@@ -259,12 +259,11 @@ COMMENT: '/*' (COMMENT | .)*? '*/' -> skip;
 
 WS : [ \t\f\r]+ -> skip ; // skip spaces, tabs 
 EOS: ([\r\n]+) {
-    if self != ';':
-        if self.check_EOS():
-            self.text = ';'
-            return self.SEMICOLON
-        else:
-            self.skip()
+    if self.check_EOS():
+        self.text = ';'
+        return self.SEMICOLON
+    else:
+        self.skip()
 };
 
 ERROR_CHAR: . {raise ErrorToken(self.text)};
