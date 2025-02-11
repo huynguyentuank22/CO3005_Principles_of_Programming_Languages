@@ -256,3 +256,18 @@ class ParserSuite(unittest.TestCase):
                 """
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,229))
+
+    def test_gi_do(self):
+        input = """const abcdef = [1.]ID{1, 3};"""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,230))
+
+    def test_gi_do_2(self):
+        input = """person.arr[1];"""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,231))
+
+    def test_gi_do_3(self):
+        input = """person.name.huy;"""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,232))

@@ -1,0 +1,4 @@
+
+        p.age := 31;
+        p.name := "Alice";
+        

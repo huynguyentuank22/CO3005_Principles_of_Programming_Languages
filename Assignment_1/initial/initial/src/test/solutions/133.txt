@@ -1,1 +1,1 @@
-abc,;,def,;,<EOF>
+Unclosed string: "Hello world

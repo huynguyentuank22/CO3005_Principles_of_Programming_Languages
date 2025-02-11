@@ -1,5 +1,1 @@
-type Person struct {
-                        name string
-                        age int
-                    }
-                
+"Hello world" "Goodbye world

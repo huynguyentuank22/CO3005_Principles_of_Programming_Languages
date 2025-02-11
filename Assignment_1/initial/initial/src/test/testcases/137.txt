@@ -1,5 +1,1 @@
-abc /*abc
-        
-        */
-        def;
-        
+var arr [5]int; /* defines an array of 5 integers. */

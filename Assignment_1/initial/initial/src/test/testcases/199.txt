@@ -1,0 +1,20 @@
+
+        func findDepthTree(arr []int) int {
+            var maxDepth int = 0
+            var depth int = 0
+            for _, val := range arr {
+                if val == -1 {
+                    maxDepth = max(maxDepth, depth)
+                    depth = 0
+                } else {
+                    depth += 1
+                }
+            }
+            return maxDepth
+        }
+        
+        func main() {
+            var arr []int = []int{1, 2, 3, -1, 4, -1, -1, 5, 6}
+            fmt.Println(findDepthTree(arr)) // 3
+        }
+        

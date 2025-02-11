@@ -2,6 +2,7 @@ grammar MiniGo;
 
 @lexer::header {
 # Nguyen Tuan Huy - 2211253
+# fix như tam, sua expression
 from lexererr import *
 }
 
@@ -59,8 +60,8 @@ short_var_decl: IDENTIFIER DECLARE_ASSIGN expr eos;
 const_decl: CONST IDENTIFIER ASSIGN expr eos;
 
 func_decl: FUNC method? IDENTIFIER LB param_list? RB types? LCB stmt* RCB eos;
-func_call: (IDENTIFIER DOT)? IDENTIFIER LB args? RB eos;
-args: expr (COMMA expr)*;
+func_call: call_expr eos;
+// args: expr (COMMA expr)*;
 
 method: LB IDENTIFIER IDENTIFIER RB;
 
@@ -95,7 +96,7 @@ fields: IDENTIFIER (primitive_type | array_type | struct_type | IDENTIFIER) eos;
 
 // STRUCT LITERAL
 struct_literal: IDENTIFIER LCB (field_lit (COMMA field_lit)*)? RCB;
-field_lit: IDENTIFIER COLON expr;
+field_lit: IDENTIFIER ':' expr;
 
 // INTERFACE TYPE
 interface_decl: TYPE IDENTIFIER interface_type eos;
@@ -105,21 +106,21 @@ method_decl: IDENTIFIER LB param_list? RB types? eos;
 // END TYPE DECLARATION
 
 // EXPRESSION
-expr: expr OR expr
-    | expr AND expr
-    | expr relational_ops expr
-    | expr arithmetic_ops expr
-    | NOT expr
-    | SUB expr
-    | expr index_ops+
-    | expr DOT IDENTIFIER
-    | primary_expr
-    ;
-
-primary_expr: IDENTIFIER
-    | literals
-    | LB expr RB
-    ;
+expr: expr OR expr1 | expr1;
+expr1: expr1 AND expr2 | expr2;
+expr2: expr2 relational_ops expr3 | expr3;
+expr3: expr3 (ADD | SUB) expr4 | expr4;
+expr4: expr4 (MUL | DIV | MOD) expr5 | expr5;
+expr5: (NOT | SUB) expr5 | expr6;
+expr6: expr6 (DOT IDENTIFIER | index_ops) | expr7;
+expr7: LB expr_list RB | operand;
+expr_list: expr COMMA expr_list | expr;
+    
+operand:  literals
+        | IDENTIFIER
+        | call_expr
+        | LB expr RB
+        ;
 // END EXPRESSION
 
 // STATEMENT
@@ -154,11 +155,14 @@ arithmetic_ops: ADD | SUB | MUL | DIV | MOD;
 relational_ops: EQ | NEQ | GT | GE | LT | LE;
 assign_ops: PLUS_ASSIGN | MINUS_ASSIGN | MULT_ASSIGN | DIV_ASSIGN | MOD_ASSIGN;
 index_ops: LSB expr RSB;
+call_expr: (IDENTIFIER DOT)? IDENTIFIER LB expr_list? RB;
 // END OPERATORS
 
 // END OF STATEMENT
 eos: SEMICOLON | EOS;
 
+BOOLEAN_LITERAL: TRUE | FALSE;
+NIL_LITERAL: NIL;
 // KEYWORDS
 IF: 'if';
 ELSE: 'else';
@@ -219,7 +223,7 @@ RCB: '}';
 LSB: '[';
 RSB: ']';
 COMMA: ',';
-COLON: ':';
+// COLON: ':';
 SEMICOLON: ';';
 // END SEPARATORS
 
@@ -242,9 +246,7 @@ STRING_LITERAL: '"' CHAR* '"' {self.text = self.text[1:-1]};
 fragment CHAR: ESC | ~["\\];
 fragment ESC: '\\' ( 'n' | 't' | 'r' | '"' | '\\' );
 fragment INVALID_ESC: '\\' ~[ntr"\\];
-BOOLEAN_LITERAL: TRUE | FALSE;
 
-NIL_LITERAL: NIL;
 // END literals
 
 // IDENTIFIER
@@ -261,7 +263,6 @@ WS : [ \t\f\r]+ -> skip ; // skip spaces, tabs
 EOS: ([\r\n]+) {
     if self.check_EOS():
         self.text = ';'
-        return self.SEMICOLON
     else:
         self.skip()
 };
