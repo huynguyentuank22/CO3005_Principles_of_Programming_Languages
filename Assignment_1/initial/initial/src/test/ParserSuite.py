@@ -5,14 +5,14 @@ class ParserSuite(unittest.TestCase):
     def test_simple_program(self):
         """Simple program: void main() {} """
         input = """func main() {};"""
-        expect = "successful"
+        expect = "Error on line 1 col 14: }"
         self.assertTrue(TestParser.checkParser(input,expect,201))
 
     def test_more_complex_program(self):
         """More complex program"""
         input = """func foo () {
         };"""
-        expect = "successful"
+        expect = "Error on line 2 col 9: }"
         self.assertTrue(TestParser.checkParser(input,expect,202))
 
     def test_wrong_miss_close(self):
@@ -81,17 +81,17 @@ class ParserSuite(unittest.TestCase):
         self.assertTrue(TestParser.checkParser(input,expect,210))
 
     def test_func_declare(self):
-        input = """func add(a int, b string) int {};
-                    func sub(a, b int) {}
+        input = """func add(a int, b string) int { var a = 5; };
+                    func sub(a, b int) { var a = 5; }
                 """
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,211))
 
     def test_index_ops(self):
         input = """var arr [5]int;
-                    arr[3] = 10;
-                    arr[4] = arr[3] + 5;
-                    a[2][3] = b[2] + 1;
+                    arr[3] := 10;
+                    arr[4] := arr[3] + 5;
+                    a[2][3] := b[2] + 1;
                 """
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,212))
@@ -113,8 +113,8 @@ class ParserSuite(unittest.TestCase):
 
     def test_access_field(self):
         input = """p := Person{name: "Alice", age: 30}
-                    p.name = "Bob";
-                    p.age = 25;
+                    p.name := "Bob";
+                    p.age := 25;
                 """
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,215))
@@ -154,11 +154,11 @@ class ParserSuite(unittest.TestCase):
 
     def test_if_stmt(self):
         input = """if (x > 5) {
-                        str = "x is greater than 5";
+                        str := "x is greater than 5";
                     } else if (x == 5) {
-                        str = "x is equal to 5";
+                        str := "x is equal to 5";
                     } else {
-                        str = "x is less than 5";
+                        str := "x is less than 5";
                     }
                 """
         expect = "successful"
@@ -167,7 +167,7 @@ class ParserSuite(unittest.TestCase):
     def test_nested_if_stmt(self):
         input = """if (x > 5) {
                         if (x < 10) {
-                            str = "x is between 5 and 10";
+                            str := "x is between 5 and 10";
                         }
                     }
                 """
@@ -189,8 +189,9 @@ class ParserSuite(unittest.TestCase):
     def test_range_for_stmt(self):
         input = """ arr := [3]int{10, 20, 30}
                     for index, value := range arr {
-                    // index: 0, 1, 2
-                    // value: 10, 20, 30
+                        // index: 0, 1, 2
+                        // value: 10, 20, 30
+                        println(index, value);
                     }
                 """
         expect = "successful"
@@ -199,7 +200,8 @@ class ParserSuite(unittest.TestCase):
     def test_range_for_without_index(self):
         input = """ arr := [3]int{10, 20, 30}
                     for _, value := range arr {
-                    // value: 10, 20, 30
+                        // value: 10, 20, 30
+                        println(value);
                     }
                 """
         expect = "successful"
@@ -268,6 +270,25 @@ class ParserSuite(unittest.TestCase):
         self.assertTrue(TestParser.checkParser(input,expect,231))
 
     def test_gi_do_3(self):
-        input = """person.name.huy;"""
+        input = """huy := person.name.huy;"""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,232))
+
+    def test_gi_do_4(self):
+        input = """a := b[c.f(3,f(c))*(12+f.c.d.e[3])] + 12.e-9 + abc;"""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,233))
+
+    def test_gi_do_5(self):
+        input = """var a = a.foo().bar()[4];"""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,234))
+
+    def test_gi_do_6(self):
+        input = """
+        for i := 2; i < 13; i += 1 {
+            println(i);
+        }
+        """
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,235))

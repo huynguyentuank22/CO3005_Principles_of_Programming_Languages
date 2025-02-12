@@ -48,62 +48,106 @@ options{
 	language=Python3;
 }
 
-program  : stmt+ EOF ;
+program: stmt+ EOF;
 
-decl: func_decl | var_decl | short_var_decl | const_decl | array_decl | short_array_decl | struct_decl | interface_decl;
-assign: assign_array | assign_struct | access_struct;
-call: func_call;
+decl: var_decl | const_decl | array_decl | struct_decl | interface_decl | func_decl; // short_var_decl short_array_decl 
+// assign: assign_array | assign_struct | access_struct;
+// call: func_call;
 
-var_decl: VAR? IDENTIFIER (primitive_type (ASSIGN expr)? | ASSIGN expr) eos;
-short_var_decl: IDENTIFIER DECLARE_ASSIGN expr eos;
+// VAR DECLARATION
+// var_decl: VAR? IDENTIFIER (primitive_type (ASSIGN expr)? | ASSIGN expr) eos;
+// short_var_decl: IDENTIFIER DECLARE_ASSIGN expr eos;
+var_decl: (decl_var_type_init | decl_var_init | decl_var_type) eos;
+decl_var_type_init: VAR IDENTIFIER primitive_type DECLARE_ASSIGN expr;
+decl_var_init: VAR IDENTIFIER DECLARE_ASSIGN expr;
+decl_var_type: VAR IDENTIFIER primitive_type;
 
-const_decl: CONST IDENTIFIER ASSIGN expr eos;
+// CONST DECLARATION
+const_decl: CONST IDENTIFIER DECLARE_ASSIGN expr eos;
 
-func_decl: FUNC method? IDENTIFIER LB param_list? RB types? LCB stmt* RCB eos;
-func_call: call_expr eos;
-// args: expr (COMMA expr)*;
+// ARRAY DECLARATION
+// assign_array: IDENTIFIER index_ops+ ASSIGN expr eos;
+// array_decl: VAR IDENTIFIER (array_type | ASSIGN array_literal) eos;
+// short_array_decl: IDENTIFIER DECLARE_ASSIGN array_literal eos;
+// array_type: dimensions (primitive_type | IDENTIFIER);
+// dimensions: (LSB INT_LITERAL RSB)+;
+// // END ARRAY TYPE
 
-method: LB IDENTIFIER IDENTIFIER RB;
+// // ARRAY LITERAL
+// array_literal: array_type ele_list;
+// ele_list: LCB ele (COMMA ele)* RCB;
+// ele: ele_list | literals;
+// // END ARRAY LITERAL
+array_decl: (decl_arr | decl_arr_init) eos;
 
-param_list: param (COMMA param)*;
-param: IDENTIFIER types?;  
-types: primitive_type | array_type | IDENTIFIER;
-literals: INT_LITERAL | FLOAT_LITERAL | STRING_LITERAL | BOOLEAN_LITERAL | NIL_LITERAL;
-
-// TYPE DECLARATION
-primitive_type: INT | FLOAT | STRING | BOOLEAN;
-// ARRAY TYPE
-assign_array: IDENTIFIER index_ops+ ASSIGN expr eos;
-array_decl: VAR IDENTIFIER (array_type | ASSIGN array_literal) eos;
-short_array_decl: IDENTIFIER DECLARE_ASSIGN array_literal eos;
+decl_arr: VAR IDENTIFIER array_type;
 array_type: dimensions (primitive_type | IDENTIFIER);
 dimensions: (LSB INT_LITERAL RSB)+;
-// END ARRAY TYPE
 
-// ARRAY LITERAL
+decl_arr_init: VAR IDENTIFIER DECLARE_ASSIGN array_literal;
 array_literal: array_type ele_list;
 ele_list: LCB ele (COMMA ele)* RCB;
-ele: ele_list | literals;
-// END ARRAY LITERAL
+ele: ele_list | primitive_lit;
 
-// STRUCT TYPE
-access_struct: IDENTIFIER DOT IDENTIFIER ASSIGN expr eos;
-assign_struct: IDENTIFIER DECLARE_ASSIGN struct_literal eos;
+// STRUCT DECLARATION
+// // STRUCT TYPE
+// access_struct: IDENTIFIER DOT IDENTIFIER ASSIGN expr eos;
+// assign_struct: IDENTIFIER DECLARE_ASSIGN struct_literal eos;
+// struct_decl: TYPE IDENTIFIER struct_type eos;
+// struct_type: STRUCT LCB fields* RCB;
+// fields: IDENTIFIER (primitive_type | array_type | struct_type | IDENTIFIER) eos;
+// // END STRUCT TYPE
+
+// // STRUCT LITERAL
+// struct_literal: IDENTIFIER LCB (field_lit (COMMA field_lit)*)? RCB;
+// field_lit: IDENTIFIER ':' expr;
 struct_decl: TYPE IDENTIFIER struct_type eos;
 struct_type: STRUCT LCB fields* RCB;
 fields: IDENTIFIER (primitive_type | array_type | struct_type | IDENTIFIER) eos;
-// END STRUCT TYPE
 
-// STRUCT LITERAL
-struct_literal: IDENTIFIER LCB (field_lit (COMMA field_lit)*)? RCB;
-field_lit: IDENTIFIER ':' expr;
+struct_literal: IDENTIFIER LCB struct_elements? RCB;
+struct_elements: struct_ele (COMMA struct_ele)*;
+struct_ele: IDENTIFIER ':' expr;
 
-// INTERFACE TYPE
+// INTERFACE DECLARATION
+// // INTERFACE TYPE
+// interface_decl: TYPE IDENTIFIER interface_type eos;
+// interface_type: INTERFACE LCB method_decl* RCB;
+// method_decl: IDENTIFIER LB param_list? RB types? eos;
+// // END INTERFACE TYPE
 interface_decl: TYPE IDENTIFIER interface_type eos;
-interface_type: INTERFACE LCB method_decl* RCB;
-method_decl: IDENTIFIER LB param_list? RB types? eos;
-// END INTERFACE TYPE
-// END TYPE DECLARATION
+interface_type: INTERFACE LCB interface_field+ RCB;
+interface_field: IDENTIFIER LB param_list? RB types? eos;
+
+
+// FUNCTION DECLARATION
+// func_decl: FUNC method? IDENTIFIER LB param_list? RB types? LCB stmt+ RCB eos;
+// func_call: call_expr eos;
+// // args: expr (COMMA expr)*;
+
+// method: LB IDENTIFIER IDENTIFIER RB;
+
+// param_list: param (COMMA param)*;
+// param: IDENTIFIER types?;  
+// types: primitive_type | array_type | IDENTIFIER;
+func_decl: FUNC IDENTIFIER LB param_list? RB types? block eos;
+param_list: param (COMMA param)*;
+param: id_list types;
+id_list: IDENTIFIER (COMMA IDENTIFIER)*;
+block: LCB stmt+ RCB;
+
+// METHOD DECLARATION
+method_decl: FUNC method IDENTIFIER LB param_list? RB types? block eos;
+method: LB IDENTIFIER IDENTIFIER RB;
+
+
+types: primitive_type | array_type | IDENTIFIER;
+primitive_lit: INT_LITERAL | FLOAT_LITERAL | STRING_LITERAL | BOOLEAN_LITERAL | NIL_LITERAL;
+literals: primitive_lit | array_literal | struct_literal;
+primitive_type: INT | FLOAT | STRING | BOOLEAN;
+
+// FUNCTION CALL
+func_call: IDENTIFIER LB expr_list? RB;
 
 // EXPRESSION
 expr: expr OR expr1 | expr1;
@@ -111,41 +155,61 @@ expr1: expr1 AND expr2 | expr2;
 expr2: expr2 relational_ops expr3 | expr3;
 expr3: expr3 (ADD | SUB) expr4 | expr4;
 expr4: expr4 (MUL | DIV | MOD) expr5 | expr5;
-expr5: (NOT | SUB) expr5 | expr6;
-expr6: expr6 (DOT IDENTIFIER | index_ops) | expr7;
-expr7: LB expr_list RB | operand;
-expr_list: expr COMMA expr_list | expr;
+expr5: (NOT | SUB) expr5 | primary_expr;
+
+primary_expr: IDENTIFIER index_ops
+            | primary_expr index_ops
+            | primary_expr DOT IDENTIFIER
+            | primary_expr DOT IDENTIFIER LB expr_list? RB
+            | operand
+            ;
+expr_list: expr (COMMA expr_list)*;
     
 operand:  literals
         | IDENTIFIER
-        | call_expr
+        | func_call
         | LB expr RB
         ;
 // END EXPRESSION
 
 // STATEMENT
-stmt: decl
-    | assign
-    | call
+stmt: 
+    // | assign
+    // | func_call
+    decl
     | asm_stmt
     | if_stmt
     | for_stmt
     | break_stmt
     | continue_stmt
+    | call_stmt
     | return_stmt
     ;
 
-asm_stmt: IDENTIFIER index_ops* assign_ops expr eos;
-if_stmt: IF LB expr RB LCB stmt* RCB else_if_stmt* (ELSE LCB stmt* RCB)? eos;
-else_if_stmt: ELSE IF LB expr RB LCB stmt* RCB;
-for_stmt: FOR for_clause LCB stmt* RCB eos;
+// asm_stmt: IDENTIFIER index_ops* assign_ops expr eos;
+asm_stmt: asm eos;
+asm: lhs assign_ops rhs;
+lhs: IDENTIFIER | array_elem | struct_elem;
+array_elem: IDENTIFIER index_ops+;
+struct_elem: (IDENTIFIER | array_elem) struct_ops+;
+struct_ops: DOT (IDENTIFIER | array_elem | func_call); // khac
+rhs: expr;
+
+if_stmt: IF LB expr RB block else_if_stmt* (ELSE block)? eos;
+else_if_stmt: ELSE IF LB expr RB block;
+
+for_stmt: FOR for_clause block eos;
 for_clause: expr | fully_clause | range_clause;
+
 fully_clause: init? eos expr? eos update?;
-init: IDENTIFIER (ASSIGN | DECLARE_ASSIGN) expr;
-update: IDENTIFIER index_ops* assign_ops expr;
-range_clause: (IDENTIFIER | '_') COMMA IDENTIFIER DECLARE_ASSIGN RANGE IDENTIFIER;
+init: asm | decl_var_init;
+update: asm;
+
+range_clause: (IDENTIFIER | '_') COMMA IDENTIFIER ASSIGN RANGE IDENTIFIER;
+
 break_stmt: BREAK eos;
 continue_stmt: CONTINUE eos;
+call_stmt: (func_call | struct_elem | array_elem) eos;
 return_stmt: RETURN expr? eos;
 // END STATEMENT
 
@@ -153,9 +217,9 @@ return_stmt: RETURN expr? eos;
 boolean_ops: NOT | AND | OR;
 arithmetic_ops: ADD | SUB | MUL | DIV | MOD;
 relational_ops: EQ | NEQ | GT | GE | LT | LE;
-assign_ops: PLUS_ASSIGN | MINUS_ASSIGN | MULT_ASSIGN | DIV_ASSIGN | MOD_ASSIGN;
+assign_ops: ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | MULT_ASSIGN | DIV_ASSIGN | MOD_ASSIGN;
 index_ops: LSB expr RSB;
-call_expr: (IDENTIFIER DOT)? IDENTIFIER LB expr_list? RB;
+// call_expr: (IDENTIFIER DOT)? IDENTIFIER LB expr_list? RB;
 // END OPERATORS
 
 // END OF STATEMENT
@@ -204,8 +268,8 @@ AND : '&&';
 OR  : '||';
 NOT : '!';
 
-ASSIGN          : '=';
-DECLARE_ASSIGN  : ':=';
+DECLARE_ASSIGN  : '=';
+ASSIGN          : ':=';
 PLUS_ASSIGN     : '+=' ;
 MINUS_ASSIGN    : '-=' ;
 MULT_ASSIGN     : '*=' ;

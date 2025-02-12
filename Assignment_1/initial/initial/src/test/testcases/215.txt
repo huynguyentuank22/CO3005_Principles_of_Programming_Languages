@@ -1,4 +1,4 @@
 p := Person{name: "Alice", age: 30}
-                    p.name = "Bob";
-                    p.age = 25;
+                    p.name := "Bob";
+                    p.age := 25;
                 

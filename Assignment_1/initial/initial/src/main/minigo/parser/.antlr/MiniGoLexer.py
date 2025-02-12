@@ -257,8 +257,8 @@ class MiniGoLexer(Lexer):
     AND = 36
     OR = 37
     NOT = 38
-    ASSIGN = 39
-    DECLARE_ASSIGN = 40
+    DECLARE_ASSIGN = 39
+    ASSIGN = 40
     PLUS_ASSIGN = 41
     MINUS_ASSIGN = 42
     MULT_ASSIGN = 43
@@ -307,8 +307,8 @@ class MiniGoLexer(Lexer):
             "FUNC", "TYPE", "STRUCT", "INTERFACE", "STRING", "INT", "FLOAT", 
             "BOOLEAN", "CONST", "VAR", "CONTINUE", "BREAK", "RANGE", "NIL", 
             "TRUE", "FALSE", "ADD", "SUB", "MUL", "DIV", "MOD", "EQ", "NEQ", 
-            "LT", "LE", "GT", "GE", "AND", "OR", "NOT", "ASSIGN", "DECLARE_ASSIGN", 
-            "PLUS_ASSIGN", "MINUS_ASSIGN", "MULT_ASSIGN", "DIV_ASSIGN", 
+            "LT", "LE", "GT", "GE", "AND", "OR", "NOT", "DECLARE_ASSIGN", 
+            "ASSIGN", "PLUS_ASSIGN", "MINUS_ASSIGN", "MULT_ASSIGN", "DIV_ASSIGN", 
             "MOD_ASSIGN", "DOT", "LB", "RB", "LCB", "RCB", "LSB", "RSB", 
             "COMMA", "SEMICOLON", "INT_LITERAL", "DECIMAL_LITERAL", "BINARY_LITERAL", 
             "OCTAL_LITERAL", "HEX_LITERAL", "FLOAT_LITERAL", "STRING_LITERAL", 
@@ -320,7 +320,7 @@ class MiniGoLexer(Lexer):
                   "STRING", "INT", "FLOAT", "BOOLEAN", "CONST", "VAR", "CONTINUE", 
                   "BREAK", "RANGE", "NIL", "TRUE", "FALSE", "ADD", "SUB", 
                   "MUL", "DIV", "MOD", "EQ", "NEQ", "LT", "LE", "GT", "GE", 
-                  "AND", "OR", "NOT", "ASSIGN", "DECLARE_ASSIGN", "PLUS_ASSIGN", 
+                  "AND", "OR", "NOT", "DECLARE_ASSIGN", "ASSIGN", "PLUS_ASSIGN", 
                   "MINUS_ASSIGN", "MULT_ASSIGN", "DIV_ASSIGN", "MOD_ASSIGN", 
                   "DOT", "LB", "RB", "LCB", "RCB", "LSB", "RSB", "COMMA", 
                   "SEMICOLON", "INT_LITERAL", "DECIMAL_LITERAL", "BINARY_LITERAL", 
