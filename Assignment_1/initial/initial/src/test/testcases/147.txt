@@ -1,1 +1,4 @@
-PutStringLn(p.Greet()); // Output: Hello, Alice
+
+        p.age := 31;
+        p.name := "Alice";
+        

@@ -1,6 +1,8 @@
 
-        a := 1
-        b := true
-        c := "hello"
-        d := 3.14
+        for i := 0; i < 10; i += 1 {
+            if (i == 5) {
+            continue;
+            }
+            // statements that will not execute when i == 5
+        }
         

@@ -1,1 +1,4 @@
-a + b * c / d - e % f
+
+        calculator.add(calculator.sub(3, 4), 5);
+        calculator.reset();
+        

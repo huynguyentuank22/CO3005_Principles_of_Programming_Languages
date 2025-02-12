@@ -1,4 +1,3 @@
 
-        calculator.add(3, 4);
-        calculator.reset();
+        add(sub(3, 4), 5);
         

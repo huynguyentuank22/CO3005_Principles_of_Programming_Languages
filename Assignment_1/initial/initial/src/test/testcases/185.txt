@@ -1,18 +1,6 @@
 
-        abc
-        5
-        3.14
-        "Hello"
-        true
-        nill
-        int
-        float
-        string
-        boolean
-        return
-        break
-        continue
-        )
-        ]
-        }
+        a := 1
+        b := true
+        c := "hello"
+        d := 3.14
         

@@ -1,12 +1,12 @@
 
-        func gcd(a, b int) int {
-            for b != 0 {
-                a, b = b, a % b
+        func fib(n int) int {
+            if n <= 1 {
+                return n
             }
-            return a
+            return fib(n-1) + fib(n-2)
         }
 
         func main() {
-            fmt.Println(gcd(24, 36)) // 12
+            fmt.Println(fib(10)) // 55
         }
         

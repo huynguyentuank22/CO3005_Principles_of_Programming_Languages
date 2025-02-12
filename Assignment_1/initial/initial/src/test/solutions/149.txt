@@ -1,1 +1,1 @@
-Student,[,4,],.,age,(,),.,name,<EOF>
+a,.,foo,(,),.,bar,(,),[,4,],<EOF>

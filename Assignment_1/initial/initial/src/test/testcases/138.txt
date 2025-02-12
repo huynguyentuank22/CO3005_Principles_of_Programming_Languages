@@ -1,1 +1,1 @@
-var multi_arr [2][5]int; // defines an array of 2 x 5 integers.
+var arr [5]int; /* defines an array of 5 integers. */

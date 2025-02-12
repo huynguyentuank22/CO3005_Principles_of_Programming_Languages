@@ -1,1 +1,1 @@
-calculator,.,add,(,3,,,4,),;,calculator,.,reset,(,),;,<EOF>
+add,(,sub,(,3,,,4,),,,5,),;,<EOF>

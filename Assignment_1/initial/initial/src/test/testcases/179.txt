@@ -1,7 +1,5 @@
 
-        arr := [3]int{10, 20, 30};
-        for index, value := range arr {
-            // index: 0, 1, 2
-            // value: 10, 20, 30
+        for i := 0; i < 10; i += 1 {
+            sum += i; // loop body
         }
         

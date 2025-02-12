@@ -1,1 +1,1 @@
-var,arr,[,5,],int,;,<EOF>
+"This is a complex string with \"quote\" and has comment /*abcd*/",<EOF>

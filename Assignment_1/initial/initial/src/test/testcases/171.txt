@@ -1,7 +1,7 @@
 
-        if (x > 10) {
-            println("x is greater than 10");
-        } else if (x == 10) {
-            println("x is equal to 10");
+        if a > b {
+            return a;
+        } else {
+            return b;
         }
         

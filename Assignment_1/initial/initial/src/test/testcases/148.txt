@@ -1,1 +1,1 @@
-a.foo().bar()[4]
+PutStringLn(p.Greet()); // Output: Hello, Alice

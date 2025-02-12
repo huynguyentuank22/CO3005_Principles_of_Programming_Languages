@@ -1,1 +1,1 @@
-(a + b * c / d - e % f) == g && h.age > 18 || arr[i] < arr[j]
+a == b && c != d || e < f || g >= h

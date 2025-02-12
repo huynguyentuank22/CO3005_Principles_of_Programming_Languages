@@ -1,1 +1,1 @@
-var,x,int,=,10,;,<EOF>
+type,Calculator,interface,{,Add,(,x,,,y,int,),int,;,Subtract,(,a,,,b,float,,,c,int,),float,;,Reset,(,),;,SayHello,(,name,string,),;,},;,<EOF>

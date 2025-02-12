@@ -1,1 +1,1 @@
-Hello world,Unclosed string: "Goodbye world
+Unclosed string: "this is a string without close

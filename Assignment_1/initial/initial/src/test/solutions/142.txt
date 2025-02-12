@@ -1,1 +1,1 @@
-type,Person,struct,{,name,string,;,age,int,;,},;,<EOF>
+a,[,2,],[,3,],:=,b,[,2,],+,1,;,<EOF>

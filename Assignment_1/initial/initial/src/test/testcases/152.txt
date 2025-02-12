@@ -1,1 +1,1 @@
-var y = "Hello";
+var x int = 10;

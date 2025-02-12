@@ -1,1 +1,1 @@
-Student[4].age().name
+a.foo().bar()[4]

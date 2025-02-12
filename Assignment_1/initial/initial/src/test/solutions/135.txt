@@ -1,1 +1,1 @@
-Illegal escape in string: Hello \a
+"Hello world",Unclosed string: "Goodbye world

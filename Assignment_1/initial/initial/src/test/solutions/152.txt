@@ -1,1 +1,1 @@
-var,y,=,Hello,;,<EOF>
+var,x,int,=,10,;,<EOF>

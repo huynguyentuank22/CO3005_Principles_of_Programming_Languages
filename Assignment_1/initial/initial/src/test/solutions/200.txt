@@ -1,1 +1,1 @@
-if,(,x,>,5,),{,if,(,x,<,10,),{,println,(,x is between 5 and 10,),;,},else,{,println,(,x is greater than 10,),;,},;,},;,else,{,println,(,x is less than 5,),;,},;,<EOF>
+func,mergeSort,(,nums,[,],int,),[,],int,{,if,len,(,nums,),<=,1,{,return,nums,;,},;,var,mid,int,=,len,(,nums,),/,2,;,var,left,[,],int,=,mergeSort,(,nums,[,:,mid,],),;,var,right,[,],int,=,mergeSort,(,nums,[,mid,:,],),;,return,merge,(,left,,,right,),;,},;,func,main,(,),{,var,nums,[,],int,=,[,],int,{,3,,,2,,,1,,,4,,,5,},;,fmt,.,Println,(,mergeSort,(,nums,),),;,},;,<EOF>

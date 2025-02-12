@@ -1,1 +1,1 @@
-p,:=,Person,{,},<EOF>
+p,:=,Person,{,name,:,"Alice",,,age,:,30,},<EOF>

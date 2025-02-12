@@ -1,1 +1,1 @@
-a,.,foo,(,),.,bar,(,),[,4,],<EOF>
+PutStringLn,(,p,.,Greet,(,),),;,<EOF>

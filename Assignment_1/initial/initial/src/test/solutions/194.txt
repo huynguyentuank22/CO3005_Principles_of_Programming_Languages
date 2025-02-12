@@ -1,1 +1,1 @@
-func,fib,(,n,int,),int,{,if,n,<=,1,{,return,n,;,},;,return,fib,(,n,-,1,),+,fib,(,n,-,2,),;,},;,func,main,(,),{,fmt,.,Println,(,fib,(,10,),),;,},;,<EOF>
+func,generate,(,numRows,int,),[,],[,],int,{,var,res,[,],[,],int,;,for,i,:=,0,;,i,<,numRows,;,i,+,+,{,var,row,[,],int,;,for,j,:=,0,;,j,<=,i,;,j,+,+,{,if,j,==,0,||,j,==,i,{,row,=,append,(,row,,,1,),;,},else,{,row,=,append,(,row,,,res,[,i,-,1,],[,j,-,1,],+,res,[,i,-,1,],[,j,],),;,},;,},;,res,=,append,(,res,,,row,),;,},;,return,res,;,},;,<EOF>

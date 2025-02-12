@@ -1,4 +1,4 @@
 
-        p.age := 31;
-        p.name := "Alice";
+        PutStringLn(p.name); // Output: Alice
+        PutIntLn(p.age); // Output: 30
         

@@ -1,0 +1,9 @@
+/* multiline
+comment /* nested*/
+
+Hello world
+*//* multiline
+comment /* nested
+
+Hello world
+*/

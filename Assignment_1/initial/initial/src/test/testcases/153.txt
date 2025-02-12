@@ -1,1 +1,1 @@
-var z float;
+var y = "Hello";

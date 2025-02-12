@@ -229,7 +229,7 @@ SEMICOLON: ';';
 
 // literals
 INT_LITERAL: DECIMAL_LITERAL | BINARY_LITERAL | OCTAL_LITERAL | HEX_LITERAL;
-DECIMAL_LITERAL: INT_PART;
+DECIMAL_LITERAL: NONZERO_DIGIT DIGIT* | '0';
 BINARY_LITERAL: '0' [bB] [01]+;
 OCTAL_LITERAL: '0' [oO] [0-7]+;
 HEX_LITERAL: '0' [xX] [0-9a-fA-F]+;
@@ -237,20 +237,20 @@ fragment DIGIT: [0-9];
 fragment NONZERO_DIGIT: [1-9];
 fragment LETTER: [a-zA-Z];
 
-FLOAT_LITERAL: INT_PART DEC_PART | INT_PART DEC_PART? EXP_PART;
-fragment INT_PART: NONZERO_DIGIT DIGIT* | '0';
+FLOAT_LITERAL: INT_PART  DEC_PART | INT_PART DEC_PART? EXP_PART;
+fragment INT_PART: DIGIT+;
 fragment DEC_PART: '.' DIGIT*;
 fragment EXP_PART: [eE] [+-]? DIGIT+;
 
-STRING_LITERAL: '"' CHAR* '"' {self.text = self.text[1:-1]};
-fragment CHAR: ESC | ~["\\];
+STRING_LITERAL: '"' CHAR* '"';
+fragment CHAR: ESC | ~["\\\r\n];
 fragment ESC: '\\' ( 'n' | 't' | 'r' | '"' | '\\' );
 fragment INVALID_ESC: '\\' ~[ntr"\\];
 
 // END literals
 
 // IDENTIFIER
-IDENTIFIER: (LETTER | UNDERSCORE) (LETTER | UNDERSCORE | DIGIT )*;
+IDENTIFIER: (LETTER | UNDERSCORE) (LETTER | UNDERSCORE | DIGIT)*;
 fragment UNDERSCORE: '_';
 // END IDENTIFIER
 
@@ -269,19 +269,17 @@ EOS: ([\r\n]+) {
 
 ERROR_CHAR: . {raise ErrorToken(self.text)};
 
-ILLEGAL_ESCAPE: '"' CHAR* INVALID_ESC {
-    illegal_string = str(self.text) 
-    raise IllegalEscape(illegal_string[1:])
+ILLEGAL_ESCAPE: '"' CHAR* INVALID_ESC { 
+    raise IllegalEscape(self.text)
     };
 
-UNCLOSE_STRING: '"' CHAR* ([\n\r] | EOF) {
+UNCLOSE_STRING: '"' CHAR* ([\r\n]+ | EOF) {
     ESC = ['\r', '\n']
     text = str(self.text)
-    if text[-1] in ESC:
-        raise UncloseString(text[:-1])
-    else:
-        raise UncloseString(text[:])
-    };
+    while text[-1] in ESC:
+        text = text[:-1]
+    raise UncloseString(text[:])
+};
 
 // mode NLSEMI;
 

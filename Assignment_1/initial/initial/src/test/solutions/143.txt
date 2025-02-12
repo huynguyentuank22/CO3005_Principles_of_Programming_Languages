@@ -1,1 +1,1 @@
-p,:=,Person,{,name,:,Alice,,,age,:,30,},<EOF>
+type,Person,struct,{,name,string,;,age,int,;,},;,<EOF>
