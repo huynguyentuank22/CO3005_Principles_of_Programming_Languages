@@ -1,1 +1,1 @@
-0,xHABCDEF,<EOF>
+const,Pi,=,3.14,;,<EOF>

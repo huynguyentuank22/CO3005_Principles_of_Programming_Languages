@@ -1,5 +1,6 @@
 
-        func main() {
-            //this is a comment
+        for i < 10 {
+            // loop body
+            i += 1;
         }
         

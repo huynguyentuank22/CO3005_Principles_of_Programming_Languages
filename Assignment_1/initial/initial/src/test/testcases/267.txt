@@ -1,4 +1,6 @@
 
-        foo(foo(1,2), foo(4,5));
-        goo(goo(goo(goo(goo(goo(1))))));
+        func main() {
+            if (x > 10)
+                println("Hello");
+        }
         

@@ -1,4 +1,7 @@
 
-        var flag boolean
-        flag := a && b || c && d || !e
+        func Hello() {
+            func World() int {
+                return 5;
+            }
+        };
         

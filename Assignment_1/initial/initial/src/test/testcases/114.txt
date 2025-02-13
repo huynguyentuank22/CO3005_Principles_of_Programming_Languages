@@ -1,5 +1,1 @@
-
-        for i<10 {
-            putInt(i)
-            // this is comment
-        }
+123variable my-variable

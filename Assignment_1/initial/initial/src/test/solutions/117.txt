@@ -1,1 +1,1 @@
-type,Car,interface,{,start,(,),;,stop,(,),;,maxSpeed,(,),int,;,handleSpeed,(,x,int,),int,;,},<EOF>
+if,else,for,struct,interface,string,const,var,return,func,int,type,float,boolean,continue,break,range,nil,true,false,<EOF>

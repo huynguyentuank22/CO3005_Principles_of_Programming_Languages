@@ -201,8 +201,8 @@ class LexerSuite(unittest.TestCase):
 
     def test_float_literal(self):
         """test float literal"""
-        input = "3.14 0. 2.0e10 0.e+19 0.111e-19 .e-20 0000.e"
-        expect = "3.14,0.,2.0e10,0.e+19,0.111e-19,.,e,-,20,0000.,e,<EOF>"
+        input = "3.14 0. 2.0e10 0.e+19 0.111e-19 .e-20 0000.e .4e2 3e2"
+        expect = "3.14,0.,2.0e10,0.e+19,0.111e-19,.,e,-,20,0000.,e,.,4,e2,3,e2,<EOF>"
         self.assertTrue(TestLexer.checkLexeme(input, expect, 128))
 
     def test_string_literal(self):
@@ -602,7 +602,7 @@ class LexerSuite(unittest.TestCase):
         input = """
         for i := 0; i < 10; i+=1 {
             if (i == 5) {
-            break;
+                break;
             }
             // other statements
         }
@@ -900,26 +900,3 @@ class LexerSuite(unittest.TestCase):
         expect = 'func,mergeSort,(,nums,[,],int,),[,],int,{,if,len,(,nums,),<=,1,{,return,nums,;,},;,var,mid,int,=,len,(,nums,),/,2,;,var,left,[,],int,=,mergeSort,(,nums,[,:,mid,],),;,var,right,[,],int,=,mergeSort,(,nums,[,mid,:,],),;,return,merge,(,left,,,right,),;,},;,func,main,(,),{,var,nums,[,],int,=,[,],int,{,3,,,2,,,1,,,4,,,5,},;,fmt,.,Println,(,mergeSort,(,nums,),),;,},;,<EOF>'
         self.assertTrue(TestLexer.checkLexeme(input, expect, 200))
 
-    # def test_find_depth_tree(self):
-    #     input = """
-    #     func findDepthTree(arr []int) int {
-    #         var maxDepth int = 0
-    #         var depth int = 0
-    #         for _, val := range arr {
-    #             if val == -1 {
-    #                 maxDepth = max(maxDepth, depth)
-    #                 depth = 0
-    #             } else {
-    #                 depth += 1
-    #             }
-    #         }
-    #         return maxDepth
-    #     }
-        
-    #     func main() {
-    #         var arr []int = []int{1, 2, 3, -1, 4, -1, -1, 5, 6}
-    #         fmt.Println(findDepthTree(arr)) // 3
-    #     }
-    #     """
-    #     expect = 'func,findDepthTree,(,arr,[,],int,),int,{,var,maxDepth,int,=,0,;,var,depth,int,=,0,;,for,_,,,val,:=,range,arr,{,if,val,==,-,1,{,maxDepth,=,max,(,maxDepth,,,depth,),;,depth,=,0,;,},else,{,depth,+=,1,;,},;,},;,return,maxDepth,;,},;,func,main,(,),{,var,arr,[,],int,=,[,],int,{,1,,,2,,,3,,,-,1,,,4,,,-,1,,,-,1,,,5,,,6,},;,fmt,.,Println,(,findDepthTree,(,arr,),),;,},;,<EOF>'
-    #     self.assertTrue(TestLexer.checkLexeme(input, expect, 201))

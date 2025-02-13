@@ -1,6 +1,3 @@
 
-        type struct {
-            name string;
-            age int;
-        }
+        var arr []int;
         

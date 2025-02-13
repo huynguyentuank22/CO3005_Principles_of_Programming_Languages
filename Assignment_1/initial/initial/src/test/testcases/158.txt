@@ -1,4 +1,5 @@
 
-        "this is a string without close
-        but u dont know"
+        func Add(x int, y int) int {
+            return x + y;
+        }
         

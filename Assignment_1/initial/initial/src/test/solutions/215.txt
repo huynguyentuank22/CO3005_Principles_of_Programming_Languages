@@ -1,1 +1,1 @@
-Error on line 2 col 20: interface
+Error on line 3 col 9: }

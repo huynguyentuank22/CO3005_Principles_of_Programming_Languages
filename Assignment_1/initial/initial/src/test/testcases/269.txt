@@ -1,4 +1,11 @@
 
-        a := foo(1,2) + foo(4,5);
-        b := goo(goo(goo(goo(goo(goo(1))))));
+        func main() {
+            for true {
+                // loop body
+                i += 1;
+                if (i == 10) {
+                    break;
+                }
+            }
+        }
         

@@ -1,3 +1,1 @@
-
-        foo("Hello World") + bar("Hello World")
-        
+a == b && c != d || e < f || g >= h

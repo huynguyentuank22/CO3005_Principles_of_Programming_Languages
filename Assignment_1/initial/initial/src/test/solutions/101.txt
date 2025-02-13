@@ -1,1 +1,1 @@
-ABC,<EOF>
+<EOF>

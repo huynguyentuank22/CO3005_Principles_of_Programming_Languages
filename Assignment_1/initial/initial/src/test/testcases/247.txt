@@ -1,4 +1,5 @@
 
-        calculator.add(3, 4)
-
+        func main() {
+            arr := [3]int{10, -20, 30}
+        }
         

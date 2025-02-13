@@ -1,1 +1,1 @@
-true,false,;,<EOF>
+a,.,foo,(,),.,bar,(,),[,4,],<EOF>

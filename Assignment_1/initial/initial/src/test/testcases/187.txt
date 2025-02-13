@@ -1,5 +1,3 @@
 
-        func main() {
-            putBool(isPrime(10))
-        }
+        a {
         

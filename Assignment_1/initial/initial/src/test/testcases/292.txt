@@ -1,12 +1,21 @@
 
-        func (Person) foo(a int, b float, c string, d bool, e [5]int, f [3][3]float, g Person) {
-            putInt(a);
-            putFloat(b);
-            putString(c);
-            putBool(d);
-            putInt(e[0]);
-            putFloat(f[0][0]);
-            putString(g.name);
-            putInt(g.age);
+        func quickSort(arr [100]int, low int, high int) {
+            if (low < high) {
+                pi := partition(arr, low, high);
+                quickSort(arr, low, pi - 1);
+                quickSort(arr, pi + 1, high);
+            }
+        }
+        func partition(arr [100]int, low int, high int) int {
+            pivot := arr[high];
+            i := low - 1;
+            for j := low; j < high; j += 1 {
+                if (arr[j] < pivot) {
+                    i += 1;
+                    swap(arr, i, j);
+                }
+            }
+            swap(arr, i + 1, high);
+            return i + 1;
         }
         

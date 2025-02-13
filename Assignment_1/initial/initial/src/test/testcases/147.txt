@@ -1,5 +1,4 @@
 
-            str1 := "Can you give me some testcases"
-            str2 := "No!"
-            "Invalid"
+        p.age := 31;
+        p.name := "Alice";
         

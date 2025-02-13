@@ -1,1 +1,1 @@
-abcABC
+// This is a comment has \n \t \f \r \b \\

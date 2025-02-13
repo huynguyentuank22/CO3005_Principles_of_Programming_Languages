@@ -1,9 +1,9 @@
 
-        if (x > 10) {
-            println("x is greater than 10");
-        } else if (x == 10) {
-            println("x is equal to 10");
-        } else {
-            println("x is less than 10");
+        func main() {
+            x += 10; 
+            x -= 5;
+            y *= 23;
+            z /= 2;
+            t %= 23;
         }
         

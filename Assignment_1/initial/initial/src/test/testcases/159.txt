@@ -1,3 +1,6 @@
 
-        "this is a string without close\"
+        func (c Calculator) Add(x int) int {
+            c.value += x;
+            return c.value;
+        }
         

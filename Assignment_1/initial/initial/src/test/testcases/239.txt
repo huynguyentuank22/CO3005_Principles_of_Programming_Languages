@@ -1,4 +1,7 @@
 
-        p.name := "John";
-        p.age := 20;
+        func Hello() {
+            func (c Calculator) World() int {
+                return 5;
+            }
+        };
         

@@ -1,4 +1,5 @@
 
-        a := "Hello World
-        "
+        func (p Person) Greet() string {
+            return "Hello, " + p.name;
+        }
         

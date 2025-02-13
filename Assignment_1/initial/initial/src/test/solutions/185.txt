@@ -1,1 +1,1 @@
-func,test,(,),{,putInt,(,fibonacci,(,10,),),;,putInt,(,gcd,(,10,,,15,),),;,},;,<EOF>
+a,:=,1,;,b,:=,true,;,c,:=,"hello",;,d,:=,3.14,;,<EOF>

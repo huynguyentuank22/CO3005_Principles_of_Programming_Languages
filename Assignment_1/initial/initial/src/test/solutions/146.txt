@@ -1,1 +1,1 @@
-"Hello World\n",;,"123\t",;,<EOF>
+PutStringLn,(,p,.,name,),;,PutIntLn,(,p,.,age,),;,<EOF>

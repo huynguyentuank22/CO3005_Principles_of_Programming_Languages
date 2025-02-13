@@ -1,3 +1,3 @@
 
-        const Pi := 3.14 + "Hello";
+        var x int := "Hello" + "World";
         

@@ -1,13 +1,14 @@
 
-        
-        func (p Person) complexMethod(a int, b float, c string, d bool, e [5]int, f [3][3]float, g Person) {
-            putInt(a);
-            putFloat(b);
-            putString(c);
-            putBool(d);
-            putInt(e[0]);
-            putFloat(f[0][0]);
-            putString(g.name);
-            putInt(g.age);
+        func gcd(a, b int) int {
+            for b != 0 {
+                tmp := a
+                a := b
+                b := tmp % b
+            }
+            return a
+        }
+
+        func main() {
+            fmt.Println(gcd(24, 36)) // 12
         }
         

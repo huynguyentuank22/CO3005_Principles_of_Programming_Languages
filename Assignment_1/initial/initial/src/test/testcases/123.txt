@@ -1,3 +1,5 @@
 
-        a && b || c ! d.foo()
+        (name, age)
+        [123, 456, 789]
+        {true, nil}
         

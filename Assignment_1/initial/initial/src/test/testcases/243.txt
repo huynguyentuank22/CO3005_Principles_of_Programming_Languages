@@ -1,3 +1,6 @@
 
-        arr := [3]int{}
+        func main() {
+            var x boolean;
+            x := (a + b * c / d - e % f) == g && h.age > 18 || arr[i] < arr[j];
+        }
         

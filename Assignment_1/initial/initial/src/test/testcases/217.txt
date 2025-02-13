@@ -1,8 +1,7 @@
 
-        type Calculator {
-            Add(x, y int) int;
-            Subtract(a, b float, c int) float;
-            Reset()
-            SayHello(name string)
+        type Person struct {
+            string
+            age int
+            address int
         }
         

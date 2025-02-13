@@ -1,1 +1,1 @@
-var int float
+AbcDef TempFlag HelloWorld

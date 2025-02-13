@@ -1,14 +1,19 @@
 
-        func insertionSort(arr [100]int) {
-            n := len(arr);
-            for i := 1; i < n; i += 1 {
-                key := arr[i];
-                j := i - 1;
-                for j >= 0 && arr[j] > key {
-                    arr[j+1] := arr[j];
-                    j -= 1;
-                }
-                arr[j+1] := key;
-            }
+        type Shape interface {
+            Area() float
+            Perimeter() float
+        }
+
+        type Rectangle struct {
+            Width float 
+            Height float
+        }
+
+        func (r Rectangle) Area() float {
+            return r.Width * r.Height
+        }
+
+        func (r Rectangle) Perimeter() float {
+            return 2 * (r.Width + r.Height)
         }
         

@@ -1,4 +1,1 @@
-
-        struct Point {
-            x, y int
-        }
+abc\n

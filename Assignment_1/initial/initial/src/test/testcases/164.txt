@@ -1,5 +1,4 @@
 
-        func main() {
-            putString("Hello World")
-        }
+        calculator.add(3, 4);
+        calculator.reset();
         

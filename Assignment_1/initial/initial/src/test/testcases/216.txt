@@ -1,8 +1,7 @@
 
-        type interface {
-            Add(x, y int) int;
-            Subtract(a, b float, c int) float;
-            Reset()
-            SayHello(name string)
+        type Person struct {
+            name string
+            age int
+            address
         }
         

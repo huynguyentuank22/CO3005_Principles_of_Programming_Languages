@@ -1,7 +1,6 @@
 
-        type Person struct {
-            name string
-            age int
-            address
+        Person struct {
+            name string;
+            age int;
         }
         

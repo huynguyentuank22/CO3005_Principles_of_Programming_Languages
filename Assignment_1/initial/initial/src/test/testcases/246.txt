@@ -1,5 +1,9 @@
 
-        Add(1, 2);
-        reset()
-        foo(2 + x, 4 / y)
+        func main() {
+            p.David.name := "David";
+            admin := p.Metadata.CreatedBy()
+            f.p[i].x()
+            m["foo"]
+            var a = a.foo().bar()[4 + y / 2];
+        }
         

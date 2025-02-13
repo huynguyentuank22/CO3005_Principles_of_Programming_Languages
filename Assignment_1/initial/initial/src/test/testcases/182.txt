@@ -1,8 +1,7 @@
 
-        func gcd(a int, b int) int {
-            if b == 0 {
-                return a
+        for i := 0; i < 10; i += 1 {
+            for j := 0; j < 10; j += 1 {
+                sum += i + j;
             }
-            return gcd(b, a%b)
         }
         

@@ -1,6 +1,1 @@
-
-        {
-            putInt(1);
-            putString("Hello World");
-        }
-        
+"Hello world" "Goodbye world

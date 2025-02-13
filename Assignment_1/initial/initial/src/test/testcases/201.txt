@@ -1,3 +1,8 @@
 
-        var arr [5]int // defines an array of 5 integers.
+        var x int;
+        const y = 10;
+
+        func main() {
+            println("Hello, MiniGo!");
+        }
         

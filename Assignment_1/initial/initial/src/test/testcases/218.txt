@@ -1,4 +1,7 @@
 
-        type Calculator interface {
+        type Person struct {
+            name, nickname string
+            age int
+            address int
         }
         

@@ -1,1 +1,1 @@
-"this is a string with ",quotes,"",;,<EOF>
+var,x,int,=,10,;,<EOF>

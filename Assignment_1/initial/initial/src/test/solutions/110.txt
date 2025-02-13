@@ -1,1 +1,1 @@
-var,<EOF>
+ABC,TEMP,FLAG,<EOF>

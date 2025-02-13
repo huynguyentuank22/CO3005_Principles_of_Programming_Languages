@@ -1,11 +1,9 @@
 
-        for i < 10 {
-            putInt(i);
-            break;
-        }
-        
-        for j := 0; j < 10; j += 1 {
-            putInt(j);
-            continue;
+        func main() {
+            if (x > 5) {
+                if (x < 10) {
+                    println("x is between 5 and 10");
+                }
+            }
         }
         

@@ -1,3 +1,5 @@
 
-        calculator.add(calculator.sub(5, 2), 4)
+        func main() {
+            arr := [3]int{}
+        }
         

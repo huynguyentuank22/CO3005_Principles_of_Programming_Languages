@@ -1,7 +1,7 @@
 
-        func foo() {
-            putString("Hello");
-        
-        
-        foo();
+        func main() {
+            for i := 0; i < 10; i += 1 {
+                sum += i; // loop body
+            }
+        }
         

@@ -1,5 +1,7 @@
 
-        if {
-            println("Hello");
+        func main() {
+            if (a > b) {
+                return a;
+            }
         }
         

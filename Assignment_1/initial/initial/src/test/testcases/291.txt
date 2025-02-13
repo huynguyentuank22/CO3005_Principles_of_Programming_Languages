@@ -1,12 +1,19 @@
 
-        func foo(a int, b float, c string, d bool, e [5]int, f [3][3]float, g Person {
-            putInt(a);
-            putFloat(b);
-            putString(c);
-            putBool(d);
-            putInt(e[0]);
-            putFloat(f[0][0]);
-            putString(g.name);
-            putInt(g.age);
+        func bubbleSort(nums [5]int) [5]int {
+            for i := 0; i < len(nums); i+=1 {
+                for j := 0; j < len(nums) - i - 1; j+=1 {
+                    if (nums[j] > nums[j+1]) {
+                        tmp := nums[j]
+                        nums[j] := nums[j+1]
+                        nums[j+1] := tmp
+                    }
+                }
+            }
+            return nums
+        }
+
+        func main() {
+            var nums = [5]int{5, 2, 3, 1, 4}
+            fmt.Println(bubbleSort(nums)) // [1, 2, 3, 4, 5]
         }
         

@@ -1,11 +1,7 @@
 
-        p := Person{name: "John", age: 25};
-        
-        if (p.age > 18) {
-            putString("Adult");
-        } else {
-            putString("Child");
+        func main() {
+            if {
+                println("Hello");
+            }
         }
-        
-        putInt(a.b[1].c[2].d[foo(1,2,3)]);
         

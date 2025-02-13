@@ -1,1 +1,1 @@
-{,putInt,(,1,),;,putString,(,"Hello World",),;,{,putInt,(,2,),;,},;,},;,<EOF>
+Illegal escape in string: "Hello \a

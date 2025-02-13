@@ -1,1 +1,7 @@
-abc //comment
+
+        // This is a comment /* abc */
+        abc
+        /* 
+        This is a comment // hello
+        */
+        

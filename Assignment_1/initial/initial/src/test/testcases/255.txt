@@ -1,7 +1,5 @@
 
-        if (x > 10) {
-            println("x is greater than 10");
-        } else if (x == 10) {
-            println("x is equal to 10");
+        func main() {
+            calculator.add(calculator.sub(5, 2), 4)
         }
         

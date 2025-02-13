@@ -1,4 +1,5 @@
 
-        var x boolean;
-        x := a == b && c != d || e < f || g >= h;
+        func Five() int {
+            return 5;
+        }
         

@@ -1,1 +1,1 @@
-abc,;,cde,;,jkl,<EOF>
+nested,;,<EOF>

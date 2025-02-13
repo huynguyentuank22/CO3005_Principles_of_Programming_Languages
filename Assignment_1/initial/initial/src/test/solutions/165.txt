@@ -1,1 +1,1 @@
-func,main,(,),{,putString,(,"Hello World",),;,putInt,(,123,),;,},;,<EOF>
+calculator,.,add,(,calculator,.,sub,(,3,,,4,),,,5,),;,calculator,.,reset,(,),;,<EOF>

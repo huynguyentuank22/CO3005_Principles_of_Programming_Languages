@@ -1,11 +1,12 @@
 
-        type Calculator interface {
-            Add(a, b int) int
+        func fib(n int) int {
+            if n <= 1 {
+                return n
+            }
+            return fib(n-1) + fib(n-2)
         }
 
-        type SimpleCalculator struct{}
-
-        func (sc SimpleCalculator) Add(a, b int) int {
-            return a + b
+        func main() {
+            fmt.Println(fib(10)) // 55
         }
         

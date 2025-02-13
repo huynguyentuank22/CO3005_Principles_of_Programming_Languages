@@ -1,8 +1,1 @@
-
-        {
-            putInt(1); //comment
-            /* this is a comment */
-            
-            putString("Hello World");
-        }
-        
+"This is a complex string with \"quote\" and has comment /*abcd*/"

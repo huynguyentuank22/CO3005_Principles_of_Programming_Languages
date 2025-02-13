@@ -1,4 +1,14 @@
 
-        type Person struct {
+        type FullStruct struct {
+                    ID          int;              
+                    Name        string;            
+                    IsActive    boolean;              
+                    Price       float;           
+                    Ratings     [3]int;
+                    David       Person;    
+                    Metadata    struct {          
+                        CreatedBy string
+                        UpdatedBy string
+                    }
         }
         

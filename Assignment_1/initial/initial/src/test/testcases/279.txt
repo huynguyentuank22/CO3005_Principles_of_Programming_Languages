@@ -1,8 +1,7 @@
 
-        arr := [5]int{1,2,3,4,5};
-        for idx, value := range arr {
-            for i := 0; i < 10; i += 1 {
-                putInt(i);
+        func calc(x, y, z int) {
+            if (x > y) {
+                return;
             }
         }
         

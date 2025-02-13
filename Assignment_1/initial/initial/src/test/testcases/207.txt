@@ -1,14 +1,5 @@
 
-        type FullStruct struct {
-                    ID          int;              
-                    Name        string;            
-                    IsActive    boolean;              
-                    Price       float;           
-                    Ratings     [3]int;
-                    David       Person;    
-                    Metadata    struct {          
-                        CreatedBy string
-                        UpdatedBy string
-                    }
-        }
+        const row = 5
+        const col = 3
+        var arr [row][col]int // defines an array of 5 integers.
         

@@ -48,7 +48,7 @@ options{
 	language=Python3;
 }
 
-program: stmt+ EOF;
+program: decl+ EOF;
 
 decl: var_decl | const_decl | array_decl | struct_decl | interface_decl | func_decl | method_decl; // short_var_decl short_array_decl 
 // assign: assign_array | assign_struct | access_struct;
@@ -60,7 +60,7 @@ decl: var_decl | const_decl | array_decl | struct_decl | interface_decl | func_d
 var_decl: (decl_var_type_init | decl_var_init | decl_var_type) eos;
 decl_var_type_init: VAR IDENTIFIER primitive_type DECLARE_ASSIGN expr;
 decl_var_init: VAR IDENTIFIER DECLARE_ASSIGN expr;
-decl_var_type: VAR IDENTIFIER primitive_type;
+decl_var_type: VAR IDENTIFIER (primitive_type | IDENTIFIER);
 
 // CONST DECLARATION
 const_decl: CONST IDENTIFIER DECLARE_ASSIGN expr eos;
@@ -86,7 +86,7 @@ dimensions: (LSB (INT_LITERAL | IDENTIFIER) RSB)+;
 
 decl_arr_init: VAR IDENTIFIER DECLARE_ASSIGN array_literal;
 array_literal: array_type ele_list;
-ele_list: LCB ele (COMMA ele)* RCB;
+ele_list: LCB (ele (COMMA ele)*)? RCB;
 ele: ele_list | primitive_lit;
 
 // STRUCT DECLARATION
@@ -176,7 +176,7 @@ operand:  literals
 stmt: 
     // | assign
     // | func_call
-    decl
+    decl_stmt
     | asm_stmt
     | if_stmt
     | for_stmt
@@ -185,6 +185,8 @@ stmt:
     | call_stmt
     | return_stmt
     ;
+
+decl_stmt: var_decl | const_decl | array_decl;
 
 // asm_stmt: IDENTIFIER index_ops* assign_ops expr eos;
 asm_stmt: asm eos;
@@ -301,7 +303,7 @@ fragment DIGIT: [0-9];
 fragment NONZERO_DIGIT: [1-9];
 fragment LETTER: [a-zA-Z];
 
-FLOAT_LITERAL: INT_PART  DEC_PART | INT_PART DEC_PART? EXP_PART;
+FLOAT_LITERAL: INT_PART DEC_PART | INT_PART DEC_PART EXP_PART;
 fragment INT_PART: DIGIT+;
 fragment DEC_PART: '.' DIGIT*;
 fragment EXP_PART: [eE] [+-]? DIGIT+;

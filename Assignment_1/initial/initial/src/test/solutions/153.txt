@@ -1,1 +1,1 @@
-"",;,<EOF>
+var,y,=,"Hello",;,<EOF>

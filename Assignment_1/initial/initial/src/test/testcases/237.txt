@@ -1,4 +1,6 @@
 
-        var x boolean;
-        x := (a + b * c / d - e % f) == g && h.age > 18 || arr[i] < arr[j];
+        func (c Calculator) Add(x int) int {
+            c.value += x;
+            return c.value;
+        }
         

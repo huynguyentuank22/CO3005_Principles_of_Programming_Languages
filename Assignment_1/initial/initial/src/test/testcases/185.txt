@@ -1,7 +1,6 @@
 
-        func test() {
-            //this is a comment
-            putInt(fibonacci(10))
-            putInt(gcd(10, 15))
-        }
+        a := 1
+        b := true
+        c := "hello"
+        d := 3.14
         
