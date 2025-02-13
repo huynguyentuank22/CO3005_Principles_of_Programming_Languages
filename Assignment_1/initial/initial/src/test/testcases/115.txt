@@ -1,1 +1,7 @@
-abc@def
+
+        func foo() {
+            putString("Hello World")
+            
+            
+            putInt(1)
+        }

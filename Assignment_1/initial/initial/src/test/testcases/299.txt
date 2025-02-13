@@ -1,0 +1,5 @@
+
+        func Add() {
+            ID.age.c += 2;
+        };
+        

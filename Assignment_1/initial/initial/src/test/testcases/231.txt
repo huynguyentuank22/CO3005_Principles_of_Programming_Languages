@@ -1,1 +1,5 @@
-person.arr[1];
+
+        func Five() int {
+            return 5;
+        }
+        

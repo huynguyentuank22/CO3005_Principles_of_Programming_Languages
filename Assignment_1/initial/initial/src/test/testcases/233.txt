@@ -1,1 +1,6 @@
-a := b[c.f(3,f(c))*(12+f.c.d.e[3])] + 12.e-9 + abc;
+
+        func (c Calculator) Add(x int) int {
+            c.value += x;
+            return c.value;
+        }
+        

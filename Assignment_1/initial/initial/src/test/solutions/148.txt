@@ -1,1 +1,1 @@
-PutStringLn,(,p,.,Greet,(,),),;,<EOF>
+"Hello World\n\t\r\"\\",;,<EOF>

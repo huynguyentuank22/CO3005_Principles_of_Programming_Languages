@@ -1,1 +1,1 @@
-func,(,p,Person,),Greet,(,),string,{,return,"Hello, ",+,p,.,name,;,},;,<EOF>
+a,:=,Unclosed string: "Hello World

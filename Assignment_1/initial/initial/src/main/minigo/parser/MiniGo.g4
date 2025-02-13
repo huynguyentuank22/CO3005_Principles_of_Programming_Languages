@@ -50,7 +50,7 @@ options{
 
 program: stmt+ EOF;
 
-decl: var_decl | const_decl | array_decl | struct_decl | interface_decl | func_decl; // short_var_decl short_array_decl 
+decl: var_decl | const_decl | array_decl | struct_decl | interface_decl | func_decl | method_decl; // short_var_decl short_array_decl 
 // assign: assign_array | assign_struct | access_struct;
 // call: func_call;
 
@@ -82,7 +82,7 @@ array_decl: (decl_arr | decl_arr_init) eos;
 
 decl_arr: VAR IDENTIFIER array_type;
 array_type: dimensions (primitive_type | IDENTIFIER);
-dimensions: (LSB INT_LITERAL RSB)+;
+dimensions: (LSB (INT_LITERAL | IDENTIFIER) RSB)+;
 
 decl_arr_init: VAR IDENTIFIER DECLARE_ASSIGN array_literal;
 array_literal: array_type ele_list;
@@ -102,7 +102,7 @@ ele: ele_list | primitive_lit;
 // struct_literal: IDENTIFIER LCB (field_lit (COMMA field_lit)*)? RCB;
 // field_lit: IDENTIFIER ':' expr;
 struct_decl: TYPE IDENTIFIER struct_type eos;
-struct_type: STRUCT LCB fields* RCB;
+struct_type: STRUCT LCB fields+ RCB;
 fields: IDENTIFIER (primitive_type | array_type | struct_type | IDENTIFIER) eos;
 
 struct_literal: IDENTIFIER LCB struct_elements? RCB;
@@ -333,9 +333,7 @@ EOS: ([\r\n]+) {
 
 ERROR_CHAR: . {raise ErrorToken(self.text)};
 
-ILLEGAL_ESCAPE: '"' CHAR* INVALID_ESC { 
-    raise IllegalEscape(self.text)
-    };
+ILLEGAL_ESCAPE: '"' CHAR* INVALID_ESC { raise IllegalEscape(self.text) };
 
 UNCLOSE_STRING: '"' CHAR* ([\r\n]+ | EOF) {
     ESC = ['\r', '\n']

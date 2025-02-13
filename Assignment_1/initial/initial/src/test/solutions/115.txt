@@ -1,1 +1,1 @@
-abc,ErrorToken @
+func,foo,(,),{,putString,(,"Hello World",),;,putInt,(,1,),;,},<EOF>

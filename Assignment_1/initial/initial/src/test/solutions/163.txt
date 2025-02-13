@@ -1,1 +1,1 @@
-add,(,sub,(,3,,,4,),,,5,),;,<EOF>
+foo,(,Illegal escape in string: "Hello World\a

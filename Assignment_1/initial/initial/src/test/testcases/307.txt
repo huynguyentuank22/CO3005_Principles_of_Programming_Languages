@@ -1,0 +1,6 @@
+
+                                    func Add() {
+                                        for true {
+                                            var a int
+                                        }
+                                    }

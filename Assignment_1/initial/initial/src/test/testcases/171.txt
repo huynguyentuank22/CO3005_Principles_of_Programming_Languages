@@ -1,7 +1,2 @@
-
-        if a > b {
-            return a;
-        } else {
-            return b;
-        }
-        
+//this is a comment
+//this is a comment

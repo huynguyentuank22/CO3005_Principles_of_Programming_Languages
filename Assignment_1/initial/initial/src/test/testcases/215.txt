@@ -1,4 +1,8 @@
-p := Person{name: "Alice", age: 30}
-                    p.name := "Bob";
-                    p.age := 25;
-                
+
+        Calculator interface {
+            Add(x, y int) int;
+            Subtract(a, b float, c int) float;
+            Reset()
+            SayHello(name string)
+        }
+        

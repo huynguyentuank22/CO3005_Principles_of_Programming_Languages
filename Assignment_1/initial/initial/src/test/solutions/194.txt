@@ -1,1 +1,1 @@
-func,generate,(,numRows,int,),[,],[,],int,{,var,res,[,],[,],int,;,for,i,:=,0,;,i,<,numRows,;,i,+,+,{,var,row,[,],int,;,for,j,:=,0,;,j,<=,i,;,j,+,+,{,if,j,==,0,||,j,==,i,{,row,=,append,(,row,,,1,),;,},else,{,row,=,append,(,row,,,res,[,i,-,1,],[,j,-,1,],+,res,[,i,-,1,],[,j,],),;,},;,},;,res,=,append,(,res,,,row,),;,},;,return,res,;,},;,<EOF>
+type,Point,struct,{,x,,,y,int,;,},;,func,main,(,),{,p,:=,Point,{,1,,,2,},;,putInt,(,p,.,x,),;,},;,<EOF>

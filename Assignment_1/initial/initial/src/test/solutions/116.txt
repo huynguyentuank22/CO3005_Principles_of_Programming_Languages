@@ -1,1 +1,1 @@
-abc,ErrorToken \
+struct,Point,{,x,,,y,int,;,},<EOF>

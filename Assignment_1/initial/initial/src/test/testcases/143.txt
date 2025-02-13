@@ -1,6 +1,1 @@
-
-        type Person struct {
-            name string ;
-            age int ;
-        }
-        
+0x123 0X123

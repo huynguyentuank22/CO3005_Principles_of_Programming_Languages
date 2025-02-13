@@ -409,9 +409,7 @@ class MiniGoLexer(Lexer):
 
     def ILLEGAL_ESCAPE_action(self, localctx:RuleContext , actionIndex:int):
         if actionIndex == 2:
-             
-                raise IllegalEscape(self.text)
-                
+             raise IllegalEscape(self.text) 
      
 
     def UNCLOSE_STRING_action(self, localctx:RuleContext , actionIndex:int):

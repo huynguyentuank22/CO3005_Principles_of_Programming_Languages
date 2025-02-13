@@ -1,1 +1,1 @@
-type,Person,struct,{,name,string,;,age,int,;,},;,<EOF>
+0x123,0X123,<EOF>

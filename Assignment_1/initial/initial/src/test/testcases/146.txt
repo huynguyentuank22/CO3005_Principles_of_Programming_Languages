@@ -1,4 +1,4 @@
 
-        PutStringLn(p.name); // Output: Alice
-        PutIntLn(p.age); // Output: 30
+        "Hello World\n"
+        "123\t"
         

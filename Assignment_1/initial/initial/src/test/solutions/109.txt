@@ -1,1 +1,1 @@
-abc,temp,flag,<EOF>
+abc,<EOF>

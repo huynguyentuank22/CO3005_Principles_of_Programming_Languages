@@ -1,12 +1,6 @@
-type FullStruct struct {
-                    ID          int;              
-                    Name        string;            
-                    IsActive    bool;              
-                    Price       float;           
-                    Ratings     [3]int;            
-                    Metadata    struct {          
-                        CreatedBy string
-                        UpdatedBy string
-                    }
-                }
-                
+
+        Person struct {
+            name string;
+            age int;
+        }
+        

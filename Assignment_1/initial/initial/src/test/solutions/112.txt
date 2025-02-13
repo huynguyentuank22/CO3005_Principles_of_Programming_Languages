@@ -1,1 +1,1 @@
-Abc123,Temp456,Flag789,<EOF>
+var,int,;,float,<EOF>

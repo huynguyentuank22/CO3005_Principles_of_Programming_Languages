@@ -1,3 +1,4 @@
-func add(a int, b string) int { var a = 5; };
-                    func sub(a, b int) { var a = 5; }
-                
+
+        type Person struct {
+        }
+        

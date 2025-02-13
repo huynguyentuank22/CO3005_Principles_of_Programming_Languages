@@ -1,9 +1,4 @@
 
-        if (x > 10) {
-            println("x is greater than 10");
-        } else if (x == 10) {
-            println("x is equal to 10");
-        } else {
-            println("x is less than 10");
-        }
+        /*this is a comment*/
+        /* this is /* a comment */
         

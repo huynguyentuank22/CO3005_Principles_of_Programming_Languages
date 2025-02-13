@@ -1,0 +1,4 @@
+
+        arr[2] *= 3
+        Person.age += 1
+        

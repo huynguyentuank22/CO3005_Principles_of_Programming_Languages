@@ -1,1 +1,1 @@
-a,+,b,*,c,/,d,-,e,%,f,<EOF>
+func,main,(,),{,putString,(,"Hello World",),;,putInt,(,123,),;,putFloat,(,3.14,),;,},;,<EOF>

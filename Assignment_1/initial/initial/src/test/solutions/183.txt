@@ -1,1 +1,1 @@
-for,i,:=,0,;,i,<,10,;,i,+=,1,{,if,(,i,==,5,),{,break,;,},;,},;,<EOF>
+func,main,(,),{,putInt,(,fibonacci,(,10,),),;,putInt,(,gcd,(,10,,,15,),),;,},;,<EOF>

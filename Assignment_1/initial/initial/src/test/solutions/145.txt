@@ -1,1 +1,1 @@
-p,:=,Person,{,},<EOF>
+"Hello World",;,"123",;,<EOF>

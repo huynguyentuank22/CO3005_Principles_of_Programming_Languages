@@ -1,9 +1,6 @@
 
-        func lcm(a, b int) int {
-            return a * b / gcd(a, b)
-        }
-
-        func main() {
-            fmt.Println(lcm(24, 36)) // 72
+        arr := [3]int{10, 20, 30};
+        for _, value := range arr {
+            // value: 10, 20, 30
         }
         

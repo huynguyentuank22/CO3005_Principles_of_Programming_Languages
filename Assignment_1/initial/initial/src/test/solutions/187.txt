@@ -1,1 +1,1 @@
-a,{,<EOF>
+func,main,(,),{,putBool,(,isPrime,(,10,),),;,},;,<EOF>

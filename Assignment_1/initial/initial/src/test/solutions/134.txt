@@ -1,1 +1,1 @@
-Unclosed string: "this is a string without close
+arr,[,1,],[,2,],[,foo,(,x,+,y,,,z,),],:=,foo,(,2,,,3,),;,<EOF>

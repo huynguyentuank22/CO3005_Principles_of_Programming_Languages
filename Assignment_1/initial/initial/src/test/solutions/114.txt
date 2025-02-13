@@ -1,1 +1,1 @@
-123,variable,my,-,variable,<EOF>
+for,i,<,10,{,putInt,(,i,),;,},<EOF>

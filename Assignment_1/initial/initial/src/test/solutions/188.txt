@@ -1,1 +1,1 @@
-a,:=,1,;,b,:=,true,;,<EOF>
+func,mergeSort,(,arr,[,],int,),[,],int,{,if,len,(,arr,),<=,1,{,return,arr,;,},;,mid,:=,len,(,arr,),/,2,;,left,:=,mergeSort,(,arr,[,:,mid,],),;,right,:=,mergeSort,(,arr,[,mid,:,],),;,return,merge,(,left,,,right,),;,},;,<EOF>

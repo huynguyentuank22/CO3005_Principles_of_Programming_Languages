@@ -1,0 +1,4 @@
+
+        p.foo(p.foo(1,2), p.foo(4,5));
+        p.goo(p.goo(p.goo(p.goo(p.goo(p.goo(1))))));
+        

@@ -1,1 +1,1 @@
-add,(,2,+,x,,,4,/,y,,,5,),;,<EOF>
+str1,:=,"Hello\n",;,str2,:=,"World",;,str3,:=,str1,+,str2,;,<EOF>

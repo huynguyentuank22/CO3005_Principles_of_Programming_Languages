@@ -1,4 +1,6 @@
-var x int = 10 + a[5];
-                    var y = "Hello";
-                    var z string;
-                
+
+        type struct {
+            name string;
+            age int;
+        }
+        

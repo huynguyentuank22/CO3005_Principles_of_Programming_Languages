@@ -1,1 +1,1 @@
-calculator,.,add,(,3,,,4,),;,calculator,.,reset,(,),;,<EOF>
+func,main,(,),{,putString,(,"Hello World",),;,},;,<EOF>

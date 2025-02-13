@@ -1,5 +1,8 @@
-add(1, 2);
-                    sub(3, 4)
-                    reset()
-                    calculator.add(3, 4)
-                
+
+        type interface {
+            Add(x, y int) int;
+            Subtract(a, b float, c int) float;
+            Reset()
+            SayHello(name string)
+        }
+        

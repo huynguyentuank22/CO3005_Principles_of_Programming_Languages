@@ -1,0 +1,8 @@
+
+        
+        func (Person) errorMethod(a int; b float; c string) {
+            putInt(a);
+            putFloat(b);
+            putString(c);
+        }
+        

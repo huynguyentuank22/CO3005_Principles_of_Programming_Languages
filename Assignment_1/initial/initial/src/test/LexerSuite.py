@@ -459,22 +459,22 @@ class LexerSuite(unittest.TestCase):
 
     def test_if_statement(self):
         input = """
-        if a > b {
+        if (a > b) {
             return a;
         }
         """
-        expect = 'if,a,>,b,{,return,a,;,},;,<EOF>'
+        expect = 'if,(,a,>,b,),{,return,a,;,},;,<EOF>'
         self.assertTrue(TestLexer.checkLexeme(input, expect, 170))
 
     def test_if_else_statement(self):
         input = """
-        if a > b {
+        if (a > b) {
             return a;
         } else {
             return b;
         }
         """
-        expect = 'if,a,>,b,{,return,a,;,},else,{,return,b,;,},;,<EOF>'
+        expect = 'if,(,a,>,b,),{,return,a,;,},else,{,return,b,;,},;,<EOF>'
         self.assertTrue(TestLexer.checkLexeme(input, expect, 171))
 
     def test_if_elif_statement(self):
@@ -520,12 +520,11 @@ class LexerSuite(unittest.TestCase):
             } else {
                 println("x is greater than 10");
             }
-        }
-        else {
+        } else {
             println("x is less than 5");
         }
         """
-        expect = 'if,(,x,>,5,),{,if,(,x,<,10,),{,println,(,"x is between 5 and 10",),;,},else,{,println,(,"x is greater than 10",),;,},;,},;,else,{,println,(,"x is less than 5",),;,},;,<EOF>'
+        expect = 'if,(,x,>,5,),{,if,(,x,<,10,),{,println,(,"x is between 5 and 10",),;,},else,{,println,(,"x is greater than 10",),;,},;,},else,{,println,(,"x is less than 5",),;,},;,<EOF>'
         self.assertTrue(TestLexer.checkLexeme(input, expect, 175))
 
     def test_basic_for_statement(self):

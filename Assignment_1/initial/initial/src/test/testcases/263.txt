@@ -1,0 +1,11 @@
+
+        for i < 10 {
+            putInt(i);
+            break;
+        }
+        
+        for j := 0; j < 10; j += 1 {
+            putInt(j);
+            continue;
+        }
+        

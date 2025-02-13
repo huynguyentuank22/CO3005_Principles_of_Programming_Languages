@@ -1,0 +1,7 @@
+
+        p.David.name := "David";
+        admin := p.Metadata.CreatedBy()
+        f.p[i].x()
+        m["foo"]
+        var a = a.foo().bar()[4];
+        

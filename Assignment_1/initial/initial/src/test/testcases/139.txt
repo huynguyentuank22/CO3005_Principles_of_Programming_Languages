@@ -1,1 +1,6 @@
-var multi_arr [2][5]int; // defines an array of 2 x 5 integers.
+
+        {
+            foo(1,2,3);
+            foo(1+x, 1, 0)
+        }
+        
