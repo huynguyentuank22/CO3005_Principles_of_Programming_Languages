@@ -9,8 +9,7 @@ else:
 
 
 # Nguyen Tuan Huy - 2211253
-# fix như tam, sua expression
-# fix struct nested, for
+# fix lhs
 from lexererr import *
 
 
@@ -284,7 +283,7 @@ class MiniGoLexer(Lexer):
     LINE_COMMENT = 63
     COMMENT = 64
     WS = 65
-    EOS = 66
+    NL = 66
     ERROR_CHAR = 67
     ILLEGAL_ESCAPE = 68
     UNCLOSE_STRING = 69
@@ -312,7 +311,7 @@ class MiniGoLexer(Lexer):
             "MOD_ASSIGN", "DOT", "LB", "RB", "LCB", "RCB", "LSB", "RSB", 
             "COMMA", "SEMICOLON", "INT_LITERAL", "DECIMAL_LITERAL", "BINARY_LITERAL", 
             "OCTAL_LITERAL", "HEX_LITERAL", "FLOAT_LITERAL", "STRING_LITERAL", 
-            "IDENTIFIER", "LINE_COMMENT", "COMMENT", "WS", "EOS", "ERROR_CHAR", 
+            "IDENTIFIER", "LINE_COMMENT", "COMMENT", "WS", "NL", "ERROR_CHAR", 
             "ILLEGAL_ESCAPE", "UNCLOSE_STRING" ]
 
     ruleNames = [ "T__0", "T__1", "BOOLEAN_LITERAL", "NIL_LITERAL", "IF", 
@@ -327,8 +326,8 @@ class MiniGoLexer(Lexer):
                   "OCTAL_LITERAL", "HEX_LITERAL", "DIGIT", "NONZERO_DIGIT", 
                   "LETTER", "FLOAT_LITERAL", "INT_PART", "DEC_PART", "EXP_PART", 
                   "STRING_LITERAL", "CHAR", "ESC", "INVALID_ESC", "IDENTIFIER", 
-                  "UNDERSCORE", "LINE_COMMENT", "COMMENT", "WS", "EOS", 
-                  "ERROR_CHAR", "ILLEGAL_ESCAPE", "UNCLOSE_STRING" ]
+                  "UNDERSCORE", "LINE_COMMENT", "COMMENT", "WS", "NL", "ERROR_CHAR", 
+                  "ILLEGAL_ESCAPE", "UNCLOSE_STRING" ]
 
     grammarFileName = "MiniGo.g4"
 
@@ -380,7 +379,7 @@ class MiniGoLexer(Lexer):
     def action(self, localctx:RuleContext, ruleIndex:int, actionIndex:int):
         if self._actions is None:
             actions = dict()
-            actions[75] = self.EOS_action 
+            actions[75] = self.NL_action 
             actions[76] = self.ERROR_CHAR_action 
             actions[77] = self.ILLEGAL_ESCAPE_action 
             actions[78] = self.UNCLOSE_STRING_action 
@@ -392,7 +391,7 @@ class MiniGoLexer(Lexer):
             raise Exception("No registered action for:" + str(ruleIndex))
 
 
-    def EOS_action(self, localctx:RuleContext , actionIndex:int):
+    def NL_action(self, localctx:RuleContext , actionIndex:int):
         if actionIndex == 0:
 
                 if self.check_EOS():

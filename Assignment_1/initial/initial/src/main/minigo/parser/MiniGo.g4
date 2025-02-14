@@ -2,8 +2,7 @@ grammar MiniGo;
 
 @lexer::header {
 # Nguyen Tuan Huy - 2211253
-# fix như tam, sua expression
-# fix struct nested, for
+# fix lhs
 from lexererr import *
 }
 
@@ -49,7 +48,8 @@ options{
 	language=Python3;
 }
 
-program: decl+ EOF;
+program: many_decl EOF;
+many_decl: decl many_decl | decl;
 
 decl: var_decl | const_decl | array_decl | struct_decl | interface_decl | func_decl | method_decl; // short_var_decl short_array_decl 
 
@@ -66,34 +66,47 @@ array_decl: (decl_arr | decl_arr_init) eos;
 
 decl_arr: VAR IDENTIFIER array_type;
 array_type: dimensions (primitive_type | IDENTIFIER);
-dimensions: (LSB (INT_LITERAL | IDENTIFIER) RSB)+;
+// dimensions: (LSB (INT_LITERAL | IDENTIFIER) RSB)+;
+dimensions: dim dimensions | dim;
+dim: LSB (INT_LITERAL | IDENTIFIER) RSB;
 
 decl_arr_init: VAR IDENTIFIER DECLARE_ASSIGN array_literal;
 array_literal: array_type ele_list;
-ele_list: LCB (ele (COMMA ele)*)? RCB;
+// ele_list: LCB (ele (COMMA ele)*)? RCB;
+ele_list: LCB many_ele? RCB;
+many_ele: ele COMMA many_ele | ele;
+
 ele: ele_list | primitive_lit | IDENTIFIER | struct_literal;
 
 // STRUCT DECLARATION
 struct_decl: TYPE IDENTIFIER struct_type eos;
-struct_type: STRUCT LCB fields+ RCB;
+// struct_type: STRUCT LCB fields+ RCB;
+struct_type: STRUCT LCB many_fields RCB;
+many_fields: fields many_fields | fields;
 fields: IDENTIFIER (primitive_type | array_type | IDENTIFIER) eos; // struct_type
 
 struct_literal: IDENTIFIER LCB struct_elements? RCB;
-struct_elements: struct_ele (COMMA struct_ele)*;
+// struct_elements: struct_ele (COMMA struct_ele)*;
+struct_elements: struct_ele COMMA struct_elements | struct_ele;
 struct_ele: IDENTIFIER ':' expr;
 
 // INTERFACE DECLARATION
 interface_decl: TYPE IDENTIFIER interface_type eos;
-interface_type: INTERFACE LCB interface_field+ RCB;
+// interface_type: INTERFACE LCB interface_field+ RCB;
+interface_type: INTERFACE LCB many_interface_field RCB;
+many_interface_field: interface_field many_interface_field | interface_field;
 interface_field: IDENTIFIER LB param_list? RB types? eos;
 
 
 // FUNCTION DECLARATION
 func_decl: FUNC IDENTIFIER LB param_list? RB types? block eos;
-param_list: param (COMMA param)*;
+// param_list: param (COMMA param)*;
+param_list: param COMMA param_list | param;
 param: id_list types;
-id_list: IDENTIFIER (COMMA IDENTIFIER)*;
-block: LCB stmt+ RCB;
+id_list: IDENTIFIER COMMA id_list | IDENTIFIER;
+// block: LCB stmt+ RCB;
+block: LCB many_stmt RCB;
+many_stmt: stmt many_stmt | stmt;
 
 // METHOD DECLARATION
 method_decl: FUNC method IDENTIFIER LB param_list? RB types? block eos;
@@ -122,7 +135,7 @@ primary_expr: IDENTIFIER index_ops
             | primary_expr DOT IDENTIFIER LB expr_list? RB
             | operand
             ;
-expr_list: expr (COMMA expr_list)*;
+expr_list: expr COMMA expr_list | expr;
     
 operand:  literals
         | IDENTIFIER
@@ -148,26 +161,38 @@ decl_stmt: var_decl | const_decl | array_decl;
 asm_stmt: asm eos;
 asm: lhs assign_ops rhs;
 lhs: IDENTIFIER | array_elem | struct_elem;
-array_elem: IDENTIFIER index_ops+;
-struct_elem: (IDENTIFIER | array_elem) struct_ops+;
-struct_ops: DOT (IDENTIFIER | array_elem | func_call); // khac
+// array_elem: IDENTIFIER index_ops+;
+array_elem: IDENTIFIER many_index_ops;
+many_index_ops: index_ops many_index_ops | index_ops;
+
+// struct_elem: (IDENTIFIER | array_elem) struct_ops+;
+struct_elem: (IDENTIFIER | array_elem) many_struct_ops;
+many_struct_ops: struct_ops many_struct_ops | struct_ops;
+
+struct_ops: DOT (IDENTIFIER | array_elem); // | func_call
 rhs: expr;
 
-if_stmt: IF LB expr RB block else_if_stmt* (ELSE block)? eos;
+// if_stmt: IF LB expr RB block else_if_stmt* (ELSE block)? eos;
+if_stmt: IF LB expr RB block many_else_if_stmt? (ELSE block)? eos;
+many_else_if_stmt: else_if_stmt many_else_if_stmt | else_if_stmt;
 else_if_stmt: ELSE IF LB expr RB block;
 
 for_stmt: FOR for_clause block eos;
 for_clause: expr | fully_clause | range_clause;
 
 fully_clause: init eos expr eos update;
-init: asm | decl_var_init;
-update: asm;
+init: asm_for | decl_var_init;
+update: asm_for;
+asm_for: IDENTIFIER assign_ops rhs;
 
 range_clause: (IDENTIFIER | '_') COMMA IDENTIFIER ASSIGN RANGE IDENTIFIER;
 
 break_stmt: BREAK eos;
 continue_stmt: CONTINUE eos;
-call_stmt: (func_call | struct_elem | array_elem) eos;
+
+call_stmt: (func_call | struct_elem_call) eos; // | array_elem
+struct_elem_call: (IDENTIFIER | array_elem) many_struct_ops? DOT func_call;
+
 return_stmt: RETURN expr? eos;
 // END STATEMENT
 
@@ -180,7 +205,7 @@ index_ops: LSB expr RSB;
 // END OPERATORS
 
 // END OF STATEMENT
-eos: SEMICOLON | EOS;
+eos: SEMICOLON | NL;
 
 BOOLEAN_LITERAL: TRUE | FALSE;
 NIL_LITERAL: NIL;
@@ -281,7 +306,7 @@ COMMENT: '/*' (COMMENT | .)*? '*/' -> skip;
 // END COMMENT
 
 WS : [ \t\f\r]+ -> skip ; // skip spaces, tabs 
-EOS: ([\r\n]+) {
+NL: ([\r\n]+) {
     if self.check_EOS():
         self.text = ';'
     else:

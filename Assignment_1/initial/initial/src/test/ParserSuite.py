@@ -454,7 +454,7 @@ class ParserSuite(unittest.TestCase):
             p.David.name := "David";
             admin := p.Metadata.CreatedBy()
             f.p[i].x()
-            m["foo"]
+            m["foo"] := 1 + i
             var a = a.foo().bar()[4 + y / 2];
         }
         """
@@ -1172,11 +1172,10 @@ class ParserSuite(unittest.TestCase):
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,300))
 
-    # def test_something(self):
-    #     input = """
-    #     func Add() {
-    #         var p [2]Person= [2]Person{Person{name: "John", age: 20}, Person{name: "Alice", age: huy}, huy};
-    #     };
-    #     """
-    #     expect = "successful"
-    #     self.assertTrue(TestParser.checkParser(input,expect,301))
+    def test_something(self):
+        input = """func add() {
+            a[1].b() -= [5]int{1,2,3,4,5};
+        }
+        """
+        expect = "Error on line 2 col 22: -="
+        self.assertTrue(TestParser.checkParser(input,expect,301))
