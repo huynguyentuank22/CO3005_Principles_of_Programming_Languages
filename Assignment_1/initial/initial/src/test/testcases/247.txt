@@ -1,5 +1,6 @@
 
         func main() {
-            arr := [3]int{10, -20, 30}
+            p.name := "John";
+            p.age := 20;
         }
         

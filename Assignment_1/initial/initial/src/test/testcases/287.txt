@@ -1,14 +1,7 @@
 
-        func gcd(a, b int) int {
-            for b != 0 {
-                tmp := a
-                a := b
-                b := tmp % b
+        func calc(x, y, z int) {
+            if (x > y) {
+                return;
             }
-            return a
-        }
-
-        func main() {
-            fmt.Println(gcd(24, 36)) // 12
         }
         

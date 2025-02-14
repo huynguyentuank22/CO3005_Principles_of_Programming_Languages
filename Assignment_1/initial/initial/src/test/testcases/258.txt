@@ -1,6 +1,5 @@
 
         func main() {
-            arr[3] := 10 + person.age
-            y += a[2] * b[3][2]
+            calculator.operator.add(3, 4)
         }
         

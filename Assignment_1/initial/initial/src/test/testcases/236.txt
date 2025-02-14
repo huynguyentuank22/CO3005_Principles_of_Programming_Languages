@@ -1,7 +1,5 @@
 
-        func Hello() {
-            func World() int {
-                return 5;
-            }
-        };
+        func Five() int {
+            return 5;
+        }
         

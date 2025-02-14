@@ -1,11 +1,13 @@
 
         func main() {
-            for true {
-                // loop body
-                i += 1;
-                if (i == 10) {
-                    break;
+            if (x > 5) {
+                if (x < 10) {
+                    println("x is between 5 and 10");
+                } else {
+                    println("x is greater than 10");
                 }
+            } else {
+                println("x is less than 5");
             }
         }
         

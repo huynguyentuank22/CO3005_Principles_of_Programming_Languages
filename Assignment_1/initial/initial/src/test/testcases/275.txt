@@ -1,8 +1,10 @@
 
         func main() {
-            for i := 0; i < 10; i += 1 {
-                for j := 0; j < 10; j += 1 {
-                    sum += i + j;
+            for true {
+                // loop body
+                i += 1;
+                if (i == 10) {
+                    break;
                 }
             }
         }

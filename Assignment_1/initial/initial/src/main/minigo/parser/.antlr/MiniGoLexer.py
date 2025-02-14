@@ -10,6 +10,7 @@ else:
 
 # Nguyen Tuan Huy - 2211253
 # fix như tam, sua expression
+# fix struct nested, for
 from lexererr import *
 
 

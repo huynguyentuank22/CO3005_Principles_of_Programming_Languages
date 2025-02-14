@@ -1,5 +1,9 @@
 
         func main() {
-            arr := [2.3]int{10, 20, 30}
+            p.David.name := "David";
+            admin := p.Metadata.CreatedBy()
+            f.p[i].x()
+            m["foo"]
+            var a = a.foo().bar()[4 + y / 2];
         }
         

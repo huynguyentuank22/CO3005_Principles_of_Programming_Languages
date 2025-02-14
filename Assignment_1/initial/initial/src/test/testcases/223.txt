@@ -1,6 +1,4 @@
 
-        var x int = 10 + a[5];
-        var y = "Hello";
-        var z string;
-        var t Person;
+        type Calculator interface {
+        }
         

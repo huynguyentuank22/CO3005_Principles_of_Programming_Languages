@@ -1,10 +1,9 @@
 
         func main() {
-            arr := [3]int{10, 20, 30};
-            for index, value := range arr {
-                // index: 0, 1, 2
-                // value: 10, 20, 30
-                println(index, value);
-            }
+            if (x > 10) {
+                println("Hello");
+            } 
+            else
+                println("World");
         }
         

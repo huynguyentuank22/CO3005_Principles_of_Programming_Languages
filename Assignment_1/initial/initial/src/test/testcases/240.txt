@@ -1,6 +1,7 @@
 
-        func main() {
-            var x int;
-            x := 10 + 5 - 3 * 2 / 4 % 2;
-        }
+        func Hello() {
+            func (c Calculator) World() int {
+                return 5;
+            }
+        };
         

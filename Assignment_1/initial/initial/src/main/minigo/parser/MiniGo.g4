@@ -3,6 +3,7 @@ grammar MiniGo;
 @lexer::header {
 # Nguyen Tuan Huy - 2211253
 # fix như tam, sua expression
+# fix struct nested, for
 from lexererr import *
 }
 
@@ -51,12 +52,7 @@ options{
 program: decl+ EOF;
 
 decl: var_decl | const_decl | array_decl | struct_decl | interface_decl | func_decl | method_decl; // short_var_decl short_array_decl 
-// assign: assign_array | assign_struct | access_struct;
-// call: func_call;
 
-// VAR DECLARATION
-// var_decl: VAR? IDENTIFIER (primitive_type (ASSIGN expr)? | ASSIGN expr) eos;
-// short_var_decl: IDENTIFIER DECLARE_ASSIGN expr eos;
 var_decl: (decl_var_type_init | decl_var_init | decl_var_type) eos;
 decl_var_type_init: VAR IDENTIFIER primitive_type DECLARE_ASSIGN expr;
 decl_var_init: VAR IDENTIFIER DECLARE_ASSIGN expr;
@@ -66,18 +62,6 @@ decl_var_type: VAR IDENTIFIER (primitive_type | IDENTIFIER);
 const_decl: CONST IDENTIFIER DECLARE_ASSIGN expr eos;
 
 // ARRAY DECLARATION
-// assign_array: IDENTIFIER index_ops+ ASSIGN expr eos;
-// array_decl: VAR IDENTIFIER (array_type | ASSIGN array_literal) eos;
-// short_array_decl: IDENTIFIER DECLARE_ASSIGN array_literal eos;
-// array_type: dimensions (primitive_type | IDENTIFIER);
-// dimensions: (LSB INT_LITERAL RSB)+;
-// // END ARRAY TYPE
-
-// // ARRAY LITERAL
-// array_literal: array_type ele_list;
-// ele_list: LCB ele (COMMA ele)* RCB;
-// ele: ele_list | literals;
-// // END ARRAY LITERAL
 array_decl: (decl_arr | decl_arr_init) eos;
 
 decl_arr: VAR IDENTIFIER array_type;
@@ -87,49 +71,24 @@ dimensions: (LSB (INT_LITERAL | IDENTIFIER) RSB)+;
 decl_arr_init: VAR IDENTIFIER DECLARE_ASSIGN array_literal;
 array_literal: array_type ele_list;
 ele_list: LCB (ele (COMMA ele)*)? RCB;
-ele: ele_list | primitive_lit;
+ele: ele_list | primitive_lit | IDENTIFIER | struct_literal;
 
 // STRUCT DECLARATION
-// // STRUCT TYPE
-// access_struct: IDENTIFIER DOT IDENTIFIER ASSIGN expr eos;
-// assign_struct: IDENTIFIER DECLARE_ASSIGN struct_literal eos;
-// struct_decl: TYPE IDENTIFIER struct_type eos;
-// struct_type: STRUCT LCB fields* RCB;
-// fields: IDENTIFIER (primitive_type | array_type | struct_type | IDENTIFIER) eos;
-// // END STRUCT TYPE
-
-// // STRUCT LITERAL
-// struct_literal: IDENTIFIER LCB (field_lit (COMMA field_lit)*)? RCB;
-// field_lit: IDENTIFIER ':' expr;
 struct_decl: TYPE IDENTIFIER struct_type eos;
 struct_type: STRUCT LCB fields+ RCB;
-fields: IDENTIFIER (primitive_type | array_type | struct_type | IDENTIFIER) eos;
+fields: IDENTIFIER (primitive_type | array_type | IDENTIFIER) eos; // struct_type
 
 struct_literal: IDENTIFIER LCB struct_elements? RCB;
 struct_elements: struct_ele (COMMA struct_ele)*;
 struct_ele: IDENTIFIER ':' expr;
 
 // INTERFACE DECLARATION
-// // INTERFACE TYPE
-// interface_decl: TYPE IDENTIFIER interface_type eos;
-// interface_type: INTERFACE LCB method_decl* RCB;
-// method_decl: IDENTIFIER LB param_list? RB types? eos;
-// // END INTERFACE TYPE
 interface_decl: TYPE IDENTIFIER interface_type eos;
 interface_type: INTERFACE LCB interface_field+ RCB;
 interface_field: IDENTIFIER LB param_list? RB types? eos;
 
 
 // FUNCTION DECLARATION
-// func_decl: FUNC method? IDENTIFIER LB param_list? RB types? LCB stmt+ RCB eos;
-// func_call: call_expr eos;
-// // args: expr (COMMA expr)*;
-
-// method: LB IDENTIFIER IDENTIFIER RB;
-
-// param_list: param (COMMA param)*;
-// param: IDENTIFIER types?;  
-// types: primitive_type | array_type | IDENTIFIER;
 func_decl: FUNC IDENTIFIER LB param_list? RB types? block eos;
 param_list: param (COMMA param)*;
 param: id_list types;
@@ -173,10 +132,7 @@ operand:  literals
 // END EXPRESSION
 
 // STATEMENT
-stmt: 
-    // | assign
-    // | func_call
-    decl_stmt
+stmt: decl_stmt
     | asm_stmt
     | if_stmt
     | for_stmt
@@ -203,7 +159,7 @@ else_if_stmt: ELSE IF LB expr RB block;
 for_stmt: FOR for_clause block eos;
 for_clause: expr | fully_clause | range_clause;
 
-fully_clause: init? eos expr? eos update?;
+fully_clause: init eos expr eos update;
 init: asm | decl_var_init;
 update: asm;
 
@@ -221,7 +177,6 @@ arithmetic_ops: ADD | SUB | MUL | DIV | MOD;
 relational_ops: EQ | NEQ | GT | GE | LT | LE;
 assign_ops: ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | MULT_ASSIGN | DIV_ASSIGN | MOD_ASSIGN;
 index_ops: LSB expr RSB;
-// call_expr: (IDENTIFIER DOT)? IDENTIFIER LB expr_list? RB;
 // END OPERATORS
 
 // END OF STATEMENT
@@ -344,11 +299,3 @@ UNCLOSE_STRING: '"' CHAR* ([\r\n]+ | EOF) {
         text = text[:-1]
     raise UncloseString(text[:])
 };
-
-// mode NLSEMI;
-
-// WS_NLSEMI: [ \t] -> skip;
-// COMMENT_NLSEMI: '/*' ~[\r\n]*? '*/' -> skip;
-// LINE_COMMENT_NLSEMI: '//' ~[\r\n]* -> skip;
-// : ([\r\n]+ | ';' | '/*' .*? '*/' | EOF) -> mode(DEFAULT_MODE);
-// OTHER: -> mode(DEFAULT_MODE), skip;

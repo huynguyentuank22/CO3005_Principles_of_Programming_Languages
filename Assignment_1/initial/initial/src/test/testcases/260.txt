@@ -1,9 +1,9 @@
 
         func main() {
-            if (a > b) {
-                return a;
-            } else {
-                return b;
-            }
+            x += 10; 
+            x -= 5;
+            y *= 23;
+            z /= 2;
+            t %= 23;
         }
         

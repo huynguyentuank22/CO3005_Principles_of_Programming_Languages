@@ -1,19 +1,10 @@
 
-        type Shape interface {
-            Area() float
-            Perimeter() float
-        }
-
-        type Rectangle struct {
-            Width float 
-            Height float
-        }
-
-        func (r Rectangle) Area() float {
-            return r.Width * r.Height
-        }
-
-        func (r Rectangle) Perimeter() float {
-            return 2 * (r.Width + r.Height)
+        func main() {
+            for i := 0; i < 10; i+=1 {
+                if (i == 5) {
+                    break;
+                }
+                // other statements
+            }
         }
         

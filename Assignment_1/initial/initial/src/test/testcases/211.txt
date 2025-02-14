@@ -6,9 +6,5 @@
                     Price       float;           
                     Ratings     [3]int;
                     David       Person;    
-                    Metadata    struct {          
-                        CreatedBy string
-                        UpdatedBy string
-                    }
         }
         

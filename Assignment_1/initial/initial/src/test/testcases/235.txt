@@ -1,5 +1,5 @@
 
-        func Five() int {
-            return 5;
+        func Add(x int, y int) {
+            println(x + y);
         }
         

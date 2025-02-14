@@ -102,10 +102,6 @@ class ParserSuite(unittest.TestCase):
                     Price       float;           
                     Ratings     [3]int;
                     David       Person;    
-                    Metadata    struct {          
-                        CreatedBy string
-                        UpdatedBy string
-                    }
         }
         """
         expect = "successful"
@@ -772,7 +768,7 @@ class ParserSuite(unittest.TestCase):
             }
         }
         """
-        expect = "successful"
+        expect = "Error on line 3 col 33: {"
         self.assertTrue(TestParser.checkParser(input, expect, 276))
 
     def test_not_full_for_statement_2(self):
@@ -784,7 +780,7 @@ class ParserSuite(unittest.TestCase):
             }
         }
         """
-        expect = "successful"
+        expect = "Error on line 4 col 17: ;"
         self.assertTrue(TestParser.checkParser(input, expect, 277))       
 
     def test_full_for_statement(self):
@@ -1179,7 +1175,7 @@ class ParserSuite(unittest.TestCase):
     # def test_something(self):
     #     input = """
     #     func Add() {
-    #         ID.age.c += 2;
+    #         var p [2]Person= [2]Person{Person{name: "John", age: 20}, Person{name: "Alice", age: huy}, huy};
     #     };
     #     """
     #     expect = "successful"

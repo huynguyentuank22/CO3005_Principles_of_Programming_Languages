@@ -1,7 +1,5 @@
 
         func main() {
-            if (a > b) {
-                return a;
-            }
+            calculator.add(calculator.sub(5, 2), 4)
         }
         

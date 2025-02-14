@@ -1,5 +1,5 @@
 
         func main() {
-            calculator.operator.add(3, 4)
+            p := Person{}
         }
         

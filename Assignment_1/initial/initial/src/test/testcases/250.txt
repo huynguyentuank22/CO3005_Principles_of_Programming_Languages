@@ -1,5 +1,5 @@
 
         func main() {
-            p := Person{name: "John", age: 20}
+            arr := [3]int{10, -20, 30}
         }
         

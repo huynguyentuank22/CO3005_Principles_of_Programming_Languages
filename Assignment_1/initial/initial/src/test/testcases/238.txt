@@ -1,7 +1,6 @@
 
         func (c Calculator) Add(x int) int {
-            func (c Calculator) Sub(y int) int {
-                return c.value;
-            }
+            c.value += x;
+            return c.value;
         }
         

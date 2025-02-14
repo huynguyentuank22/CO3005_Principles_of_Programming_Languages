@@ -1,6 +1,7 @@
 
-        func (c Calculator) Add(x int) int {
-            c.value += x;
-            return c.value;
-        }
+        func Hello() {
+            func World() int {
+                return 5;
+            }
+        };
         

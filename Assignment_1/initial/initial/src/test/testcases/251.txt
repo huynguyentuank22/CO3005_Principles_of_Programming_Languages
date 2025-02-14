@@ -1,5 +1,5 @@
 
         func main() {
-            p := Person{}
+            arr := [2.3]int{10, 20, 30}
         }
         

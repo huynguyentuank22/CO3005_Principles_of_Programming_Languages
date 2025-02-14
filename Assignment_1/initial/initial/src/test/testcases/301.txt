@@ -1,3 +1,5 @@
-    
-            var a = a.foo()[2];
+
+        func Add() {
+            var p [2]Person= [2]Person{Person{name: "John", age: 20}, Person{name: "Alice", age: huy}, huy};
+        };
         

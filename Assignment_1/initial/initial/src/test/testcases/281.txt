@@ -1,19 +1,9 @@
 
-        type Knight struct {
-            HP  int
-            ATK int
-            DEF int
-        }
-
-        func (k Knight) Attack() int {
-            return k.ATK
-        }
-
-        func (k Knight) Defend() int {
-            return k.DEF
-        }
-
-        func (k Knight) TakeDamage(dmg int) {
-            k.HP -= dmg
+        func main() {
+            for i := 0; i < 10; i += 1 {
+                for j := 0; j < 10; j += 1 {
+                    sum += i + j;
+                }
+            }
         }
         

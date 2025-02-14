@@ -1,6 +1,6 @@
 
         func main() {
-            var x boolean;
-            x := (a + b * c / d - e % f) == g && h.age > 18 || arr[i] < arr[j];
+            var flag boolean
+            flag := a && b || c && d || !e
         }
         

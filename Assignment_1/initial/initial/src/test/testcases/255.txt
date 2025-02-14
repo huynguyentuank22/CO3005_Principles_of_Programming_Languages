@@ -1,5 +1,5 @@
 
         func main() {
-            calculator.add(calculator.sub(5, 2), 4)
+            p := Person{name: "John", age: 20, address:}
         }
         
