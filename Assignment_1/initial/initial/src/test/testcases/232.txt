@@ -1,3 +1,3 @@
 
-        const Pi := 3.14 + "Hello";
+        func foo();
         

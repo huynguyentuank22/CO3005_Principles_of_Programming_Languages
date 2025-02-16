@@ -1,6 +1,13 @@
 
-        func main() {
-            arr[3] := 10 + person.age
-            y += a[2] * b[3][2]
+        func main(){
+            for i < 10 {
+                putInt(i);
+                break;
+            }
+            
+            for j := 0; j < 10; j += 1 {
+                putInt(j);
+                continue;
+            }
         }
         

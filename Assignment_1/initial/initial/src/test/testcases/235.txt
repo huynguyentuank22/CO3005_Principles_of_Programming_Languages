@@ -1,5 +1,5 @@
 
-        func Add(x int, y int) {
-            println(x + y);
+        func main() {
+            foo(x+1, c;
         }
         

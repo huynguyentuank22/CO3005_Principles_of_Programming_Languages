@@ -1,6 +1,9 @@
 
-        func main() {
-            arr[2 + i] *= 3
-            Person.age += 1
+        func main(){
+            if (a[1].b[2].c[3].d) {
+                putString("Hello");
+            } else {
+                putString("World");
+            }   
         }
         

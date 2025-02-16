@@ -1,5 +1,3 @@
 
         func main() {
-            p := Person{}
-        }
-        
+        a := 5 + 5}

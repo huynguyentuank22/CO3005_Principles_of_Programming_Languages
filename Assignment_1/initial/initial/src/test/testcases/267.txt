@@ -1,11 +1,6 @@
 
         func main() {
-            if (x > 10) {
-                println("x is greater than 10");
-            } else if (x == 10) {
-                println("x is equal to 10");
-            } else {
-                println("x is less than 10");
-            }
+            foo(foo(1,2), foo(4,5));
+            goo(goo(goo(goo(goo(goo(1))))));
         }
         

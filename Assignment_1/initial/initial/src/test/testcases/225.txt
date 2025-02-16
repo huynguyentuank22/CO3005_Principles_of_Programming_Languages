@@ -1,3 +1,16 @@
 
-        var x ;
+        type Person struct {
+            name string;
+            age int;
+        }
+        func (p Person) getName() string {
+            return p.name;
+        }
+        func main() {
+            p := Person{name: "John", age: 25};
+            var a Person;
+            a := p;
+            var b = a.name;
+            var c = a.age;
+        }
         

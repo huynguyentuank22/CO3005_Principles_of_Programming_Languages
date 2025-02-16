@@ -1,21 +1,7 @@
 
-        func generate(numRows int) [r][c]int {
-            var res [r][c]int
-            for i := 0; i < numRows; i+=1 {
-                var row [r]int
-                for j := 0; j <= i; j+=1 {
-                    if (j == 0 || j == i) {
-                        row := append(row, 1)
-                    } else {
-                        row := append(row, res[i-1][j-1] + res[i-1][j])
-                    }
-                }
-                res := append(res, row)
-            }
-            return res
-        }
-
-        func main() {
-            fmt.Println(generate(5)) // [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]]
+        func errorFunc(a int; b float; c string) {
+            putInt(a);
+            putFloat(b);
+            putString(c);
         }
         

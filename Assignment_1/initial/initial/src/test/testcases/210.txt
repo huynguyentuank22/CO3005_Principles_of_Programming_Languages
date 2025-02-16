@@ -1,6 +1,6 @@
-
-        type Person struct {
-            name string;
-            age int;
-        }
+var a boolean;
+        var b boolean = true;
+        var c = a && b;
+        var d = a || b;
+        var e = !a
         

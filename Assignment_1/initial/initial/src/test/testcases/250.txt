@@ -1,5 +1,6 @@
 
         func main() {
-            arr := [3]int{10, -20, 30}
+            a := b[c.f(3,f(c))*(12+f.c.d.e[3])] + 12.e-9 + abc;
+            m := a[2][3] == b[2][1].foo.foo + abc / xyz * foo() + 1235 % calculator.add(3,4);
         }
         

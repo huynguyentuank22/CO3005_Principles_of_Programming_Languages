@@ -1,8 +1,3 @@
-
-        var x int;
-        const y = 10;
-
-        func main() {
-            println("Hello, MiniGo!");
-        }
-        
+func main() {
+        // this is comment
+        };

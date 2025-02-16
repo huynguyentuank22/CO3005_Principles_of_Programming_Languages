@@ -1,6 +1,7 @@
 
-        func (c Calculator) Add(x int) int {
-            c.value += x;
-            return c.value;
+        func foo() {
+            if (x > 10) {
+                putString("x is greater than 10");
+            }
         }
         

@@ -1,13 +1,6 @@
 
-        func main() {
-            if (x > 5) {
-                if (x < 10) {
-                    println("x is between 5 and 10");
-                } else {
-                    println("x is greater than 10");
-                }
-            } else {
-                println("x is less than 5");
-            }
+        func main(){
+            a := foo(1,2) + foo(4,5);
+            b := goo(goo(goo(goo(goo(goo(1))))));
         }
         

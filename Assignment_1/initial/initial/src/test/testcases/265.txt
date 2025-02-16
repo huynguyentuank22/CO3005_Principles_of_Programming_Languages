@@ -1,9 +1,13 @@
 
-        func main() {
-            if (a > b) {
-                return a;
+        func main(){
+            p := Person{name: "John", age: 25};
+            
+            if (p.age > 18) {
+                putString("Adult");
             } else {
-                return b;
+                putString("Child");
             }
-        }
+            
+            putInt(a.b[1].c[2].d[foo(1,2,3)]);
+        }   
         

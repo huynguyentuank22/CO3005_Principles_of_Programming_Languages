@@ -1,8 +1,7 @@
 grammar MiniGo;
 
 @lexer::header {
-# Nguyen Tuan Huy - 2211253
-# fix lhs
+# 2211253
 from lexererr import *
 }
 
@@ -54,7 +53,7 @@ many_decl: decl many_decl | decl;
 decl: var_decl | const_decl | array_decl | struct_decl | interface_decl | func_decl | method_decl; // short_var_decl short_array_decl 
 
 var_decl: (decl_var_type_init | decl_var_init | decl_var_type) eos;
-decl_var_type_init: VAR IDENTIFIER primitive_type DECLARE_ASSIGN expr;
+decl_var_type_init: VAR IDENTIFIER types DECLARE_ASSIGN expr;
 decl_var_init: VAR IDENTIFIER DECLARE_ASSIGN expr;
 decl_var_type: VAR IDENTIFIER (primitive_type | IDENTIFIER);
 
@@ -181,17 +180,21 @@ for_stmt: FOR for_clause block eos;
 for_clause: expr | fully_clause | range_clause;
 
 fully_clause: init eos expr eos update;
-init: asm_for | decl_var_init;
+init: asm_for | decl_var_init | decl_var_type_init_for;
+decl_var_type_init_for: VAR IDENTIFIER primitive_type DECLARE_ASSIGN expr;
 update: asm_for;
 asm_for: IDENTIFIER assign_ops rhs;
 
-range_clause: (IDENTIFIER | '_') COMMA IDENTIFIER ASSIGN RANGE IDENTIFIER;
+range_clause: (IDENTIFIER | '_') COMMA IDENTIFIER ASSIGN RANGE expr;
 
 break_stmt: BREAK eos;
 continue_stmt: CONTINUE eos;
 
 call_stmt: (func_call | struct_elem_call) eos; // | array_elem
-struct_elem_call: (IDENTIFIER | array_elem) many_struct_ops? DOT func_call;
+struct_elem_call: (IDENTIFIER | array_elem) many_struct_ops_call? DOT func_call;
+many_struct_ops_call: struct_ops_call many_struct_ops_call | struct_ops_call;
+struct_ops_call: DOT (IDENTIFIER | array_elem | func_call);
+
 
 return_stmt: RETURN expr? eos;
 // END STATEMENT

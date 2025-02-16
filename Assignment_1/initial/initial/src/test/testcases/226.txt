@@ -1,3 +1,23 @@
 
-        var int ;
+        type Person struct {
+            name string;
+            age int;
+        }
+        func (p Person) getName() string {
+            return p.name;
+        }
+        func (p Person) getAge() int {
+            return p.age;
+        }
+        func (p Person) getGrade() float {
+            return 8.5;
+        }
+        func (p Person) printInfo() {
+            putInt(p.name);
+            putInt(p.age);
+            putFloat(p.getGrade());
+        }
+        func (p Person) setAge(age int) {
+            p.age := age;
+        }
         

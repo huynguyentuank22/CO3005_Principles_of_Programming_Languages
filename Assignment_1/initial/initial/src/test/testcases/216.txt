@@ -1,7 +1,9 @@
 
-        type Person struct {
-            name string
-            age int
-            address
+        type Person interface {
+            getName() string;
+            getAge() int;
+            getGrade() float
+            printInfo()
+            setAge(age int) 
         }
         

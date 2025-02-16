@@ -1,3 +1,6 @@
-func main() {
-                    a[5].foo() := 1+2+bar();
-            };
+
+                                    func Add() {
+                                        for var i [2]int = 0; foo().a.b();  {
+                                            return; 
+                                        }
+                                    };

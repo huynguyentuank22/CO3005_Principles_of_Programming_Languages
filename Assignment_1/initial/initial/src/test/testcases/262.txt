@@ -1,5 +1,21 @@
 
         func main() {
-            2 + i *= 3
+            for i < 10 {
+                putInt(i);
+            }
+            
+            for j := 0; j < 10; j += 1 {
+                putInt(j);
+            }
+            
+            arr := [5]int{1,2,3,4,5};
+            for idx, value := range arr {
+                putInt(idx);
+                putInt(value);
+            }
+            
+            for _, value := range arr {
+                putInt(value);
+            }
         }
         

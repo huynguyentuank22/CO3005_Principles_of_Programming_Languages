@@ -1,7 +1,7 @@
 
-        func (c Calculator) Add(x int) int {
-            func (c Calculator) Sub(y int) int {
-                return c.value;
+        func foo() {
+            for i := 0; i < 10; i := i + 1 {
+                putInt(i);
             }
         }
         

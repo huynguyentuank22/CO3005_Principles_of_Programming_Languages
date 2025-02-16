@@ -1,4 +1,10 @@
 
-        type Calculator interface {
+        var a boolean = true;
+        var b = false;
+        var c = a && b;
+        var d boolean;
+        var e;
+        func main() {
+            d := a || b;
         }
         

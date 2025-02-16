@@ -1,5 +1,3 @@
 
         func main() {
-            calculator.add(calculator.sub(5, 2), 4)
-        }
-        
+        a := 5 + 5 + p.foo()}

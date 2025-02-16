@@ -1,5 +1,9 @@
 
         func main() {
-            a[2][3] := b[2] + 1;
+            a := foo();
+            b := foo(5);
+            c := foo(5, 5.5);
+            d := foo(5, 5.5, "Hello");
+            e := foo(5, 5.5, "Hello", true) * foo(5, 5.5, "Hello", true) / bar[1132 * 5.5];
         }
         

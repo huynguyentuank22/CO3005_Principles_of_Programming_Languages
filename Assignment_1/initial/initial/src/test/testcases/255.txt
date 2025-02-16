@@ -1,5 +1,3 @@
 
         func main() {
-            p := Person{name: "John", age: 20, address:}
-        }
-        
+            a := 5 + 5 + ;}

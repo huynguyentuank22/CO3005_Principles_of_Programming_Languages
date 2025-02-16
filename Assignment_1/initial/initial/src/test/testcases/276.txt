@@ -1,8 +1,11 @@
 
-        func main() {
-            for i := 0; i < 10; {
-                i += 1;
-                sum += i; // loop body
+        func main(){
+            if (z) {
+            if (x > 10) {
+                putString("x is greater than 10");
+            } else {
+                putString("x is less than 10");
+            }
             }
         }
         

@@ -1,6 +1,8 @@
 
-        func main() {
-            if (x > 10)
-                println("Hello");
+        func foo() {
+            putString("Hello");
+        
+        func main(){
+            foo();
         }
         

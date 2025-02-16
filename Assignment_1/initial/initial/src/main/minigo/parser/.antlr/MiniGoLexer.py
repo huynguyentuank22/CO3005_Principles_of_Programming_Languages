@@ -8,8 +8,7 @@ else:
     from typing.io import TextIO
 
 
-# Nguyen Tuan Huy - 2211253
-# fix lhs
+# 2211253
 from lexererr import *
 
 

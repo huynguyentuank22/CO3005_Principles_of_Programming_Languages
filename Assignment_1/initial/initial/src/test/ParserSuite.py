@@ -1172,10 +1172,11 @@ class ParserSuite(unittest.TestCase):
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,300))
 
-    def test_something(self):
-        input = """func add() {
-            a[1].b() -= [5]int{1,2,3,4,5};
-        }
-        """
-        expect = "Error on line 2 col 22: -="
-        self.assertTrue(TestParser.checkParser(input,expect,301))
+    # def test_something(self):
+    #     input = """
+    #         func foo(){
+    #             foo()[2]
+    #             }
+    #             """
+    #     expect = "Error on line 3 col 25: ="
+    #     self.assertTrue(TestParser.checkParser(input,expect,301))

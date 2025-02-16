@@ -1,9 +1,5 @@
 
         func main() {
-            p.David.name := "David";
-            admin := p.Metadata.CreatedBy()
-            f.p[i].x()
-            m["foo"] := 1 + i
-            var a = a.foo().bar()[4 + y / 2];
+            a := p.foo(5, 5.5, "Hello", true) / p.foo(5, 5.5, "Hello", true) * bar(1132,p.foo(5, 5.5, "Hello", true));
         }
         

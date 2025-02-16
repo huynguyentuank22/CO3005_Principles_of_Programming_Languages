@@ -1,7 +1,7 @@
 
-        func Hello() {
-            func World() int {
-                return 5;
-            }
-        };
+        func foo() {
+            var a int;
+            a := 5;
+            putInt(a);
+        }
         

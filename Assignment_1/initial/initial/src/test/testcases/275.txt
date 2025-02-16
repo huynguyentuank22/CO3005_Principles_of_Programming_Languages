@@ -1,11 +1,6 @@
 
-        func main() {
-            for true {
-                // loop body
-                i += 1;
-                if (i == 10) {
-                    break;
-                }
-            }
+        func main(){
+            if (x > 10)
+                putString("x is greater than 10");
         }
         

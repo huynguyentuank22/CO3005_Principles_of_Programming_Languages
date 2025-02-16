@@ -1,8 +1,8 @@
 
-        type Calculator {
-            Add(x, y int) int;
-            Subtract(a, b float, c int) float;
-            Reset()
-            SayHello(name string)
-        }
+        var a string = "Hello";
+        var b = "World";
+        var c = a + b;
+        var d string;
+        d := a + b;
+        var e;
         

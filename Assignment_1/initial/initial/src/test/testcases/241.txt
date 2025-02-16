@@ -1,6 +1,7 @@
 
         func main() {
-            var x int;
-            x := 10 + 5 - 3 * 2 / 4 % 2;
+            a := true && false;
+            b := true || false;
+            c := !true;
         }
         

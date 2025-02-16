@@ -1,3 +1,5 @@
 
-        var arr = [5]int{1,2,3,4,5} // defines an array of 5 integers.
+        func main() {
+            foo(1+x/y, 2);
+        }
         
