@@ -1,4 +1,0 @@
-var abc int
-                                                  var b = 10
-                                                  
-                                                  

@@ -71,7 +71,7 @@ dim: LSB (INT_LITERAL | IDENTIFIER) RSB;
 
 array_literal: array_type ele_list;
 // ele_list: LCB (ele (COMMA ele)*)? RCB;
-ele_list: LCB many_ele? RCB;
+ele_list: LCB many_ele RCB;
 many_ele: ele COMMA many_ele | ele;
 
 ele: ele_list | primitive_lit | IDENTIFIER | struct_literal;

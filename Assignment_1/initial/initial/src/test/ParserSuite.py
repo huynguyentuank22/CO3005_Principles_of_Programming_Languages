@@ -495,7 +495,7 @@ class ParserSuite(unittest.TestCase):
             arr := [3]int{}
         }
         """
-        expect = "successful"
+        expect = "Error on line 3 col 27: }"
         self.assertTrue(TestParser.checkParser(input,expect,252))
 
     def test_struct_literal(self):
@@ -794,8 +794,6 @@ class ParserSuite(unittest.TestCase):
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input, expect, 278))
     
-    # def test_for_stmt_with_bracket(self):
-
     def test_range_for_statement(self):
         input = """
         func main() {
@@ -1171,12 +1169,3 @@ class ParserSuite(unittest.TestCase):
         """
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,300))
-
-    # def test_something(self):
-    #     input = """
-    #         func foo(){
-    #             foo()[2]
-    #             }
-    #             """
-    #     expect = "Error on line 3 col 25: ="
-    #     self.assertTrue(TestParser.checkParser(input,expect,301))
