@@ -1,4 +1,5 @@
 
-        func () {
+        func (a, b int, c string) int {
+            return a + b + len(c);
         }
         

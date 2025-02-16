@@ -1,6 +1,9 @@
 
         func main() {
-            p.foo(p.foo(1,2), p.foo(4,5));
-            p.goo(p.goo(p.goo(p.goo(p.goo(p.goo(1))))));
+            if (x > 5) {
+                if (x < 10) {
+                    println("x is between 5 and 10");
+                }
+            }
         }
         

@@ -1,9 +1,6 @@
 
         func main() {
-            a := p.foo();
-            b := p.foo(5);
-            c := p.foo(5, 5.5);
-            d := p.foo(5, 5.5, "Hello");
-            e := p.foo(5, 5.5, "Hello", true) + p.foo(123, bar(1132, 5.5), "Hello", true);
+            p.name := "John";
+            p.age := 20;
         }
         

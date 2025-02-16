@@ -61,7 +61,7 @@ decl_var_type: VAR IDENTIFIER (primitive_type | IDENTIFIER);
 const_decl: CONST IDENTIFIER DECLARE_ASSIGN expr eos;
 
 // ARRAY DECLARATION
-array_decl: (decl_arr | decl_arr_init) eos;
+array_decl: decl_arr eos;
 
 decl_arr: VAR IDENTIFIER array_type;
 array_type: dimensions (primitive_type | IDENTIFIER);
@@ -69,7 +69,6 @@ array_type: dimensions (primitive_type | IDENTIFIER);
 dimensions: dim dimensions | dim;
 dim: LSB (INT_LITERAL | IDENTIFIER) RSB;
 
-decl_arr_init: VAR IDENTIFIER DECLARE_ASSIGN array_literal;
 array_literal: array_type ele_list;
 // ele_list: LCB (ele (COMMA ele)*)? RCB;
 ele_list: LCB many_ele? RCB;

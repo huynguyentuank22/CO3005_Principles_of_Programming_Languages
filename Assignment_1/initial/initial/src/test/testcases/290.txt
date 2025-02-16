@@ -1,14 +1,19 @@
 
-        type Person struct {
-            name string;
-            age int;
+        type Shape interface {
+            Area() float
+            Perimeter() float
         }
-        func (p Person) printInfo() {
-            putString(p.name);
-            putInt(p.age);
+
+        type Rectangle struct {
+            Width float 
+            Height float
         }
-        func main() {
-            p := Person{name: "John", age: 25};
-            p.printInfo();
+
+        func (r Rectangle) Area() float {
+            return r.Width * r.Height
+        }
+
+        func (r Rectangle) Perimeter() float {
+            return 2 * (r.Width + r.Height)
         }
         

@@ -1,7 +1,9 @@
 
-        func main(){
-            for i < 10 {
-                // do something
-            }
+        func main() {
+            if (x > 10) {
+                println("Hello");
+            } 
+            else
+                println("World");
         }
         

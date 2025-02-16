@@ -1,5 +1,19 @@
 
-        func main() {
-            complexMethod(1, 2.5, "Hello", true, [5]int{1,2,3,4,5}, [3][3]float{{1.1,2.2,3.3},{4.4,5.5,6.6},{7.7,8.8,9.9}}, Person{name: "John", age: 25});
+        type Knight struct {
+            HP  int
+            ATK int
+            DEF int
+        }
+
+        func (k Knight) Attack() int {
+            return k.ATK
+        }
+
+        func (k Knight) Defend() int {
+            return k.DEF
+        }
+
+        func (k Knight) TakeDamage(dmg int) {
+            k.HP -= dmg
         }
         

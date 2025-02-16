@@ -1,4 +1,5 @@
 
-        var a int;
-        var b;
+        func Five() int {
+            return 5;
+        }
         

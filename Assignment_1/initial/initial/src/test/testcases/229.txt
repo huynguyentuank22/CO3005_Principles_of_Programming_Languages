@@ -1,14 +1,5 @@
 
-        type Person struct {
-            name string;
-            age int;
-        }
-        func (p Person) printInfo() {
-            putString(p.name);
-            putInt(p.age);
-        }
-        func main() {
-            p := Person{name: "John", age: 25};
-            p.printInfo();
-        }
+        const Pi = 3.14;
+        const Greeting = "Hello, MiniGo!";
+        const MaxSize = 100 + 50;
         

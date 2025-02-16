@@ -1,20 +1,7 @@
 
-        func foo(x,y,z int, k float) {
-            putInt(x);
-            putInt(y);
-            putInt(z);
-            putFloat(k);
-        }
-        func (p Person) printInfo() {
-            putString(p.name);
-            putInt(p.age);
-        }
-        func Add(a,b int) int {
-            return a + b;
-        }
         func main() {
-            putInt(Add(1,2));
-            foo(1,2,3,4.5);
-            p.printInfo();
+            if (a > b) {
+                return a;
+            }
         }
         

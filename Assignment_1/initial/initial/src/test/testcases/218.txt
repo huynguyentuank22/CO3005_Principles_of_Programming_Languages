@@ -1,4 +1,7 @@
 
-        var b struct x;
-        var c interface x;
+        type Person struct {
+            name, nickname string
+            age int
+            address int
+        }
         

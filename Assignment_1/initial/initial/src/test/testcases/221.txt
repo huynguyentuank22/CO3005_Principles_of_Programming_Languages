@@ -1,8 +1,8 @@
 
-        var a float = 5.5;
-        var b = 10.5;
-        var c = a + b;
-        var d float;
-        d := a + b;
-        var e;
+        type interface {
+            Add(x, y int) int;
+            Subtract(a, b float, c int) float;
+            Reset()
+            SayHello(name string)
+        }
         

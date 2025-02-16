@@ -1,13 +1,7 @@
 
-        func foo() {
-            if (expr1) {
-                if (expr2) {
-                    putString("expr2 is true");
-                } else {
-                    putString("expr2 is false");
-                }
-            } else{
-                putString("expr1 is false");
+        func main() {
+            for i := 0; i < 10; i += 1 {
+                sum += i; // loop body
             }
         }
         

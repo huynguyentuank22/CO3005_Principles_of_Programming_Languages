@@ -1,9 +1,6 @@
 
         func main() {
-            a := b.foo;
-            c := b.foo.bar;
-            d := b.foo.bar[1];
-            e := b.foo.bar[1].foo;
-            f := b.foo.bar[1].foo.bar;
+            var x boolean;
+            x := (a + b * c / d - e % f) == g && h.age > 18 || arr[i] < arr[j];
         }
         

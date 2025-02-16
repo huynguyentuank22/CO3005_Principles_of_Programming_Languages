@@ -1,4 +1,14 @@
 
-        func emptyFunc() {
+        func gcd(a, b int) int {
+            for b != 0 {
+                tmp := a
+                a := b
+                b := tmp % b
+            }
+            return a
+        }
+
+        func main() {
+            fmt.Println(gcd(24, 36)) // 12
         }
         

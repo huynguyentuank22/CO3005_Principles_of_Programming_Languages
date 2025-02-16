@@ -1,6 +1,7 @@
 
         func main() {
-            foo(1,2,3,4;
-            goo(1,2,3,4);
+            if {
+                println("Hello");
+            }
         }
         

@@ -1,3 +1,5 @@
 
         func main() {
-            a := 5 + 5 + foo()}
+            calculator.operator.add(3, 4)
+        }
+        

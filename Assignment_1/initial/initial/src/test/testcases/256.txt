@@ -1,3 +1,7 @@
 
         func main() {
-            a := 5 + 5 + b}
+            Add(1, 2);
+            reset()
+            foo(2 + x, 4 / y)
+        }
+        
