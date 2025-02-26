@@ -1,9 +1,4 @@
-
-        func main() {
-            if (a > b){
-                putString("a is greater than b");
-            } else {
-                putString("a is not greater than b");
-            }
+func (p Person) foo() {
+            var x int
         }
         

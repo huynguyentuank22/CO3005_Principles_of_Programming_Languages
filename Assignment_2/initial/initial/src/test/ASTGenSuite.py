@@ -51,11 +51,7 @@ class ASTGenSuite(unittest.TestCase):
             IsActive    boolean;              
             Price       float;           
             Ratings     [3]int;
-            David       Person;
-
-            func (s FullStruct) foo() int {
-                return 1;
-            }    
+            David       Person;  
         }
         """
         expect = str(Program([
@@ -68,9 +64,7 @@ class ASTGenSuite(unittest.TestCase):
                 ('Ratings',ArrayType([IntLiteral(3)], IntType())),
                 ('David',Id("Person"))
             ],
-            [
-                MethodDecl("s",Id("FullStruct"),FuncDecl("foo",[],IntType(),Block([Return(IntLiteral(1))])))
-            ])
+            [])
             ]))
         self.assertTrue(TestAST.checkASTGen(input,expect,304))
 
@@ -281,13 +275,13 @@ class ASTGenSuite(unittest.TestCase):
             ))]))
         self.assertTrue(TestAST.checkASTGen(input,expect,320))
 
-    def test_something(self):
-        input = """
-        func main(){
-            b.a[1][2][3][5] := 1;
-        }
-        """
-        expect = str(Program([
-            VarDecl("x",IntType(),IntLiteral(5))
-            ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,400))
+    # def test_something(self):
+    #     input = """
+    #     func main(){
+    #         b.a[1][2][3][5] := 1;
+    #     }
+    #     """
+    #     expect = str(Program([
+    #         VarDecl("x",IntType(),IntLiteral(5))
+    #         ]))
+    #     self.assertTrue(TestAST.checkASTGen(input,expect,400))

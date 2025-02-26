@@ -1,9 +1,4 @@
 
-        var a int;
-        var b int = 5;
-        var c = a + b;
-        var d = a - b;
-        var e = a * b;
-        var f = a / b;
-        var g = a % b;
+        var arr = [5]int{1,2,3,4,5};
+        var multi_arr = [2][5]int{{1,2,3,4,5},{6,7,8,9,10}};
         

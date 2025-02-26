@@ -1,4 +1,6 @@
 
-        var a[5][6] int;
-        var b[5] int;
+        type Point struct {
+            x int
+            y int
+        }
         

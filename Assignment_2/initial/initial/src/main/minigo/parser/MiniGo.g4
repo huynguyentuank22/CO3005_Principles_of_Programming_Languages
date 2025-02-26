@@ -81,7 +81,7 @@ struct_decl: TYPE IDENTIFIER struct_type eos;
 // struct_type: STRUCT LCB fields+ RCB;
 struct_type: STRUCT LCB many_fields RCB;
 many_fields: fields many_fields | fields;
-fields: method_decl | ele_field eos; // struct_type
+fields: ele_field eos; // method_decl | 
 ele_field: IDENTIFIER (primitive_type | array_type | IDENTIFIER);
 
 struct_literal: IDENTIFIER LCB struct_elements? RCB;

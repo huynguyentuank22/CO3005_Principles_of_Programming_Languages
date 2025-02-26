@@ -1,1 +1,1 @@
-Program([ConstDecl(x,IntLiteral(5)),ConstDecl(y,IntLiteral(6)),ConstDecl(z,BinaryOp(Id(x),+,Id(y)))])
+Program([InterfaceType(Calculator,[Prototype(Add,[IntType,IntType],IntType),Prototype(Subtract,[FloatType,FloatType,IntType],FloatType),Prototype(Reset,[],VoidType),Prototype(SayHello,[StringType],VoidType)])])

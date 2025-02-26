@@ -1,1 +1,1 @@
-Program([FuncDecl(main,[],VoidType,Block([FuncCall(foo,[BinaryOp(IntLiteral(1),+,BinaryOp(Id(x),/,Id(y))),IntLiteral(2)])]))])
+Program([StructType(FullStruct,[(ID,IntType),(Name,StringType),(IsActive,BoolType),(Price,FloatType),(Ratings,ArrayType(IntType,[IntLiteral(3)])),(David,Id(Person))],[])])

@@ -115,11 +115,9 @@ class ASTGeneration(MiniGoVisitor):
             return [self.visit(ctx.fields())]
         return [self.visit(ctx.fields())] + self.visit(ctx.many_fields())
     
-    # fields: method_decl | ele_field eos;
+    # fields: ele_field eos;
     def visitFields(self,ctx:MiniGoParser.FieldsContext):
-        if ctx.method_decl():
-            return self.visit(ctx.method_decl())
-        return self.visit(ctx.ele_field())
+        return self.visit(ctx.getChild(0))
     
     # ele_field: IDENTIFIER (primitive_type | array_type | IDENTIFIER);
     def visitEle_field(self,ctx:MiniGoParser.FieldsContext):

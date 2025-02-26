@@ -1,14 +1,6 @@
 
-        type Person struct {
-            name string;
-            age int;
-        }
-        type Student struct {
-            person Person;
-            grade float;
-        }
-        func main() {
-            p := Person{name: "John", age: 25};
-            s := Student{person: p, grade: 8.5};
-        }
+        var x int = 5
+        var y float = 5.5
+        var z boolean = true
+        var t string = "Hello"
         
