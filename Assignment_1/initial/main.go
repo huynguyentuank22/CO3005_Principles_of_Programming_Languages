@@ -75,14 +75,14 @@ func (k Knight) IsDead() [4]int {
 	}
 	return [4]int{1, 2, 3, 4}
 }
-func IsDead() {
-	func (k Knight) IsDead2() {
-		printlm("Hello");
-	}
-}
+// func IsDead() {
+// 	func (k Knight) IsDead2() {
+// 		printlm("Hello");
+// 	}
+// }
 
 func main() {
-	var p Knight = {"huy", 23}
+	var p = Person{name: "John", age: 20}
 	p.age = 13
 
 	var sum int = 0
