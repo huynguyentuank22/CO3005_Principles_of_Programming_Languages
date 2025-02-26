@@ -1,0 +1,7 @@
+
+        func (c Calculator) Add(x int) int {
+            func (c Calculator) Sub(y int) int {
+                return c.value;
+            }
+        }
+        

@@ -1,0 +1,1 @@
+func,isPalindrome,(,n,int,),bool,{,var,reversed,int,=,0,;,var,original,int,=,n,;,for,n,>,0,{,reversed,=,reversed,*,10,+,n,%,10,;,n,=,n,/,10,;,},;,return,original,==,reversed,;,},;,func,main,(,),{,fmt,.,Println,(,isPalindrome,(,121,),),;,},;,<EOF>

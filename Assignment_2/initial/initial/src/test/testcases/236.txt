@@ -1,0 +1,5 @@
+
+        func Five() int {
+            return 5;
+        }
+        

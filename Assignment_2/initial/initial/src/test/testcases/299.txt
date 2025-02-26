@@ -1,0 +1,19 @@
+
+        func bubbleSort(nums [5]int) [5]int {
+            for i := 0; i < len(nums); i+=1 {
+                for j := 0; j < len(nums) - i - 1; j+=1 {
+                    if (nums[j] > nums[j+1]) {
+                        tmp := nums[j]
+                        nums[j] := nums[j+1]
+                        nums[j+1] := tmp
+                    }
+                }
+            }
+            return nums
+        }
+
+        func main() {
+            var nums = [5]int{5, 2, 3, 1, 4}
+            fmt.Println(bubbleSort(nums)) // [1, 2, 3, 4, 5]
+        }
+        

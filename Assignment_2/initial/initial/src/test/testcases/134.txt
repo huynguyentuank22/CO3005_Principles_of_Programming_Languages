@@ -1,0 +1,5 @@
+
+        "this is a string without close
+
+        but u dont know"
+        

@@ -1,0 +1,7 @@
+
+        type Person struct {
+            string
+            age int
+            address int
+        }
+        

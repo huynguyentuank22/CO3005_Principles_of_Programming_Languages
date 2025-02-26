@@ -1,0 +1,6 @@
+
+        for i < 10 {
+            // loop body
+            i += 1;
+        }
+        

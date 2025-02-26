@@ -1,0 +1,4 @@
+
+        calculator.add(3, 4);
+        calculator.reset();
+        

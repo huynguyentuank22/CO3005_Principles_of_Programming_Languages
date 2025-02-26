@@ -1,0 +1,6 @@
+
+        func main() {
+            var flag boolean
+            flag := a && b || c && d || !e
+        }
+        

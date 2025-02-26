@@ -1,0 +1,3 @@
+
+        const Votien = 1[2] + foo()[2] + ID[2].b.b;
+        

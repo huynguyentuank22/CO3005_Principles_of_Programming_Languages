@@ -1,0 +1,5 @@
+
+        const row = 5
+        const col = 3
+        var arr [row][col]int // defines an array of 5 integers.
+        

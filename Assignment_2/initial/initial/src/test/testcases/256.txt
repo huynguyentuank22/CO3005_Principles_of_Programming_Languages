@@ -1,0 +1,7 @@
+
+        func main() {
+            Add(1, 2);
+            reset()
+            foo(2 + x, 4 / y)
+        }
+        
