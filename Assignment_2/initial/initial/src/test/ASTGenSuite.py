@@ -263,7 +263,8 @@ class ASTGenSuite(unittest.TestCase):
         self.assertTrue(TestAST.checkASTGen(input,expect,319))
 
     def test_method_decl(self):
-        input = """func (p Person) foo() {
+        input = """
+        func (p Person) foo() {
             var x int
         }
         """
@@ -274,6 +275,127 @@ class ASTGenSuite(unittest.TestCase):
                 )
             ))]))
         self.assertTrue(TestAST.checkASTGen(input,expect,320))
+
+    def test_mixed_decl(self):
+        input = """
+        var x int = 5
+        const Two = 2
+        func Three() int {
+            return 3
+        }
+        """
+        expect = str(Program([
+            VarDecl("x",IntType(),IntLiteral(5)),
+            ConstDecl("Two",None,IntLiteral(2)),
+            FuncDecl("Three",[],IntType(),
+            Block(
+                [Return(IntLiteral(3))]
+                )
+            )]))
+        self.assertTrue(TestAST.checkASTGen(input,expect,321))
+
+    def test_mixed_decl_2(self):
+        input = """
+        type Point struct {
+            x int
+            y int
+        }
+        func main() {
+            var p = Point{x: 1, y: 2}
+        }
+        """
+        expect = str(Program([
+            StructType("Point",
+            [('x',IntType()), ('y',IntType())], 
+            []),
+            FuncDecl("main",[],VoidType(),
+            Block(
+                [VarDecl("p",None,StructLiteral("Point",[("x",IntLiteral(1)),("y",IntLiteral(2))]))]
+                )
+            )]))
+        self.assertTrue(TestAST.checkASTGen(input,expect,322))
+
+    def test_mixed_decl_3(self):
+        input = """
+        type Point struct {
+            x int
+            y int
+        }
+
+        func (p Point) printPoint() {
+            print("(", p.x, ", ", p.y, ")")
+        }
+
+        func main() {
+            var p = Point{}
+        }
+        """
+        expect = str(Program([
+            StructType("Point",[('x',IntType()), ('y',IntType())], []),
+
+            MethodDecl("p",Id("Point"),FuncDecl("printPoint",[],VoidType(),
+            Block(
+                [FuncCall("print",
+                          [StringLiteral("\"(\""),FieldAccess(Id("p"),"x"),StringLiteral("\", \""),FieldAccess(Id("p"),"y"),StringLiteral("\")\"")])]
+                )
+            )),
+            FuncDecl("main",[],VoidType(),
+            Block(
+                [VarDecl("p",None,StructLiteral("Point",[]))]
+                )
+            )]))
+        self.assertTrue(TestAST.checkASTGen(input,expect,323))
+    
+    def test_mixed_decl_4(self):
+        input = """
+        type Shape interface {
+            Area() float
+        }        
+
+        func (c Circle) Area() float {
+            return 1
+        }
+        """
+        expect = str(Program([
+            InterfaceType("Shape",
+            [Prototype("Area",[],FloatType())]),
+
+            MethodDecl("c",Id("Circle"),FuncDecl("Area",[],FloatType(),
+            Block(
+                [Return(IntLiteral(1)
+            )])))]))
+        self.assertTrue(TestAST.checkASTGen(input,expect,324))
+
+    def test_mixed_decl_5(self):
+        input = """
+        func swap(x, y int) int {
+            var temp = x
+            x := y
+            y := temp
+            return true
+        }
+        func main() {
+            var flag = swap(1, 2)
+        }
+        """
+        expect = str(Program([
+            FuncDecl("swap",
+            [ParamDecl("x",IntType()), ParamDecl("y",IntType())],
+            IntType(),
+            Block(
+                [VarDecl("temp",None,Id("x")),
+                Assign(Id("x"),Id("y")),
+                Assign(Id("y"),Id("temp")),
+                Return(BooleanLiteral(True))]
+                )
+            ),
+            FuncDecl("main",[],VoidType(),
+            Block(
+                [VarDecl("flag",None,FuncCall("swap",[IntLiteral(1),IntLiteral(2)]))]
+                )
+            )]))
+        self.assertTrue(TestAST.checkASTGen(input,expect,325))
+        
 
     # def test_something(self):
     #     input = """

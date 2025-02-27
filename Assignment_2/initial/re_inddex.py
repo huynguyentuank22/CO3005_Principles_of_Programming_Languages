@@ -1,7 +1,6 @@
 import re
 
 # path = r'C:\Users\Huy\Documents\Tuan_Huy\CO3005_PPL\Assignment_1\initial\initial\src\test\LexerSuite.py'
-# path = r'C:\Users\Huy\Downloads\LexerSuite (2).py'
 path = r'C:\Users\Huy\Documents\Tuan_Huy\CO3005_PPL\Assignment_1\initial\initial\src\test\ParserSuite.py'
 with open(path, 'r') as f:
     data = f.readlines()

@@ -1,7 +1,14 @@
 
+        type Point struct {
+            x int
+            y int
+        }
+
+        func (p Point) printPoint() {
+            print("(", p.x, ", ", p.y, ")")
+        }
+
         func main() {
-            for i < 10 {
-                putInt(i);
-            }
+            var p = Point{}
         }
         

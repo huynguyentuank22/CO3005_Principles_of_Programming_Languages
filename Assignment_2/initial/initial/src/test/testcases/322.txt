@@ -1,7 +1,9 @@
 
+        type Point struct {
+            x int
+            y int
+        }
         func main() {
-            for i := 0; i < 10; i += 1 {
-                putInt(i);
-            }
+            var p = Point{x: 1, y: 2}
         }
         

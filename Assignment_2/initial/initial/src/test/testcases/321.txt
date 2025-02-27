@@ -1,11 +1,7 @@
 
-        func main() {
-            if (a > b){
-                putString("a is greater than b");
-            } else if (a < b) {
-                putString("a is less than b");
-            } else {
-                putString("a is equal to b");
-            }
+        var x int = 5
+        const Two = 2
+        func Three() int {
+            return 3
         }
         

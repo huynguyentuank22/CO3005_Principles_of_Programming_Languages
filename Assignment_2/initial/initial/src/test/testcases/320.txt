@@ -1,4 +1,5 @@
-func (p Person) foo() {
+
+        func (p Person) foo() {
             var x int
         }
         

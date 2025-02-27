@@ -369,15 +369,12 @@ class ASTGeneration(MiniGoVisitor):
             primary_expr = self.visit(ctx.primary_expr())
             many_index_ops = self.visit(ctx.many_index_ops())
             return ArrayCell(primary_expr, many_index_ops)
-        if ctx.primary_expr():
-            primary_expr = self.visit(ctx.primary_expr())
-            if ctx.expr_list():
-                primary_expr = self.visit(ctx.primary_expr())
-                func_name = ctx.IDENTIFIER().getText()
-                expr_list = self.visit(ctx.expr_list()) if ctx.expr_list() else []
-                return MethCall(primary_expr,func_name,expr_list)
-            if ctx.DOT() and ctx.IDENTIFIER():
-                return FieldAccess(primary_expr, ctx.IDENTIFIER().getText())
+        primary_expr = self.visit(ctx.primary_expr())
+        if ctx.LB():
+            func_name = ctx.IDENTIFIER().getText()
+            expr_list = self.visit(ctx.expr_list()) if ctx.expr_list() else []
+            return MethCall(primary_expr,func_name,expr_list)
+        return FieldAccess(primary_expr, ctx.IDENTIFIER().getText())
             
 
     # expr_list: expr COMMA expr_list | expr;
