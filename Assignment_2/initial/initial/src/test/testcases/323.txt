@@ -1,14 +1,6 @@
 
-        type Point struct {
-            x int
-            y int
-        }
-
-        func (p Point) printPoint() {
-            print("(", p.x, ", ", p.y, ")")
-        }
-
-        func main() {
-            var p = Point{}
-        }
+        var x int = 5 + 3 * 4.5 
+        var y float = -34
+        var z boolean = true && false
+        var t string = "Hello" + "World"
         

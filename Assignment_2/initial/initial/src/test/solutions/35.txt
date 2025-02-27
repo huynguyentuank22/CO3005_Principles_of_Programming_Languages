@@ -1,1 +1,0 @@
-Program([ConstDecl(a,StructLiteral(ID,[(b,BooleanLiteral(true))]))])

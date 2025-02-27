@@ -1,0 +1,6 @@
+
+        func main() {
+            Add(1, 2);
+            reset()
+        }
+        

@@ -1,1 +1,1 @@
-Program([VarDecl(p,StructLiteral(Person,[]))])
+Program([InterfaceType(Calculator,[Prototype(Reset,[],VoidType)])])

@@ -1,0 +1,4 @@
+func main(x int, y float) {
+            var z string
+        }
+        

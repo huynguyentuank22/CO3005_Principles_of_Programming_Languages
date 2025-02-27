@@ -1,1 +1,0 @@
-Program([StructType(Votien,[(a,IntType),(b,BoolType),(c,ArrayType(Id(Votien),[IntLiteral(2)]))],[])])

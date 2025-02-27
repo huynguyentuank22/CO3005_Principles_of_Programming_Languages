@@ -1,0 +1,1 @@
+Program([FuncDecl(main,[],VoidType,Block([MethodCall(Id(calculator),add,[IntLiteral(3),IntLiteral(4)])]))])

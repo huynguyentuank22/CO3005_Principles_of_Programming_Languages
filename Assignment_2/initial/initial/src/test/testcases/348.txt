@@ -1,0 +1,9 @@
+
+        type Shape interface {
+            Area() float
+        }        
+
+        func (c Circle) Area() float {
+            return 1
+        }
+        

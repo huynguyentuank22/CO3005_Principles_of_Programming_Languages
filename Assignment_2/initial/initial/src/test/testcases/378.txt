@@ -1,0 +1,8 @@
+
+        func main() {
+            for a.i[8] {
+                return;
+                return 1;
+            }
+        }
+        

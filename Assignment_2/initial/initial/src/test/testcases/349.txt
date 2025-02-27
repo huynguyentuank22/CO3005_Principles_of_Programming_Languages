@@ -1,0 +1,11 @@
+
+        func swap(x, y int) int {
+            var temp = x
+            x := y
+            y := temp
+            return true
+        }
+        func main() {
+            var flag = swap(1, 2)
+        }
+        

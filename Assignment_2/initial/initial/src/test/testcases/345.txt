@@ -1,0 +1,7 @@
+
+        var x int = 5
+        const Two = 2
+        func Three() int {
+            return 3
+        }
+        

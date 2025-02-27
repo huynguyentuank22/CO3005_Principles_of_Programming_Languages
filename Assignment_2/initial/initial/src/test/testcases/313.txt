@@ -1,6 +1,5 @@
 
-        var x int = 5 + 3 * 4.5 
-        var y float = -34
-        var z boolean = true && false
-        var t string = "Hello" + "World"
+        type Calculator interface {
+            Subtract(a, b float, c int) [2]float;
+        }
         

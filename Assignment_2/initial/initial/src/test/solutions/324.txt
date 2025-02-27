@@ -1,1 +1,1 @@
-Program([InterfaceType(Shape,[Prototype(Area,[],FloatType)]),MethodDecl(c,Id(Circle),FuncDecl(Area,[],FloatType,Block([Return(IntLiteral(1))])))])
+Program([ConstDecl(Pi,FloatLiteral(3.14)),ConstDecl(Greeting,StringLiteral("Hello, MiniGo!")),ConstDecl(MaxSize,BinaryOp(IntLiteral(100),+,IntLiteral(50)))])

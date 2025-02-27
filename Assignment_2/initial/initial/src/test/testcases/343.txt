@@ -1,0 +1,5 @@
+
+        func  (Cat c) foo() int {
+            return;
+        }
+        

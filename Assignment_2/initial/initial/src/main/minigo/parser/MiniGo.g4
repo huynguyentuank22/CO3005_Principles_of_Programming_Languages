@@ -58,7 +58,7 @@ decl_var_init: VAR IDENTIFIER DECLARE_ASSIGN expr;
 decl_var_type: VAR IDENTIFIER types;
 
 // CONST DECLARATION
-const_decl: CONST IDENTIFIER types? DECLARE_ASSIGN expr eos;
+const_decl: CONST IDENTIFIER DECLARE_ASSIGN expr eos; // types?
 
 // ARRAY DECLARATION
 // array_decl: decl_arr eos;

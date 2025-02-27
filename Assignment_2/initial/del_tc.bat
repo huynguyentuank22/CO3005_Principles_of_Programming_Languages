@@ -1,2 +1,2 @@
 @echo off
-del /q ".\initial\src\test\testcases\*.*"
+del /q ".\initial\src\test\solutions\*.*"

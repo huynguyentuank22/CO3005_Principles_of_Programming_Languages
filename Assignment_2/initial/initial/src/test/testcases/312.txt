@@ -1,3 +1,5 @@
 
-        var x int = y
+        type Calculator interface {
+            Add(x, y int) int;
+        }
         

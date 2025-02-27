@@ -1,0 +1,5 @@
+
+        func foo() [2]int {
+            return;
+        }
+        

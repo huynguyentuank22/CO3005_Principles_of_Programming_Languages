@@ -1,0 +1,5 @@
+
+        func calc(x, y, z int) int {
+            return add(x, y) * z;
+        }
+        

@@ -1,0 +1,6 @@
+
+        func main() {
+            var x boolean;
+            x := a == b && c != d || e < f || g >= h;
+        }
+        

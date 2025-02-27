@@ -1,0 +1,1 @@
+Program([FuncDecl(gcd,[ParDecl(a,IntType),ParDecl(b,IntType)],IntType,Block([For(BinaryOp(Id(b),!=,IntLiteral(0)),Block([Assign(Id(tmp),Id(a)),Assign(Id(a),Id(b)),Assign(Id(b),BinaryOp(Id(tmp),%,Id(b)))])),Return(Id(a))])),FuncDecl(main,[],VoidType,Block([MethodCall(Id(fmt),Println,[FuncCall(gcd,[IntLiteral(24),IntLiteral(36)])])]))])

@@ -1,6 +1,5 @@
 
-        var x int = 5
-        var y float = 5.5
-        var z boolean = true
-        var t string = "Hello"
+        type Calculator interface {
+            SayHello(name string)
+        }
         

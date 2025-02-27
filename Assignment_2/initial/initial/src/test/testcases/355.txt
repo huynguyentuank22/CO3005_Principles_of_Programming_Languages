@@ -1,0 +1,6 @@
+
+        func main() {
+            var a Person
+            a := a[1 + 2];
+        }
+        

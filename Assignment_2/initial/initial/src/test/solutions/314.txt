@@ -1,1 +1,1 @@
-Program([ConstDecl(Pi,FloatLiteral(3.14)),ConstDecl(Greeting,StringLiteral("Hello, MiniGo!")),ConstDecl(MaxSize,BinaryOp(IntLiteral(100),+,IntLiteral(50)))])
+Program([VarDecl(x,IntLiteral(5)),VarDecl(y,FloatLiteral(5.5)),VarDecl(z,BooleanLiteral(true)),VarDecl(t,StringLiteral("Hello"))])

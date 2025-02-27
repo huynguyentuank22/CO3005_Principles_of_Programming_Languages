@@ -1,0 +1,1 @@
+Program([FuncDecl(fib,[ParDecl(n,IntType)],IntType,Block([If(BinaryOp(Id(n),<=,IntLiteral(1)),Block([Return(Id(n))])),Return(BinaryOp(FuncCall(fib,[BinaryOp(Id(n),-,IntLiteral(1))]),+,FuncCall(fib,[BinaryOp(Id(n),-,IntLiteral(2))])))])),FuncDecl(main,[],VoidType,Block([MethodCall(Id(fmt),Println,[FuncCall(fib,[IntLiteral(10)])])]))])

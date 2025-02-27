@@ -285,7 +285,7 @@ class ParserSuite(unittest.TestCase):
         input = """
         const Pi int = 3.14;
         """
-        expect = "successful"
+        expect = "Error on line 2 col 18: int"
         self.assertTrue(TestParser.checkParser(input,expect,230))
 
     def test_const_declare_without_init(self):
@@ -1170,15 +1170,13 @@ class ParserSuite(unittest.TestCase):
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,300))
 
-    # def test_something(self):
-    #     input = """
-    #     type Person struct {
-    #         name string;
-    #         age int;
-    #         func (c Person) SayHello() {
-    #             println("Hello, my name is ", c.name);
-    #         }
-    #     }
-    #     """
-    #     expect = "Error on line 4 col 12: func"
-    #     self.assertTrue(TestParser.checkParser(input,expect,301))
+    def test_something(self):
+        input = """
+        func main() {
+            var tmp int;
+            tmp := 1[2] + foo()[2] + ID[2].b.b;
+            const Votien = 1[2] + foo()[2] + ID[2].b.b;
+        }
+        """
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,998))

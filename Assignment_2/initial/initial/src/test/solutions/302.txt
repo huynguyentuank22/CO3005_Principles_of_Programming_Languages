@@ -1,1 +1,1 @@
-Program([VarDecl(arr,ArrayType(Id(Person),[IntLiteral(5)])),VarDecl(multi_arr,ArrayType(IntType,[IntLiteral(2),IntLiteral(5)]))])
+Program([VarDecl(arr,ArrayType(FloatType,[IntLiteral(5)]))])

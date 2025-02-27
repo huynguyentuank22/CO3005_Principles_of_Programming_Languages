@@ -1,1 +1,0 @@
-Program([ConstDecl(a,BinaryOp(BinaryOp(IntLiteral(1),&&,IntLiteral(2)),||,IntLiteral(3)))])

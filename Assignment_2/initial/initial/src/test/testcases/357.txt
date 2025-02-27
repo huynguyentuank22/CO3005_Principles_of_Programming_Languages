@@ -1,0 +1,6 @@
+
+        func main() {
+            var tmp int;
+            tmp := 1[2] + foo()[2] + ID[2].b.b;
+        }
+        

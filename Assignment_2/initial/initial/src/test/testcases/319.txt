@@ -1,4 +1,3 @@
-func main(x int, y float) string {
-            return "Hello"
-        }
+
+        var p = Person{name: "John", age: 20}
         

@@ -1,5 +1,6 @@
 
-        const Pi = 3.14
-        const Greeting = "Hello, MiniGo!"
-        const MaxSize = 100 + 50
+        var x = 5;
+        var y = 5.5;
+        var z = true;
+        var t = "Hello";
         

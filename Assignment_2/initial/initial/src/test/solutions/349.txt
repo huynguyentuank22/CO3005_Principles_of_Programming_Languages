@@ -1,0 +1,1 @@
+Program([FuncDecl(swap,[ParDecl(x,IntType),ParDecl(y,IntType)],IntType,Block([VarDecl(temp,Id(x)),Assign(Id(x),Id(y)),Assign(Id(y),Id(temp)),Return(BooleanLiteral(true))])),FuncDecl(main,[],VoidType,Block([VarDecl(flag,FuncCall(swap,[IntLiteral(1),IntLiteral(2)]))]))])

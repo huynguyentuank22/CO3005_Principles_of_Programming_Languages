@@ -1,0 +1,6 @@
+
+        func calc(x, y, z int) int {
+            var result int = 2 + x - y * z;
+            return result;
+        }
+        

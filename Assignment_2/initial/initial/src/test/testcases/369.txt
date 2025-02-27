@@ -1,0 +1,6 @@
+
+        func main() {
+            arr[2 + i] *= 3
+            Person.age += 1
+        }
+        

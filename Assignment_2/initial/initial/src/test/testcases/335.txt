@@ -1,0 +1,5 @@
+
+        func foo(a int, b float, c string, d Person, f[1][2]int) Person{
+            return d;
+        }
+        

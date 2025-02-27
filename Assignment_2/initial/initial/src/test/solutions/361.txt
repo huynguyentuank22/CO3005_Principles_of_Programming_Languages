@@ -1,0 +1,1 @@
+Program([FuncDecl(main,[],VoidType,Block([FuncCall(Add,[IntLiteral(1),IntLiteral(2)]),FuncCall(reset,[])]))])

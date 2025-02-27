@@ -1,0 +1,1 @@
+Program([FuncDecl(main,[],VoidType,Block([VarDecl(x,BoolType),Assign(Id(x),BinaryOp(BinaryOp(BinaryOp(BinaryOp(BinaryOp(Id(a),+,BinaryOp(BinaryOp(Id(b),*,Id(c)),/,Id(d))),-,BinaryOp(Id(e),%,Id(f))),==,Id(g)),&&,BinaryOp(FieldAccess(Id(h),age),>,IntLiteral(18))),||,BinaryOp(ArrayCell(Id(arr),[Id(i)]),<,ArrayCell(Id(arr),[Id(j)]))))]))])

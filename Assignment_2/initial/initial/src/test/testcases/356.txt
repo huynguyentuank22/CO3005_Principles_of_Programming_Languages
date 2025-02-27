@@ -1,0 +1,6 @@
+
+        func main() {
+            var a string
+            a := a.b.c.d.e;
+        }
+        

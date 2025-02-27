@@ -1,1 +1,0 @@
-Program([ConstDecl(a,FieldAccess(StructLiteral(ID,[]),a))])

@@ -1,0 +1,1 @@
+Program([InterfaceType(Shape,[Prototype(Area,[],FloatType)]),MethodDecl(c,Id(Circle),FuncDecl(Area,[],FloatType,Block([Return(IntLiteral(1))])))])

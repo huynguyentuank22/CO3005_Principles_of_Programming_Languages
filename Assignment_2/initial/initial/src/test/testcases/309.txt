@@ -1,3 +1,5 @@
 
-        var p = Person{name: "John", age: 20}
+        type FullStruct struct {
+            David       Person
+        }
         

@@ -1,1 +1,1 @@
-Program([FuncDecl(main,[ParDecl(x,IntType),ParDecl(y,FloatType)],VoidType,Block([VarDecl(z,StringType)]))])
+Program([VarDecl(arr,ArrayLiteral([BinaryOp(IntLiteral(5),+,IntLiteral(3))],IntType,[IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4),IntLiteral(5)]))])

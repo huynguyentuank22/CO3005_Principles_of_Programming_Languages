@@ -1,0 +1,1 @@
+Program([VarDecl(x,IntType,IntLiteral(5)),ConstDecl(Two,IntLiteral(2)),FuncDecl(Three,[],IntType,Block([Return(IntLiteral(3))]))])

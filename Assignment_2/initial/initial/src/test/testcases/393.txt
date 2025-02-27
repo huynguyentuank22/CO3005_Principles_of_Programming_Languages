@@ -1,0 +1,5 @@
+
+        func calc(x, y, z int) int {
+            return (x - y) / z <= a && b || !c + d[23 + 5] % huy.abc(12, 4);
+        }
+        

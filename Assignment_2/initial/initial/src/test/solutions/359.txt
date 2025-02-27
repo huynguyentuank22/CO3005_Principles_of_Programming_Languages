@@ -1,0 +1,1 @@
+Program([FuncDecl(main,[],VoidType,Block([Assign(FieldAccess(Id(p),name),StringLiteral("John")),Assign(FieldAccess(Id(p),age),IntLiteral(20))]))])

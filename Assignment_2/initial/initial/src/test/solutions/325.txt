@@ -1,1 +1,1 @@
-Program([FuncDecl(swap,[ParDecl(x,IntType),ParDecl(y,IntType)],IntType,Block([VarDecl(temp,Id(x)),Assign(Id(x),Id(y)),Assign(Id(y),Id(temp)),Return(BooleanLiteral(true))])),FuncDecl(main,[],VoidType,Block([VarDecl(flag,FuncCall(swap,[IntLiteral(1),IntLiteral(2)]))]))])
+Program([ConstDecl(x,BinaryOp(BinaryOp(IntLiteral(10),+,IntLiteral(5)),-,BinaryOp(BinaryOp(BinaryOp(IntLiteral(3),*,IntLiteral(2)),/,IntLiteral(4)),%,IntLiteral(2))))])

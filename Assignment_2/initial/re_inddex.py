@@ -1,13 +1,14 @@
 import re
 
 # path = r'C:\Users\Huy\Documents\Tuan_Huy\CO3005_PPL\Assignment_1\initial\initial\src\test\LexerSuite.py'
-path = r'C:\Users\Huy\Documents\Tuan_Huy\CO3005_PPL\Assignment_1\initial\initial\src\test\ParserSuite.py'
+# path = r'C:\Users\Huy\Documents\Tuan_Huy\CO3005_PPL\Assignment_1\initial\initial\src\test\ParserSuite.py'
+path = r"C:\Users\Huy\Documents\Tuan_Huy\CO3005_PPL\Assignment_2\initial\initial\src\test\ASTGenSuite.py"
 with open(path, 'r') as f:
     data = f.readlines()
 
 # đánh lại các testcase từ sau testcase có index và bắt đầu từ index start
-index = 201
-start = 201
+index = 301
+start = 301
 pattern = 'self.assertTrue'
 flag = False
 

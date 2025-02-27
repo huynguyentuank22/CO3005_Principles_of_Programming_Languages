@@ -1,1 +1,1 @@
-Program([StructType(FullStruct,[(ID,IntType),(Name,StringType),(IsActive,BoolType),(Price,FloatType),(Ratings,ArrayType(IntType,[IntLiteral(3)])),(David,Id(Person))],[])])
+Program([VarDecl(arr,ArrayType(FloatType,[BinaryOp(IntLiteral(5),+,IntLiteral(3))]))])

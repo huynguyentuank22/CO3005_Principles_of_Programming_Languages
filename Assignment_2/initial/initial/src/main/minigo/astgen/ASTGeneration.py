@@ -49,9 +49,9 @@ class ASTGeneration(MiniGoVisitor):
     # const_decl: CONST IDENTIFIER types? DECLARE_ASSIGN expr eos;
     def visitConst_decl(self,ctx:MiniGoParser.Const_declContext):
         id = ctx.IDENTIFIER().getText()
-        typ = self.visit(ctx.types()) if ctx.types() else None
+        # typ = self.visit(ctx.types()) if ctx.types() else None
         expr = self.visit(ctx.expr())
-        return ConstDecl(id,typ,expr)   
+        return ConstDecl(id,None,expr)   
     
     # array_type: dimensions (primitive_type | IDENTIFIER);
     def visitArray_type(self,ctx:MiniGoParser.Array_typeContext):

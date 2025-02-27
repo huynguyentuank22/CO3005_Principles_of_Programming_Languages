@@ -1,5 +1,3 @@
 
-        func (p Person) foo() {
-            var x int
-        }
+        var p = Person{}
         

@@ -1,1 +1,1 @@
-Program([MethodDecl(p,Id(Person),FuncDecl(foo,[],VoidType,Block([VarDecl(x,IntType)])))])
+Program([VarDecl(p,StructLiteral(Person,[]))])

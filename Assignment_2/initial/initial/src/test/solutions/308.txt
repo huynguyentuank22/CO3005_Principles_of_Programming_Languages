@@ -1,1 +1,1 @@
-Program([VarDecl(arr,ArrayLiteral([IntLiteral(5)],IntType,[StringLiteral("1"),IntLiteral(2),FloatLiteral(3.4),BooleanLiteral(true),Nil]))])
+Program([StructType(FullStruct,[(Ratings,ArrayType(IntType,[IntLiteral(3)]))],[])])

@@ -1,1 +1,1 @@
-Program([VarDecl(x,IntType,BinaryOp(IntLiteral(5),+,BinaryOp(IntLiteral(3),*,FloatLiteral(4.5)))),VarDecl(y,FloatType,UnaryOp(-,IntLiteral(34))),VarDecl(z,BoolType,BinaryOp(BooleanLiteral(true),&&,BooleanLiteral(false))),VarDecl(t,StringType,BinaryOp(StringLiteral("Hello"),+,StringLiteral("World")))])
+Program([InterfaceType(Calculator,[Prototype(Subtract,[FloatType,FloatType,IntType],ArrayType(FloatType,[IntLiteral(2)]))])])

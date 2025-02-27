@@ -1,0 +1,1 @@
+Program([FuncDecl(main,[],VoidType,Block([If(BinaryOp(Id(x),>,IntLiteral(10)),Block([FuncCall(println,[StringLiteral("x is greater than 10")])]),If(BinaryOp(Id(x),==,IntLiteral(10)),Block([FuncCall(println,[StringLiteral("x is equal to 10")])])))]))])

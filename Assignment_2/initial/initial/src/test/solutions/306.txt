@@ -1,1 +1,1 @@
-Program([VarDecl(x,IntLiteral(5)),VarDecl(y,FloatLiteral(5.5)),VarDecl(z,BooleanLiteral(true)),VarDecl(t,StringLiteral("Hello"))])
+Program([StructType(Point,[(x,IntType),(y,IntType)],[])])

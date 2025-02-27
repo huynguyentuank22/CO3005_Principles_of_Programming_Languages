@@ -1,10 +1,3 @@
 
-        type FullStruct struct {
-            ID          int;              
-            Name        string;            
-            IsActive    boolean;              
-            Price       float;           
-            Ratings     [3]int;
-            David       Person;  
-        }
+        var arr [5+3]float;
         

@@ -1,0 +1,11 @@
+
+        func main() {
+            for idx, value := range arr {
+                for _, v := range arr[idx] {
+                    for _, x := range arr[idx + x] {
+                        println(value, v, x);
+                    }
+                }
+            }
+        }
+        
