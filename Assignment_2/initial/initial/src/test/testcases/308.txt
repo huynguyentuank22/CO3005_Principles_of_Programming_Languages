@@ -1,5 +1,5 @@
 
         type FullStruct struct {
-            Ratings     [3]int;       
+            David       Person
         }
         

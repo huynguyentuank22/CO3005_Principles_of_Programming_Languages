@@ -1,5 +1,5 @@
 
-        type FullStruct struct {
-            David       Person
+        type Calculator interface {
+            Reset()
         }
         

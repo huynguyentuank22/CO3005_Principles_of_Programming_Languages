@@ -1,1 +1,1 @@
-Program([VarDecl(arr,ArrayType(FloatType,[BinaryOp(IntLiteral(5),+,IntLiteral(3))]))])
+Program([VarDecl(huy,Id(Person))])

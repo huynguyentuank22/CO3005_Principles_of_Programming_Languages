@@ -1,8 +1,5 @@
 
         type FullStruct struct {
-            ID          int;              
-            Name        string;            
-            IsActive    boolean;              
-            Price       float;             
+            Ratings     [3]int;       
         }
         

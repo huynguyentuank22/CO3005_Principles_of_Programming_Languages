@@ -1,6 +1,10 @@
 
-        var x = 5;
-        var y = 5.5;
-        var z = true;
-        var t = "Hello";
+        func main() {
+            var x = 0x1;
+            var y = 0o1;
+            var z = 0b1;
+            var t = 0X1;
+            var u = 0O1;
+            var v = 0B1;
+        }
         

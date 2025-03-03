@@ -1,6 +1,8 @@
 
-        type Point struct {
-            x int
-            y int
+        type FullStruct struct {
+            ID          int;              
+            Name        string;            
+            IsActive    boolean;              
+            Price       float;             
         }
         

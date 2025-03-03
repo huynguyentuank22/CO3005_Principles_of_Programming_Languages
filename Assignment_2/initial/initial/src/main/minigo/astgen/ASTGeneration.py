@@ -66,8 +66,14 @@ class ASTGeneration(MiniGoVisitor):
         return [self.visit(ctx.dim())] + self.visit(ctx.dimensions())
 
     # dim: LSB expr RSB;
+    # def visitDim(self,ctx:MiniGoParser.DimContext):
+    #     return self.visit(ctx.expr())
+    
+    # dim: LSB (IDENTIFIER | INT_LITERAL) RSB;
     def visitDim(self,ctx:MiniGoParser.DimContext):
-        return self.visit(ctx.expr())
+        if ctx.IDENTIFIER():
+            return Id(ctx.IDENTIFIER().getText())
+        return IntLiteral(int(ctx.INT_LITERAL().getText()))
     
     # array_literal: array_type ele_list;
     def visitArray_literal(self,ctx:MiniGoParser.Array_literalContext):
@@ -261,13 +267,22 @@ class ASTGeneration(MiniGoVisitor):
     # primitive_lit: INT_LITERAL | FLOAT_LITERAL | STRING_LITERAL | BOOLEAN_LITERAL | NIL_LITERAL;
     def visitPrimitive_lit(self,ctx:MiniGoParser.Primitive_litContext):
         if ctx.INT_LITERAL():
-            return IntLiteral(int(ctx.INT_LITERAL().getText()))
+            text = ctx.INT_LITERAL().getText()
+            if text.startswith(("0b", "0B")):
+                base = 2
+            elif text.startswith(("0o", "0O")):
+                base = 8
+            elif text.startswith(("0x", "0X")): 
+                base = 16
+            else:
+                base = 10
+            return IntLiteral(int(text, base))
         if ctx.FLOAT_LITERAL():
             return FloatLiteral(float(ctx.FLOAT_LITERAL().getText()))
         if ctx.STRING_LITERAL():
-            return StringLiteral(str(ctx.STRING_LITERAL().getText()))
+            return StringLiteral(ctx.STRING_LITERAL().getText())
         if ctx.BOOLEAN_LITERAL():
-            return BooleanLiteral(ctx.BOOLEAN_LITERAL().getText())
+            return BooleanLiteral(ctx.BOOLEAN_LITERAL().getText() == 'true') 
         return NilLiteral()
     
     # literals: primitive_lit | array_literal | struct_literal;

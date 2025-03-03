@@ -1,1 +1,1 @@
-Program([StructType(FullStruct,[(ID,IntType),(Name,StringType),(IsActive,BoolType),(Price,FloatType)],[])])
+Program([StructType(FullStruct,[(Ratings,ArrayType(IntType,[IntLiteral(3)]))],[])])

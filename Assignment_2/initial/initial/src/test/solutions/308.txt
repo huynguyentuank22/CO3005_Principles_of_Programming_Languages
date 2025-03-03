@@ -1,1 +1,1 @@
-Program([StructType(FullStruct,[(Ratings,ArrayType(IntType,[IntLiteral(3)]))],[])])
+Program([StructType(FullStruct,[(David,Id(Person))],[])])

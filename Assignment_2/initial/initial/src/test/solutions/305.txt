@@ -1,1 +1,1 @@
-Program([VarDecl(huy,Id(Person))])
+Program([StructType(Point,[(x,IntType),(y,IntType)],[])])

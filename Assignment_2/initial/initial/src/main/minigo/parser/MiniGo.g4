@@ -67,7 +67,8 @@ const_decl: CONST IDENTIFIER DECLARE_ASSIGN expr eos; // types?
 array_type: dimensions (primitive_type | IDENTIFIER);
 // dimensions: (LSB (INT_LITERAL | IDENTIFIER) RSB)+;
 dimensions: dim dimensions | dim;
-dim: LSB expr RSB;
+// dim: LSB expr RSB;
+dim: LSB (IDENTIFIER | INT_LITERAL) RSB;
 
 array_literal: array_type ele_list;
 // ele_list: LCB (ele (COMMA ele)*)? RCB;

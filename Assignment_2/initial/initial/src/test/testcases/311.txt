@@ -1,5 +1,5 @@
 
         type Calculator interface {
-            SayHello(name string)
+            Add(x, y int) int;
         }
         

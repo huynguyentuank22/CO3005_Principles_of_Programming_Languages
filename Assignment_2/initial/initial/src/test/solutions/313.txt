@@ -1,1 +1,1 @@
-Program([InterfaceType(Calculator,[Prototype(Subtract,[FloatType,FloatType,IntType],ArrayType(FloatType,[IntLiteral(2)]))])])
+Program([VarDecl(x,IntLiteral(5)),VarDecl(y,FloatLiteral(5.5)),VarDecl(z,BooleanLiteral(true)),VarDecl(t,StringLiteral("Hello"))])

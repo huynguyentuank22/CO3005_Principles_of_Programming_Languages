@@ -35,15 +35,6 @@ class ASTGenSuite(unittest.TestCase):
             VarDecl("multi_arr",ArrayType([IntLiteral(2),IntLiteral(5),IntLiteral(3)], IntType()),None)
             ]))
         self.assertTrue(TestAST.checkASTGen(input,expect,303))
-
-    def test_array_type_with_expr_dim(self):
-        input = """
-        var arr [5+3]float;
-        """
-        expect = str(Program([
-            VarDecl("arr",ArrayType([BinaryOp("+",IntLiteral(5),IntLiteral(3))], FloatType()),None),
-            ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,304))
     
     def test_var_decl_struct_type(self):
         input = """
@@ -52,7 +43,7 @@ class ASTGenSuite(unittest.TestCase):
         expect = str(Program([
             VarDecl("huy",Id("Person"),None),
             ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,305))
+        self.assertTrue(TestAST.checkASTGen(input,expect,304))
 
     def test_struct_type(self):
         input = """
@@ -66,7 +57,7 @@ class ASTGenSuite(unittest.TestCase):
             [('x',IntType()), ('y',IntType())], 
             [])
             ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,306))
+        self.assertTrue(TestAST.checkASTGen(input,expect,305))
 
     def test_struct_type_with_prim_type(self):
         input = """
@@ -87,7 +78,7 @@ class ASTGenSuite(unittest.TestCase):
             ],
             [])
             ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,307))
+        self.assertTrue(TestAST.checkASTGen(input,expect,306))
 
     def test_struct_type_with_array_type(self):
         input = """
@@ -102,7 +93,7 @@ class ASTGenSuite(unittest.TestCase):
             ],
             [])
             ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,308))
+        self.assertTrue(TestAST.checkASTGen(input,expect,307))
 
     def test_struct_type_with_struct_type(self):
         input = """
@@ -117,7 +108,7 @@ class ASTGenSuite(unittest.TestCase):
             ],
             [])
             ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,309))
+        self.assertTrue(TestAST.checkASTGen(input,expect,308))
 
     def test_interface_type(self):
         input = """
@@ -131,7 +122,7 @@ class ASTGenSuite(unittest.TestCase):
                 Prototype("Reset",[],VoidType())
             ])
             ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,310))
+        self.assertTrue(TestAST.checkASTGen(input,expect,309))
 
     def test_interface_type_2(self):
         input = """
@@ -145,7 +136,7 @@ class ASTGenSuite(unittest.TestCase):
                 Prototype("SayHello",[StringType()],VoidType())
             ])
             ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,311))
+        self.assertTrue(TestAST.checkASTGen(input,expect,310))
 
     def test_interface_type_3(self):
         input = """
@@ -159,7 +150,7 @@ class ASTGenSuite(unittest.TestCase):
                 Prototype("Add",[IntType(),IntType()],IntType())
             ])
             ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,312))
+        self.assertTrue(TestAST.checkASTGen(input,expect,311))
 
     def test_interface_type_4(self):
         input = """
@@ -173,7 +164,7 @@ class ASTGenSuite(unittest.TestCase):
                 Prototype("Subtract",[FloatType(),FloatType(),IntType()],ArrayType([IntLiteral(2)],FloatType()))
             ])
             ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,313))
+        self.assertTrue(TestAST.checkASTGen(input,expect,312))
 
     def test_prim_literal(self):
         input = """
@@ -188,7 +179,52 @@ class ASTGenSuite(unittest.TestCase):
             VarDecl("z",None,BooleanLiteral(True)),
             VarDecl("t",None,StringLiteral("\"Hello\""))
             ]))
+        self.assertTrue(TestAST.checkASTGen(input,expect,313))
+    
+    def test_complex_int_literal(self):
+        input = """
+        func main() {
+            var x = 0x1;
+            var y = 0o1;
+            var z = 0b1;
+            var t = 0X1;
+            var u = 0O1;
+            var v = 0B1;
+        }
+        """
+        expect = str(Program([
+            FuncDecl("main",[],VoidType(),
+            Block([
+                VarDecl("x",None,IntLiteral(1)),
+                VarDecl("y",None,IntLiteral(1)),
+                VarDecl("z",None,IntLiteral(1)),
+                VarDecl("t",None,IntLiteral(1)),
+                VarDecl("u",None,IntLiteral(1)),
+                VarDecl("v",None,IntLiteral(1))
+                ])
+            )]))
         self.assertTrue(TestAST.checkASTGen(input,expect,314))
+
+    def test_complex_float_literal(self):
+        input = """
+        func main() {
+            var x = 1.e432;
+            var y = 1.0e-2;
+            var z = 1.0e+2
+            var t = 1.0e2
+        }
+        """
+        expect = str(Program([
+            FuncDecl("main",[],VoidType(),
+            Block([
+                VarDecl("x",None,FloatLiteral(1.e432)),
+                VarDecl("y",None,FloatLiteral(1.0e-2)),
+                VarDecl("z",None,FloatLiteral(100.0)),
+                VarDecl("t",None,FloatLiteral(100.0)
+                )
+                ])
+            )]))
+        self.assertTrue(TestAST.checkASTGen(input,expect,315))
 
     def test_array_literal(self):
         input = """
@@ -197,7 +233,7 @@ class ASTGenSuite(unittest.TestCase):
         expect = str(Program([
             VarDecl("arr",None,ArrayLiteral([IntLiteral(5)], IntType(), [IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4),IntLiteral(5)])),
             ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,315))
+        self.assertTrue(TestAST.checkASTGen(input,expect,316))
 
     def test_array_literal_with_mul_dim(self):
         input = """
@@ -205,15 +241,6 @@ class ASTGenSuite(unittest.TestCase):
         """
         expect = str(Program([
             VarDecl("multi_arr",None,ArrayLiteral([IntLiteral(2),IntLiteral(5),IntLiteral(3)], IntType(), [[IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4),IntLiteral(5)], [IntLiteral(6),IntLiteral(7),IntLiteral(8),IntLiteral(9),IntLiteral(10)]]))
-            ]))
-        self.assertTrue(TestAST.checkASTGen(input,expect,316))
-
-    def test_array_literal_with_expr(self):
-        input = """
-        var arr = [5+3]int{1,2,3,4,5};
-        """
-        expect = str(Program([
-            VarDecl("arr",None,ArrayLiteral([BinaryOp("+",IntLiteral(5),IntLiteral(3))], IntType(), [IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4),IntLiteral(5)])),
             ]))
         self.assertTrue(TestAST.checkASTGen(input,expect,317))
 

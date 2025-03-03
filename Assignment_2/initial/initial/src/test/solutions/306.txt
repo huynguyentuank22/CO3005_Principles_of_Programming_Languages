@@ -1,1 +1,1 @@
-Program([StructType(Point,[(x,IntType),(y,IntType)],[])])
+Program([StructType(FullStruct,[(ID,IntType),(Name,StringType),(IsActive,BoolType),(Price,FloatType)],[])])

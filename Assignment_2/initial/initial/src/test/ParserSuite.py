@@ -486,7 +486,7 @@ class ParserSuite(unittest.TestCase):
             arr := [2.3]int{10, 20, 30}
         }
         """
-        expect = "successful"
+        expect = "Error on line 3 col 21: 2.3"
         self.assertTrue(TestParser.checkParser(input,expect,251))
 
     def test_array_literal_with_empty(self):
@@ -1170,13 +1170,13 @@ class ParserSuite(unittest.TestCase):
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,300))
 
-    def test_something(self):
-        input = """
-        func main() {
-            var tmp int;
-            tmp := 1[2] + foo()[2] + ID[2].b.b;
-            const Votien = 1[2] + foo()[2] + ID[2].b.b;
-        }
-        """
-        expect = "successful"
-        self.assertTrue(TestParser.checkParser(input,expect,998))
+    # def test_something(self):
+    #     input = """
+    #     func main() {
+    #         var tmp int;
+    #         tmp := 1[2] + foo()[2] + ID[2].b.b;
+    #         const Votien = 1[2] + foo()[2] + ID[2].b.b;
+    #     }
+    #     """
+    #     expect = "successful"
+    #     self.assertTrue(TestParser.checkParser(input,expect,998))

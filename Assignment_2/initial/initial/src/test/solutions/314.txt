@@ -1,1 +1,1 @@
-Program([VarDecl(x,IntLiteral(5)),VarDecl(y,FloatLiteral(5.5)),VarDecl(z,BooleanLiteral(true)),VarDecl(t,StringLiteral("Hello"))])
+Program([FuncDecl(main,[],VoidType,Block([VarDecl(x,IntLiteral(1)),VarDecl(y,IntLiteral(1)),VarDecl(z,IntLiteral(1)),VarDecl(t,IntLiteral(1)),VarDecl(u,IntLiteral(1)),VarDecl(v,IntLiteral(1))]))])

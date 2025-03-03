@@ -1,5 +1,6 @@
 
-        type Calculator interface {
-            Subtract(a, b float, c int) [2]float;
-        }
+        var x = 5;
+        var y = 5.5;
+        var z = true;
+        var t = "Hello";
         
