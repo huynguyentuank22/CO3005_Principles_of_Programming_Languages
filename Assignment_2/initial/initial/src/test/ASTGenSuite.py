@@ -131,7 +131,7 @@ class ASTGenSuite(unittest.TestCase):
             var v = 0B1;
         }
         """
-        expect = str(Program([FuncDecl("main",[],VoidType(),Block([VarDecl("x",None,IntLiteral(1)),VarDecl("y",None,IntLiteral(1)),VarDecl("z",None,IntLiteral(1)),VarDecl("t",None,IntLiteral(1)),VarDecl("u",None,IntLiteral(1)),VarDecl("v",None,IntLiteral(1))]))]))
+        expect = str(Program([FuncDecl('main',[],VoidType(),Block([VarDecl('x',None,IntLiteral('0x1')),VarDecl('y',None,IntLiteral('0o1')),VarDecl('z',None,IntLiteral('0b1')),VarDecl('t',None,IntLiteral('0X1')),VarDecl('u',None,IntLiteral('0O1')),VarDecl('v',None,IntLiteral('0B1'))]))]))
         self.assertTrue(TestAST.checkASTGen(input,expect,314))
 
     def test_complex_float_literal(self):
@@ -143,7 +143,7 @@ class ASTGenSuite(unittest.TestCase):
             var t = 1.0e2
         }
         """
-        expect = str(Program([FuncDecl("main",[],VoidType(),Block([VarDecl("x",None,FloatLiteral(1.e12)),VarDecl("y",None,FloatLiteral(0.01)),VarDecl("z",None,FloatLiteral(100.0)),VarDecl("t",None,FloatLiteral(100.0))]))]))
+        expect = str(Program([FuncDecl("main",[],VoidType(),Block([VarDecl("x",None,FloatLiteral('1.e12')),VarDecl("y",None,FloatLiteral('1.0e-2')),VarDecl("z",None,FloatLiteral('1.0e+2')),VarDecl("t",None,FloatLiteral('1.0e2'))]))]))
         self.assertTrue(TestAST.checkASTGen(input,expect,315))
 
     def test_array_literal(self):

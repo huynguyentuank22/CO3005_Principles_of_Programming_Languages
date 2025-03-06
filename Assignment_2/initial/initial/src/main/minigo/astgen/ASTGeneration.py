@@ -92,12 +92,11 @@ class ASTGeneration(MiniGoVisitor):
             return [self.visit(ctx.ele())]
         return [self.visit(ctx.ele())] + self.visit(ctx.many_ele())
     
-    # ele: ele_list | primitive_lit;
+    # ele: ele_list | primitive_lit | struct_literal | IDENTIFIER;
     def visitEle(self,ctx:MiniGoParser.EleContext):
-        if ctx.ele_list():
-            return self.visit(ctx.ele_list())
-        if ctx.primitive_lit():
-            return self.visit(ctx.primitive_lit())
+        if ctx.IDENTIFIER():
+            return Id(ctx.IDENTIFIER().getText())
+        return self.visit(ctx.getChild(0))
         
     # struct_decl: TYPE IDENTIFIER struct_type eos;
     def visitStruct_decl(self,ctx:MiniGoParser.Struct_declContext):
@@ -105,7 +104,7 @@ class ASTGeneration(MiniGoVisitor):
         elements = []
         methods = []
         for ele in self.visit(ctx.struct_type()):
-            if ele.__class__.__name__ == "MethodDecl":
+            if isinstance(ele,MethodDecl):
                 methods.append(ele)
             else:
                 elements.append(ele)
@@ -267,22 +266,22 @@ class ASTGeneration(MiniGoVisitor):
     # primitive_lit: INT_LITERAL | FLOAT_LITERAL | STRING_LITERAL | BOOLEAN_LITERAL | NIL_LITERAL;
     def visitPrimitive_lit(self,ctx:MiniGoParser.Primitive_litContext):
         if ctx.INT_LITERAL():
-            text = ctx.INT_LITERAL().getText()
-            if text.startswith(("0b", "0B")):
-                base = 2
-            elif text.startswith(("0o", "0O")):
-                base = 8
-            elif text.startswith(("0x", "0X")): 
-                base = 16
-            else:
-                base = 10
-            return IntLiteral(int(text, base))
+            # text = ctx.INT_LITERAL().getText()
+            # if text.startswith(("0b", "0B")):
+            #     base = 2
+            # elif text.startswith(("0o", "0O")):
+            #     base = 8
+            # elif text.startswith(("0x", "0X")): 
+            #     base = 16
+            # else:
+            #     base = 10
+            return IntLiteral(ctx.INT_LITERAL().getText())
         if ctx.FLOAT_LITERAL():
-            return FloatLiteral(float(ctx.FLOAT_LITERAL().getText()))
+            return FloatLiteral(ctx.FLOAT_LITERAL().getText())
         if ctx.STRING_LITERAL():
             return StringLiteral(ctx.STRING_LITERAL().getText())
         if ctx.BOOLEAN_LITERAL():
-            return BooleanLiteral(ctx.BOOLEAN_LITERAL().getText() == 'true') 
+            return BooleanLiteral(ctx.BOOLEAN_LITERAL().getText()) 
         return NilLiteral()
     
     # literals: primitive_lit | array_literal | struct_literal;
