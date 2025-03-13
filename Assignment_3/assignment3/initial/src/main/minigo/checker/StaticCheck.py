@@ -25,18 +25,31 @@ class Symbol:
         return "Symbol(" + str(self.name) + "," + str(self.mtype) + ("" if self.value is None else "," + str(self.value)) + ")"
 
 class StaticChecker(BaseVisitor,Utils):
-        
-    
     def __init__(self,ast):
         self.ast = ast
-        self.global_envi = [Symbol("getInt",MType([],IntType())),Symbol("putIntLn",MType([IntType()],VoidType()))]
+        self.global_envi = [Symbol("getInt",MType([],IntType())),
+                            Symbol("putInt",MType([IntType()],VoidType())),
+                            Symbol("putIntLn",MType([IntType()],VoidType())),
+                            Symbol("getFloat",MType([],FloatType())),
+                            Symbol("putFloat",MType([FloatType()],VoidType())),
+                            Symbol("putFloatLn",MType([FloatType()],VoidType())),
+                            Symbol("getBool",MType([],BoolType())),
+                            Symbol("putBool",MType([BoolType()],VoidType())),
+                            Symbol("putBoolLn",MType([BoolType()],VoidType())),
+                            Symbol("getString",MType([],StringType())),
+                            Symbol("putString",MType([StringType()],VoidType())),
+                            Symbol("putStringLn",MType([StringType()],VoidType())),
+                            Symbol("putLn",MType([],VoidType()))]
  
     
     def check(self):
         return self.visit(self.ast,self.global_envi)
 
     def visitProgram(self,ast, c):
-        reduce(lambda acc,ele: [self.visit(ele,acc)] + acc , ast.decl,c)
+        scope = reduce(lambda acc,ele: [self.visit(ele,acc)] + acc , ast.decl,c)
+        print("\n=== Global Scope Symbols ===")
+        for x in scope:
+            print(str(x))
         return c
 
     def visitVarDecl(self, ast, c):
@@ -51,6 +64,14 @@ class StaticChecker(BaseVisitor,Utils):
                 raise TypeMismatch(ast)
         return Symbol(ast.varName, ast.varType,None)
         
+    def visitConstDecl(self, ast, c):
+        res = self.lookup(ast.conName, c, lambda x: x.name)
+        if not res is None:
+            raise Redeclared(Constant(), ast.conName)
+        conType = self.visit(ast.iniExpr, c)
+        if ast.conType is None:
+            ast.conType = conType
+        return Symbol(ast.conName, ast.conType,ast.iniExpr)
 
     def visitFuncDecl(self,ast, c):
         res = self.lookup(ast.name, c, lambda x: x.name)
@@ -63,6 +84,12 @@ class StaticChecker(BaseVisitor,Utils):
     
     def visitFloatLiteral(self,ast, c):
         return FloatType()
+    
+    def visitStringLiteral(self,ast, c):
+        return StringType()
+    
+    def visitBooleanLiteral(self,ast, c):
+        return BoolType()
     
     def visitId(self,ast,c):
         res = self.lookup(ast.name, c, lambda x: x.name)

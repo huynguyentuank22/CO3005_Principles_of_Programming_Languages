@@ -1,1 +1,8 @@
-Program([VarDecl(a,IntType,Id(b))])
+
+        func foo() {
+            return
+        } 
+        func foo() {
+            return
+        }
+        
