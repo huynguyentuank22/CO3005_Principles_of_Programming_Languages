@@ -3,10 +3,35 @@
 """
 from AST import * 
 from Visitor import *
-from Utils import Utils
+# from Utils import Utils
 from StaticError import *
 from functools import reduce
 
+"""
+c = [Local(0), NonLocal(1), NonLocal(2),..., Global(N), BuiltIn()]
+Local(i) = [Symbol(1), Symbol(2),..., Symbol(n)]
+"""
+class Utils:
+    def lookupRedeclared(self,name,lst,func):
+        for x in lst:
+            if name == func(x):
+                return x
+        return None
+    
+    def lookupUndeclared(self,name,lst,func):
+        for x in lst:
+            for y in x:
+                if name == func(y):
+                    return y
+        return None
+    
+    def printStack(self, env):
+        print('======STACK======')
+        for i in env:
+            print('======')
+            for j in i:
+                print(str(j))
+    
 class MType:
     def __init__(self,partype,rettype):
         self.partype = partype
@@ -46,14 +71,15 @@ class StaticChecker(BaseVisitor,Utils):
         return self.visit(self.ast,self.global_envi)
 
     def visitProgram(self,ast, c):
-        scope = reduce(lambda acc,ele: [self.visit(ele,acc)] + acc , ast.decl,c)
-        print("\n=== Global Scope Symbols ===")
-        for x in scope:
-            print(str(x))
-        return c
+        env = [[]] + [c]
+        scope = reduce(lambda acc,ele: self.visit(ele,acc), ast.decl, env)
+        # print("\n=== Global Scope Symbols ===")
+        # for x in scope:
+        #     print(str(x))
+        # return [c] 
 
     def visitVarDecl(self, ast, c):
-        res = self.lookup(ast.varName, c, lambda x: x.name)
+        res = self.lookupRedeclared(ast.varName, c[0], lambda x: x.name)
         if not res is None:
             raise Redeclared(Variable(), ast.varName) 
         if ast.varInit:
@@ -62,22 +88,113 @@ class StaticChecker(BaseVisitor,Utils):
                 ast.varType = initType
             if not type(ast.varType) is type(initType):
                 raise TypeMismatch(ast)
-        return Symbol(ast.varName, ast.varType,None)
+        return [c[0] + [Symbol(ast.varName, ast.varType)]] + c[1:]
         
     def visitConstDecl(self, ast, c):
-        res = self.lookup(ast.conName, c, lambda x: x.name)
+        res = self.lookupRedeclared(ast.conName, c[0], lambda x: x.name)
         if not res is None:
             raise Redeclared(Constant(), ast.conName)
         conType = self.visit(ast.iniExpr, c)
         if ast.conType is None:
             ast.conType = conType
-        return Symbol(ast.conName, ast.conType,ast.iniExpr)
+        return [c[0] + [Symbol(ast.conName, ast.conType,ast.iniExpr)]] + c[1:]
 
     def visitFuncDecl(self,ast, c):
-        res = self.lookup(ast.name, c, lambda x: x.name)
+        res = self.lookupRedeclared(ast.name, c[0], lambda x: x.name)
         if not res is None:
             raise Redeclared(Function(), ast.name)
-        return Symbol(ast.name, MType([], ast.retType))
+        
+        # add func name to env
+        env = [c[0] + [Symbol(ast.name, ast.retType)]] + c[1:]
+        if ast.params:
+            env = [[]] + env
+            env = reduce(lambda acc, ele: self.visit(ele, acc), ast.params, env)
+
+        self.visit(ast.body, env)
+        return env
+
+    def visitMethodDecl(self,ast, c):
+        try:
+            self.visit(ast.fun, c)
+        except Redeclared:
+            raise Redeclared(Method(), ast.fun.name)
+
+        # res = self.lookupUndeclared(ast.recType, c, lambda x: x.name)
+        # if res:
+            # flag = self.lookupRedeclared(ast.fun.name, res.mtype, lambda x: x)
+            # if flag:
+            #     raise Redeclared(Method(), flag)
+            # res.mtype += ast.fun.name
+        # self.printStack(c)
+        for _, x in enumerate(c):
+            for _, y in enumerate(x):
+                # print(ast.recType)
+                if ast.recType.name == y.name:
+                    for _, z in enumerate(y.mtype):
+                        if ast.fun.name == z.partype:
+                            raise Redeclared(Method(), ast.fun.name)
+                    y.mtype.append(MType(ast.fun.name, ast.fun.retType))
+                    break
+        # self.printStack(c)
+        # env = [c[0] + [Symbol(ast.fun.name, ast.fun.retType)]] + c[1:]
+        # if ast.fun.params:
+        #     env = [[]] + env
+        #     env = reduce(lambda acc, ele: self.visit(ele, acc), ast.fun.params, env)
+
+        # self.visit(ast.fun.body, env)
+        # return [c[0] + [Symbol(ast.fun.name, ast.fun.retType)]] + c[1:]        
+
+        return c
+        
+
+    def visitStructType(self,ast, c):
+        if self.lookupRedeclared(ast.name, c[0], lambda x: x.name):
+            raise Redeclared(Type(), ast.name)
+        
+        env = [c[0] + [Symbol(ast.name, ast.methods)]] + c[1:]
+        for mem in ast.elements:
+            if self.lookupRedeclared(mem[0], env[0][-1].mtype, lambda x: x.partype):
+                raise Redeclared(Field(), mem[0])
+            env[0][-1].mtype.append(MType(mem[0], mem[1])) 
+
+        return env
+
+    def visitInterfaceType(self,ast, c):
+        if self.lookupRedeclared(ast.name, c[0], lambda x: x.name):
+            raise Redeclared(Type(), ast.name)
+        
+        env = [c[0] + [Symbol(ast.name, ast.methods)]] + c[1:]
+        scope = reduce(lambda acc, ele: self.visit(ele, acc), ast.methods, [])
+        env[0][-1].mtype = scope
+        return env
+    
+    def visitParamDecl(self,ast, c):
+        res = self.lookupRedeclared(ast.parName, c[0], lambda x: x.name)
+        if not res is None:
+            raise Redeclared(Parameter(), ast.parName)
+        return [c[0] + [Symbol(ast.parName, ast.parType)]] + c[1:]
+    
+    def visitPrototype(self,ast, c):
+        res = self.lookupRedeclared(ast.name, c, lambda x: x.name)
+        if not res is None:
+            raise Redeclared(Prototype(), ast.name)
+        return c + [Symbol(ast.name, MType(ast.params, ast.retType))]
+        # return [c[0] + [Symbol(ast.name, MType(ast.params, ast.retType))]] + c[1:]
+    
+    def visitBlock(self, ast, c):
+        env = [[]] + c
+        reduce(lambda acc, ele: self.visit(ele, acc), ast.member, env)
+        # return env
+
+    def visitFuncCall(self,ast, c):
+        res = self.lookupUndeclared(ast.funName, c, lambda x: x.name)
+        if res is None:
+            raise Undeclared(Function(), ast.funName)
+    
+    def visitMethCall(self,ast, c):
+        res = self.lookupUndeclared(ast.metName, c, lambda x: x.name)
+        if res is None:
+            raise Undeclared(Method(), ast.metName)
 
     def visitIntLiteral(self,ast, c):
         return IntType()
@@ -92,7 +209,10 @@ class StaticChecker(BaseVisitor,Utils):
         return BoolType()
     
     def visitId(self,ast,c):
-        res = self.lookup(ast.name, c, lambda x: x.name)
+        res = self.lookupUndeclared(ast.name, c, lambda x: x.name) # ast.name in x
         if res is None:
             raise Undeclared(Identifier(), ast.name)
         return res.mtype
+
+    def visitReturn(self,ast,c):
+        pass

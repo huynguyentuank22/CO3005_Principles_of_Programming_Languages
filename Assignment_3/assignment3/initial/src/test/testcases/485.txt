@@ -1,0 +1,10 @@
+
+        type Animal struct {
+            name string
+        }
+        func (a Animal) foo(a int) {
+            return
+        }
+
+        a.foo();
+        

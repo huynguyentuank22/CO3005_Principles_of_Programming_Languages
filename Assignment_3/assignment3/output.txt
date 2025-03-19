@@ -4,63 +4,312 @@ from AST import *
 
 class CheckSuite(unittest.TestCase):
     def test_var_redeclared(self):
-        input = """var a int; var b int; var a int; """
+        input = """var a int; var b int; var a Huy; """
         expect = "Redeclared Variable: a\n"
         self.assertTrue(TestChecker.test(input,expect,400))
+
+    def test_var_redeclared_2(self):
+        input = """
+        func foo(a int, b int, c int) {
+            var a int;
+            return
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,401))
 
     def test_const_redeclared(self):
         input = """const a = 1; const b = 2; const a = 3;"""
         expect = "Redeclared Constant: a\n"
-        self.assertTrue(TestChecker.test(input,expect,401))
+        self.assertTrue(TestChecker.test(input,expect,402))
+
+    def test_const_redeclared_local(self):
+        input = """
+        func foo() {
+            const a = 1;
+        }
+        
+        const a = 2
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,403))
+
+    def test_const_redeclared_global(self):
+        input = """
+        const a = 2
+        func foofaa() {
+            var c int;
+            var d int;
+            var b = a;
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,404))
 
     def test_func_redeclared(self):
         input = """
-        func foo() {
+        func foofoo() {
             return
         } 
+        func foofoo() {
+            return
+        }
+        """
+        expect = "Redeclared Function: foofoo\n"
+        self.assertTrue(TestChecker.test(input,expect,405))
+
+    def test_param_redeclared(self):
+        input = """
+        func foo(a, b int, a int) {
+            return
+        }
+        """
+        expect = "Redeclared Parameter: a\n"
+        self.assertTrue(TestChecker.test(input,expect,406))
+
+    def test_method_redeclared(self):
+        input = """
+        var foo int;
+        func (a Person) foo() {
+            return
+        }
+        """
+        expect = "Redeclared Method: foo\n"
+        self.assertTrue(TestChecker.test(input,expect,407))
+
+    def test_method_redeclared_2(self):
+        input = """
+        type Lina struct {
+            name string
+        }
+
+        func (b Lina) foo() {
+            return
+        }
+        func (a Lina) foo() {
+            return
+        }
+        """
+        print("hello")
+        expect = "Redeclared Method: foo\n"
+        self.assertTrue(TestChecker.test(input,expect,408))  
+        print("hello") 
+
+    def test_method_redeclared_3(self):
+        input = """
+        type Person struct {
+            name string
+        }
+        func (a Person) foo() {
+            return
+        }
+        func (a Huy) foo() {
+            return
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,409))
+
+    def test_method_redeclared_4(self):
+        input = """
+        type Person struct {
+            name string
+        }
+        func (a Person) name() {
+            return
+        }
+        func (a Huy) foo() {
+            return
+        }
+        """
+        expect = "Redeclared Method: name\n"
+        self.assertTrue(TestChecker.test(input,expect,410))
+
+    def test_method_redeclared_5(self):
+        input = """
+        type Person struct {
+            name string
+        }
+        func (a Person) foo() {
+            return
+        }
+        func (a Huy) name() {
+            return
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,411))
+
+    def test_struct_redeclared(self):
+        input = """
+        type Person struct {
+            name string
+        }
+        type Person struct {
+            age int
+        }
+        """
+        expect = "Redeclared Type: Person\n"
+        self.assertTrue(TestChecker.test(input,expect,412))
+
+    def test_field_redeclared(self):
+        input = """
+        type Person struct {
+            name string
+            age int
+            name string
+        }
+        """
+        expect = "Redeclared Field: name\n"
+        self.assertTrue(TestChecker.test(input,expect,413))
+
+    def test_interface_redeclared(self):
+        input = """
+        type Person interface {
+            foo()
+        }
+        type Person interface {
+            foo()
+        }
+        """
+        expect = "Redeclared Type: Person\n"
+        self.assertTrue(TestChecker.test(input,expect,414))
+
+    def test_prototype_redeclared(self):
+        input = """
+        type Person interface {
+            foo(a int)
+            foo()
+        }
+        """
+        expect = "Redeclared Prototype: foo\n"
+        self.assertTrue(TestChecker.test(input,expect,415))
+
+    def test_mixed_redeclared(self):
+        input = """var a int; const a = 1;"""
+        expect = "Redeclared Constant: a\n"
+        self.assertTrue(TestChecker.test(input,expect,416))
+
+    def test_mixed_redeclared_2(self):
+        input = """
+        var foo int;
         func foo() {
             return
         }
         """
         expect = "Redeclared Function: foo\n"
-        self.assertTrue(TestChecker.test(input,expect,402))
+        self.assertTrue(TestChecker.test(input,expect,417))
 
-    def test_mixed_redeclared(self):
-        input = """var a int; const a = 1;"""
-        expect = "Redeclared Constant: a\n"
-        self.assertTrue(TestChecker.test(input,expect,403))
+    def test_mixed_redeclared_3(self):
+        input = """
+        const b = 1;
+        func foo() {
+            var a int;
+            var b int;
+            var a int;
+            return
+        }
+        """
+        expect = "Redeclared Variable: a\n"
+        self.assertTrue(TestChecker.test(input,expect,418))
+
+    def test_mix_redeclared_4(self):
+        input = """
+        const b = 1;
+        func foo() {
+            var b int
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,419))
+
+    def test_mix_redeclared_5(self):
+        input = """
+        func foo() {
+            return
+        }
+        func (a Person) foo() {
+            return
+        }
+        """
+        expect = "Redeclared Method: foo\n"
+        self.assertTrue(TestChecker.test(input,expect,420))
+
+    def test_mix_redeclared_6(self):
+        input = """
+        type Person struct {
+            name string
+        }
+        type Person interface {
+            age()
+        }
+        """
+        expect = "Redeclared Type: Person\n"
+        self.assertTrue(TestChecker.test(input,expect,421))
 
     def test_undeclared_identifier(self):
         input = "var a = b;"
         expect = "Undeclared Identifier: b\n"
-        self.assertTrue(TestChecker.test(input,expect,404))
+        self.assertTrue(TestChecker.test(input,expect,422))
+
+    def test_undeclared_func(self):
+        input = "var a = foo();"
+        expect = "Undeclared Function: foo\n"
+        self.assertTrue(TestChecker.test(input,expect,423))
+
+    def test_undeclared_method(self):
+        input = """
+        type Person struct {
+            name string
+        }
+        var a Huy;
+        var b = a.foo();
+        """
+        expect = "Undeclared Method: foo\n"
+        self.assertTrue(TestChecker.test(input,expect,424))
+
+    
+
+    # def test_undeclared_method_nested(self):
+    #     input = """
+    #     type Animal struct {
+    #         name string
+    #     }
+    #     func (a Animal) foo(a int) {
+    #         return
+    #     }
+
+    #     a.foo();
+    #     """
+    #     expect = "Undeclared Identifier: a\n"
+    #     self.assertTrue(TestChecker.test(input,expect,425))
 
     def test_type_mismatch_int_with_float(self):
         input = """var a int = 1.2;"""
         expect = "Type Mismatch: VarDecl(a,IntType,FloatLiteral(1.2))\n"
-        self.assertTrue(TestChecker.test(input,expect,405))
+        self.assertTrue(TestChecker.test(input,expect,426))
     
     def test_type_missmatch_int_with_string(self):
         input = """var a int = "huy";"""
         expect = """Type Mismatch: VarDecl(a,IntType,StringLiteral("huy"))\n"""
-        self.assertTrue(TestChecker.test(input,expect,406))
+        self.assertTrue(TestChecker.test(input,expect,427))
 
     def test_type_missmatch_int_with_bool(self):
         input = """var a int = true;"""
         expect = "Type Mismatch: VarDecl(a,IntType,BooleanLiteral(true))\n"
-        self.assertTrue(TestChecker.test(input,expect,407))
+        self.assertTrue(TestChecker.test(input,expect,428))
 
     def test_type_missmatch_float_with_int(self):
         input = """var a float = 1;"""
         expect = "Type Mismatch: VarDecl(a,FloatType,IntLiteral(1))\n"
-        self.assertTrue(TestChecker.test(input,expect,408))
+        self.assertTrue(TestChecker.test(input,expect,429))
 
     def test_type_missmatch_float_with_string(self):
         input = """var a float = "huy";"""
         expect = "Type Mismatch: VarDecl(a,FloatType,StringLiteral(\"huy\"))\n"
-        self.assertTrue(TestChecker.test(input,expect,409))
+        self.assertTrue(TestChecker.test(input,expect,430))
 
     def test_type_missmatch_float_with_bool(self):
         input = """var a float = false;"""
         expect = "Type Mismatch: VarDecl(a,FloatType,BooleanLiteral(false))\n"
-        self.assertTrue(TestChecker.test(input,expect,410))
+        self.assertTrue(TestChecker.test(input,expect,431))

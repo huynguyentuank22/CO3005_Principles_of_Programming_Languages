@@ -1,1 +1,8 @@
-var a int = 1.2;
+
+        func foofoo() {
+            return
+        } 
+        func foofoo() {
+            return
+        }
+        

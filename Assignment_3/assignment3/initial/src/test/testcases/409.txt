@@ -1,1 +1,11 @@
-var a float = "huy";
+
+        type Person struct {
+            name string
+        }
+        func (a Person) foo() {
+            return
+        }
+        func (a Huy) foo() {
+            return
+        }
+        

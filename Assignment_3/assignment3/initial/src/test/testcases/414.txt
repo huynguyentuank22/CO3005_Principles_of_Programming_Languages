@@ -1,0 +1,8 @@
+
+        type Person interface {
+            foo()
+        }
+        type Person interface {
+            foo1()
+        }
+        

@@ -1,0 +1,7 @@
+
+        type Person struct {
+            name string
+        }
+        var a Huy;
+        var b = a.foo();
+        

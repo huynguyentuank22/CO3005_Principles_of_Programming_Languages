@@ -1,1 +1,1 @@
-Type Mismatch: VarDecl(a,FloatType,IntLiteral(1))
+Redeclared Method: foo
