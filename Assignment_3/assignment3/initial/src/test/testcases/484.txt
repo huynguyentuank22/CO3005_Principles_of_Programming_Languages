@@ -2,10 +2,6 @@
         type Person struct {
             name string
         }
-        func (a Person) name() {
-            return
-        }
-        func (a Huy) foo() {
-            return
-        }
+        var a int;
+        var b = a.name;
         

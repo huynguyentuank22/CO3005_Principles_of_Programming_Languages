@@ -1,6 +1,8 @@
 
-        const b = 1;
+        func main() {
+            foo();
+        }
         func foo() {
-            var b int
+            return
         }
         

@@ -1,1 +1,6 @@
-var a = foo();
+
+        func foo() {
+            var a = true && false
+            var b = true || false
+        }
+        

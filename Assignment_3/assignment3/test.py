@@ -11,3 +11,7 @@ for i, x in enumerate(c):
             break
 
 print(c)
+
+c = ([1,2,3], True)
+ast, isGlobal = c
+print(ast)

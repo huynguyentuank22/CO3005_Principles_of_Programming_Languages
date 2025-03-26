@@ -1,7 +1,5 @@
 
-        type Person struct {
-            name string
+        func foo() {
+            var c = -true;
         }
-        var a Huy;
-        var b = a.foo();
         

@@ -1,8 +1,6 @@
 
-        type Person struct {
-            name string
-        }
-        type Person interface {
-            age()
+        const b = 1;
+        func foo() {
+            var b int
         }
         

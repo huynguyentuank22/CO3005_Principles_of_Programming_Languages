@@ -1,1 +1,8 @@
-var a float = 1;
+
+        func main() {
+            foo();
+        }
+        func foo() {
+            return
+        }
+        

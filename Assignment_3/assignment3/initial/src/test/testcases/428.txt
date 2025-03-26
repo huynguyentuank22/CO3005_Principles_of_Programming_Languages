@@ -1,1 +1,6 @@
-var a int = true;
+
+        var foo int 
+        func main() {
+            foo();
+        }
+        

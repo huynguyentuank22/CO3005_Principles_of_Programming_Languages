@@ -1,0 +1,5 @@
+
+        func foo() {
+            var c = true / 123;
+        }
+        

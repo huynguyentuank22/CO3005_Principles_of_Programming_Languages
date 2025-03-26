@@ -1,1 +1,1 @@
-Redeclared Method: foo
+Type Mismatch: UnaryOp(-,StringLiteral("huy"))

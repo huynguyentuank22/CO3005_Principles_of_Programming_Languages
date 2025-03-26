@@ -1,1 +1,1 @@
-Redeclared Prototype: foo
+Redeclared Type: Person

@@ -1,8 +1,5 @@
 
-        type Person interface {
-            foo()
-        }
-        type Huy interface {
-            foo()
+        func foo() {
+            var c = true * 123;
         }
         

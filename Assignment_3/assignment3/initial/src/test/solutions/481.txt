@@ -1,1 +1,1 @@
-Redeclared Field: name
+Type Mismatch: UnaryOp(!,StringLiteral("huy"))

@@ -1,1 +1,8 @@
-var a = b;
+
+        func foo() {
+            return
+        }
+        func (a Person) foo() {
+            return
+        }
+        

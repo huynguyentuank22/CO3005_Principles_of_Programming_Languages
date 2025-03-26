@@ -1,6 +1,5 @@
 
-        var foo int;
-        func (a Person) foo() {
-            return
+        func foo() {
+            var c = -"huy";
         }
         

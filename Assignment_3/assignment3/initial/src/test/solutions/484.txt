@@ -1,1 +1,1 @@
-Redeclared Method: name
+Type Mismatch: FieldAccess(Id(a),name)

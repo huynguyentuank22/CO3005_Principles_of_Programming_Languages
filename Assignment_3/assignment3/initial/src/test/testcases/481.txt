@@ -1,7 +1,5 @@
 
-        type Person struct {
-            name string
-            age int
-            name string
+        func foo() {
+            var c = !"huy";
         }
         

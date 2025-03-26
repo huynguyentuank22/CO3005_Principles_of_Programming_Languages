@@ -1,1 +1,8 @@
-var a int; const a = 1;
+
+        type Person interface {
+            foo()
+        }
+        type Huy interface {
+            foo()
+        }
+        

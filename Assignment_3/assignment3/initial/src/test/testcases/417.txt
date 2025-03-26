@@ -1,6 +1,6 @@
 
-        var foo int;
-        func foo() {
-            return
+        type Person interface {
+            foo(a int)
+            foo()
         }
         

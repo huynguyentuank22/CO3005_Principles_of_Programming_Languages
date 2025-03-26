@@ -1,8 +1,7 @@
 
-        type Person interface {
-            foo()
-        }
-        type Person interface {
-            foo1()
+        type Person struct {
+            name string
+            age int
+            name string
         }
         
