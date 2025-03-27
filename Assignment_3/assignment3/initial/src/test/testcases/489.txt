@@ -1,12 +1,5 @@
 
-        type Lina struct {
-            name string
-        }
-
-        func (b Lina) foo() {
-            return
-        }
-        func (a Lina) foo() {
-            return
+        func foo() {
+            var c = !123;
         }
         

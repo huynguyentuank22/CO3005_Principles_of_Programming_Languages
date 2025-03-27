@@ -3,5 +3,5 @@
             name string
         }
         var a Person;
-        var b = a.age;
+        var b = a.foo();
         

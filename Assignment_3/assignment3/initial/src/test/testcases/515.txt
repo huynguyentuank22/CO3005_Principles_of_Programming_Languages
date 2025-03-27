@@ -1,0 +1,8 @@
+
+        func foo() {
+            var arr [5]int
+            for i, i := range arr {
+                return
+            }
+        }
+        

@@ -1,13 +1,14 @@
 
-        type Address struct {
-            street string
-            city string
-            country string
+        type MyStruct struct {
+            value int
         }
-        type Person struct {
-            name string
-            address Address
+
+        func (m MyStruct) Double() MyStruct {
+            var b int
         }
-        var huy Person;
-        var country = huy.address.country;
+
+        func main() {
+            var obj MyStruct
+            var result = obj.GetNext().Double()  
+        }
         

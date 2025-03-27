@@ -1,8 +1,7 @@
 
         func foo() {
-            return
-        }
-        func (a Person) foo() {
-            return
+            var a [5]int;
+            var b = 2.3;
+            var c = a[b];
         }
         

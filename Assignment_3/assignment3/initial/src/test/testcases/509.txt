@@ -1,0 +1,9 @@
+
+        func foo() {
+            if (true) {
+                if (1 + 2) {
+                    return
+                }
+            }
+        }
+        

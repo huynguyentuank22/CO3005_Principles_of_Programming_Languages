@@ -1,11 +1,5 @@
 
-        type Person struct {
-            name string
-        }
-        func (a Person) foo() {
-            return
-        }
-        func (a Huy) name() {
-            return
+        func foo() {
+            var c = -"huy";
         }
         

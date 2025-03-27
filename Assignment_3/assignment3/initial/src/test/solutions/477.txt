@@ -1,1 +1,1 @@
-Type Mismatch: UnaryOp(-,BooleanLiteral(true))
+Type Mismatch: BinaryOp(IntLiteral(123),>,FloatLiteral(12.3))

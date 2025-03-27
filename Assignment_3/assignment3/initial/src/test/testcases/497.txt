@@ -1,7 +1,12 @@
 
-        type Person struct {
+        var a Persondepchai;
+        var b = a.foo(12, 3.4);
+
+        type Persondepchai struct {
             name string
         }
-        var a Person;
-        var b = c.name;
+
+        func (a Persondepchai) foo(a, b int) {
+            return
+        }
         

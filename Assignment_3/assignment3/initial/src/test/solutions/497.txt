@@ -1,1 +1,1 @@
-Undeclared Identifier: c
+Type Mismatch: MethodCall(Id(a),foo,[IntLiteral(12),FloatLiteral(3.4)])

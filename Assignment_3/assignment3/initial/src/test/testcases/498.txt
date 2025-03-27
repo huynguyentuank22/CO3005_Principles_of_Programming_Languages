@@ -1,7 +1,11 @@
 
-        type Person struct {
-            name string
+        type Calculator interface {
+            Add(a, b int) int
+            Subtract(a, b int) int
         }
-        var a Person;
-        var b = a.age;
+
+        func main() {
+            var obj Calculator
+            var result = obj.Add(1.2, 2.3)
+        }
         

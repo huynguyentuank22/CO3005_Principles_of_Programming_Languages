@@ -1,6 +1,11 @@
 
-        var foo int 
+        type Calculator interface {
+            Add(a, b int) int
+            Subtract(a, b int) int
+        }
+
         func main() {
-            foo();
+            var obj Calculator
+            var result = obj.Add(1, 2, 3)
         }
         

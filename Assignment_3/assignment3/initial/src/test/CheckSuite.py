@@ -79,12 +79,11 @@ class CheckSuite(unittest.TestCase):
 
     def test_method_redeclared_2(self):
         input = """
-        type Lina struct {
-            name string
-        }
-
         func (b Lina) foo() {
             return
+        }
+        type Lina struct {
+            name string
         }
         func (a Lina) foo() {
             return
@@ -316,37 +315,152 @@ class CheckSuite(unittest.TestCase):
         func main() {
             foo();
         }
-        func foo() {
+        func foo(a, b int) {
             return
         }
         """
-        expect = ""
+        expect = "Type Mismatch: FuncCall(foo,[])\n"
         self.assertTrue(TestChecker.test(input,expect,429))
+
+    def test_undeclared_func_4(self):
+        input = """
+        func main() {
+            foo(12,23,45);
+        }
+        func foo(a, b int) {
+            return
+        }
+        """
+        expect = "Type Mismatch: FuncCall(foo,[IntLiteral(12),IntLiteral(23),IntLiteral(45)])\n"
+        self.assertTrue(TestChecker.test(input,expect,430))
+
+    def test_undeclared_func_5(self):
+        input = """
+        func main() {
+            foo(12, 2.3);
+        }
+        func foo(a, b int) {
+            return
+        }
+        """
+        expect = "Type Mismatch: FuncCall(foo,[IntLiteral(12),FloatLiteral(2.3)])\n"
+        self.assertTrue(TestChecker.test(input,expect,431))
 
     def test_undeclared_method(self):
         input = """
         type Person struct {
             name string
         }
-        var a Huy;
+        var a Person;
         var b = a.foo();
         """
         expect = "Undeclared Method: foo\n"
-        self.assertTrue(TestChecker.test(input,expect,430))
+        self.assertTrue(TestChecker.test(input,expect,432))
 
-    # def test_undeclared_method_nested(self):
-    #     input = """
-    #     type Animal struct {
-    #         name string
-    #     }
-    #     func (a Animal) foo(a int) {
-    #         return
-    #     }
+    def test_undeclared_method_2(self):
+        input = """
+        var a Persondepchai;
+        var b = a.foo();
 
-    #     a.foo();
-    #     """
-    #     expect = "Undeclared Identifier: a\n"
-    #     self.assertTrue(TestChecker.test(input,expect,431))
+        type Persondepchai struct {
+            name string
+        }
+
+        func (a Persondepchai) foo() {
+            return
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,433))    
+
+    def test_undeclared_method_3(self):
+        input = """
+        type MyStruct struct {
+            value int
+        }
+
+        func (m MyStruct) GetNext() MyStruct {
+            var a int
+        }
+
+        func (m MyStruct) Double() MyStruct {
+            var b int
+        }
+
+        func main() {
+            var obj MyStruct
+            var result = obj.GetNext().Double()  
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,434))
+    
+    def test_undeclared_method_4(self):
+        input = """
+        type MyStruct struct {
+            value int
+        }
+
+        func (m MyStruct) Double() MyStruct {
+            var b int
+        }
+
+        func main() {
+            var obj MyStruct
+            var result = obj.GetNext().Double()  
+        }
+        """
+        expect = "Undeclared Method: GetNext\n"
+        self.assertTrue(TestChecker.test(input,expect,435))
+
+    def test_undeclared_method_5(self):
+        input = """
+        type MyStruct struct {
+            value int
+        }
+
+        func (m MyStruct) GetNext() MyStruct {
+            var a int
+        }
+
+        func main() {
+            var obj MyStruct
+            var result = obj.GetNext().Double()  
+        }
+        """
+        expect = "Undeclared Method: Double\n"
+        self.assertTrue(TestChecker.test(input,expect,436))
+
+    def test_undeclared_method_6(self):
+        input = """
+        type Calculator interface {
+            Add(a, b int) int
+            Subtract(a, b int) int
+        }
+
+        func main() {
+            var obj Calculator
+            var result = obj.Multiply(1, 2)
+        }
+        """
+        expect = "Undeclared Method: Multiply\n"
+        self.assertTrue(TestChecker.test(input,expect,437))
+
+    def test_undeclared_method_7(self):
+        input = """
+        type Calculator interface {
+            Add(a, b int) int
+            Subtract(a, b int) int
+        }
+
+        func main() {
+            var obj Calculator
+            var result = obj.Add(1, 2)
+            var result2 = obj.Subtract(1, 2)
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,438))
 
     def test_undeclared_field(self):
         input = """
@@ -357,7 +471,7 @@ class CheckSuite(unittest.TestCase):
         var b = a.age;
         """
         expect = "Undeclared Field: age\n"
-        self.assertTrue(TestChecker.test(input,expect,432))
+        self.assertTrue(TestChecker.test(input,expect,439))
 
     def test_undeclared_field_2(self):
         input = """
@@ -368,7 +482,7 @@ class CheckSuite(unittest.TestCase):
         var b = a.name
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,433))
+        self.assertTrue(TestChecker.test(input,expect,440))
 
     def test_undeclared_field_3(self):
         input = """
@@ -384,7 +498,7 @@ class CheckSuite(unittest.TestCase):
         var country = huy.address.country;
         """
         expect = "Undeclared Field: country\n"
-        self.assertTrue(TestChecker.test(input,expect,434))
+        self.assertTrue(TestChecker.test(input,expect,441))
 
     def test_undeclared_field_4(self):
         input = """
@@ -401,37 +515,90 @@ class CheckSuite(unittest.TestCase):
         var country = huy.address.country;
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,435))
+        self.assertTrue(TestChecker.test(input,expect,442))
+
+    def test_undeclared_field_5(self):
+        input = """
+        type Community struct {
+            commu [3]Person
+        }
+        type Person struct {
+            name string
+        }
+        
+        func main() {
+            var obj Community
+            var result = obj.commu[3].age
+        }
+        """
+        expect = "Undeclared Field: age\n"
+        self.assertTrue(TestChecker.test(input,expect,508))
+
+    def test_undeclared_mix_access(self):
+        input = """
+        type Address struct {
+            street string
+            city string
+            country string
+        }
+        type Person struct {
+            name string
+            address Address
+        }
+        var huy Person;
+        var loc = huy.address.location();
+        """
+        expect = "Undeclared Method: location\n"
+        self.assertTrue(TestChecker.test(input,expect,443))
+
+    def test_undeclared_mix_access_2(self):
+        input = """
+        type Address struct {
+            street string
+            city string
+            country string
+        }
+        func (p Person) location() Address {
+            var a int
+        }
+        type Person struct {
+            name string
+        }
+        var huy Person;
+        var add = huy.location().location;
+        """
+        expect = "Undeclared Field: location\n"
+        self.assertTrue(TestChecker.test(input,expect,444))
 
     def test_type_mismatch_int_with_float(self):
         input = """var a int = 1.2;"""
         expect = "Type Mismatch: VarDecl(a,IntType,FloatLiteral(1.2))\n"
-        self.assertTrue(TestChecker.test(input,expect,436))
+        self.assertTrue(TestChecker.test(input,expect,445))
     
     def test_type_missmatch_int_with_string(self):
         input = """var a int = "huy";"""
         expect = """Type Mismatch: VarDecl(a,IntType,StringLiteral("huy"))\n"""
-        self.assertTrue(TestChecker.test(input,expect,437))
+        self.assertTrue(TestChecker.test(input,expect,446))
 
     def test_type_missmatch_int_with_bool(self):
         input = """var a int = true;"""
         expect = "Type Mismatch: VarDecl(a,IntType,BooleanLiteral(true))\n"
-        self.assertTrue(TestChecker.test(input,expect,438))
+        self.assertTrue(TestChecker.test(input,expect,447))
 
     def test_type_missmatch_float_with_int(self):
         input = """var a float = 1;"""
         expect = "Type Mismatch: VarDecl(a,FloatType,IntLiteral(1))\n"
-        self.assertTrue(TestChecker.test(input,expect,439))
+        self.assertTrue(TestChecker.test(input,expect,448))
 
     def test_type_missmatch_float_with_string(self):
         input = """var a float = "huy";"""
         expect = "Type Mismatch: VarDecl(a,FloatType,StringLiteral(\"huy\"))\n"
-        self.assertTrue(TestChecker.test(input,expect,440))
+        self.assertTrue(TestChecker.test(input,expect,449))
 
     def test_type_missmatch_float_with_bool(self):
         input = """var a float = false;"""
         expect = "Type Mismatch: VarDecl(a,FloatType,BooleanLiteral(false))\n"
-        self.assertTrue(TestChecker.test(input,expect,441))
+        self.assertTrue(TestChecker.test(input,expect,450))
 
     def test_type_missmatch_return(self):
         input = """
@@ -440,7 +607,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: Return(StringLiteral(\"huy\"))\n"
-        self.assertTrue(TestChecker.test(input,expect,442))
+        self.assertTrue(TestChecker.test(input,expect,451))
 
     def test_type_missmatch_return_2(self):
         input = """
@@ -449,7 +616,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: Return(BooleanLiteral(true))\n"
-        self.assertTrue(TestChecker.test(input,expect,443))
+        self.assertTrue(TestChecker.test(input,expect,452))
     
     def test_type_missmatch_return_3(self):
         input = """
@@ -458,7 +625,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,444))
+        self.assertTrue(TestChecker.test(input,expect,453))
     
     def test_type_missmatch_plus(self):
         input = """
@@ -467,7 +634,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(IntLiteral(12),+,StringLiteral(\"huy\"))\n"
-        self.assertTrue(TestChecker.test(input,expect,445))
+        self.assertTrue(TestChecker.test(input,expect,454))
 
     def test_type_missmatch_plus_2(self):
         input = """
@@ -476,7 +643,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),+,StringLiteral(\"huy\"))\n"
-        self.assertTrue(TestChecker.test(input,expect,446))
+        self.assertTrue(TestChecker.test(input,expect,455))
 
     def test_type_missmatch_plus_3(self):
         input = """
@@ -489,7 +656,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,447))
+        self.assertTrue(TestChecker.test(input,expect,456))
     
     def test_type_missmatch_minus(self):
         input = """
@@ -498,7 +665,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),-,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,448))
+        self.assertTrue(TestChecker.test(input,expect,457))
 
     def test_type_missmatch_minus_2(self):
         input = """
@@ -507,7 +674,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(StringLiteral(\"huy\"),-,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,449))
+        self.assertTrue(TestChecker.test(input,expect,458))
 
     def test_type_missmatch_mul(self):
         input = """
@@ -516,7 +683,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),*,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,450))
+        self.assertTrue(TestChecker.test(input,expect,459))
 
     def test_type_missmatch_mul_2(self):
         input = """
@@ -525,7 +692,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(StringLiteral(\"huy\"),*,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,451))
+        self.assertTrue(TestChecker.test(input,expect,460))
 
     def test_type_missmatch_div(self):
         input = """
@@ -534,7 +701,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),/,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,452))
+        self.assertTrue(TestChecker.test(input,expect,461))
 
     def test_type_missmatch_div_2(self):
         input = """
@@ -543,7 +710,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(StringLiteral(\"huy\"),/,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,453))        
+        self.assertTrue(TestChecker.test(input,expect,462))        
 
     def test_type_missmatch_minus_mul_div(self):
         input = """
@@ -563,7 +730,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,454))
+        self.assertTrue(TestChecker.test(input,expect,463))
 
     def test_type_missmatch_modulo(self):
         input = """
@@ -572,7 +739,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),%,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,455))
+        self.assertTrue(TestChecker.test(input,expect,464))
 
     def test_type_missmatch_modulo_2(self):
         input = """
@@ -581,7 +748,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(StringLiteral(\"huy\"),%,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,456))
+        self.assertTrue(TestChecker.test(input,expect,465))
 
     def test_type_missmatch_modulo_3(self):
         input = """
@@ -590,7 +757,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(IntLiteral(123),%,FloatLiteral(45.6))\n"
-        self.assertTrue(TestChecker.test(input,expect,457))
+        self.assertTrue(TestChecker.test(input,expect,466))
 
     def test_type_missmatch_modulo_4(self):
         input = """
@@ -599,7 +766,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,458))
+        self.assertTrue(TestChecker.test(input,expect,467))
 
     def test_type_missmatch_equal(self):
         input = """
@@ -608,7 +775,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),==,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,459))
+        self.assertTrue(TestChecker.test(input,expect,468))
 
     def test_type_missmatch_equal_2(self):
         input = """
@@ -617,7 +784,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(StringLiteral(\"huy\"),==,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,460))
+        self.assertTrue(TestChecker.test(input,expect,469))
 
     def test_type_missmatch_not_equal(self):
         input = """
@@ -626,7 +793,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),!=,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,461))
+        self.assertTrue(TestChecker.test(input,expect,470))
 
     def test_type_missmatch_not_equal_2(self):
         input = """
@@ -635,7 +802,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(IntLiteral(123),!=,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,462))
+        self.assertTrue(TestChecker.test(input,expect,471))
 
     def test_type_missmatch_less_than(self):
         input = """
@@ -644,7 +811,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),<,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,463))
+        self.assertTrue(TestChecker.test(input,expect,472))
 
     def test_type_missmatch_less_than_2(self):
         input = """
@@ -653,7 +820,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(IntLiteral(123),<,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,464))
+        self.assertTrue(TestChecker.test(input,expect,473))
 
     def test_type_missmatch_less_than_equal(self):
         input = """
@@ -662,7 +829,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),<=,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,465))
+        self.assertTrue(TestChecker.test(input,expect,474))
 
     def test_type_missmatch_less_than_equal_2(self):
         input = """
@@ -671,7 +838,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(IntLiteral(123),<=,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,466))
+        self.assertTrue(TestChecker.test(input,expect,475))
 
     def test_type_missmatch_greater_than(self):
         input = """
@@ -680,7 +847,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),>,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,467))
+        self.assertTrue(TestChecker.test(input,expect,476))
     
     def test_type_missmatch_greater_than_2(self):
         input = """
@@ -689,7 +856,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(IntLiteral(123),>,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,468))
+        self.assertTrue(TestChecker.test(input,expect,477))
     
     def test_type_missmatch_greater_than_equal(self):
         input = """
@@ -698,7 +865,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),>=,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,469))
+        self.assertTrue(TestChecker.test(input,expect,478))
 
     def test_type_missmatch_greater_than_equal_2(self):
         input = """
@@ -707,7 +874,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(IntLiteral(123),>=,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,470))
+        self.assertTrue(TestChecker.test(input,expect,479))
 
     def test_type_missmatch_relational(self):
         input = """
@@ -738,7 +905,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,471))
+        self.assertTrue(TestChecker.test(input,expect,480))
 
     def test_type_missmatch_and(self):
         input = """
@@ -747,7 +914,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),&&,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,472))
+        self.assertTrue(TestChecker.test(input,expect,481))
 
     def test_type_missmatch_and_2(self):
         input = """
@@ -756,7 +923,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(IntLiteral(123),&&,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,473))
+        self.assertTrue(TestChecker.test(input,expect,482))
 
     def test_type_missmatch_or(self):
         input = """
@@ -765,7 +932,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(BooleanLiteral(true),||,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,474))
+        self.assertTrue(TestChecker.test(input,expect,483))
     
     def test_type_missmatch_or_2(self):
         input = """
@@ -774,7 +941,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: BinaryOp(IntLiteral(123),||,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,475))
+        self.assertTrue(TestChecker.test(input,expect,484))
 
     def test_type_missmatch_and_or(self):
         input = """
@@ -784,7 +951,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,476))
+        self.assertTrue(TestChecker.test(input,expect,485))
 
     def test_type_missmatch_neg(self):
         input = """
@@ -793,7 +960,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: UnaryOp(-,BooleanLiteral(true))\n"
-        self.assertTrue(TestChecker.test(input,expect,477))
+        self.assertTrue(TestChecker.test(input,expect,486))
 
     def test_type_missmatch_neg_2(self):
         input = """
@@ -802,7 +969,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: UnaryOp(-,StringLiteral(\"huy\"))\n"
-        self.assertTrue(TestChecker.test(input,expect,478))
+        self.assertTrue(TestChecker.test(input,expect,487))
 
     def test_type_missmatch_neg_3(self):
         input = """
@@ -812,7 +979,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,479))
+        self.assertTrue(TestChecker.test(input,expect,488))
 
     def test_type_missmatch_not(self):
         input = """
@@ -821,7 +988,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: UnaryOp(!,IntLiteral(123))\n"
-        self.assertTrue(TestChecker.test(input,expect,480))
+        self.assertTrue(TestChecker.test(input,expect,489))
 
     def test_type_missmatch_not_2(self):
         input = """
@@ -830,7 +997,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: UnaryOp(!,StringLiteral(\"huy\"))\n"
-        self.assertTrue(TestChecker.test(input,expect,481))
+        self.assertTrue(TestChecker.test(input,expect,490))
 
     def test_type_missmatch_not_3(self):
         input = """
@@ -839,7 +1006,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: UnaryOp(!,FloatLiteral(12.3))\n"
-        self.assertTrue(TestChecker.test(input,expect,482))
+        self.assertTrue(TestChecker.test(input,expect,491))
     
     def test_type_missmatch_not_4(self):
         input = """
@@ -849,7 +1016,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,483))
+        self.assertTrue(TestChecker.test(input,expect,492))
 
     def test_type_missmatch_field(self):
         input = """
@@ -860,4 +1027,308 @@ class CheckSuite(unittest.TestCase):
         var b = a.name;
         """
         expect = "Type Mismatch: FieldAccess(Id(a),name)\n"
-        self.assertTrue(TestChecker.test(input,expect,484))
+        self.assertTrue(TestChecker.test(input,expect,493))
+
+    def test_type_missmatch_field_2(self):
+        input = """
+        type Person struct {
+            name string
+        }
+
+        var a Person;
+        var b = a.name.first_name;
+        """
+        expect = "Type Mismatch: FieldAccess(FieldAccess(Id(a),name),first_name)\n"
+        self.assertTrue(TestChecker.test(input,expect,494))
+
+    def test_type_missmatch_field_3(self):
+        input = """
+        type Community struct {
+            commu [3]Person
+        }
+        type Person struct {
+            name string
+        }
+        
+        func main() {
+            var obj Community
+            var result = obj.commu.age
+        }
+        """
+        expect = "Type Mismatch: FieldAccess(FieldAccess(Id(obj),commu),age)\n"
+        self.assertTrue(TestChecker.test(input,expect,510))
+
+    def test_type_missmatch_method(self):
+        input = """
+        var a Persondepchai;
+        var b = a.foo();
+
+        type Persondepchai struct {
+            name string
+        }
+
+        func (a Persondepchai) foo(a, b int) {
+            return
+        }
+        """
+        expect = "Type Mismatch: MethodCall(Id(a),foo,[])\n"
+        self.assertTrue(TestChecker.test(input,expect,495))  
+
+    def test_type_missmatch_method_2(self):
+        input = """
+        var a Persondepchai;
+        var b = a.foo(12, 34, 45);
+
+        type Persondepchai struct {
+            name string
+        }
+
+        func (a Persondepchai) foo(a, b int) {
+            return
+        }
+        """
+        expect = "Type Mismatch: MethodCall(Id(a),foo,[IntLiteral(12),IntLiteral(34),IntLiteral(45)])\n"
+        self.assertTrue(TestChecker.test(input,expect,496))  
+
+    def test_type_missmatch_method_3(self):
+        input = """
+        var a Persondepchai;
+        var b = a.foo(12, 3.4);
+
+        type Persondepchai struct {
+            name string
+        }
+
+        func (a Persondepchai) foo(a, b int) {
+            return
+        }
+        """
+        expect = "Type Mismatch: MethodCall(Id(a),foo,[IntLiteral(12),FloatLiteral(3.4)])\n"
+        self.assertTrue(TestChecker.test(input,expect,497))  
+
+    def test_type_missmatch_method_4(self):
+        input = """
+        type Calculator interface {
+            Add(a, b int) int
+            Subtract(a, b int) int
+        }
+
+        func main() {
+            var obj Calculator
+            var result = obj.Add(1.2, 2.3)
+        }
+        """
+        expect = "Type Mismatch: MethodCall(Id(obj),Add,[FloatLiteral(1.2),FloatLiteral(2.3)])\n"
+        self.assertTrue(TestChecker.test(input,expect,498))
+
+    def test_type_missmatch_method_5(self):
+        input = """
+        type Calculator interface {
+            Add(a, b int) int
+            Subtract(a, b int) int
+        }
+
+        func main() {
+            var obj Calculator
+            var result = obj.Add(1, 2, 3)
+        }
+        """
+        expect = "Type Mismatch: MethodCall(Id(obj),Add,[IntLiteral(1),IntLiteral(2),IntLiteral(3)])\n"
+        self.assertTrue(TestChecker.test(input,expect,499))
+    
+
+    def test_type_missmatch_array_cell(self):
+        input = """
+        func foo() {
+            var a [5]int;
+            var b = 2;
+            var c = a[b][23];
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,500))
+
+    def test_type_missmatch_array_cell_2(self):
+        input = """
+        func foo() {
+            var a [5]int;
+            var b = 2.3;
+            var c = a[b];
+        }
+        """
+        expect = "Type Mismatch: ArrayCell(Id(a),[Id(b)])\n"
+        self.assertTrue(TestChecker.test(input,expect,501))
+
+    def test_type_missmatch_array_cell_3(self):
+        input = """
+        func foo() {
+            var a int;
+            var b = 2;
+            var c = a[b][23];
+        }
+        """
+        expect = "Type Mismatch: ArrayCell(Id(a),[Id(b),IntLiteral(23)])\n"
+        self.assertTrue(TestChecker.test(input,expect,502))
+
+    def test_type_missmatch_array_cell_4(self):
+        input = """
+        type Person struct {
+            name string
+            nickname [2]string
+        }
+        func foo() {
+            var huy Person
+            var c = huy.nickname[2];
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,503))
+
+    def test_type_missmatch_array_cell_5(self):
+        input = """
+        type Person struct {
+            name string
+        }
+        func (p Person) foo() [3]int {
+            var a int
+        }
+        func foo() {
+            var huy Person
+            var c = huy.foo()[23];
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,504))
+
+    def test_type_missmatch_array_cell_6(self):
+        input = """
+        type Person struct {
+            name string
+        }
+        func (p Person) foo() int {
+            var a int
+        }
+        func foo() {
+            var huy Person
+            var c = huy.foo()[23];
+        }
+        """
+        expect = "Type Mismatch: ArrayCell(MethodCall(Id(huy),foo,[]),[IntLiteral(23)])\n"
+        self.assertTrue(TestChecker.test(input,expect,505))
+
+    def test_type_missmatch_if_stmt(self):
+        input = """
+        func foo() {
+            if (1.2) {
+                return
+            }
+        }
+        """
+        expect = "Type Mismatch: If(FloatLiteral(1.2),Block([Return()]))\n"
+        self.assertTrue(TestChecker.test(input,expect,506))
+
+    def test_type_missmatch_if_stmt_2(self):
+        input = """
+        func foo() {
+            if (true) {
+                return
+            } else {
+                return
+            }
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,507))
+
+    def test_type_missmatch_if_stmt_3(self):
+        input = """
+        func foo() {
+            if (true) {
+                if (1 + 2) {
+                    return
+                }
+            }
+        }
+        """
+        expect = "Type Mismatch: If(BinaryOp(IntLiteral(1),+,IntLiteral(2)),Block([Return()]))\n"
+        self.assertTrue(TestChecker.test(input,expect,509))
+
+    def test_type_missmatch_if_stmt_4(self):
+        input = """
+        func foo() {
+            if (true) {
+                break
+            } else if (1.2 + 3) {
+                continue
+            } else {
+                return
+            }
+        }
+        """        
+        expect = "Type Mismatch: If(BinaryOp(FloatLiteral(1.2),+,IntLiteral(3)),Block([Continue()]),Block([Return()]))\n"
+        self.assertTrue(TestChecker.test(input,expect,511))
+
+    def test_type_missmatch_if_stmt_5(self):
+        input = """
+        func foo() {
+            if (true) {
+                break
+            } else if (1.2 + 3) {
+                continue
+            } else if (false) {
+                return
+            } else {
+                return
+            }
+        }
+        """        
+        expect = "Type Mismatch: If(BinaryOp(FloatLiteral(1.2),+,IntLiteral(3)),Block([Continue()]),If(BooleanLiteral(false),Block([Return()]),Block([Return()])))\n"
+        self.assertTrue(TestChecker.test(input,expect,512))
+
+    def test_type_missmatch_for_basic_stmt(self):
+        input = """
+        func foo() {
+            for (1.2) {
+                return
+            }
+        }
+        """
+        expect = "Type Mismatch: For(FloatLiteral(1.2),Block([Return()]))\n"
+        self.assertTrue(TestChecker.test(input,expect,513))
+
+    def test_type_missmatch_for_step_stmt(self):
+        input = """
+        func foo() {
+            for var i = 0; 23 + 45; i += 1 {
+                return
+            }
+        }
+        """
+        expect = "Type Mismatch: For(VarDecl(i,IntType,IntLiteral(0)),BinaryOp(IntLiteral(23),+,IntLiteral(45)),Assign(Id(i),BinaryOp(Id(i),+,IntLiteral(1))),Block([Return()]))\n"
+        self.assertTrue(TestChecker.test(input,expect,514))
+
+    def test_type_missmatch_for_each(self):
+        input = """
+        func foo() {
+            var arr [5]int
+            for i, i := range arr {
+                return
+            }
+        }
+        """
+        expect = "Redeclared Variable: i\n"
+        self.assertTrue(TestChecker.test(input,expect,515))
+
+    def test_type_missmatch_for_each_2(self):
+        input = """
+        func foo() {
+            var arr int
+            for idx, val := range arr {
+                return
+            }
+        }
+        """
+        expect = "Type Mismatch: ForEach(Id(idx),Id(val),Id(arr),Block([Return()]))\n"
+        self.assertTrue(TestChecker.test(input,expect,516))
+
+    

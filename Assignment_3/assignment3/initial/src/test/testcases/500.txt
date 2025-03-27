@@ -1,8 +1,7 @@
 
-        func main() {
-            foo();
-        }
         func foo() {
-            return
+            var a [5]int;
+            var b = 2;
+            var c = a[b][23];
         }
         

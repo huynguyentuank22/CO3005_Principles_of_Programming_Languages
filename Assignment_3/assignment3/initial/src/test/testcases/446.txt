@@ -1,5 +1,1 @@
-
-        func foo() {
-            var c = true + "huy";
-        }
-        
+var a int = "huy";

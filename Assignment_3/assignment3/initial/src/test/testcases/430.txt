@@ -1,7 +1,8 @@
 
-        type Person struct {
-            name string
+        func main() {
+            foo(12,23,45);
         }
-        var a Huy;
-        var b = a.foo();
+        func foo(a, b int) {
+            return
+        }
         

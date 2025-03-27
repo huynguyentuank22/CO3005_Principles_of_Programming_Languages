@@ -4,6 +4,8 @@ import "fmt"
 
 var a Person
 
+var c = a.age + 23
+
 type Person struct {
 	name string
 	age  int
@@ -33,8 +35,11 @@ type Employee struct {
 type Human interface {
 	print(a, b int)
 }
-
+var array = [3]int{1, 2, 3}
 func (huy Huy) print(c float32, d int) {
+	for i, i := range array {
+		fmt.Println(i, array)
+	}
 	return
 }
 func main() {

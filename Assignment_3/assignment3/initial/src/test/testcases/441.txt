@@ -1,1 +1,12 @@
-var a float = false;
+
+        type Address struct {
+            street string
+            city string
+        }
+        type Person struct {
+            name string
+            address Address
+        }
+        var huy Person;
+        var country = huy.address.country;
+        

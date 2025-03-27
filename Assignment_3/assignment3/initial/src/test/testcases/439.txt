@@ -1,1 +1,7 @@
-var a float = 1;
+
+        type Person struct {
+            name string
+        }
+        var a Person;
+        var b = a.age;
+        

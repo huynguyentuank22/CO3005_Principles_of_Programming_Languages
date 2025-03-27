@@ -1,1 +1,1 @@
-Type Mismatch: Return(BooleanLiteral(true))
+Undeclared Method: location

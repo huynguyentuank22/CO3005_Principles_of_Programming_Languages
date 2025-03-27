@@ -1,5 +1,5 @@
 
         func foo() {
-            var c = -true;
+            var c = 123 > 12.3;
         }
         

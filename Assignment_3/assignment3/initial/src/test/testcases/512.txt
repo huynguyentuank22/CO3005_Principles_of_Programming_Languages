@@ -1,0 +1,13 @@
+
+        func foo() {
+            if (true) {
+                break
+            } else if (1.2 + 3) {
+                continue
+            } else if (false) {
+                return
+            } else {
+                return
+            }
+        }
+        

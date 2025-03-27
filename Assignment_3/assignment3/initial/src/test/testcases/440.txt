@@ -1,1 +1,7 @@
-var a float = "huy";
+
+        type Person struct {
+            name string
+        }
+        var a Person;
+        var b = a.name
+        

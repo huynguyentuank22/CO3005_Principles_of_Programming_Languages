@@ -1,0 +1,6 @@
+
+        func foo() {
+            var a = !true
+            var b = !false
+        }
+        

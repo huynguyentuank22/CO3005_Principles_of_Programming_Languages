@@ -2,6 +2,7 @@
         type Person struct {
             name string
         }
+
         var a Person;
-        var b = c.d.name;
+        var b = a.name.first_name;
         
