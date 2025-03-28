@@ -1,7 +1,5 @@
 
-        func foo() {
-            const a = 1;
+        func getFloat() int {
+            return 1;
         }
-        
-        const a = 2
         

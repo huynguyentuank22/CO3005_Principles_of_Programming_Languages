@@ -1,8 +1,5 @@
 
-        const a = 2
-        func foofaa() {
-            var c int;
-            var d int;
-            var b = a;
+        func putFloat(a float, b float) {
+            putLn();
         }
         

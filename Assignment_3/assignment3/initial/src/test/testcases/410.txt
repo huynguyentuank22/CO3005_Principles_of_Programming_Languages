@@ -1,11 +1,5 @@
 
-        type Person struct {
-            name string
-        }
-        func (a Person) name() {
-            return
-        }
-        func (a Huy) foo() {
-            return
+        func putLn(message string) {
+            return;
         }
         

@@ -1,11 +1,8 @@
 
-        func (b Lina) foo() {
-            return
+        type putBoolLn interface {
+            Add(a int) int;
         }
-        type Lina struct {
-            name string
-        }
-        func (a Lina) foo() {
-            return
+        func putBoolLn() int {
+            return 0;
         }
         

@@ -37,11 +37,12 @@ type Human interface {
 }
 var array = [3]int{1, 2, 3}
 func (huy Huy) print(c float32, d int) {
-	for i, i := range array {
+	for i, array := range array {
 		fmt.Println(i, array)
 	}
 	return
 }
+func putLn() {}
 func main() {
 	// q := Person{"John", 30}
 	// q.print() // 🔹 Gọi phương thức print()

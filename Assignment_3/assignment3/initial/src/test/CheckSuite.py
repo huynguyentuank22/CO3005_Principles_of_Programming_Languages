@@ -1,14 +1,123 @@
 import unittest
 from TestUtils import TestChecker
 from AST import *
-
+import inspect
 class CheckSuite(unittest.TestCase):
+    def test_redeclared_builtin_(self):
+        input = """
+        func getInt() int {
+            return 42;
+        }
+        """
+        expect = "Redeclared Function: getInt\n"
+        self.assertTrue(TestChecker.test(input,expect,400))
+        
+    def test_redeclared_builtin_2(self):
+        input = """
+        func putInt(x float) {
+            return;
+        }
+        """
+        expect = "Redeclared Function: putInt\n"
+        self.assertTrue(TestChecker.test(input,expect,401))
+    
+    def test_redeclared_builtin_3(self):
+        input = """
+        func putIntLn(x int, y int) {
+            return;
+        }
+        """
+        expect = "Redeclared Function: putIntLn\n"
+        self.assertTrue(TestChecker.test(input,expect,402))
+        
+    def test_redeclared_builtin_4(self):
+        input = """
+        func getFloat() int {
+            return 1;
+        }
+        """
+        expect = "Redeclared Function: getFloat\n"
+        self.assertTrue(TestChecker.test(input,expect,403))
+        
+    def test_redeclared_builtin_5(self):
+        input = """
+        func putFloat(a float, b float) {
+            putLn();
+        }
+        """
+        expect = "Redeclared Function: putFloat\n"
+        self.assertTrue(TestChecker.test(input,expect,404))
+        
+    def test_redeclared_builtin_6(self):
+        input = """
+        const putFloatLn = 1;
+        func putFloatLn() string {
+            return "hello";
+        }
+        """
+        expect = "Redeclared Constant: putFloatLn\n"
+        self.assertTrue(TestChecker.test(input,expect,405))
+        
+    def test_redeclared_builtin_7(self):
+        input = """
+        var getBool = 1;
+        func getBool() string {
+            return "true";
+        }
+        """
+        expect = "Redeclared Variable: getBool\n"
+        self.assertTrue(TestChecker.test(input,expect,406))
+        
+    def test_redeclared_builtin_8(self):
+        input = """
+        type putBool struct {
+            a int;
+        }
+        func putBool(b boolean, extra string) {
+            return;
+        }
+        """
+        expect = "Redeclared Type: putBool\n"
+        self.assertTrue(TestChecker.test(input,expect,407))
+        
+    def test_redeclared_builtin_9(self):
+        input = """
+        type putBoolLn interface {
+            Add(a int) int;
+        }
+        func putBoolLn() int {
+            return 0;
+        }
+        """
+        expect = "Redeclared Type: putBoolLn\n"
+        self.assertTrue(TestChecker.test(input,expect,408))
+        
+    def test_redeclared_builtin_10(self):
+        input = """
+        func getString() {
+            return;
+        }
+        """
+        expect = "Redeclared Function: getString\n"
+        self.assertTrue(TestChecker.test(input,expect,409))
+        
+    def test_redeclared_builtin_11(self):
+        input = """
+        func putLn(message string) {
+            return;
+        }
+        """
+        expect = "Redeclared Function: putLn\n"
+        self.assertTrue(TestChecker.test(input,expect,410))
+
     def test_var_redeclared(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """var a int; var b int; var a Huy; """
         expect = "Redeclared Variable: a\n"
         self.assertTrue(TestChecker.test(input,expect,400))
 
     def test_var_redeclared_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo(a int, b int, c int) {
             var a int;
@@ -19,11 +128,13 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,401))
 
     def test_const_redeclared(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """const a = 1; const b = 2; const a = 3;"""
         expect = "Redeclared Constant: a\n"
         self.assertTrue(TestChecker.test(input,expect,402))
 
     def test_const_redeclared_local(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             const a = 1;
@@ -35,6 +146,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,403))
 
     def test_const_redeclared_global(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         const a = 2
         func foofaa() {
@@ -47,6 +159,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,404))
 
     def test_func_redeclared(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foofoo() {
             return
@@ -59,6 +172,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,405))
 
     def test_param_redeclared(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo(a, b int, a int) {
             return
@@ -68,6 +182,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,406))
 
     def test_method_redeclared(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         var foo int;
         func (a Person) foo() {
@@ -78,6 +193,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,407))
 
     def test_method_redeclared_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func (b Lina) foo() {
             return
@@ -93,6 +209,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,408))  
 
     def test_method_redeclared_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person123 struct {
             name string
@@ -108,6 +225,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,409))
 
     def test_method_redeclared_4(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -123,6 +241,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,410))
 
     def test_global(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func (a Person) name() {
             return
@@ -135,6 +254,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,411))
 
     def test_method_redeclared_5(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person321 struct {
             name string
@@ -150,6 +270,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,412))
 
     def test_struct_redeclared(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -162,6 +283,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,413))
 
     def test_field_redeclared(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -173,6 +295,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,414))
 
     def test_interface_redeclared(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person interface {
             foo()
@@ -185,6 +308,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,415))
 
     def test_interface_redeclared_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person interface {
             foo()
@@ -197,6 +321,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,416))
 
     def test_prototype_redeclared(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person interface {
             foo(a int)
@@ -207,11 +332,13 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,417))
 
     def test_mixed_redeclared(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """var a int; const a = 1;"""
         expect = "Redeclared Constant: a\n"
         self.assertTrue(TestChecker.test(input,expect,418))
 
     def test_mixed_redeclared_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         var foo int;
         func foo() {
@@ -222,6 +349,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,419))
 
     def test_mixed_redeclared_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         const b = 1;
         func foo() {
@@ -235,6 +363,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,420))
 
     def test_mix_redeclared_4(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         const b = 1;
         func foo() {
@@ -245,6 +374,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,421))
 
     def test_mix_redeclared_5(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             return
@@ -257,6 +387,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,422))
 
     def test_mix_redeclared_6(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -269,11 +400,13 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,423))
 
     def test_undeclared_identifier(self):
+        print(inspect.currentframe().f_code.co_name)
         input = "var a = b;"
         expect = "Undeclared Identifier: b\n"
         self.assertTrue(TestChecker.test(input,expect,424))
 
     def test_undeclared_identifier_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -285,6 +418,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,425))
 
     def test_undeclared_identifier_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -296,11 +430,13 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,426))
 
     def test_undeclared_func(self):
+        print(inspect.currentframe().f_code.co_name)
         input = "var a = foo();"
         expect = "Undeclared Function: foo\n"
         self.assertTrue(TestChecker.test(input,expect,427))
 
     def test_undeclared_func_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         var foo int 
         func main() {
@@ -311,6 +447,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,428))
 
     def test_undeclared_func_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func main() {
             foo();
@@ -323,6 +460,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,429))
 
     def test_undeclared_func_4(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func main() {
             foo(12,23,45);
@@ -335,6 +473,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,430))
 
     def test_undeclared_func_5(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func main() {
             foo(12, 2.3);
@@ -347,6 +486,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,431))
 
     def test_undeclared_method(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -358,6 +498,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,432))
 
     def test_undeclared_method_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         var a Persondepchai;
         var b = a.foo();
@@ -374,6 +515,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,433))    
 
     def test_undeclared_method_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type MyStruct struct {
             value int
@@ -396,6 +538,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,434))
     
     def test_undeclared_method_4(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type MyStruct struct {
             value int
@@ -414,6 +557,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,435))
 
     def test_undeclared_method_5(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type MyStruct struct {
             value int
@@ -432,6 +576,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,436))
 
     def test_undeclared_method_6(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Calculator interface {
             Add(a, b int) int
@@ -447,6 +592,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,437))
 
     def test_undeclared_method_7(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Calculator interface {
             Add(a, b int) int
@@ -463,6 +609,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,438))
 
     def test_undeclared_field(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -474,6 +621,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,439))
 
     def test_undeclared_field_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -485,6 +633,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,440))
 
     def test_undeclared_field_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Address struct {
             street string
@@ -501,6 +650,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,441))
 
     def test_undeclared_field_4(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Address struct {
             street string
@@ -518,6 +668,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,442))
 
     def test_undeclared_field_5(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Community struct {
             commu [3]Person
@@ -535,6 +686,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,508))
 
     def test_undeclared_mix_access(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Address struct {
             street string
@@ -552,6 +704,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,443))
 
     def test_undeclared_mix_access_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Address struct {
             street string
@@ -571,36 +724,43 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,444))
 
     def test_type_mismatch_int_with_float(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """var a int = 1.2;"""
         expect = "Type Mismatch: VarDecl(a,IntType,FloatLiteral(1.2))\n"
         self.assertTrue(TestChecker.test(input,expect,445))
     
     def test_type_missmatch_int_with_string(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """var a int = "huy";"""
         expect = """Type Mismatch: VarDecl(a,IntType,StringLiteral("huy"))\n"""
         self.assertTrue(TestChecker.test(input,expect,446))
 
     def test_type_missmatch_int_with_bool(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """var a int = true;"""
         expect = "Type Mismatch: VarDecl(a,IntType,BooleanLiteral(true))\n"
         self.assertTrue(TestChecker.test(input,expect,447))
 
     def test_type_missmatch_float_with_int(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """var a float = 1;"""
         expect = "Type Mismatch: VarDecl(a,FloatType,IntLiteral(1))\n"
         self.assertTrue(TestChecker.test(input,expect,448))
 
     def test_type_missmatch_float_with_string(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """var a float = "huy";"""
         expect = "Type Mismatch: VarDecl(a,FloatType,StringLiteral(\"huy\"))\n"
         self.assertTrue(TestChecker.test(input,expect,449))
 
     def test_type_missmatch_float_with_bool(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """var a float = false;"""
         expect = "Type Mismatch: VarDecl(a,FloatType,BooleanLiteral(false))\n"
         self.assertTrue(TestChecker.test(input,expect,450))
 
     def test_type_missmatch_return(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() int {
             return "huy";
@@ -610,6 +770,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,451))
 
     def test_type_missmatch_return_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() int {
             return true;
@@ -619,6 +780,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,452))
     
     def test_type_missmatch_return_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() int {
             return 12;
@@ -628,6 +790,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,453))
     
     def test_type_missmatch_plus(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = 12 + "huy";
@@ -637,6 +800,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,454))
 
     def test_type_missmatch_plus_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true + "huy";
@@ -646,6 +810,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,455))
 
     def test_type_missmatch_plus_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a = "Hello" + "huy";
@@ -659,6 +824,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,456))
     
     def test_type_missmatch_minus(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true - 123;
@@ -668,6 +834,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,457))
 
     def test_type_missmatch_minus_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = "huy" - 12.3;
@@ -677,6 +844,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,458))
 
     def test_type_missmatch_mul(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true * 123;
@@ -686,6 +854,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,459))
 
     def test_type_missmatch_mul_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = "huy" * 12.3;
@@ -695,6 +864,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,460))
 
     def test_type_missmatch_div(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true / 123;
@@ -704,6 +874,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,461))
 
     def test_type_missmatch_div_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = "huy" / 12.3;
@@ -713,6 +884,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,462))        
 
     def test_type_missmatch_minus_mul_div(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a = 123 - 456
@@ -733,6 +905,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,463))
 
     def test_type_missmatch_modulo(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true % 123;
@@ -742,6 +915,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,464))
 
     def test_type_missmatch_modulo_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = "huy" % 12.3;
@@ -751,6 +925,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,465))
 
     def test_type_missmatch_modulo_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a = 123 % 45.6
@@ -760,6 +935,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,466))
 
     def test_type_missmatch_modulo_4(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a = 123 % 45
@@ -769,6 +945,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,467))
 
     def test_type_missmatch_equal(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true == 123;
@@ -778,6 +955,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,468))
 
     def test_type_missmatch_equal_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = "huy" == 12.3;
@@ -787,6 +965,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,469))
 
     def test_type_missmatch_not_equal(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true != 123;
@@ -796,6 +975,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,470))
 
     def test_type_missmatch_not_equal_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = 123 != 12.3;
@@ -805,6 +985,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,471))
 
     def test_type_missmatch_less_than(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true < 123;
@@ -814,6 +995,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,472))
 
     def test_type_missmatch_less_than_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = 123 < 12.3;
@@ -823,6 +1005,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,473))
 
     def test_type_missmatch_less_than_equal(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true <= 123;
@@ -832,6 +1015,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,474))
 
     def test_type_missmatch_less_than_equal_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = 123 <= 12.3;
@@ -841,6 +1025,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,475))
 
     def test_type_missmatch_greater_than(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true > 123;
@@ -850,6 +1035,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,476))
     
     def test_type_missmatch_greater_than_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = 123 > 12.3;
@@ -859,6 +1045,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,477))
     
     def test_type_missmatch_greater_than_equal(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true >= 123;
@@ -868,6 +1055,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,478))
 
     def test_type_missmatch_greater_than_equal_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = 123 >= 12.3;
@@ -877,6 +1065,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,479))
 
     def test_type_missmatch_relational(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a = 123 == 456
@@ -908,6 +1097,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,480))
 
     def test_type_missmatch_and(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true && 123;
@@ -917,6 +1107,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,481))
 
     def test_type_missmatch_and_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = 123 && 12.3;
@@ -926,6 +1117,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,482))
 
     def test_type_missmatch_or(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = true || 123;
@@ -935,6 +1127,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,483))
     
     def test_type_missmatch_or_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = 123 || 12.3;
@@ -944,6 +1137,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,484))
 
     def test_type_missmatch_and_or(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a = true && false
@@ -954,6 +1148,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,485))
 
     def test_type_missmatch_neg(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = -true;
@@ -963,6 +1158,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,486))
 
     def test_type_missmatch_neg_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = -"huy";
@@ -972,6 +1168,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,487))
 
     def test_type_missmatch_neg_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a = -123 
@@ -982,6 +1179,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,488))
 
     def test_type_missmatch_not(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = !123;
@@ -991,6 +1189,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,489))
 
     def test_type_missmatch_not_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var c = !"huy";
@@ -1000,6 +1199,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,490))
 
     def test_type_missmatch_not_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a = !12.3
@@ -1009,6 +1209,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,491))
     
     def test_type_missmatch_not_4(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a = !true
@@ -1019,6 +1220,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,492))
 
     def test_type_missmatch_field(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -1030,6 +1232,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,493))
 
     def test_type_missmatch_field_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -1042,6 +1245,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,494))
 
     def test_type_missmatch_field_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Community struct {
             commu [3]Person
@@ -1059,6 +1263,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,510))
 
     def test_type_missmatch_method(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         var a Persondepchai;
         var b = a.foo();
@@ -1075,6 +1280,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,495))  
 
     def test_type_missmatch_method_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         var a Persondepchai;
         var b = a.foo(12, 34, 45);
@@ -1091,6 +1297,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,496))  
 
     def test_type_missmatch_method_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         var a Persondepchai;
         var b = a.foo(12, 3.4);
@@ -1107,6 +1314,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,497))  
 
     def test_type_missmatch_method_4(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Calculator interface {
             Add(a, b int) int
@@ -1122,6 +1330,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,498))
 
     def test_type_missmatch_method_5(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Calculator interface {
             Add(a, b int) int
@@ -1138,6 +1347,7 @@ class CheckSuite(unittest.TestCase):
     
 
     def test_type_missmatch_array_cell(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a [5]int;
@@ -1149,6 +1359,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,500))
 
     def test_type_missmatch_array_cell_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a [5]int;
@@ -1160,6 +1371,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,501))
 
     def test_type_missmatch_array_cell_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var a int;
@@ -1171,6 +1383,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,502))
 
     def test_type_missmatch_array_cell_4(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -1185,6 +1398,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,503))
 
     def test_type_missmatch_array_cell_5(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -1201,6 +1415,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,504))
 
     def test_type_missmatch_array_cell_6(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         type Person struct {
             name string
@@ -1217,6 +1432,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,505))
 
     def test_type_missmatch_if_stmt(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             if (1.2) {
@@ -1228,6 +1444,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,506))
 
     def test_type_missmatch_if_stmt_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             if (true) {
@@ -1241,6 +1458,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,507))
 
     def test_type_missmatch_if_stmt_3(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             if (true) {
@@ -1254,6 +1472,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,509))
 
     def test_type_missmatch_if_stmt_4(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             if (true) {
@@ -1269,6 +1488,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,511))
 
     def test_type_missmatch_if_stmt_5(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             if (true) {
@@ -1286,6 +1506,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,512))
 
     def test_type_missmatch_for_basic_stmt(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             for (1.2) {
@@ -1297,6 +1518,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,513))
 
     def test_type_missmatch_for_step_stmt(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             for var i = 0; 23 + 45; i += 1 {
@@ -1308,6 +1530,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,514))
 
     def test_type_missmatch_for_each(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var arr [5]int
@@ -1320,6 +1543,7 @@ class CheckSuite(unittest.TestCase):
         self.assertTrue(TestChecker.test(input,expect,515))
 
     def test_type_missmatch_for_each_2(self):
+        print(inspect.currentframe().f_code.co_name)
         input = """
         func foo() {
             var arr int
@@ -1330,5 +1554,101 @@ class CheckSuite(unittest.TestCase):
         """
         expect = "Type Mismatch: ForEach(Id(idx),Id(val),Id(arr),Block([Return()]))\n"
         self.assertTrue(TestChecker.test(input,expect,516))
+
+    def test_type_missmatch_assign(self):
+        print(inspect.currentframe().f_code.co_name)
+        input = """
+        func foo() {
+            var a = 5
+            var c float
+            c := a
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,517))
+
+    def test_type_missmatch_assign_2(self):
+        print(inspect.currentframe().f_code.co_name)
+        input = """
+        func foo() {
+            var a = "huy"
+            var c float
+            c := a + "hello"
+        }
+        """
+        expect = "Type Mismatch: Assign(Id(c),BinaryOp(Id(a),+,StringLiteral(\"hello\")))\n"
+        self.assertTrue(TestChecker.test(input,expect,518))
+
+    def test_type_missmatch_assign_array(self):
+        print(inspect.currentframe().f_code.co_name)
+        input = """
+        func foo() {
+            const one = 1
+            var row = 2 + one
+            var col = 3 + 2 * one
+            var a [3][5]int
+            var b [row][col]int
+            var c [3][5]float
+            b := a
+            c := a
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input,expect,519))
+
+    def test_type_missmatch_assign_array_2(self):
+        print(inspect.currentframe().f_code.co_name)
+        input = """
+        func foo() {
+            var row = 2 + 1
+            var col = 3 + 1 + 1
+            var a [3][5]int
+            var b [row][col][col]int
+            b := a
+        }
+        """
+        expect = "Type Mismatch: Assign(Id(b),Id(a))\n"
+        self.assertTrue(TestChecker.test(input,expect,520))
+
+    def test_type_missmatch_assign_array_3(self):
+        print(inspect.currentframe().f_code.co_name)
+        input = """
+        func foo() {
+            var row = 2 + 1
+            var col = 3 + 1
+            var a [3][5]int
+            var b [row][col]float
+            b := a
+        }
+        """
+        expect = "Type Mismatch: Assign(Id(b),Id(a))\n"
+        self.assertTrue(TestChecker.test(input,expect,521))
+
+    def test_type_missmatch_assign_array_4(self):
+        print(inspect.currentframe().f_code.co_name)
+        input = """
+        func foo() {
+            var row float = 2.0 + 1.0
+            var col = 3 + 1 + 1
+            var a [3][5]int
+            var b [row][col]float
+            b := a
+        }
+        """
+        expect = "Type Mismatch: Assign(Id(b),Id(a))\n"
+        self.assertTrue(TestChecker.test(input,expect,522))
+
+    def test_test_assign_aka_declared(self):
+        print(inspect.currentframe().f_code.co_name)
+        input = """
+        func test(x, y int, z float) {
+            var x int;
+            var z float;
+            t := 1;
+            const t = 2;
+        }
+        """
+        expect = "Redeclared Constant: t\n"
+        self.assertTrue(TestChecker.test(input,expect,426))
 
     

@@ -1,6 +1,8 @@
 
-        var foo int;
-        func (a Person) foo() {
-            return
+        type putBool struct {
+            a int;
+        }
+        func putBool(b boolean, extra string) {
+            return;
         }
         

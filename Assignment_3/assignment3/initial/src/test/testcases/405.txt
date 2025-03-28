@@ -1,8 +1,6 @@
 
-        func foofoo() {
-            return
-        } 
-        func foofoo() {
-            return
+        const putFloatLn = 1;
+        func putFloatLn() string {
+            return "hello";
         }
         

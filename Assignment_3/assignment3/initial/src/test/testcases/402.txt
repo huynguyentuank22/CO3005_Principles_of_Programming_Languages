@@ -1,1 +1,5 @@
-const a = 1; const b = 2; const a = 3;
+
+        func putIntLn(x int, y int) {
+            return;
+        }
+        

@@ -1,5 +1,6 @@
 
-        func foo(a, b int, a int) {
-            return
+        var getBool = 1;
+        func getBool() string {
+            return "true";
         }
         

@@ -1,1 +1,1 @@
-Redeclared Method: foo
+Redeclared Type: putBoolLn
