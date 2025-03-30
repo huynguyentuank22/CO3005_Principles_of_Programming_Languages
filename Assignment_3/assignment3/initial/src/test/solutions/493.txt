@@ -1,1 +1,1 @@
-Type Mismatch: FieldAccess(Id(a),name)
+Type Mismatch: BinaryOp(BooleanLiteral(true),&&,IntLiteral(123))

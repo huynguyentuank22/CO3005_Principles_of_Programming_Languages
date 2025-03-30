@@ -1,1 +1,8 @@
-var a = b;
+
+        type Person struct {
+            name string
+        }
+        type Person struct {
+            age int
+        }
+        

@@ -1,8 +1,8 @@
 
-        type Person interface {
-            foo()
-        }
-        type Huy interface {
-            foo()
+        func foofoo() {
+            return
+        } 
+        func foofoo() {
+            return
         }
         

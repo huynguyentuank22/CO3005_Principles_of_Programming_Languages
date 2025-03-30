@@ -1,8 +1,1 @@
-
-        func (a Person) name() {
-            return
-        }
-        type Person struct {
-            name string
-        }
-        
+var a int; var b int; var a Huy; 

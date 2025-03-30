@@ -1,1 +1,5 @@
-var a int; var b int; var a Huy; 
+
+        func getInt() int {
+            return 42;
+        }
+        

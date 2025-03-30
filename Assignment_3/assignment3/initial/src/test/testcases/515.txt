@@ -1,8 +1,7 @@
 
         func foo() {
-            var arr [5]int
-            for i, i := range arr {
-                return
-            }
+            var a int;
+            var b = 2;
+            var c = a[b][23];
         }
         

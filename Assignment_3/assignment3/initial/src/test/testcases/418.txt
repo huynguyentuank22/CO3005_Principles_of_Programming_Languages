@@ -1,1 +1,6 @@
-var a int; const a = 1;
+
+        var foo int;
+        func (a Person) foo() {
+            return
+        }
+        

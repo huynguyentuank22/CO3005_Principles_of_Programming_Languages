@@ -1,8 +1,11 @@
 
-        type Person struct {
+        type Person321 struct {
             name string
         }
-        type Person interface {
-            age()
+        func (a Person321) foo() {
+            return
+        }
+        func (a Huy) name() {
+            return
         }
         

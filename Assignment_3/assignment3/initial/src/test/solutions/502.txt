@@ -1,1 +1,1 @@
-Type Mismatch: ArrayCell(Id(a),[Id(b),IntLiteral(23)])
+Type Mismatch: UnaryOp(!,StringLiteral("huy"))

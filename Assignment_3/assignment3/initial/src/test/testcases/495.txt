@@ -1,12 +1,5 @@
 
-        var a Persondepchai;
-        var b = a.foo();
-
-        type Persondepchai struct {
-            name string
-        }
-
-        func (a Persondepchai) foo(a, b int) {
-            return
+        func foo() {
+            var c = true || 123;
         }
         

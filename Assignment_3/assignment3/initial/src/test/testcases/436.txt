@@ -1,14 +1,7 @@
 
-        type MyStruct struct {
-            value int
+        type Person struct {
+            name string
         }
-
-        func (m MyStruct) GetNext() MyStruct {
-            var a int
-        }
-
-        func main() {
-            var obj MyStruct
-            var result = obj.GetNext().Double()  
-        }
+        var a Person;
+        var b = c.name;
         

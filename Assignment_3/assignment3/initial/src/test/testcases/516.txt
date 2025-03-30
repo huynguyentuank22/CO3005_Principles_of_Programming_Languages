@@ -1,8 +1,10 @@
 
+        type Person struct {
+            name string
+            nickname [2]string
+        }
         func foo() {
-            var arr int
-            for idx, val := range arr {
-                return
-            }
+            var huy Person
+            var c = huy.nickname[2];
         }
         

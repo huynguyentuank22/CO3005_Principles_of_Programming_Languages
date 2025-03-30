@@ -1,11 +1,6 @@
 
-        type Person321 struct {
-            name string
-        }
-        func (a Person321) foo() {
-            return
-        }
-        func (a Huy) name() {
+        func foo(a int, b int, c int) {
+            var a int;
             return
         }
         

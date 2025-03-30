@@ -1,9 +1,11 @@
 
-        const b = 1;
-        func foo() {
-            var a int;
-            var b int;
-            var a int;
+        type Person123 struct {
+            name string
+        }
+        func (a Person123) foo() {
+            return
+        }
+        func (a Huy) foo() {
             return
         }
         

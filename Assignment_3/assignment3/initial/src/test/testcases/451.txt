@@ -1,5 +1,7 @@
 
-        func foo() int {
-            return "huy";
+        type Person struct {
+            name string
         }
+        var a Person;
+        var b = a.name
         

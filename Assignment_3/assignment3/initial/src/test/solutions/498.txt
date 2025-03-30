@@ -1,1 +1,1 @@
-Type Mismatch: MethodCall(Id(obj),Add,[FloatLiteral(1.2),FloatLiteral(2.3)])
+Type Mismatch: UnaryOp(-,BooleanLiteral(true))

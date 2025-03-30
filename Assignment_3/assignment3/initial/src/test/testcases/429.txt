@@ -1,8 +1,1 @@
-
-        func main() {
-            foo();
-        }
-        func foo(a, b int) {
-            return
-        }
-        
+var a int; const a = 1;

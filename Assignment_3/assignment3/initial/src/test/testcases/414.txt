@@ -1,7 +1,7 @@
 
-        type Person struct {
-            name string
-            age int
-            name string
+        func foo() {
+            const a = 1;
         }
+        
+        const a = 2
         

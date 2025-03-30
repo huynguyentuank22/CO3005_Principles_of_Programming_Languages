@@ -1,6 +1,11 @@
 
-        const b = 1;
-        func foo() {
-            var b int
+        type Person struct {
+            name string
+        }
+        func (a Person) name() {
+            return
+        }
+        func (a Huy) foo() {
+            return
         }
         

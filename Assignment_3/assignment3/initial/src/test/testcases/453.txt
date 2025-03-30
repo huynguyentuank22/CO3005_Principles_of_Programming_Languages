@@ -1,5 +1,13 @@
 
-        func foo() int {
-            return 12;
+        type Address struct {
+            street string
+            city string
+            country string
         }
+        type Person struct {
+            name string
+            address Address
+        }
+        var huy Person;
+        var country = huy.address.country;
         

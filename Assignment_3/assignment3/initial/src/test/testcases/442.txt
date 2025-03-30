@@ -1,13 +1,8 @@
 
-        type Address struct {
-            street string
-            city string
-            country string
+        func main() {
+            foo(12, 2.3);
         }
-        type Person struct {
-            name string
-            address Address
+        func foo(a, b int) {
+            return
         }
-        var huy Person;
-        var country = huy.address.country;
         

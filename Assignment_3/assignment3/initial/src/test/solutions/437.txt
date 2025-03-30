@@ -1,1 +1,1 @@
-Undeclared Method: Multiply
+Undeclared Identifier: c

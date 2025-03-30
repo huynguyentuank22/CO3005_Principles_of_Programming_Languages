@@ -1,12 +1,6 @@
 
-        type Person struct {
-            name string
-        }
-        func (p Person) foo() [3]int {
-            var a int
-        }
         func foo() {
-            var huy Person
-            var c = huy.foo()[23];
+            var a = !true
+            var b = !false
         }
         

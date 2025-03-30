@@ -1,0 +1,16 @@
+
+        type hihi interface {
+            foo(a int) int
+        }
+        func (p Person) foo(a float) int {
+            var a int
+        }
+        type Person struct {
+            a int
+        }
+        func main() {
+            var a Person
+            var b hihi
+            b := a
+        }
+        

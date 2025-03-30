@@ -1,49 +1,22 @@
 package main
 
-import "fmt"
 
-var a Person
-
-var c = a.age + 23
-
-type Person struct {
-	name string
-	age  int
+type A interface{
+	getInt() int
 }
-type Huy struct {
-	name string
-	age  int
+type B struct {
+	x int;
 }
-
-type Haha interface {
-	abc()
+func (b B) getInt(b int) int{
+	return b.x
+}
+func (b B) dosth(){
+	return;
 }
 
-func (ha Huy) abc() {
-	return
-}
-func (e Employee) a() {
-	fmt.Println(e.salary)
-}
-func cd() {
-	return
-}
-
-type Employee struct {
-	salary int
-}
-type Human interface {
-	print(a, b int)
-}
-var array = [3]int{1, 2, 3}
-func (huy Huy) print(c float32, d int) {
-	for i, array := range array {
-		fmt.Println(i, array)
-	}
-	return
-}
-func putLn() {}
 func main() {
-	// q := Person{"John", 30}
-	// q.print() // 🔹 Gọi phương thức print()
+	// var a A
+	// a = B{x: 5}
+	// a.dosth()
+
 }

@@ -27,6 +27,13 @@ class Utils:
                     return y
         return None
     
+    def lookup(self, lst, *name_func):
+        for x in lst:
+            for y in x:
+                if all([z == fun(y) for z, fun in name_func]):
+                    return y
+        return None
+    
     def getType(self, res):
         # if isinstance(res, tuple):
         #     print(res[0])
@@ -109,6 +116,9 @@ class StaticChecker(BaseVisitor,Utils):
             res = self.lookupRedeclared(ast.varName, env[0], lambda x: x.name)
             if res:
                 raise Redeclared(Variable(), ast.varName)
+            # check array type
+            if isinstance(ast.varType, ArrayType):
+                res = self.visit(ast.varType, c)
             return [env[0] + [Symbol(ast.varName, ast.varType)]] + env[1:]
         elif isGlobal == 'global':
             if ast.varInit:
@@ -121,16 +131,19 @@ class StaticChecker(BaseVisitor,Utils):
                         for _, j in enumerate(i):
                             if j.name == ast.varName:
                                 j.mtype = initType
-                                j.value = initValue
-
+                                j.value = initValue                            
                 if not type(ast.varType) is type(initType):
                     raise TypeMismatch(ast)
             return env
         else:
+            # self.printStack(env)
             res = self.lookupRedeclared(ast.varName, env[0], lambda x: x.name)
             if res:
                 raise Redeclared(Variable(), ast.varName)
             initValue = None
+            # check array type
+            if isinstance(ast.varType, ArrayType):
+                res = self.visit(ast.varType, c)
             if ast.varInit:
                 init = self.visit(ast.varInit, c)
                 initType = init if not isinstance(init, tuple) else init[0]  # Lấy kiểu từ tuple nếu có
@@ -228,7 +241,7 @@ class StaticChecker(BaseVisitor,Utils):
                 # local_env = [[]] + local_env
                 local_env = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.params, [[]] + local_env)
             # env = [[]] + env
-            self.visit(ast.body, (local_env, isGlobal))
+            self.visit(ast.body, (local_env, ast.name))
             return env
 
     def visitParamDecl(self,ast, c):
@@ -266,17 +279,20 @@ class StaticChecker(BaseVisitor,Utils):
                                 raise Redeclared(Method(), ast.fun.name)
                         parTypes = []
                         if ast.fun.params:
-                            parTypes = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.fun.params, [])
+                            param = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.fun.params, [(ast.receiver, ast.recType)])
+                            parTypes = [x[1] for x in param]
+                            parTypes = parTypes[1:] # Bỏ qua receiver
                         y.mtype.append(Symbol(ast.fun.name, MType(parTypes, ast.fun.retType), 'METHOD'))
                         return env
             return env
         else:
             local_env = deepcopy(env)
+            local_env = [[Symbol(ast.receiver, ast.recType)]] + local_env
             if ast.fun.params:
                 # local_env = [[]] + local_env
-                local_env = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.fun.params, [[]] + local_env)
+                local_env = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.fun.params, local_env)
             # env = [[]] + env
-            self.visit(ast.fun.body, (local_env, isGlobal))
+            self.visit(ast.fun.body, (local_env, ast.fun.name))
             return env
         
 
@@ -425,22 +441,25 @@ class StaticChecker(BaseVisitor,Utils):
         return (BoolType(), ast.value)
     
     def visitArrayLiteral(self, ast, c):
-        # if len(ast.value) == 0:
-        #     return ArrayType(None, [])
-        # eleType = self.visit(ast.value[0], c)
-        # if any([type(self.visit(x, c)) is not type(eleType) for x in ast.value]):
-        #     raise TypeMismatch(ast)
-        # return ArrayType(eleType, [])
-        pass
+        dim_types = [self.getType(self.visit(x, c)) for x in ast.dimens]
+        if any([not isinstance(x, IntType) for x in dim_types]):
+            raise TypeMismatch(ast)
+        return (ArrayType(ast.dimens, ast.eleType), None)
+    
+    def visitArrayType(self, ast, c):
+        dim_types = [self.getType(self.visit(x, c)) for x in ast.dimens]
+        if any([not isinstance(x, IntType) for x in dim_types]):
+            raise TypeMismatch(ast)
+        return (ArrayType(ast.dimens, ast.eleType), None)
 
     def visitStructLiteral(self, ast, c):
-        pass
+        return (Id(ast.name), None) 
 
     def visitAssign(self, ast, c):
         env, isGlobal = c
         if isinstance(ast.lhs, Id):
-            print('Id')
-            res = self.lookupUndeclared(ast.lhs.name, env, lambda x: x.name)
+            # print('Id')
+            res = self.lookupRedeclared(ast.lhs.name, env[0], lambda x: x.name)
             if res is None:
                 try:
                     rhs = self.visit(ast.rhs, c)
@@ -458,33 +477,65 @@ class StaticChecker(BaseVisitor,Utils):
         rhs = self.visit(ast.rhs, c)
         type_lhs = self.getType(lhs)
         type_rhs = self.getType(rhs)
-        print(type_lhs, type_rhs)
+        # print(type_lhs, type_rhs)
         if isinstance(type_lhs, VoidType):
-            print('void')
+            # print('void')
             raise TypeMismatch(ast)
         if not ((type(type_lhs) is type(type_rhs)) or (isinstance(type_lhs, FloatType) and isinstance(type_rhs, IntType))):
-            print('ko cung loai')
+            # print('ko cung loai')
             raise TypeMismatch(ast)
         if type(type_lhs) is ArrayType and type(type_rhs) is ArrayType:
-            print('array')
+            # print('array')
             if len(type_lhs.dimens) != len(type_rhs.dimens):
-                print('khac so phan tu')
+                # print('khac so phan tu')
                 raise TypeMismatch(ast)
-            int_check_lhs = all([isinstance(self.getType(self.visit(x, c)), IntType) for x in type_lhs.dimens])
-            int_check_rhs = all([isinstance(self.getType(self.visit(x, c)), IntType) for x in type_rhs.dimens])
-            if not int_check_lhs or not int_check_rhs:
-                print('ko phai int')
-                raise TypeMismatch(ast)
+            # int_check_lhs = all([isinstance(self.getType(self.visit(x, c)), IntType) for x in type_lhs.dimens])
+            # int_check_rhs = all([isinstance(self.getType(self.visit(x, c)), IntType) for x in type_rhs.dimens])
+            # if not int_check_lhs or not int_check_rhs:
+            #     print('ko phai int')
+            #     raise TypeMismatch(ast)
             # check value each dimens in array type between lhs and rhs
             dims_lhs = [self.getValue(self.visit(x, c)) for x in type_lhs.dimens]
             dims_rhs = [self.getValue(self.visit(x, c)) for x in type_rhs.dimens]
-            print(dims_lhs, dims_rhs)
+            # print(dims_lhs, dims_rhs)
             if any([x != y for x, y in zip(dims_lhs, dims_rhs)]):
-                print('khac phan tu')
+                # print('khac phan tu')
                 raise TypeMismatch(ast)
             if not ((type(type_lhs.eleType) is type(type_rhs.eleType)) or (isinstance(type_lhs.eleType, FloatType) and isinstance(type_rhs.eleType, IntType))):
                 raise TypeMismatch(ast)
-        # if isinstance(type_lhs, InterfaceType) and isinstance(type_rhs, StructType):
+        # print(lhs, rhs)
+        if isinstance(type_lhs, Id) and isinstance(type_rhs, Id):
+            res_lhs = self.lookup(env, (type_lhs.name, lambda x: x.name), ('INTERFACE', lambda x: x.value))
+            res_rhs = self.lookup(env, (type_rhs.name, lambda x: x.name), ('STRUCT', lambda x: x.value))
+            if  res_lhs and res_rhs:
+                # print(str(res_lhs), (res_rhs))
+                struct_methods = [method for method in res_rhs.mtype if method.value == 'METHOD']
+                interface_methods = [method for method in res_lhs.mtype if method.value == 'METHOD']
+                struct_method_dict = {method.name: method for method in struct_methods}
+
+                # Duyệt qua từng method trong interface
+                for intf_method in interface_methods:
+                    struct_method = struct_method_dict.get(intf_method.name)
+                    # print(str(intf_method), str(struct_method))
+                    # Kiểm tra xem method có tồn tại trong struct không
+                    if struct_method is None:
+                        # print('Method not found')
+                        raise TypeMismatch(ast)
+                    
+                    # Kiểm tra kiểu tham số (partype)
+                    if len(struct_method.mtype.partype) != len(intf_method.mtype.partype):
+                        # print('Number of parameters mismatch')
+                        raise TypeMismatch(ast)  # Số lượng tham số không khớp
+                    
+                    # So sánh từng kiểu tham số
+                    if any([type(struct_param) is not type(intf_param) for struct_param, intf_param in zip(struct_method.mtype.partype, intf_method.mtype.partype)]):
+                        # print('Parameter type mismatch')
+                        raise TypeMismatch(ast)  # Kiểu tham số không khớp
+                    
+                    # Kiểm tra kiểu trả về (rettype)
+                    if type(struct_method.mtype.rettype) is not type(intf_method.mtype.rettype):
+                        # print('Return type mismatch')
+                        raise TypeMismatch(ast)  # Kiểu trả về không khớp
         return env
     
     def visitId(self,ast,c):
@@ -552,11 +603,14 @@ class StaticChecker(BaseVisitor,Utils):
         pass
 
     def visitReturn(self,ast,c):
-        env = c[0]
-        typ_expr = VoidType() if ast.expr is None else self.visit(ast.expr, c)
-        res = self.lookupUndeclared('FUNCTION', env, lambda x: x.value)
+        env, func_name = c
+        typ_expr = VoidType() if ast.expr is None else self.getType(self.visit(ast.expr, c))
+        # print(typ_expr)
+        res = self.lookup(env, (func_name, lambda x: x.name), ('FUNCTION', lambda x: x.value))
         if res:
             if not type(res.mtype.rettype) is type(self.getType(typ_expr)):
+                # print(type(res.mtype.rettype), type(self.getType(typ_expr)))
+                # print('here')
                 raise TypeMismatch(ast)
             
     # def visitBinaryOp(self, ast, c):

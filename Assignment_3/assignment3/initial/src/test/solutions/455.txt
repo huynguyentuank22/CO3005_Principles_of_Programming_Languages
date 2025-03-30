@@ -1,1 +1,1 @@
-Type Mismatch: BinaryOp(BooleanLiteral(true),+,StringLiteral("huy"))
+Undeclared Method: location

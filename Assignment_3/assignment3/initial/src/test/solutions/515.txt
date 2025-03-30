@@ -1,1 +1,1 @@
-Redeclared Variable: i
+Type Mismatch: ArrayCell(Id(a),[Id(b),IntLiteral(23)])

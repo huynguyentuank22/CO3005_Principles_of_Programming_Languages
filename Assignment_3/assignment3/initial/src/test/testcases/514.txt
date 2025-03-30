@@ -1,7 +1,7 @@
 
         func foo() {
-            for var i = 0; 23 + 45; i += 1 {
-                return
-            }
+            var a [5]int;
+            var b = 2.3;
+            var c = a[b];
         }
         

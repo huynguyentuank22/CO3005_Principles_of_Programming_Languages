@@ -1,7 +1,8 @@
 
-        func foo() {
-            if (1.2) {
-                return
-            }
+        type Person struct {
+            name string
         }
+
+        var a Person;
+        var b = a.name.first_name;
         

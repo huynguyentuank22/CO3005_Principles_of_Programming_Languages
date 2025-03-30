@@ -1,1 +1,8 @@
-var a = foo();
+
+        type Person interface {
+            foo()
+        }
+        type Huy interface {
+            foo()
+        }
+        

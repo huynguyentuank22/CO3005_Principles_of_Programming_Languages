@@ -1,0 +1,20 @@
+
+        type A interface{
+            getInt() int
+        }
+        type B struct {
+            x int;
+        }
+        func (b B) getInt() int {
+            return b.x
+        }
+        func (b B) dosth(){
+            return;
+        }
+
+        func main (){
+            var a A
+            A := B{x:1}
+            a.dosth()
+        }
+        

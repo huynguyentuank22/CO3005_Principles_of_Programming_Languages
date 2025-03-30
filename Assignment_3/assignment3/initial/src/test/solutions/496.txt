@@ -1,1 +1,1 @@
-Type Mismatch: MethodCall(Id(a),foo,[IntLiteral(12),IntLiteral(34),IntLiteral(45)])
+Type Mismatch: BinaryOp(IntLiteral(123),||,FloatLiteral(12.3))

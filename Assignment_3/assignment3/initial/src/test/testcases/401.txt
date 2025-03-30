@@ -1,6 +1,5 @@
 
-        func foo(a int, b int, c int) {
-            var a int;
-            return
+        func putInt(x float) {
+            return;
         }
         

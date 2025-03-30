@@ -1,1 +1,1 @@
-Type Mismatch: FuncCall(foo,[])
+Redeclared Constant: a

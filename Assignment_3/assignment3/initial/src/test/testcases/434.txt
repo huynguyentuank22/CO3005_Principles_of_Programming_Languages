@@ -1,18 +1,8 @@
 
-        type MyStruct struct {
-            value int
+        type Person struct {
+            name string
         }
-
-        func (m MyStruct) GetNext() MyStruct {
-            var a int
-        }
-
-        func (m MyStruct) Double() MyStruct {
-            var b int
-        }
-
-        func main() {
-            var obj MyStruct
-            var result = obj.GetNext().Double()  
+        type Person interface {
+            age()
         }
         

@@ -1,1 +1,1 @@
-Type Mismatch: VarDecl(a,IntType,StringLiteral("huy"))
+Undeclared Method: GetNext

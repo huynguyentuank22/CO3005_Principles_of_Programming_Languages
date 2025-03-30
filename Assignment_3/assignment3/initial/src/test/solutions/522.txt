@@ -1,1 +1,1 @@
-Type Mismatch: Assign(Id(b),Id(a))
+Type Mismatch: If(BinaryOp(FloatLiteral(1.2),+,IntLiteral(3)),Block([Continue()]),Block([Return()]))

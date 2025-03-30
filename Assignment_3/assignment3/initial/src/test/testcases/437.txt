@@ -1,11 +1,7 @@
 
-        type Calculator interface {
-            Add(a, b int) int
-            Subtract(a, b int) int
+        type Person struct {
+            name string
         }
-
-        func main() {
-            var obj Calculator
-            var result = obj.Multiply(1, 2)
-        }
+        var a Person;
+        var b = c.d.name;
         

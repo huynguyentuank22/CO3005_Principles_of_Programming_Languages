@@ -1,9 +1,15 @@
 
-        func foo() {
-            var a = "Hello" + "huy";
-            var b = 123 + 456
-            var c = 12.3 + 45.6
-            var d = 123 + 45.6
-            var e = 123.4 + 45
+        type Address struct {
+            street string
+            city string
+            country string
         }
+        func (p Person) location() Address {
+            var a int
+        }
+        type Person struct {
+            name string
+        }
+        var huy Person;
+        var add = huy.location().location;
         

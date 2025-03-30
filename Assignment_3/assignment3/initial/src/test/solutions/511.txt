@@ -1,1 +1,1 @@
-Type Mismatch: If(BinaryOp(FloatLiteral(1.2),+,IntLiteral(3)),Block([Continue()]),Block([Return()]))
+Type Mismatch: MethodCall(Id(obj),Add,[FloatLiteral(1.2),FloatLiteral(2.3)])

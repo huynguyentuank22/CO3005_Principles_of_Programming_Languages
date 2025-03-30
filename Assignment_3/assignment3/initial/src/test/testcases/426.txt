@@ -1,7 +1,8 @@
 
-        type Person struct {
-            name string
+        type Person interface {
+            foo()
         }
-        var a Person;
-        var b = c.d.name;
+        type Person interface {
+            foo1()
+        }
         

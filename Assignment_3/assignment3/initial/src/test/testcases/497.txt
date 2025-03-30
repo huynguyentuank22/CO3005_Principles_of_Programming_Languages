@@ -1,12 +1,6 @@
 
-        var a Persondepchai;
-        var b = a.foo(12, 3.4);
-
-        type Persondepchai struct {
-            name string
-        }
-
-        func (a Persondepchai) foo(a, b int) {
-            return
+        func foo() {
+            var a = true && false
+            var b = true || false
         }
         

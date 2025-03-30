@@ -1,1 +1,1 @@
-Type Mismatch: Assign(Id(c),BinaryOp(Id(a),+,StringLiteral("hello")))
+Type Mismatch: ArrayCell(MethodCall(Id(huy),foo,[]),[IntLiteral(23)])

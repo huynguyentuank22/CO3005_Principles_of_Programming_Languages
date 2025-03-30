@@ -1,1 +1,1 @@
-Undeclared Field: age
+Type Mismatch: MethodCall(Id(a),foo,[])

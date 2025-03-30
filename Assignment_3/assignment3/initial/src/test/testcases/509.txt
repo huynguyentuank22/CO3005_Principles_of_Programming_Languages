@@ -1,9 +1,12 @@
 
-        func foo() {
-            if (true) {
-                if (1 + 2) {
-                    return
-                }
-            }
+        var a Persondepchai;
+        var b = a.foo(12, 34, 45);
+
+        type Persondepchai struct {
+            name string
+        }
+
+        func (c Persondepchai) foo(a, b int) {
+            return
         }
         

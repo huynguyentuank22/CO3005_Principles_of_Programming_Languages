@@ -1,1 +1,1 @@
-Undeclared Field: country
+Type Mismatch: FuncCall(foo,[IntLiteral(12),IntLiteral(23),IntLiteral(45)])

@@ -1,5 +1,1 @@
-
-        func foo() {
-            var c = "huy" * 12.3;
-        }
-        
+var a float = 1;

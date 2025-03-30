@@ -1,1 +1,1 @@
-Undeclared Field: age
+Undeclared Function: foo

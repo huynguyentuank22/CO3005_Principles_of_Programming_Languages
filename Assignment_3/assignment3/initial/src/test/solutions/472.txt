@@ -1,1 +1,1 @@
-Type Mismatch: BinaryOp(BooleanLiteral(true),<,IntLiteral(123))
+Type Mismatch: BinaryOp(StringLiteral("huy"),*,FloatLiteral(12.3))

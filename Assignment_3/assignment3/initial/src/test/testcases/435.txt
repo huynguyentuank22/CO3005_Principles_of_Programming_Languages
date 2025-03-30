@@ -1,14 +1,1 @@
-
-        type MyStruct struct {
-            value int
-        }
-
-        func (m MyStruct) Double() MyStruct {
-            var b int
-        }
-
-        func main() {
-            var obj MyStruct
-            var result = obj.GetNext().Double()  
-        }
-        
+var a = b;

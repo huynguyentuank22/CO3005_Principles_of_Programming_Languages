@@ -1,8 +1,6 @@
 
-        func main() {
-            foo(12,23,45);
-        }
-        func foo(a, b int) {
+        var foo int;
+        func foo() {
             return
         }
         

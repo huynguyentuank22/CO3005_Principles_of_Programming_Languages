@@ -1,15 +1,12 @@
 
-        type Address struct {
-            street string
-            city string
-            country string
-        }
-        func (p Person) location() Address {
-            var a int
-        }
-        type Person struct {
+        var a Persondepchai;
+        var b = a.foo();
+
+        type Persondepchai struct {
             name string
         }
-        var huy Person;
-        var add = huy.location().location;
+
+        func (a Persondepchai) foo() {
+            return
+        }
         

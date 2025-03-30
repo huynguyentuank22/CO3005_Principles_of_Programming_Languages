@@ -1,5 +1,13 @@
 
-        func foo() {
-            var c = 12 + "huy";
+        type Community struct {
+            commu [3]Person
+        }
+        type Person struct {
+            name string
+        }
+        
+        func main() {
+            var obj Community
+            var result = obj.commu[3].age
         }
         

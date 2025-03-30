@@ -1,0 +1,7 @@
+
+        func foo() {
+            var a = "huy"
+            var c float
+            c := a + "hello"
+        }
+        

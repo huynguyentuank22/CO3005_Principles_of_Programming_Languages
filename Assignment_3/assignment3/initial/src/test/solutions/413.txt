@@ -1,1 +1,1 @@
-Redeclared Type: Person
+Redeclared Constant: a

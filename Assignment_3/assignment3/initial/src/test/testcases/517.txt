@@ -1,7 +1,12 @@
 
+        type Person struct {
+            name string
+        }
+        func (p Person) foo() [3]int {
+            var a int
+        }
         func foo() {
-            var a = 5
-            var c float
-            c := a
+            var huy Person
+            var c = huy.foo()[23];
         }
         
