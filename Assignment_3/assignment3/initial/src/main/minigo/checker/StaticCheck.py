@@ -70,19 +70,19 @@ class Symbol:
 class StaticChecker(BaseVisitor,Utils):
     def __init__(self,ast):
         self.ast = ast
-        self.global_envi = [Symbol("getInt",MType([],IntType())),
-                            Symbol("putInt",MType([IntType()],VoidType())),
-                            Symbol("putIntLn",MType([IntType()],VoidType())),
-                            Symbol("getFloat",MType([],FloatType())),
-                            Symbol("putFloat",MType([FloatType()],VoidType())),
-                            Symbol("putFloatLn",MType([FloatType()],VoidType())),
-                            Symbol("getBool",MType([],BoolType())),
-                            Symbol("putBool",MType([BoolType()],VoidType())),
-                            Symbol("putBoolLn",MType([BoolType()],VoidType())),
-                            Symbol("getString",MType([],StringType())),
-                            Symbol("putString",MType([StringType()],VoidType())),
-                            Symbol("putStringLn",MType([StringType()],VoidType())),
-                            Symbol("putLn",MType([],VoidType()))]
+        self.global_envi = [Symbol("getInt",MType([],IntType()), 'FUNCTION'),
+                            Symbol("putInt",MType([IntType()],VoidType()), 'FUNCTION'),
+                            Symbol("putIntLn",MType([IntType()],VoidType()), 'FUNCTION'),
+                            Symbol("getFloat",MType([],FloatType()), 'FUNCTION'),
+                            Symbol("putFloat",MType([FloatType()],VoidType()), 'FUNCTION'),
+                            Symbol("putFloatLn",MType([FloatType()],VoidType()), 'FUNCTION'),
+                            Symbol("getBool",MType([],BoolType()), 'FUNCTION'),
+                            Symbol("putBool",MType([BoolType()],VoidType()), 'FUNCTION'),
+                            Symbol("putBoolLn",MType([BoolType()],VoidType()), 'FUNCTION'),
+                            Symbol("getString",MType([],StringType()), 'FUNCTION'),
+                            Symbol("putString",MType([StringType()],VoidType()), 'FUNCTION'),
+                            Symbol("putStringLn",MType([StringType()],VoidType()), 'FUNCTION'),
+                            Symbol("putLn",MType([],VoidType()), 'FUNCTION')]
     
     def check(self):
         return self.visit(self.ast,self.global_envi)
@@ -113,6 +113,7 @@ class StaticChecker(BaseVisitor,Utils):
             return [env[0] + [Symbol(ast.varName, ast.varType)]] + env[1:]
         elif isGlobal == 'global':
             if ast.varInit:
+                c = (env, 'expr')
                 init = self.visit(ast.varInit, c)
                 initType = init if not isinstance(init, tuple) else init[0]  # Lấy kiểu từ tuple nếu có
                 initValue = None if not isinstance(init, tuple) else init[1]  # Lấy giá trị nếu có
@@ -135,6 +136,7 @@ class StaticChecker(BaseVisitor,Utils):
             if isinstance(ast.varType, ArrayType):
                 res = self.visit(ast.varType, c)
             if ast.varInit:
+                c = (env, 'expr')
                 init = self.visit(ast.varInit, c)
                 initType = init if not isinstance(init, tuple) else init[0]  # Lấy kiểu từ tuple nếu có
                 initValue = None if not isinstance(init, tuple) else init[1]  # Lấy giá trị nếu có
@@ -152,6 +154,7 @@ class StaticChecker(BaseVisitor,Utils):
                 raise Redeclared(Constant(), ast.conName)
             return [env[0] + [Symbol(ast.conName, ast.conType)]] + env[1:]
         elif isGlobal == 'global':
+            c = (env, 'expr')
             init = self.visit(ast.iniExpr, c)
             conType = init if not isinstance(init, tuple) else init[0]  # Lấy kiểu từ tuple nếu có
             initValue = None if not isinstance(init, tuple) else init[1]  # Lấy giá trị nếu có
@@ -217,7 +220,7 @@ class StaticChecker(BaseVisitor,Utils):
             local_env = deepcopy(env)
             if ast.params:
                 local_env = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.params, [[]] + local_env)
-            self.visit(ast.body, (local_env, ast.name))
+            self.visit(ast.body, (local_env, str(ast.retType)))
             return env
 
     def visitParamDecl(self,ast, c):
@@ -253,7 +256,7 @@ class StaticChecker(BaseVisitor,Utils):
             local_env = [[Symbol(ast.receiver, ast.recType)]] + local_env
             if ast.fun.params:
                 local_env = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.fun.params, local_env)
-            self.visit(ast.fun.body, (local_env, ast.fun.name))
+            self.visit(ast.fun.body, (local_env, str(ast.fun.retType)))
             return env        
     
     def visitBlock(self, ast, c):
@@ -262,7 +265,9 @@ class StaticChecker(BaseVisitor,Utils):
         return env
 
     def visitFuncCall(self,ast, c):
-        env = c[0]
+        env, isGlobal = c
+        c = (env, 'expr')
+        # self.printStack(env)
         res = self.lookupUndeclared(ast.funName, env, lambda x: x.name)
         if (res is None) or (res and res.value != 'FUNCTION'):
             raise Undeclared(Function(), ast.funName)
@@ -271,10 +276,15 @@ class StaticChecker(BaseVisitor,Utils):
                 raise TypeMismatch(ast)
             if any([type(self.getType(self.visit(x, c))) is not type(res.mtype.partype[i]) for i, x in enumerate(ast.args)]):
                 raise TypeMismatch(ast)
-            return res.mtype.rettype
+            # print(isGlobal)
+            if isGlobal == 'expr':
+                return res.mtype.rettype
+            else: 
+                return env
     
     def visitMethCall(self, ast, c):
-        env = c[0]
+        env, isGlobal = c
+        c = (env, 'expr')
         # Xử lý receiver để lấy kiểu của nó
         if isinstance(ast.receiver, MethCall):
             recv_type = self.visitMethCall(ast.receiver, c)  # Đệ quy cho MethCall lồng nhau
@@ -306,11 +316,18 @@ class StaticChecker(BaseVisitor,Utils):
             raise TypeMismatch(ast)
         if any([type(self.getType(self.visit(x, c))) is not type(method_symbol.mtype.partype[i]) for i, x in enumerate(ast.args)]):
             raise TypeMismatch(ast)
-        return method_symbol.mtype.rettype  # Trả về kiểu trả về của method 
+        # print(isGlobal)
+        if isGlobal == 'expr':
+            # print('here')
+            return method_symbol.mtype.rettype  # Trả về kiểu trả về của method 
+        else: 
+            # print('here2')
+            return env
 
     def visitFieldAccess(self, ast, c):
+        # print(c)
         env = c[0]
-        
+        # c = (env, 'expr')
         # Xử lý receiver để lấy kiểu của nó
         if isinstance(ast.receiver, FieldAccess):
             recv_type = self.visitFieldAccess(ast.receiver, c)  # Đệ quy để lấy kiểu của receiver
@@ -344,6 +361,7 @@ class StaticChecker(BaseVisitor,Utils):
         return field_symbol.mtype  # Trả về kiểu của field để dùng ở mức trên
     
     def visitArrayCell(self, ast, c):
+        # c = (c[0], 'expr')
         arr_type = self.visit(ast.arr, c)
         idx = [self.visit(x, c) for x in ast.idx]
         if not isinstance(self.getType(arr_type), ArrayType):
@@ -385,6 +403,7 @@ class StaticChecker(BaseVisitor,Utils):
             res = self.lookupRedeclared(ast.lhs.name, env[0], lambda x: x.name)
             if res is None:
                 try:
+                    c = (env, 'expr')
                     rhs = self.visit(ast.rhs, c)
                     type_rhs = self.getType(rhs)
                     val_rhs = self.getValue(rhs)
@@ -394,8 +413,7 @@ class StaticChecker(BaseVisitor,Utils):
                     if ast.lhs.name == e.n:
                         raise TypeMismatch(ast)
                     raise Undeclared(e.k, e.n)
-            
-            
+        c = (env, 'expr')   
         lhs = self.visit(ast.lhs, c)
         rhs = self.visit(ast.rhs, c)
         type_lhs = self.getType(lhs)
@@ -508,12 +526,36 @@ class StaticChecker(BaseVisitor,Utils):
 
     def visitReturn(self,ast,c):
         env, func_name = c
+        c = (env, 'expr')
         typ_expr = VoidType() if ast.expr is None else self.getType(self.visit(ast.expr, c))
         # print(typ_expr)
-        res = self.lookup(env, (func_name, lambda x: x.name), ('FUNCTION', lambda x: x.value))
-        if res:
-            if not type(res.mtype.rettype) is type(self.getType(typ_expr)):
+        # res_func = self.lookup(env, (func_name, lambda x: x.name), ('FUNCTION', lambda x: x.value))
+        # res_meth = self.lookup(env, (func_name, lambda x: x.name), ('METHOD', lambda x: x.value))
+        # if res_func:
+        #     if not type(res_func.mtype.rettype) is type(typ_expr):
+        #         raise TypeMismatch(ast)
+        # if res_meth:
+        #     if not type(res_meth.fun.mtype.rettype) is type(typ_expr):
+        #         raise TypeMismatch(ast)
+        # print(func_name)
+        if func_name.startswith('ArrayType('):
+            # print('ArrayType')
+            if not isinstance(typ_expr, ArrayType):
                 raise TypeMismatch(ast)
+        if func_name.startswith('Id('):
+            # print('Id')
+            if not isinstance(typ_expr, Id):
+                raise TypeMismatch(ast)
+            if typ_expr.name != func_name[3:-1]:
+                raise TypeMismatch(ast)
+        # if not isinstance(typ_expr, func_name):
+        #     raise TypeMismatch(ast)
+        dict = { 'VoidType': VoidType, 'IntType': IntType, 'FloatType': FloatType, 'StringType': StringType, 'BoolType': BoolType }
+        if func_name in dict:
+            if not isinstance(typ_expr, dict[func_name]):
+                raise TypeMismatch(ast)
+        
+        return env
              
     def visitBinaryOp(self, ast, c):
         # + Addition int/float/string
@@ -530,6 +572,8 @@ class StaticChecker(BaseVisitor,Utils):
         # ! Negation boolean 
         # && Conjunction (AND) boolean 
         # || Disjunction (OR) boolean
+        # c = (c[0], 'expr')
+        # print(c)
         left = self.visit(ast.left, c)
         right = self.visit(ast.right, c)
 
@@ -596,6 +640,7 @@ class StaticChecker(BaseVisitor,Utils):
         raise TypeMismatch(ast)
 
     def visitUnaryOp(self, ast, c):
+        # c = (c[0], 'expr')
         body = self.visit(ast.body, c)
         
         # Xử lý tuple từ visit
