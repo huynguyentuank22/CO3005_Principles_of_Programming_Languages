@@ -1,1 +1,1 @@
-Undeclared Method: Double
+Undeclared Method: GetNext

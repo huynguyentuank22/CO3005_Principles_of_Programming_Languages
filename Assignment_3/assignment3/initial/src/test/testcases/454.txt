@@ -1,13 +1,13 @@
 
-        type Community struct {
-            commu [3]Person
+        type Address struct {
+            street string
+            city string
+            country string
         }
         type Person struct {
             name string
+            address Address
         }
-        
-        func main() {
-            var obj Community
-            var result = obj.commu[3].age
-        }
+        var huy Person;
+        var country = huy.address.country;
         

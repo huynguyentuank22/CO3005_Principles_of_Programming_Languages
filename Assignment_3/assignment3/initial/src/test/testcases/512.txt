@@ -6,6 +6,6 @@
 
         func main() {
             var obj Calculator
-            var result = obj.Add(1, 2, 3)
+            var result = obj.Add(1.2, 2.3)
         }
         

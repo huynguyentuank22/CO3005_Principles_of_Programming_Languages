@@ -1,1 +1,1 @@
-Type Mismatch: MethodCall(Id(obj),Add,[FloatLiteral(1.2),FloatLiteral(2.3)])
+Type Mismatch: MethodCall(Id(a),foo,[IntLiteral(12),FloatLiteral(3.4)])

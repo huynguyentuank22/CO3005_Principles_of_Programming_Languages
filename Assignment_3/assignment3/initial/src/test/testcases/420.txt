@@ -1,11 +1,11 @@
 
-        type Person123 struct {
-            name string
-        }
-        func (a Person123) foo() {
+        func (b Lina) foo() {
             return
         }
-        func (a Huy) foo() {
+        type Lina struct {
+            name string
+        }
+        func (a Lina) foo() {
             return
         }
         

@@ -2,7 +2,6 @@
         type Address struct {
             street string
             city string
-            country string
         }
         type Person struct {
             name string

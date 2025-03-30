@@ -1,6 +1,6 @@
 
         var a Persondepchai;
-        var b = a.foo(12, 34, 45);
+        var b = a.foo();
 
         type Persondepchai struct {
             name string

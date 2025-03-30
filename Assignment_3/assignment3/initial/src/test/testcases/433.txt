@@ -1,8 +1,6 @@
 
+        const b = 1;
         func foo() {
-            return
-        }
-        func (a Person) foo() {
-            return
+            var b int
         }
         

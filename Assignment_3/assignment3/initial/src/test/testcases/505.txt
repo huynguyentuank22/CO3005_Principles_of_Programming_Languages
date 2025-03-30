@@ -1,7 +1,6 @@
 
-        type Person struct {
-            name string
+        func foo() {
+            var a = !true
+            var b = !false
         }
-        var a int;
-        var b = a.name;
         

@@ -1,6 +1,8 @@
 
         type Person interface {
-            foo(a int)
+            foo()
+        }
+        type Huy interface {
             foo()
         }
         

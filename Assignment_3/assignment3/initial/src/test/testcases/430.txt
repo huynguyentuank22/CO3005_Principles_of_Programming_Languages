@@ -1,6 +1,1 @@
-
-        var foo int;
-        func foo() {
-            return
-        }
-        
+var a int; const a = 1;

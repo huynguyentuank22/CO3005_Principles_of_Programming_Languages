@@ -1,5 +1,6 @@
 
         func foo() {
-            var c = -true;
+            var a = true && false
+            var b = true || false
         }
         

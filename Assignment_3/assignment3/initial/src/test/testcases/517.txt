@@ -1,12 +1,10 @@
 
         type Person struct {
             name string
-        }
-        func (p Person) foo() [3]int {
-            var a int
+            nickname [2]string
         }
         func foo() {
             var huy Person
-            var c = huy.foo()[23];
+            var c = huy.nickname[2];
         }
         

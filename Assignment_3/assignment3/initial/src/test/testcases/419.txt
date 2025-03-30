@@ -1,11 +1,6 @@
 
-        func (b Lina) foo() {
-            return
-        }
-        type Lina struct {
-            name string
-        }
-        func (a Lina) foo() {
+        var foo int;
+        func (a Person) foo() {
             return
         }
         

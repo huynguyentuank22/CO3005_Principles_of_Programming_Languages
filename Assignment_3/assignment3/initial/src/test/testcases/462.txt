@@ -1,1 +1,1 @@
-var a float = false;
+var a float = "huy";

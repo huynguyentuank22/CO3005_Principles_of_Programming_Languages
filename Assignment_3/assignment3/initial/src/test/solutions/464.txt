@@ -1,1 +1,1 @@
-Type Mismatch: Return(BooleanLiteral(true))
+Type Mismatch: Return(StringLiteral("huy"))

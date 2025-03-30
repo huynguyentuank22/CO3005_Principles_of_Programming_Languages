@@ -1,1 +1,1 @@
-Type Mismatch: If(FloatLiteral(1.2),Block([Return()]))
+Type Mismatch: ArrayCell(MethodCall(Id(huy),foo,[]),[IntLiteral(23)])

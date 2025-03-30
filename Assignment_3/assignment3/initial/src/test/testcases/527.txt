@@ -1,7 +1,7 @@
 
         func foo() {
-            var arr int
-            for idx, val := range arr {
+            var arr [5]int
+            for i, i := range arr {
                 return
             }
         }

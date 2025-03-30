@@ -3,6 +3,10 @@
             value int
         }
 
+        func (m MyStruct) GetNext() MyStruct {
+            var a int
+        }
+
         func (m MyStruct) Double() MyStruct {
             var b int
         }

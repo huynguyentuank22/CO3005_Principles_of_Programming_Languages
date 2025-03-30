@@ -3,5 +3,5 @@
             name string
         }
         var a Person;
-        var b = c.d.name;
+        var b = c.name;
         

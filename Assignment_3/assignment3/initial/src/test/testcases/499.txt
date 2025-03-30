@@ -1,5 +1,5 @@
 
         func foo() {
-            var c = -"huy";
+            var c = -true;
         }
         

@@ -1,8 +1,6 @@
 
+        var foo int 
         func main() {
             foo();
-        }
-        func foo(a, b int) {
-            return
         }
         

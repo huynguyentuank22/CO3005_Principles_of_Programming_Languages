@@ -1,6 +1,8 @@
 
-        var foo int;
-        func (a Person) foo() {
+        type Person struct {
+            name string
+        }
+        func (a Person) foo(a, b int, c int) {
             return
         }
         

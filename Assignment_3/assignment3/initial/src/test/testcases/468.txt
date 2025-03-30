@@ -1,9 +1,5 @@
 
         func foo() {
-            var a = "Hello" + "huy";
-            var b = 123 + 456
-            var c = 12.3 + 45.6
-            var d = 123 + 45.6
-            var e = 123.4 + 45
+            var c = true + "huy";
         }
         

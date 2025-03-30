@@ -1,1 +1,1 @@
-Type Mismatch: VarDecl(a,FloatType,BooleanLiteral(false))
+Type Mismatch: VarDecl(a,FloatType,StringLiteral("huy"))

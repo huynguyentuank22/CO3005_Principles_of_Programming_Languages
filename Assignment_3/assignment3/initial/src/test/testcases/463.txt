@@ -1,5 +1,1 @@
-
-        func foo() int {
-            return "huy";
-        }
-        
+var a float = false;

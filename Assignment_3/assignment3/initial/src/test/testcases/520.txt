@@ -1,8 +1,6 @@
 
         func foo() {
-            if (true) {
-                return
-            } else {
+            if (1.2) {
                 return
             }
         }

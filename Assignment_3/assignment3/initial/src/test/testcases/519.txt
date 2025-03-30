@@ -1,7 +1,12 @@
 
+        type Person struct {
+            name string
+        }
+        func (p Person) foo() int {
+            var a int
+        }
         func foo() {
-            if (1.2) {
-                return
-            }
+            var huy Person
+            var c = huy.foo()[23];
         }
         

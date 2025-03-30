@@ -4,12 +4,10 @@
             city string
             country string
         }
-        func (p Person) location() Address {
-            var a int
-        }
         type Person struct {
             name string
+            address Address
         }
         var huy Person;
-        var add = huy.location().location;
+        var loc = huy.address.location();
         

@@ -1,1 +1,1 @@
-Type Mismatch: FieldAccess(FieldAccess(Id(obj),commu),age)
+Type Mismatch: FieldAccess(FieldAccess(Id(a),name),first_name)

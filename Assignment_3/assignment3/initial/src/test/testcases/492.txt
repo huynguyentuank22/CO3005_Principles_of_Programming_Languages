@@ -1,27 +1,5 @@
 
         func foo() {
-            var a = 123 == 456
-            var b = 12.3 == 45.6
-            var c = "hello" == "world"
-
-            var d = 123 != 456
-            var e = 12.3 != 45.6
-            var f = "hello" != "world"
-
-            var g = 123 < 456
-            var h = 12.3 < 45.6
-            var i = "hello" < "world"
-
-            var j = 123 <= 456
-            var k = 12.3 <= 45.6
-            var l = "hello" <= "world"
-
-            var m = 123 > 456
-            var n = 12.3 > 45.6
-            var o = "hello" > "world"
-
-            var p = 123 >= 456
-            var q = 12.3 >= 45.6
-            var r = "hello" >= "world"
+            var c = 123 >= 12.3;
         }
         

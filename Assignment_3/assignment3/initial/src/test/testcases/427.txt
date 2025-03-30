@@ -2,7 +2,7 @@
         type Person interface {
             foo()
         }
-        type Huy interface {
-            foo()
+        type Person interface {
+            foo1()
         }
         

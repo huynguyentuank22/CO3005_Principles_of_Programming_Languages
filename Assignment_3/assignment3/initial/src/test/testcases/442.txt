@@ -1,6 +1,6 @@
 
         func main() {
-            foo(12, 2.3);
+            foo(12,23,45);
         }
         func foo(a, b int) {
             return

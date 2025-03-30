@@ -1798,6 +1798,42 @@ class CheckSuite(unittest.TestCase):
             a.dosth()
         }
         """
-        # check lai method decl, struct literal
         expect = "Type Mismatch: MethodCall(Id(a),dosth,[])\n"
         self.assertTrue(TestChecker.test(input, expect, 542))
+
+    def test_449(self):
+        # print(inspect.currentframe().f_code.co_name)
+        input = """
+        func foo(a,b,c int) A{
+            return A{a:a, b:b, c:c, d:d}
+        }
+        func main(){
+            var b A;
+            b := foo(1,2,3)
+        }
+        type A struct{
+            a int;
+            b int;
+            c int;
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input, expect, 543))
+
+    def test_something(self):
+        # print(inspect.currentframe().f_code.co_name)
+        input = """
+        func main() {
+            for i := 0; i < 10; i+=1 {
+                if (i == 5) {
+                    break
+                    var a int
+                } else if (i == 6) {
+                    continue
+                    var b int
+                }
+            }
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input, expect, 544))

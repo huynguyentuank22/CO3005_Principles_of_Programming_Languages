@@ -1,11 +1,9 @@
 
         func foo() {
             if (true) {
-                break
-            } else if (1.2 + 3) {
-                continue
-            } else {
-                return
+                if (1 + 2) {
+                    return
+                }
             }
         }
         

@@ -1,6 +1,5 @@
 
         func foo() {
-            var a = true && false
-            var b = true || false
+            var c = 123 || 12.3;
         }
         

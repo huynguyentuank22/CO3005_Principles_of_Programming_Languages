@@ -1,5 +1,5 @@
 
-        func foo() {
-            var c = 12 + "huy";
+        func foo() int {
+            return 12;
         }
         

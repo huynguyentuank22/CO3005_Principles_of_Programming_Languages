@@ -1,11 +1,12 @@
 
-        type Calculator interface {
-            Add(a, b int) int
-            Subtract(a, b int) int
+        var a Persondepchai;
+        var b = a.foo(12, 3.4);
+
+        type Persondepchai struct {
+            name string
         }
 
-        func main() {
-            var obj Calculator
-            var result = obj.Add(1.2, 2.3)
+        func (c Persondepchai) foo(a, b int) {
+            return
         }
         

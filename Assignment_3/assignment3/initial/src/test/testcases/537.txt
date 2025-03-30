@@ -1,9 +1,7 @@
 
         type hihi interface {
             foo(a int)
-        }
-        func (p Person) foo() {
-            var a int
+            faa(b int)
         }
         type Person struct {
             a int

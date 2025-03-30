@@ -1,1 +1,0 @@
-Type Mismatch: Assign(Id(c),BinaryOp(Id(a),+,StringLiteral("hello")))

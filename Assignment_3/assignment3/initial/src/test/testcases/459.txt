@@ -1,1 +1,1 @@
-var a int = true;
+var a int = "huy";

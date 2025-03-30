@@ -1,6 +1,1 @@
-
-        var foo int 
-        func main() {
-            foo();
-        }
-        
+var a = foo();

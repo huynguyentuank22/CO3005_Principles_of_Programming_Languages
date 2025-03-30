@@ -1,7 +1,7 @@
 
         func foo() {
-            var a int;
-            var b = 2;
-            var c = a[b][23];
+            var a [5]int;
+            var b = 2.3;
+            var c = a[b];
         }
         
