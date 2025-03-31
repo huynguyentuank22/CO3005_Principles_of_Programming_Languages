@@ -1,7 +1,7 @@
 
         func foo() {
-            var a = "huy"
-            var c float
-            c := a + "hello"
+            for var i = 0; 23 + 45; i += 1 {
+                return
+            }
         }
         

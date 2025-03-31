@@ -1,18 +1,17 @@
 
-        type MyStruct struct {
-            value int
+        type Vehicle struct{
+            brand string;
+            year int;
         }
-
-        func (m MyStruct) GetNext() MyStruct {
-            var a int
+        type Truck interface {
+            drive() int;
         }
-
-        func (m MyStruct) Double() MyStruct {
-            var b int
+        func main(){
+            var t Truck;
+            t := Vehicle{brand: "Ford", year: 2020};
+            putInt(t.drive());
         }
-
-        func main() {
-            var obj MyStruct
-            var result = obj.GetNext().Double()  
+        func (v Vehicle) drive() int {
+            return v.speed;
         }
         

@@ -1,7 +1,6 @@
 
-        type Person struct {
-            name string
-        }
-        var a Person;
-        var b = a.age;
+        var a int;
+        var b float = 1.0;
+        var c int = a;
+        var d = c > b;
         

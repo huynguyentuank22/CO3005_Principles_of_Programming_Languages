@@ -1,16 +1,8 @@
 
-        type hihi interface {
-            foo(a int) int
-        }
-        func (p Person) foo(a int) {
-            var a int
-        }
-        type Person struct {
-            a int
-        }
-        func main() {
-            var a Person
-            var b hihi
-            b := a
+        func test(x, y int, z float) {
+            var x int;
+            var z float;
+            t := 1;
+            const t = 2;
         }
         

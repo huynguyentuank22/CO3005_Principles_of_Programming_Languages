@@ -1,1 +1,1 @@
-Undeclared Method: foo
+Undeclared Method: test1

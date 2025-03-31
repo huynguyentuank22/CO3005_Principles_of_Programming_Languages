@@ -1,8 +1,12 @@
 
-        func test(x, y int, z float) {
-            var x int;
-            var z float;
-            t := 1;
-            const t = 2;
+        func foo() {
+            const one = 1
+            var row = 2 + one
+            var col = 3 + 2 * one
+            var a [3][5]int
+            var b [row][col]int
+            var c [3][5]float
+            b := a
+            c := a
         }
         

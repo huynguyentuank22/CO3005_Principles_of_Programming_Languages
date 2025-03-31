@@ -1,9 +1,8 @@
 
         func foo() {
-            var row = 2 + 1
-            var col = 3 + 1 + 1
-            var a [3][5]int
-            var b [row][col][col]int
-            b := a
+            var arr int
+            for idx, val := range arr {
+                return
+            }
         }
         

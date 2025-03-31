@@ -1,1 +1,1 @@
-Type Mismatch: ArrayType(FloatType,[Id(row),Id(col)])
+Type Mismatch: Assign(Id(c),BinaryOp(Id(a),+,StringLiteral("hello")))

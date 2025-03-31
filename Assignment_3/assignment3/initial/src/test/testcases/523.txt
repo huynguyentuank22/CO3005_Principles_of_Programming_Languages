@@ -1,11 +1,12 @@
 
-        func foo() {
-            if (true) {
-                break
-            } else if (1.2 + 3) {
-                continue
-            } else {
-                return
-            }
+        type Person struct {
+            name string
+        }
+        func (p Person) foo() {
+            return 
+        }
+        func main() {
+            var huy Person
+            var a = huy.foo();
         }
         

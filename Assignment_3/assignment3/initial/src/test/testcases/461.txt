@@ -1,1 +1,19 @@
-var a float = 1;
+
+        type A struct {
+            x int; 
+            y float;
+        }
+        func (a A) foo(){
+            putInt(a.x);
+            putFloat(a.y);
+        }
+        func (a A) bar() int{
+            return a.x + 1;
+        }
+        func main(){
+            var a A;
+            a := A{x: 1, y: 2.0};
+            a.foo();
+            a.bar();
+        }
+        

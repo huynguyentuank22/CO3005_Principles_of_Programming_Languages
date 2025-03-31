@@ -1,1 +1,1 @@
-Undeclared Field: country
+Type Mismatch: BinaryOp(Id(a),>,Id(c))

@@ -1,14 +1,16 @@
 
-        type MyStruct struct {
-            value int
+        func main(){
+            var a A;
+            a := A{x: 1, y:2};
+            putInt(a.test());
         }
-
-        func (m MyStruct) GetNext() MyStruct {
-            var a int
+        func (a A) test() int {
+            return a.test1();
         }
-
-        func main() {
-            var obj MyStruct
-            var result = obj.GetNext().Double()  
+        func (a A) test1() int {
+            return a.x;
+        }
+        type A struct {
+            x int;
         }
         

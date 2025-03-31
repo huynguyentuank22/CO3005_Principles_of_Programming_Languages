@@ -1,1 +1,1 @@
-Redeclared Method: foo
+Redeclared Variable: x

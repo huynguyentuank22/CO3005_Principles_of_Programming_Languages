@@ -1,7 +1,8 @@
 
         func foo() {
-            if (1.2) {
-                return
-            }
+            var a = 1
+        }
+        func main() {
+            var b = foo();
         }
         

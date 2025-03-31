@@ -1,1 +1,1 @@
-Type Mismatch: If(BinaryOp(IntLiteral(1),+,IntLiteral(2)),Block([Return()]))
+Type Mismatch: MethodCall(Id(huy),foo,[])

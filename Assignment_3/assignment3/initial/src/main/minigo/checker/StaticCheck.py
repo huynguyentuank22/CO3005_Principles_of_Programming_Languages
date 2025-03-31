@@ -43,6 +43,9 @@ class Utils:
                 return res[1]
         return None
     
+    def smart_int(self, value):
+        return int(value, 0) if isinstance(value, str) else int(value)
+
     def printStack(self, env):
         print('======STACK======')
         for i in env:
@@ -113,8 +116,8 @@ class StaticChecker(BaseVisitor,Utils):
             if res:
                 raise Redeclared(Variable(), ast.varName)
             # check array type
-            if isinstance(ast.varType, ArrayType):
-                res = self.visit(ast.varType, c)
+            # if isinstance(ast.varType, ArrayType):
+            #     res = self.visit(ast.varType, c)
             return [env[0] + [Symbol(ast.varName, ast.varType)]] + env[1:]
         # elif isGlobal == 'global':
         #     if ast.varInit:
@@ -143,8 +146,8 @@ class StaticChecker(BaseVisitor,Utils):
             if ast.varInit:
                 c = (env, 'expr')
                 init = self.visit(ast.varInit, c)
-                initType = init if not isinstance(init, tuple) else init[0]  # Lấy kiểu từ tuple nếu có
-                initValue = None if not isinstance(init, tuple) else init[1]  # Lấy giá trị nếu có
+                initType = self.getType(init) # Lấy kiểu từ tuple nếu có
+                initValue = self.getValue(init)  # Lấy giá trị nếu có
                 if ast.varType is None:
                     ast.varType = initType
                 if not type(ast.varType) is type(initType):
@@ -174,10 +177,11 @@ class StaticChecker(BaseVisitor,Utils):
             res = self.lookupRedeclared(ast.conName, env[0], lambda x: x.name)
             if res:
                 raise Redeclared(Constant(), ast.conName)
+            c = (env, 'expr')
             initValue = None
             init = self.visit(ast.iniExpr, c)
-            conType = init if not isinstance(init, tuple) else init[0]  # Lấy kiểu từ tuple nếu có
-            initValue = None if not isinstance(init, tuple) else init[1]  # Lấy giá trị nếu có
+            conType = self.getType(init)  # Lấy kiểu từ tuple nếu có
+            initValue = self.getValue(init)  # Lấy giá trị nếu có
             if ast.conType is None:
                 ast.conType = conType
             return [env[0] + [Symbol(ast.conName, ast.conType, initValue)]] + env[1:]
@@ -283,8 +287,12 @@ class StaticChecker(BaseVisitor,Utils):
                 raise TypeMismatch(ast)
             # print(isGlobal)
             if isGlobal == 'expr':
+                if isinstance(res.mtype.rettype, VoidType):
+                    raise TypeMismatch(ast)
                 return res.mtype.rettype
-            else: 
+            else:
+                if not isinstance(res.mtype.rettype, VoidType):
+                    raise TypeMismatch(ast)
                 return env
     
     def visitMethCall(self, ast, c):
@@ -323,10 +331,12 @@ class StaticChecker(BaseVisitor,Utils):
             raise TypeMismatch(ast)
         # print(isGlobal)
         if isGlobal == 'expr':
-            # print('here')
+            if isinstance(method_symbol.mtype.rettype, VoidType):
+                raise TypeMismatch(ast)
             return method_symbol.mtype.rettype  # Trả về kiểu trả về của method 
         else: 
-            # print('here2')
+            if not isinstance(method_symbol.mtype.rettype, VoidType):
+                raise TypeMismatch(ast)
             return env
 
     def visitFieldAccess(self, ast, c):
@@ -376,7 +386,7 @@ class StaticChecker(BaseVisitor,Utils):
         return arr_type[0].eleType if isinstance(arr_type, tuple) else arr_type.eleType
     
     def visitIntLiteral(self, ast, c):
-        return (IntType(), int(ast.value))
+        return (IntType(), self.smart_int(ast.value))
 
     def visitFloatLiteral(self, ast, c):
         return (FloatType(), float(ast.value))
@@ -394,6 +404,7 @@ class StaticChecker(BaseVisitor,Utils):
         return (ArrayType(ast.dimens, ast.eleType), None)
     
     def visitArrayType(self, ast, c):
+        # self.printStack(c[0])
         dim_types = [self.getType(self.visit(x, c)) for x in ast.dimens]
         if any([not isinstance(x, IntType) for x in dim_types]):
             raise TypeMismatch(ast)
@@ -515,7 +526,7 @@ class StaticChecker(BaseVisitor,Utils):
         if res: 
             raise Redeclared(Variable(), ast.value.name)
         
-        arr_typ = self.visit(ast.arr, c)
+        arr_typ = self.getType(self.visit(ast.arr, c))
         if not isinstance(arr_typ, ArrayType):
             raise TypeMismatch(ast)
         

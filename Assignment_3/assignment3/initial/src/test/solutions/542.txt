@@ -1,1 +1,1 @@
-Type Mismatch: MethodCall(Id(a),dosth,[])
+Type Mismatch: Assign(Id(b),Id(a))

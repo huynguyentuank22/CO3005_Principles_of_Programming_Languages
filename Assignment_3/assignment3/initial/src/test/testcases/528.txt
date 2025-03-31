@@ -1,7 +1,12 @@
 
         func foo() {
-            var arr int
-            for idx, val := range arr {
+            if (true) {
+                break
+            } else if (1.2 + 3) {
+                continue
+            } else if (false) {
+                return
+            } else {
                 return
             }
         }

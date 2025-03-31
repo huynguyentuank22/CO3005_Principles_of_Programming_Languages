@@ -1,13 +1,7 @@
 
-        type Address struct {
-            street string
-            city string
-            country string
+        var a [5]int;
+        func foo(){
+            a := [5]int{1,2.0,3,4,5};
+            a := [5]int{1,2,3};
         }
-        type Person struct {
-            name string
-            address Address
-        }
-        var huy Person;
-        var loc = huy.address.location();
         

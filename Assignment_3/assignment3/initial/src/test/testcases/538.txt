@@ -1,16 +1,9 @@
 
-        type hihi interface {
-            foo(a int)
-        }
-        func (p Person) foo() {
-            var a int
-        }
-        type Person struct {
-            a int
-        }
-        func main() {
-            var a Person
-            var b hihi
+        func foo() {
+            var row float = 2.0 + 1.0
+            var col = 3 + 1 + 1
+            var a [3][5]int
+            var b [row][col]float
             b := a
         }
         

@@ -1,7 +1,10 @@
 
         func foo() {
-            var arr [5]int
-            for i, i := range arr {
+            if (true) {
+                break
+            } else if (1.2 + 3) {
+                continue
+            } else {
                 return
             }
         }

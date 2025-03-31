@@ -1,15 +1,5 @@
 
-        type Address struct {
-            street string
-            city string
-            country string
-        }
-        func (p Person) location() Address {
-            var a int
-        }
-        type Person struct {
-            name string
-        }
-        var huy Person;
-        var add = huy.location().location;
+        var a int = 1.0;
+        var b float = 2.0;
+        var c int;
         
