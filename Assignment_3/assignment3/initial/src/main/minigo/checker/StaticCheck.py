@@ -89,16 +89,21 @@ class StaticChecker(BaseVisitor,Utils):
 
     def visitProgram(self,ast, c):
         builtin_env = [c] 
+        # check redeclared global
         global_ast = [x for x in ast.decl if not isinstance(x, MethodDecl)]
+        # global_ast = [x for x in ast.decl if isinstance(x, (StructType, InterfaceType, FuncDecl))]
         global_env = reduce(lambda acc,ele: self.visit(ele, (acc, True)), global_ast, builtin_env)
 
+        # real env
+        global_ast = [x for x in ast.decl if isinstance(x, (StructType, InterfaceType, FuncDecl))]
+        global_env = reduce(lambda acc,ele: self.visit(ele, (acc, True)), global_ast, builtin_env)
         methods = [x for x in ast.decl if isinstance(x, MethodDecl)]
         global_env = reduce(lambda acc, ele: self.visit(ele, (acc, True)), methods, global_env)
 
-        ids = [x for x in ast.decl if isinstance(x, (VarDecl, ConstDecl))]
-        global_env = reduce(lambda acc, ele: self.visit(ele, (acc, 'global')), ids, global_env)
+        # ids = [x for x in ast.decl if isinstance(x, (VarDecl, ConstDecl))]
+        # global_env = reduce(lambda acc, ele: self.visit(ele, (acc, 'global')), ids, global_env)
 
-        body = [x for x in ast.decl if isinstance(x, FuncDecl) or isinstance(x, MethodDecl)]
+        body = [x for x in ast.decl if isinstance(x, (VarDecl, ConstDecl, FuncDecl, MethodDecl))]
         reduce(lambda acc, ele: self.visit(ele, (acc, False)), body, global_env)
 
     def visitVarDecl(self, ast, c):
@@ -111,22 +116,22 @@ class StaticChecker(BaseVisitor,Utils):
             if isinstance(ast.varType, ArrayType):
                 res = self.visit(ast.varType, c)
             return [env[0] + [Symbol(ast.varName, ast.varType)]] + env[1:]
-        elif isGlobal == 'global':
-            if ast.varInit:
-                c = (env, 'expr')
-                init = self.visit(ast.varInit, c)
-                initType = init if not isinstance(init, tuple) else init[0]  # Lấy kiểu từ tuple nếu có
-                initValue = None if not isinstance(init, tuple) else init[1]  # Lấy giá trị nếu có
-                if ast.varType is None:
-                    ast.varType = initType
-                    for _, i in enumerate(env):
-                        for _, j in enumerate(i):
-                            if j.name == ast.varName:
-                                j.mtype = initType
-                                j.value = initValue                            
-                if not type(ast.varType) is type(initType):
-                    raise TypeMismatch(ast)
-            return env
+        # elif isGlobal == 'global':
+        #     if ast.varInit:
+        #         c = (env, 'expr')
+        #         init = self.visit(ast.varInit, c)
+        #         initType = init if not isinstance(init, tuple) else init[0]  # Lấy kiểu từ tuple nếu có
+        #         initValue = None if not isinstance(init, tuple) else init[1]  # Lấy giá trị nếu có
+        #         if ast.varType is None:
+        #             ast.varType = initType
+        #             for _, i in enumerate(env):
+        #                 for _, j in enumerate(i):
+        #                     if j.name == ast.varName:
+        #                         j.mtype = initType
+        #                         j.value = initValue                            
+        #         if not type(ast.varType) is type(initType):
+        #             raise TypeMismatch(ast)
+        #     return env
         else:
             res = self.lookupRedeclared(ast.varName, env[0], lambda x: x.name)
             if res:
@@ -153,18 +158,18 @@ class StaticChecker(BaseVisitor,Utils):
             if res:
                 raise Redeclared(Constant(), ast.conName)
             return [env[0] + [Symbol(ast.conName, ast.conType)]] + env[1:]
-        elif isGlobal == 'global':
-            c = (env, 'expr')
-            init = self.visit(ast.iniExpr, c)
-            conType = init if not isinstance(init, tuple) else init[0]  # Lấy kiểu từ tuple nếu có
-            initValue = None if not isinstance(init, tuple) else init[1]  # Lấy giá trị nếu có
-            if ast.conType is None:
-                for _, i in enumerate(env):
-                    for _, j in enumerate(i):
-                        if j.name == ast.conName:
-                            j.mtype = conType
-                            j.value = initValue
-            return env
+        # elif isGlobal == 'global':
+        #     c = (env, 'expr')
+        #     init = self.visit(ast.iniExpr, c)
+        #     conType = init if not isinstance(init, tuple) else init[0]  # Lấy kiểu từ tuple nếu có
+        #     initValue = None if not isinstance(init, tuple) else init[1]  # Lấy giá trị nếu có
+        #     if ast.conType is None:
+        #         for _, i in enumerate(env):
+        #             for _, j in enumerate(i):
+        #                 if j.name == ast.conName:
+        #                     j.mtype = conType
+        #                     j.value = initValue
+        #     return env
         else:
             res = self.lookupRedeclared(ast.conName, env[0], lambda x: x.name)
             if res:
