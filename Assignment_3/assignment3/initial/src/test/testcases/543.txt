@@ -1,14 +1,7 @@
 
-        func foo(a,b,c int) A{
-            return A{a:a, b:b, c:c, d:d}
-        }
-        func main(){
-            var b A;
-            b := foo(1,2,3)
-        }
-        type A struct{
-            a int;
-            b int;
-            c int;
-        }
+        var b boolean;
+        var c int;
+        var a = c+d;
+        var d = b + c;
+        var e = b + 1;
         

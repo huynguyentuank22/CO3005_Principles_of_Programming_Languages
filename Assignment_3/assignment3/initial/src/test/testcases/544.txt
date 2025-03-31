@@ -1,13 +1,14 @@
 
-        func main() {
-            for i := 0; i < 10; i+=1 {
-                if (i == 5) {
-                    break
-                    var a int
-                } else if (i == 6) {
-                    continue
-                    var b int
-                }
-            }
+        var a = 2 + 5 * 3;
+        var b = a + 1;
+        var c = a * b;
+        var d = c - 1;
+        var e = d / 2;
+        func foo(){
+            k := a + b;
+            putInt(k);
+            var c = d + e;
+            putInt(c);
+            var e = h + 1;
         }
         

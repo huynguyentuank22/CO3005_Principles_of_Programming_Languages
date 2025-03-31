@@ -1801,6 +1801,79 @@ class CheckSuite(unittest.TestCase):
         expect = "Type Mismatch: MethodCall(Id(a),dosth,[])\n"
         self.assertTrue(TestChecker.test(input, expect, 542))
 
+    def test_scope_var_decl(self):
+        # print(inspect.currentframe().f_code.co_name)
+        input = """
+        var b boolean;
+        var c int;
+        var a = c+d;
+        var d = b + c;
+        var e = b + 1;
+        """
+        expect = "Undeclared Identifier: d\n"
+        self.assertTrue(TestChecker.test(input,expect,543))
+
+    def test_scope_var_decl_2(self):
+        # print(inspect.currentframe().f_code.co_name)
+        input = """
+        var a = 2 + 5 * 3;
+        var b = a + 1;
+        var c = a * b;
+        var d = c - 1;
+        var e = d / 2;
+        func foo(){
+            k := a + b;
+            putInt(k);
+            var c = d + e;
+            putInt(c);
+            var e = h + 1;
+        }
+        """
+        expect = "Undeclared Identifier: h\n"
+        self.assertTrue(TestChecker.test(input,expect,544))
+
+    def test_scope_var_decl_3(self):
+        # print(inspect.currentframe().f_code.co_name)
+        input = """
+        var a[1]int = [1]int{1};
+        var b [5]float;
+        func foo(){
+            b := [5]int{1,2,3,4,5};
+            var c = a[0];
+            putInt(c);
+            var d = e+1;
+        }
+        var e int = 2;
+        """
+        expect = "Undeclared Identifier: e\n"
+        self.assertTrue(TestChecker.test(input,expect,545))
+
+    def test_scope_var_decl_4(self):
+        # print(inspect.currentframe().f_code.co_name)
+        input = """
+        const a = 1;
+        const b = 2;
+        const c = d + 3;
+        const d = 4;
+        """
+        expect = "Undeclared Identifier: d\n"
+        self.assertTrue(TestChecker.test(input,expect,546))
+
+    def test_scope_var_decl_5(self):
+        # print(inspect.currentframe().f_code.co_name)
+        input = """
+        var a[1]int = [1]int{1};
+        var b [5]float;
+        func foo(){
+            a[0] := 2;
+            putInt(a[0]);
+            b[0] := c;
+        }
+        var c int = 2;
+        """
+        expect = "Undeclared Identifier: c\n"
+        self.assertTrue(TestChecker.test(input,expect,547))
+
     def test_449(self):
         # print(inspect.currentframe().f_code.co_name)
         input = """
@@ -1818,7 +1891,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input, expect, 543))
+        self.assertTrue(TestChecker.test(input, expect, 548))
 
     def test_something(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1836,4 +1909,4 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input, expect, 544))
+        self.assertTrue(TestChecker.test(input, expect, 549))
