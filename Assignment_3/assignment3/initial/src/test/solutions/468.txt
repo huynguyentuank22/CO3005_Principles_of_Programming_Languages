@@ -1,1 +1,1 @@
-Type Mismatch: FuncCall(putInt,[Id(value)])
+Type Mismatch: BinaryOp(BooleanLiteral(true),+,StringLiteral("huy"))

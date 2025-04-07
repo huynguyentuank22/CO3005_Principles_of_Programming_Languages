@@ -1,1 +1,1 @@
-Redeclared Method: swap
+Redeclared Method: name

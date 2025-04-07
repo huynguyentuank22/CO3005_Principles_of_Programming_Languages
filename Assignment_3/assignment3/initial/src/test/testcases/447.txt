@@ -1,20 +1,14 @@
 
-        type C struct {
-            a int;
-            b float;
+        type MyStruct struct {
+            value int
         }
-        func main(){
-            var c C;
-            c := C{a: 1, b: 2.0};
-            putInt(c.test());
-            var d D;
-            d := C{a: 1, b: 2.0};
-            putInt(d.test());
+
+        func (m MyStruct) Double() MyStruct {
+            var b int
         }
-        func (c C) test() int {
-            return c.a + c.b + c.d;
-        }
-        type D interface {
-            test() int;
+
+        func main() {
+            var obj MyStruct
+            var result = obj.GetNext().Double()  
         }
         

@@ -1,1 +1,1 @@
-Type Mismatch: MethodCall(Id(a),bar,[])
+Type Mismatch: VarDecl(a,FloatType,IntLiteral(1))

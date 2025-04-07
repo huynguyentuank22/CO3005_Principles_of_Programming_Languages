@@ -385,6 +385,9 @@ class StaticChecker(BaseVisitor,Utils):
             raise TypeMismatch(ast)
         return arr_type[0].eleType if isinstance(arr_type, tuple) else arr_type.eleType
     
+    def visitNilLiteral(self, ast, c):
+        return (VoidType(), None)
+    
     def visitIntLiteral(self, ast, c):
         return (IntType(), self.smart_int(ast.value))
 

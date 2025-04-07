@@ -1,9 +1,7 @@
 
-        type Person struct {
-            name string;
-            age int;
+        func foo() {
+            const a = 1;
         }
-        type Person struct {
-            id int;
-        }
+        
+        const a = 2
         

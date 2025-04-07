@@ -1,19 +1,6 @@
 
-        type A struct {
-            x int;
+        type Person interface {
+            foo(a int)
+            foo()
         }
-        func main(){
-            var a A;
-            putInt(a.test());
-        }
-        func (a A) test() int {
-            return a.x;
-        }
-        
-        const test = 1;
-        func foo(){
-            putInt(test);
-        }
-        
-        var test = 2;
         

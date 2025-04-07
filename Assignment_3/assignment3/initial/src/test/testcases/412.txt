@@ -1,4 +1,6 @@
 
-        const x = getInt() + 5;
-        const x = 10;
+        func foo(a int, b int, c int) {
+            var a int;
+            return
+        }
         
