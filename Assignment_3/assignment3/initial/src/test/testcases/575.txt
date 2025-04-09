@@ -1,0 +1,9 @@
+
+        func main() {
+        for var i= 0; i < 3; i+= 3 {
+            var i int;
+        }
+        
+        }
+
+        

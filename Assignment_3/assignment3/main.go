@@ -13,7 +13,10 @@ func (b B) getInt(b int) int{
 func (b B) dosth(){
 	return;
 }
-
+func foo(a int) {
+	var foo int
+	foo(2)
+}
 func main() {
 	// var a A
 	// a = B{x: 5}

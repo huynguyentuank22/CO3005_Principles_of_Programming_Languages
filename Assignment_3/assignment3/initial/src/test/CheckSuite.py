@@ -191,7 +191,7 @@ class CheckSuite(unittest.TestCase):
             return
         }
         """
-        expect = "Redeclared Parameter: a\n"
+        expect = ""
         self.assertTrue(TestChecker.test(input,expect,418))
 
     def test_method_redeclared(self):
@@ -263,7 +263,7 @@ class CheckSuite(unittest.TestCase):
             name string
         }
         """
-        expect = "Redeclared Method: name\n"
+        expect = "Redeclared Field: name\n"
         self.assertTrue(TestChecker.test(input,expect,423))
 
     def test_method_redeclared_5(self):
@@ -757,7 +757,7 @@ class CheckSuite(unittest.TestCase):
     def test_type_missmatch_float_with_int(self):
         # print(inspect.currentframe().f_code.co_name)
         input = """var a float = 1;"""
-        expect = "Type Mismatch: VarDecl(a,FloatType,IntLiteral(1))\n"
+        expect = ""
         self.assertTrue(TestChecker.test(input,expect,461))
 
     def test_type_missmatch_float_with_string(self):
@@ -1602,6 +1602,18 @@ class CheckSuite(unittest.TestCase):
         expect = "Type Mismatch: For(VarDecl(i,IntType,IntLiteral(0)),BinaryOp(IntLiteral(23),+,IntLiteral(45)),Assign(Id(i),BinaryOp(Id(i),+,IntLiteral(1))),Block([Return()]))\n"
         self.assertTrue(TestChecker.test(input,expect,530))
 
+    def test_type_missmatch_for_step_stmt_2(self):
+        input = """
+        func foo() {
+            for var i = 0; true; i += 1 {
+                var i = 1;
+                return
+            }
+        }
+        """
+        expect = "Redeclared Variable: i\n"
+        self.assertTrue(TestChecker.test(input,expect,555))
+
     def test_type_missmatch_for_each(self):
         # print(inspect.currentframe().f_code.co_name)
         input = """
@@ -1934,7 +1946,7 @@ class CheckSuite(unittest.TestCase):
         expect = "Undeclared Identifier: c\n"
         self.assertTrue(TestChecker.test(input,expect,551))
 
-    def test_449(self):
+    def test_struct_lit(self):
         # print(inspect.currentframe().f_code.co_name)
         input = """
         func foo(a,b,c int) A{
@@ -1950,7 +1962,7 @@ class CheckSuite(unittest.TestCase):
             c int;
         }
         """
-        expect = ""
+        expect = "Undeclared Field: d\n"
         self.assertTrue(TestChecker.test(input, expect, 552))
 
     def test_something(self):
@@ -1970,3 +1982,14 @@ class CheckSuite(unittest.TestCase):
         """
         expect = ""
         self.assertTrue(TestChecker.test(input, expect, 553))
+
+    def test_501(self):
+        input = """
+        func foo(a int){
+            foo(1);
+            var foo int;
+            foo(2);
+        }
+        """
+        expect = "Undeclared Function: foo\n"
+        self.assertTrue(TestChecker.test(input, expect, 554))

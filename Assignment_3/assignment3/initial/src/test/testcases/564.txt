@@ -1,0 +1,6 @@
+
+        
+        func main(a int ) {
+            return main(1);
+        }
+        

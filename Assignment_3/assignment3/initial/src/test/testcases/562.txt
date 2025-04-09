@@ -1,0 +1,14 @@
+
+        type A struct {
+            a int
+        }
+        type A interface {
+            a ()
+        }
+        func (a A) main(a int) {
+            return
+        }
+        func main(a int ) {
+            return 
+        }
+        

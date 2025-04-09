@@ -1,0 +1,5 @@
+
+        func a(a int) int{
+            putInt(a(1));
+        }
+        

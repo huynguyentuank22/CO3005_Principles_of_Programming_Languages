@@ -1,0 +1,14 @@
+
+        var a = A { a: [5] int { 1, 2 } };
+        const b  = 2;
+        type A struct {
+        a [b] int
+        }
+        func main() {
+        
+        for i,v := range a.a {
+            const z = i;
+            //var k [z] int;
+        }
+        }
+        

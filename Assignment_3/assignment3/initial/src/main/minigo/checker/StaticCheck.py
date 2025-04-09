@@ -45,7 +45,76 @@ class Utils:
     
     def smart_int(self, value):
         return int(value, 0) if isinstance(value, str) else int(value)
+    
+    def compareType(self, type1, type2):
+        if type(type1) is type(type2):
+            if isinstance(type1, Id) and isinstance(type2, Id):
+                return type1.name == type2.name
+            return True
+        return False
+        
+    def checkAssignType(self, type_lhs, type_rhs, ast, c):
+        env = c[0]
+        if not ((type(type_lhs) is type(type_rhs)) or (isinstance(type_lhs, FloatType) and isinstance(type_rhs, IntType))):
+            raise TypeMismatch(ast)
+        if type(type_lhs) is ArrayType and type(type_rhs) is ArrayType:
+            if len(type_lhs.dimens) != len(type_rhs.dimens):
+                raise TypeMismatch(ast)
+            # check value each dimens in array type between lhs and rhs
+            dims_lhs = [self.getValue(self.visit(x, c)) for x in type_lhs.dimens]
+            dims_rhs = [self.getValue(self.visit(x, c)) for x in type_rhs.dimens]
+            if any([x != y for x, y in zip(dims_lhs, dims_rhs)]):
+                raise TypeMismatch(ast)
+            if not ((self.compareType(type_lhs.eleType, type_rhs.eleType)) or (isinstance(type_lhs.eleType, FloatType) and isinstance(type_rhs.eleType, IntType))):
+                raise TypeMismatch(ast)
+        if isinstance(type_lhs, Id) and isinstance(type_rhs, Id):
+            if type_lhs.name == type_rhs.name:
+                return
+            res_lhs = self.lookup(env, (type_lhs.name, lambda x: x.name), ('INTERFACE', lambda x: x.value))
+            res_rhs = self.lookup(env, (type_rhs.name, lambda x: x.name), ('STRUCT', lambda x: x.value))
+            if res_lhs and res_rhs:
+                struct_methods = [method for method in res_rhs.mtype if method.value == 'METHOD']
+                interface_methods = [method for method in res_lhs.mtype if method.value == 'METHOD']
+                struct_method_dict = {method.name: method for method in struct_methods}
 
+                # Duyệt qua từng method trong interface
+                for intf_method in interface_methods:
+                    struct_method = struct_method_dict.get(intf_method.name)
+                    # Kiểm tra xem method có tồn tại trong struct không
+                    if struct_method is None:
+                        raise TypeMismatch(ast)
+                    
+                    # Kiểm tra kiểu tham số (partype)
+                    if len(struct_method.mtype.partype) != len(intf_method.mtype.partype):
+                        raise TypeMismatch(ast)  # Số lượng tham số không khớp
+                    
+                    # So sánh từng kiểu tham số
+                    if any([type(struct_param) is not type(intf_param) for struct_param, intf_param in zip(struct_method.mtype.partype, intf_method.mtype.partype)]):
+                        raise TypeMismatch(ast)  # Kiểu tham số không khớp
+                    
+                    # Kiểm tra kiểu trả về (rettype)
+                    if type(struct_method.mtype.rettype) is not type(intf_method.mtype.rettype):
+                        raise TypeMismatch(ast)  # Kiểu trả về không khớp
+            else: raise TypeMismatch(ast)
+    
+    def checkSameType(self, type1, type2, c):
+        if type(type1) is type(type2):
+            if isinstance(type1, Id) and isinstance(type2, Id):
+                return type1.name == type2.name
+            if isinstance(type1, ArrayType) and isinstance(type2, ArrayType):
+                if len(type1.dimens) != len(type2.dimens):
+                    return False
+                # check value each dimens in array type between lhs and rhs
+                dims_lhs = [self.getValue(self.visit(x, c)) for x in type1.dimens]
+                dims_rhs = [self.getValue(self.visit(x, c)) for x in type2.dimens]
+                if any([x != y for x, y in zip(dims_lhs, dims_rhs)]):
+                    return False
+                if not ((self.compareType(type1.eleType, type2.eleType)) or (isinstance(type1.eleType, FloatType) and isinstance(type2.eleType, IntType))):
+                    return False
+                return True
+            return True
+        return False
+    
     def printStack(self, env):
         print('======STACK======')
         for i in env:
@@ -100,9 +169,9 @@ class StaticChecker(BaseVisitor,Utils):
         # real env
         global_ast = [x for x in ast.decl if isinstance(x, (StructType, InterfaceType, FuncDecl))]
         global_env = reduce(lambda acc,ele: self.visit(ele, (acc, True)), global_ast, builtin_env)
-        methods = [x for x in ast.decl if isinstance(x, MethodDecl)]
-        global_env = reduce(lambda acc, ele: self.visit(ele, (acc, True)), methods, global_env)
-
+        
+        methods = [x for x in ast.decl if isinstance(x, (MethodDecl, StructType))]
+        global_env = reduce(lambda acc, ele: self.visit(ele, (acc, True)) if isinstance(ele, MethodDecl) else self.visit(ele, (acc, False)), methods, global_env)
         # ids = [x for x in ast.decl if isinstance(x, (VarDecl, ConstDecl))]
         # global_env = reduce(lambda acc, ele: self.visit(ele, (acc, 'global')), ids, global_env)
 
@@ -111,7 +180,7 @@ class StaticChecker(BaseVisitor,Utils):
 
     def visitVarDecl(self, ast, c):
         env, isGlobal = c
-        if isGlobal == True:
+        if str(isGlobal) == str(True):
             res = self.lookupRedeclared(ast.varName, env[0], lambda x: x.name)
             if res:
                 raise Redeclared(Variable(), ast.varName)
@@ -150,13 +219,15 @@ class StaticChecker(BaseVisitor,Utils):
                 initValue = self.getValue(init)  # Lấy giá trị nếu có
                 if ast.varType is None:
                     ast.varType = initType
-                if not type(ast.varType) is type(initType):
-                    raise TypeMismatch(ast)
+                # if not (type(ast.varType) is type(initType) or (isinstance(ast.varType, FloatType) and isinstance(initType, IntType))):
+                #     raise TypeMismatch(ast)
+                self.checkAssignType(ast.varType, initType, ast, c)
+            initValue = 0 if initValue is None and isinstance(ast.varType, IntType) else initValue
             return [env[0] + [Symbol(ast.varName, ast.varType, initValue)]] + env[1:]
         
     def visitConstDecl(self, ast, c):
         env, isGlobal = c
-        if isGlobal == True:
+        if str(isGlobal) == str(True):
             res = self.lookupRedeclared(ast.conName, env[0], lambda x: x.name)
             if res:
                 raise Redeclared(Constant(), ast.conName)
@@ -187,17 +258,36 @@ class StaticChecker(BaseVisitor,Utils):
             return [env[0] + [Symbol(ast.conName, ast.conType, initValue)]] + env[1:]
         
     def visitStructType(self,ast, c):
-        env = c[0]
-        if self.lookupRedeclared(ast.name, env[0], lambda x: x.name):
-            raise Redeclared(Type(), ast.name)
+        env, isGlobal = c
+        if isGlobal:
+            if self.lookupRedeclared(ast.name, env[0], lambda x: x.name):
+                raise Redeclared(Type(), ast.name)
+            return [env[0] + [Symbol(ast.name, [], 'STRUCT')]] + env[1:]
+        else:
+            # fields = []
+            # self.printStack(env)
+            for _, x in enumerate(env): # env [[Symbol]]
+                for _, y in enumerate(x): # x [Symbol]
+                    # y Symbol
+                    if ast.name == y.name:
+                        for name, typ in ast.elements:
+                            for _, z in enumerate(y.mtype):
+                                if name == z.name:
+                                    # print(name, z.name)
+                                    raise Redeclared(Field(), name)
+                            y.mtype.append(Symbol(name, typ, 'FIELD'))
+                            #     if ast.fun.name == z.name:
+                            #         raise Redeclared(Method(), ast.fun.name)
+                            # parTypes = []
+                            # if ast.fun.params:
+                            #     param = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.fun.params, [(ast.receiver, ast.recType)])
+                            #     parTypes = [x[1] for x in param]
+                            #     parTypes = parTypes[1:] # Bỏ qua receiver
+                            # y.mtype.append(Symbol(ast.fun.name, MType(parTypes, ast.fun.retType), 'METHOD'))
+            # self.printStack(env)
+            return env
         
-        fields = []
-        for name, typ in ast.elements:
-            if self.lookupRedeclared(name, fields, lambda x: x.name):
-                raise Redeclared(Field(), name)
-            fields.append(Symbol(name, typ, 'FIELD'))
         
-        return [env[0] + [Symbol(ast.name, fields, 'STRUCT')]] + env[1:]
 
     def visitInterfaceType(self,ast, c):
         # prototype: list of Symbol
@@ -229,7 +319,7 @@ class StaticChecker(BaseVisitor,Utils):
             local_env = deepcopy(env)
             if ast.params:
                 local_env = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.params, [[]] + local_env)
-            self.visit(ast.body, (local_env, str(ast.retType)))
+            self.visit(ast.body, ([[]] + local_env, ast.retType))
             return env
 
     def visitParamDecl(self,ast, c):
@@ -254,9 +344,9 @@ class StaticChecker(BaseVisitor,Utils):
                                 raise Redeclared(Method(), ast.fun.name)
                         parTypes = []
                         if ast.fun.params:
-                            param = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.fun.params, [(ast.receiver, ast.recType)])
+                            param = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.fun.params, parTypes)
                             parTypes = [x[1] for x in param]
-                            parTypes = parTypes[1:] # Bỏ qua receiver
+                            # parTypes = parTypes[1:] # Bỏ qua receiver
                         y.mtype.append(Symbol(ast.fun.name, MType(parTypes, ast.fun.retType), 'METHOD'))
                         return env
             return env
@@ -264,13 +354,16 @@ class StaticChecker(BaseVisitor,Utils):
             local_env = deepcopy(env)
             local_env = [[Symbol(ast.receiver, ast.recType)]] + local_env
             if ast.fun.params:
-                local_env = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.fun.params, local_env)
-            self.visit(ast.fun.body, (local_env, str(ast.fun.retType)))
+                local_env = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.fun.params, [[]] + local_env)
+            self.visit(ast.fun.body, ([[]] + local_env, ast.fun.retType))
             return env        
     
     def visitBlock(self, ast, c):
         env, isGlobal = c
-        reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.member, [[]] + env)
+        # if str(isGlobal) == 'for':
+        reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.member, env)
+        # else:
+        #     reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), ast.member, [[]] + env)
         return env
 
     def visitFuncCall(self,ast, c):
@@ -283,10 +376,11 @@ class StaticChecker(BaseVisitor,Utils):
         if res and res.value == 'FUNCTION':
             if len(ast.args) != len(res.mtype.partype):
                 raise TypeMismatch(ast)
-            if any([type(self.getType(self.visit(x, c))) is not type(res.mtype.partype[i]) for i, x in enumerate(ast.args)]):
+            # print('args', ast.args)
+            if any([not self.checkSameType(self.getType(self.visit(x, c)), res.mtype.partype[i], c) for i, x in enumerate(ast.args)]):
                 raise TypeMismatch(ast)
             # print(isGlobal)
-            if isGlobal == 'expr':
+            if str(isGlobal) == 'expr':
                 if isinstance(res.mtype.rettype, VoidType):
                     raise TypeMismatch(ast)
                 return res.mtype.rettype
@@ -311,6 +405,8 @@ class StaticChecker(BaseVisitor,Utils):
             recv_type = self.visitFieldAccess(ast.receiver, c)  # Xử lý FieldAccess
         elif isinstance(ast.receiver, ArrayCell):
             recv_type = self.visitArrayCell(ast.receiver, c)
+        elif isinstance(ast.receiver, FuncCall):
+            recv_type = self.visitFuncCall(ast.receiver, c)
         else:
             raise TypeMismatch(ast)
         # Kiểm tra xem recv_type có phải là struct hoặc interface không
@@ -327,10 +423,10 @@ class StaticChecker(BaseVisitor,Utils):
             raise Undeclared(Method(), ast.metName)
         if len(ast.args) != len(method_symbol.mtype.partype):
             raise TypeMismatch(ast)
-        if any([type(self.getType(self.visit(x, c))) is not type(method_symbol.mtype.partype[i]) for i, x in enumerate(ast.args)]):
+        if any([not self.checkSameType(self.getType(self.visit(x, c)), method_symbol.mtype.partype[i], c) for i, x in enumerate(ast.args)]):
             raise TypeMismatch(ast)
         # print(isGlobal)
-        if isGlobal == 'expr':
+        if str(isGlobal) == 'expr':
             if isinstance(method_symbol.mtype.rettype, VoidType):
                 raise TypeMismatch(ast)
             return method_symbol.mtype.rettype  # Trả về kiểu trả về của method 
@@ -404,6 +500,12 @@ class StaticChecker(BaseVisitor,Utils):
         dim_types = [self.getType(self.visit(x, c)) for x in ast.dimens]
         if any([not isinstance(x, IntType) for x in dim_types]):
             raise TypeMismatch(ast)
+        def flatten_array(arr):
+            """Làm phẳng mảng bằng generator."""
+            return [x for item in arr for x in (flatten_array(item) if isinstance(item, (list, tuple)) else [item])]
+        flat_values = flatten_array(ast.value)
+        if any([not self.compareType(self.getType(self.visit(x, c)), ast.eleType) for x in flat_values]):
+            raise TypeMismatch(ast)
         return (ArrayType(ast.dimens, ast.eleType), None)
     
     def visitArrayType(self, ast, c):
@@ -414,13 +516,44 @@ class StaticChecker(BaseVisitor,Utils):
         return (ArrayType(ast.dimens, ast.eleType), None)
 
     def visitStructLiteral(self, ast, c):
+        env, isGlobal = c
+        res = self.lookup(env, (ast.name, lambda x: x.name), ('STRUCT', lambda x: x.value))
+        fields = []
+        for field, expr in ast.elements:
+            if field in fields:
+                raise Redeclared(Field(), field)
+            # typ = self.getType(self.visit(expr, c))
+            ress = self.lookupRedeclared(field, res.mtype, lambda x: x.name)
+            if ress is None:
+                raise Undeclared(Field(), field)
+            # if ress
+            fields.append(field)
         return (Id(ast.name), None) 
 
     def visitAssign(self, ast, c):
         env, isGlobal = c
+        # if isinstance(ast.lhs, Id):
+        #     res = self.lookupRedeclared(ast.lhs.name, env[0], lambda x: x.name)
+        #     if res is None:
+        #         try:
+        #             c = (env, 'expr')
+        #             rhs = self.visit(ast.rhs, c)
+        #             type_rhs = self.getType(rhs)
+        #             val_rhs = self.getValue(rhs)
+        #             return [env[0] + [Symbol(ast.lhs.name, type_rhs, val_rhs)]] + env[1:]
+
+        #         except Undeclared as e:
+        #             if ast.lhs.name == e.n:
+        #                 raise TypeMismatch(ast)
+        #             raise Undeclared(e.k, e.n)
         if isinstance(ast.lhs, Id):
             res = self.lookupRedeclared(ast.lhs.name, env[0], lambda x: x.name)
-            if res is None:
+            ress = self.lookupUndeclared(ast.lhs.name, env, lambda x: x.name)
+            if ress is None:
+                if isinstance(ast.rhs, BinaryOp):
+                    if isinstance(ast.rhs.left, Id):
+                        if ast.rhs.left.name == ast.lhs.name:
+                            raise Undeclared(Identifier(), ast.lhs.name)
                 try:
                     c = (env, 'expr')
                     rhs = self.visit(ast.rhs, c)
@@ -430,8 +563,24 @@ class StaticChecker(BaseVisitor,Utils):
 
                 except Undeclared as e:
                     if ast.lhs.name == e.n:
+                        print('hi')
                         raise TypeMismatch(ast)
                     raise Undeclared(e.k, e.n)
+            elif ress and res is None:
+                try:
+                    c = (env, 'expr')
+                    rhs = self.visit(ast.rhs, c)
+                    type_rhs = self.getType(rhs)
+                    val_rhs = self.getValue(rhs)
+                    if type(ress.mtype) is not type(type_rhs):
+                        return [env[0] + [Symbol(ast.lhs.name, type_rhs, val_rhs)]] + env[1:]
+
+                except Undeclared as e:
+                    if ast.lhs.name == e.n:
+                        print('hi')
+                        raise TypeMismatch(ast)
+                    raise Undeclared(e.k, e.n)
+                
         c = (env, 'expr')   
         lhs = self.visit(ast.lhs, c)
         rhs = self.visit(ast.rhs, c)
@@ -439,44 +588,45 @@ class StaticChecker(BaseVisitor,Utils):
         type_rhs = self.getType(rhs)
         if isinstance(type_lhs, VoidType):
             raise TypeMismatch(ast)
-        if not ((type(type_lhs) is type(type_rhs)) or (isinstance(type_lhs, FloatType) and isinstance(type_rhs, IntType))):
-            raise TypeMismatch(ast)
-        if type(type_lhs) is ArrayType and type(type_rhs) is ArrayType:
-            if len(type_lhs.dimens) != len(type_rhs.dimens):
-                raise TypeMismatch(ast)
-            # check value each dimens in array type between lhs and rhs
-            dims_lhs = [self.getValue(self.visit(x, c)) for x in type_lhs.dimens]
-            dims_rhs = [self.getValue(self.visit(x, c)) for x in type_rhs.dimens]
-            if any([x != y for x, y in zip(dims_lhs, dims_rhs)]):
-                raise TypeMismatch(ast)
-            if not ((type(type_lhs.eleType) is type(type_rhs.eleType)) or (isinstance(type_lhs.eleType, FloatType) and isinstance(type_rhs.eleType, IntType))):
-                raise TypeMismatch(ast)
-        if isinstance(type_lhs, Id) and isinstance(type_rhs, Id):
-            res_lhs = self.lookup(env, (type_lhs.name, lambda x: x.name), ('INTERFACE', lambda x: x.value))
-            res_rhs = self.lookup(env, (type_rhs.name, lambda x: x.name), ('STRUCT', lambda x: x.value))
-            if  res_lhs and res_rhs:
-                struct_methods = [method for method in res_rhs.mtype if method.value == 'METHOD']
-                interface_methods = [method for method in res_lhs.mtype if method.value == 'METHOD']
-                struct_method_dict = {method.name: method for method in struct_methods}
+        # if not ((type(type_lhs) is type(type_rhs)) or (isinstance(type_lhs, FloatType) and isinstance(type_rhs, IntType))):
+        #     raise TypeMismatch(ast)
+        # if type(type_lhs) is ArrayType and type(type_rhs) is ArrayType:
+        #     if len(type_lhs.dimens) != len(type_rhs.dimens):
+        #         raise TypeMismatch(ast)
+        #     # check value each dimens in array type between lhs and rhs
+        #     dims_lhs = [self.getValue(self.visit(x, c)) for x in type_lhs.dimens]
+        #     dims_rhs = [self.getValue(self.visit(x, c)) for x in type_rhs.dimens]
+        #     if any([x != y for x, y in zip(dims_lhs, dims_rhs)]):
+        #         raise TypeMismatch(ast)
+        #     if not ((type(type_lhs.eleType) is type(type_rhs.eleType)) or (isinstance(type_lhs.eleType, FloatType) and isinstance(type_rhs.eleType, IntType))):
+        #         raise TypeMismatch(ast)
+        # if isinstance(type_lhs, Id) and isinstance(type_rhs, Id):
+        #     res_lhs = self.lookup(env, (type_lhs.name, lambda x: x.name), ('INTERFACE', lambda x: x.value))
+        #     res_rhs = self.lookup(env, (type_rhs.name, lambda x: x.name), ('STRUCT', lambda x: x.value))
+        #     if  res_lhs and res_rhs:
+        #         struct_methods = [method for method in res_rhs.mtype if method.value == 'METHOD']
+        #         interface_methods = [method for method in res_lhs.mtype if method.value == 'METHOD']
+        #         struct_method_dict = {method.name: method for method in struct_methods}
 
-                # Duyệt qua từng method trong interface
-                for intf_method in interface_methods:
-                    struct_method = struct_method_dict.get(intf_method.name)
-                    # Kiểm tra xem method có tồn tại trong struct không
-                    if struct_method is None:
-                        raise TypeMismatch(ast)
+        #         # Duyệt qua từng method trong interface
+        #         for intf_method in interface_methods:
+        #             struct_method = struct_method_dict.get(intf_method.name)
+        #             # Kiểm tra xem method có tồn tại trong struct không
+        #             if struct_method is None:
+        #                 raise TypeMismatch(ast)
                     
-                    # Kiểm tra kiểu tham số (partype)
-                    if len(struct_method.mtype.partype) != len(intf_method.mtype.partype):
-                        raise TypeMismatch(ast)  # Số lượng tham số không khớp
+        #             # Kiểm tra kiểu tham số (partype)
+        #             if len(struct_method.mtype.partype) != len(intf_method.mtype.partype):
+        #                 raise TypeMismatch(ast)  # Số lượng tham số không khớp
                     
-                    # So sánh từng kiểu tham số
-                    if any([type(struct_param) is not type(intf_param) for struct_param, intf_param in zip(struct_method.mtype.partype, intf_method.mtype.partype)]):
-                        raise TypeMismatch(ast)  # Kiểu tham số không khớp
+        #             # So sánh từng kiểu tham số
+        #             if any([type(struct_param) is not type(intf_param) for struct_param, intf_param in zip(struct_method.mtype.partype, intf_method.mtype.partype)]):
+        #                 raise TypeMismatch(ast)  # Kiểu tham số không khớp
                     
-                    # Kiểm tra kiểu trả về (rettype)
-                    if type(struct_method.mtype.rettype) is not type(intf_method.mtype.rettype):
-                        raise TypeMismatch(ast)  # Kiểu trả về không khớp
+        #             # Kiểm tra kiểu trả về (rettype)
+        #             if type(struct_method.mtype.rettype) is not type(intf_method.mtype.rettype):
+        #                 raise TypeMismatch(ast)  # Kiểu trả về không khớp
+        self.checkAssignType(type_lhs, type_rhs, ast, c)
         return env
     
     def visitId(self,ast,c):
@@ -492,19 +642,19 @@ class StaticChecker(BaseVisitor,Utils):
         if not isinstance(self.getType(expr_typ), BoolType):
             raise TypeMismatch(ast)
         
-        self.visit(ast.thenStmt, c)
+        self.visit(ast.thenStmt, ([[]] + env, isGlobal))
         if ast.elseStmt:
             self.visit(ast.elseStmt, c)
 
         return env
 
     def visitForBasic(self,ast,c):
-        env = c[0]
-        cond_typ = self.visit(ast.cond, c)
+        env, isGlobal = c
+        cond_typ = self.getType(self.visit(ast.cond, c))
         if not isinstance(cond_typ, BoolType):
             raise TypeMismatch(ast)
         
-        self.visit(ast.loop, c)
+        self.visit(ast.loop, ([[]] + env, isGlobal))
 
         return env
     
@@ -512,7 +662,7 @@ class StaticChecker(BaseVisitor,Utils):
         env, isGlobal = c
         local_env = deepcopy(env)
         local_env = self.visit(ast.init, ([[]] + local_env, isGlobal))
-        cond_typ = self.visit(ast.cond, (local_env, isGlobal))
+        cond_typ = self.getType(self.visit(ast.cond, (local_env, isGlobal)))
         if not isinstance(cond_typ, BoolType):
             raise TypeMismatch(ast)
         self.visit(ast.upda, (local_env, isGlobal))
@@ -534,7 +684,7 @@ class StaticChecker(BaseVisitor,Utils):
             raise TypeMismatch(ast)
         
         local_env = [local_env[0] + [Symbol(ast.value.name, arr_typ.eleType)]] + local_env[1:]
-        self.visit(ast.loop, (local_env, isGlobal))
+        self.visit(ast.loop, ([[]] + local_env, isGlobal))
         return env
 
     def visitBreak(self,ast,c):
@@ -557,22 +707,25 @@ class StaticChecker(BaseVisitor,Utils):
         #     if not type(res_meth.fun.mtype.rettype) is type(typ_expr):
         #         raise TypeMismatch(ast)
         # print(func_name)
-        if func_name.startswith('ArrayType('):
-            # print('ArrayType')
-            if not isinstance(typ_expr, ArrayType):
-                raise TypeMismatch(ast)
-        if func_name.startswith('Id('):
-            # print('Id')
-            if not isinstance(typ_expr, Id):
-                raise TypeMismatch(ast)
-            if typ_expr.name != func_name[3:-1]:
-                raise TypeMismatch(ast)
-        # if not isinstance(typ_expr, func_name):
-        #     raise TypeMismatch(ast)
-        dict = { 'VoidType': VoidType, 'IntType': IntType, 'FloatType': FloatType, 'StringType': StringType, 'BoolType': BoolType }
-        if func_name in dict:
-            if not isinstance(typ_expr, dict[func_name]):
-                raise TypeMismatch(ast)
+        # print(typ_expr, func_name)
+        if not self.checkSameType(typ_expr, func_name, c):
+            raise TypeMismatch(ast)
+        # if func_name.startswith('ArrayType('):
+        #     # print('ArrayType')
+        #     if not isinstance(typ_expr, ArrayType):
+        #         raise TypeMismatch(ast)
+        # if func_name.startswith('Id('):
+        #     # print('Id')
+        #     if not isinstance(typ_expr, Id):
+        #         raise TypeMismatch(ast)
+        #     if typ_expr.name != func_name[3:-1]:
+        #         raise TypeMismatch(ast)
+        # # if not isinstance(typ_expr, func_name):
+        # #     raise TypeMismatch(ast)
+        # dict = { 'VoidType': VoidType, 'IntType': IntType, 'FloatType': FloatType, 'StringType': StringType, 'BoolType': BoolType }
+        # if func_name in dict:
+        #     if not isinstance(typ_expr, dict[func_name]):
+        #         raise TypeMismatch(ast)
         
         return env
              
@@ -633,7 +786,9 @@ class StaticChecker(BaseVisitor,Utils):
                 elif ast.op == '*':
                     result = left_val * right_val
                 elif ast.op == '/':
-                    result = left_val / right_val
+                    if right_val != 0:
+                        result = left_val / right_val
+                    else: result = None
                 return (result_type, result)
             return result_type
 
@@ -676,7 +831,7 @@ class StaticChecker(BaseVisitor,Utils):
             if can_compute:
                 value = float(body_value) if isinstance(body_type, FloatType) else body_value
                 result = -value
-                return (FloatLiteral(result) if isinstance(result_type, FloatType) else IntLiteral(int(result)), result)
+                return (result_type, result)
             return result_type
 
         if ast.op == '!':

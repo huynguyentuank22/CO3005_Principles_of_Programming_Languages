@@ -1,0 +1,8 @@
+
+            type a struct {
+                a int
+            }
+            func a () {
+                return
+            }
+        

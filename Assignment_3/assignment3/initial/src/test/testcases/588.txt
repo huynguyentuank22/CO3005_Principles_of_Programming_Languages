@@ -1,0 +1,6 @@
+
+        func main() {
+        a:=putInt(1);
+        
+        }
+        

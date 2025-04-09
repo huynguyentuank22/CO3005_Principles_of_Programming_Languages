@@ -1,0 +1,8 @@
+
+        func foo() {
+            for var i = 0; true; i += 1 {
+                var i = 1;
+                return
+            }
+        }
+        

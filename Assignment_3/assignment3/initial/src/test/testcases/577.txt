@@ -1,0 +1,13 @@
+
+        func main() {
+        for var i= 0; i < 3; i+= 3 {
+            var v int;
+            for i,v := range [3] int {1,2,3} {
+                for var i= 0; i < 3; i+= 3 {
+                    continue;
+                }
+            }
+        }
+        }
+
+        

@@ -1,0 +1,7 @@
+
+        func foo(a int){
+            foo(1);
+            var foo int;
+            foo(2);
+        }
+        

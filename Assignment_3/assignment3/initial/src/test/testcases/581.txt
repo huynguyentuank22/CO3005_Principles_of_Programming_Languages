@@ -1,0 +1,7 @@
+
+        var a = A { a: [2] int { 1, 2 } };
+        const b  = 2;
+        type A struct {
+        a [b] int
+        }
+        

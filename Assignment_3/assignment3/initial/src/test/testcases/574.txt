@@ -1,0 +1,11 @@
+
+        type A interface {
+            a()
+        }
+
+        var a A ;
+        var b A;
+        func main() {
+        b:=a;
+        }
+

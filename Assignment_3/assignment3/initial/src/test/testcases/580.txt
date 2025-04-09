@@ -1,0 +1,6 @@
+
+        var main int;
+        func main(a int ) {
+            return 
+        }
+        

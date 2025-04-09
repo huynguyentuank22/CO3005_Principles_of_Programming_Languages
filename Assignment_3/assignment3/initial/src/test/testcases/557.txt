@@ -1,0 +1,29 @@
+
+                type Item struct {
+                    items [3][4] string
+                }
+                type Student struct {
+                    name string
+                    age [3] float
+                    items [3] Item
+                }
+                type People interface {
+                    getName() string
+                }
+                type ABC struct {
+                    name string
+                    age [3] float
+                }
+                func (s Student) getName() string {
+                    return s.name
+                }
+                func (s ABC) getName() string {
+                    return s.name
+                }
+                func main() { 
+                    var a [3] People = [3] Student { Student { name:"OK"}, Student { name:"OK"}, Student { name:"OK"}}
+         //           a := [3] ABC { ABC { name:"OK"}, ABC { name:"OK"}, ABC { name:"OK"}}
+           //         b:= [3] ABC { ABC { name:"OK"}, ABC { name:"OK"}, ABC { name:"OK"}}
+                }
+            
+            

@@ -1,0 +1,21 @@
+
+            type A struct  {
+                a int
+            }
+            var a Z = A{a : 1}
+            type B struct{
+                a int
+            }
+            func main(){
+                var a = A{a : 1}
+                var b = B{a : 2}
+                a.get();
+                return
+            }
+            func (a A) get() int {
+                return a.a
+            }
+            type Z interface {
+                get() int
+            }
+        

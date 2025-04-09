@@ -1,0 +1,11 @@
+
+        func main() A{
+            var A int;
+            var a A;
+            return a;
+        
+        } 
+        type A struct {
+            a int
+        }
+        
