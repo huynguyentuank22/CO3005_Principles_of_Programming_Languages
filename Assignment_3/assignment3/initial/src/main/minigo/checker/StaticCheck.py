@@ -484,13 +484,18 @@ class StaticChecker(BaseVisitor,Utils):
     
     def visitArrayCell(self, ast, c):
         # c = (c[0], 'expr')
-        arr_type = self.visit(ast.arr, c)
+        arr_type = self.getType(self.visit(ast.arr, c))
         idx = [self.visit(x, c) for x in ast.idx]
-        if not isinstance(self.getType(arr_type), ArrayType):
+        if not isinstance(arr_type, ArrayType):
             raise TypeMismatch(ast)
         if any([not isinstance(self.getType(x), IntType) for x in idx]):
             raise TypeMismatch(ast)
-        return self.getType(arr_type).eleType
+        if len(idx) == len(arr_type.dimens):
+            return arr_type.eleType
+        if len(arr_type.dimens) > len(idx):
+            remain_idx = arr_type.dimens[len(idx):]
+            return ArrayType(remain_idx, arr_type.eleType)
+        # return arr_type.eleType
     
     def visitNilLiteral(self, ast, c):
         return (VoidType(), None)

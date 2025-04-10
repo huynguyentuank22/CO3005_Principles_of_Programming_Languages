@@ -1983,7 +1983,7 @@ class CheckSuite(unittest.TestCase):
         expect = ""
         self.assertTrue(TestChecker.test(input, expect, 554))
 
-    def test_501(self):
+    def test_something_2(self):
         input = """
         func foo(a int){
             foo(1);
@@ -1994,7 +1994,7 @@ class CheckSuite(unittest.TestCase):
         expect = "Undeclared Function: foo\n"
         self.assertTrue(TestChecker.test(input, expect, 555))
 
-    def test_477(self):
+    def test_something_3(self):
         input = """
         func main(){
             var index string = "hello";
@@ -2007,7 +2007,7 @@ class CheckSuite(unittest.TestCase):
         expect = "Type Mismatch: ForEach(Id(index),Id(value),ArrayLiteral([IntLiteral(5)],IntType,[IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4),IntLiteral(5)]),Block([FuncCall(putInt,[Id(value)])]))\n"
         self.assertTrue(TestChecker.test(input, expect, 556))
 
-    def test_519(self):
+    def test_something_4(self):
         input = """
         func main(){
             var value_ int;
@@ -2019,7 +2019,7 @@ class CheckSuite(unittest.TestCase):
         expect = "Undeclared Identifier: index\n"
         self.assertTrue(TestChecker.test(input, expect, 557))
 
-    def test_520(self):
+    def test_something_5(self):
         input = """
         func main(){
             var index int;
@@ -2031,7 +2031,7 @@ class CheckSuite(unittest.TestCase):
         expect = "Undeclared Identifier: value\n"
         self.assertTrue(TestChecker.test(input, expect, 558))
         
-    def test_522(self):
+    def test_something_6(self):
         input = """
         func main(){
             var index int
@@ -2045,7 +2045,7 @@ class CheckSuite(unittest.TestCase):
         expect = "Undeclared Identifier: arr\n"
         self.assertTrue(TestChecker.test(input, expect, 559))
 
-    def test_517(self):
+    def test_something_7(self):
         input = """
         var a [2][2]int;
         func main(){
@@ -2054,4 +2054,38 @@ class CheckSuite(unittest.TestCase):
         """
         expect = "Type Mismatch: Assign(ArrayCell(Id(a),[IntLiteral(0)]),IntLiteral(1))\n"
         self.assertTrue(TestChecker.test(input, expect, 517))
+
+    def test_something_8(self):
+        input = """
+        var a [3][4] int;
+        var b [4] int = a;
+        """
+        expect = """Type Mismatch: VarDecl(b,ArrayType(IntType,[IntLiteral(4)]),Id(a))\n"""
+        self.assertTrue(TestChecker.test(input, expect, 528))
+
+    def test_something_9(self):
+        input = """ 
+        const a = 2
+        const b = 2
+        func foo () [a]int {
+            var arr[2][2]int;
+            arr[0] := [2]int{1,2};
+            return arr[0];
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input, expect, 523))
+
+    def test_something_10(self):
+        input = """
+        const a = 2
+        const b = 3
+        var arr[2][2]int;
+        func main(){
+            arr[0] := [3]int{1,2,3}
+        }
+
+        """
+        expect = "Type Mismatch: Assign(ArrayCell(Id(arr),[IntLiteral(0)]),ArrayLiteral([IntLiteral(3)],IntType,[IntLiteral(1),IntLiteral(2),IntLiteral(3)]))\n"
+        self.assertTrue(TestChecker.test(input, expect, 516))
         
