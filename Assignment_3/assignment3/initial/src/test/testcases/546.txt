@@ -1,20 +1,16 @@
 
-        type A interface{
-            getInt() int
+        type hihi interface {
+            foo(a int) int
         }
-        type B struct {
-            x int;
+        func (p Person) foo(a int) int {
+            var a int
         }
-        func (b B) getInt() int {
-            return b.x
+        type Person struct {
+            a int
         }
-        func (b B) dosth(){
-            return;
-        }
-
-        func main (){
-            var a A
-            A := B{x:1}
-            a.dosth()
+        func main() {
+            var a Person
+            var b hihi
+            b := a
         }
         

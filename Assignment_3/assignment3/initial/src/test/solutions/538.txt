@@ -1,1 +1,1 @@
-Type Mismatch: ArrayType(FloatType,[Id(row),Id(col)])
+Type Mismatch: Assign(Id(b),Id(a))

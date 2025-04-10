@@ -1,1 +1,1 @@
-Type Mismatch: MethodCall(Id(a),get,[])
+Undeclared Identifier: arr

@@ -276,6 +276,17 @@ class StaticChecker(BaseVisitor,Utils):
                                     # print(name, z.name)
                                     raise Redeclared(Field(), name)
                             y.mtype.append(Symbol(name, typ, 'FIELD'))
+                        if ast.methods:
+                            for method in ast.methods:
+                                for _, z in enumerate(y.mtype):
+                                    if method.fun.name == z.name:
+                                        raise Redeclared(Method(), method.fun.name)
+                                parTypes = []
+                                if method.fun.params:
+                                    param = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), method.fun.params, parTypes)
+                                    parTypes = [x[1] for x in param]
+                                    # parTypes = parTypes[1:] # Bỏ qua receiver
+                                y.mtype.append(Symbol(method.fun.name, MType(parTypes, method.fun.retType), 'METHOD'))
                             #     if ast.fun.name == z.name:
                             #         raise Redeclared(Method(), ast.fun.name)
                             # parTypes = []
@@ -672,15 +683,22 @@ class StaticChecker(BaseVisitor,Utils):
     def visitForEach(self,ast,c):
         env, isGlobal = c
         local_env = deepcopy(env)
-        local_env = [[]] + local_env
-        if ast.idx.name != '_':
-            local_env = [local_env[0] + [Symbol(ast.idx.name, IntType())]] + local_env[1:]
-        res = self.lookupRedeclared(ast.value.name, local_env[0], lambda x: x.name)
-        if res: 
-            raise Redeclared(Variable(), ast.value.name)
-        
+        # local_env = [[]] + local_env
+        # if ast.idx.name != '_':
+        #     local_env = [local_env[0] + [Symbol(ast.idx.name, IntType())]] + local_env[1:]
+        # res = self.lookupRedeclared(ast.value.name, local_env[0], lambda x: x.name)
+        # if res: 
+        #     raise Redeclared(Variable(), ast.value.name)
         arr_typ = self.getType(self.visit(ast.arr, c))
         if not isinstance(arr_typ, ArrayType):
+            raise TypeMismatch(ast)
+        
+        if ast.idx.name != '_':
+            idx_typ = self.getType(self.visit(ast.idx, c))
+            if not isinstance(idx_typ, IntType):
+                raise TypeMismatch(ast)
+        val_typ = self.getType(self.visit(ast.value, c))
+        if not type(val_typ) is type(arr_typ.eleType):
             raise TypeMismatch(ast)
         
         local_env = [local_env[0] + [Symbol(ast.value.name, arr_typ.eleType)]] + local_env[1:]

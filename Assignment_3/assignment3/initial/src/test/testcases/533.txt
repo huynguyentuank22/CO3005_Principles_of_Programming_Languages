@@ -1,7 +1,8 @@
 
         func foo() {
-            var a = 5
-            var c float
-            c := a
+            var arr int
+            for idx, val := range arr {
+                return
+            }
         }
         

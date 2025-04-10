@@ -1,1 +1,1 @@
-Type Mismatch: VarDecl(a,ArrayType(Id(People),[IntLiteral(3)]),ArrayLiteral([IntLiteral(3)],Id(Student),[StructLiteral(Student,[(name,StringLiteral("OK"))]),StructLiteral(Student,[(name,StringLiteral("OK"))]),StructLiteral(Student,[(name,StringLiteral("OK"))])]))
+Undeclared Identifier: index

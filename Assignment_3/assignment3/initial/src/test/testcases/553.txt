@@ -1,13 +1,14 @@
 
-        func main() {
-            for i := 0; i < 10; i+=1 {
-                if (i == 5) {
-                    break
-                    var a int
-                } else if (i == 6) {
-                    continue
-                    var b int
-                }
-            }
+        func foo(a,b,c int) A{
+            return A{a:a, b:b, c:c, d:d}
+        }
+        func main(){
+            var b A;
+            b := foo(1,2,3)
+        }
+        type A struct{
+            a int;
+            b int;
+            c int;
         }
         

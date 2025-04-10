@@ -1,23 +1,9 @@
 
-                type Item struct {
-                    items [3][4] string
-                }
-                type Student struct {
-                    name string
-                    age [3] float
-                    items [3] Item
-                }
-                type People interface {
-                    getName() string
-                }
-                func (s Student) getName() string {
-                    return s.name
-                }
-                func main() { 
-                    var a People
-                    var b string = a.getName()
-                    var z = 3.2
-                    var c [z] int
-                }
-            
-            
+        func main(){
+            var index string = "hello";
+            var value int;
+            for index, value := range [5]int{1,2,3,4,5} {
+                putInt(value);
+            }
+        }
+        

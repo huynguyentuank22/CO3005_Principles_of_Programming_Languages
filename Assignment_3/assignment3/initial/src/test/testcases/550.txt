@@ -1,6 +1,11 @@
 
-        const a = 1;
-        const b = 2;
-        const c = d + 3;
-        const d = 4;
+        var a[1]int = [1]int{1};
+        var b [5]float;
+        func foo(){
+            b := [5]int{1,2,3,4,5};
+            var c = a[0];
+            putInt(c);
+            var d = e+1;
+        }
+        var e int = 2;
         

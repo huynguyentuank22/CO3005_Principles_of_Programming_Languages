@@ -1,4 +1,8 @@
 
-        var col = 3.5
-        var arr = [2][col]int{1,2,3,4}
+        func test(x, y int, z float) {
+            var x int;
+            var z float;
+            t := 1;
+            const t = 2;
+        }
         

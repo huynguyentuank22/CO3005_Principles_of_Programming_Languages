@@ -1,14 +1,4 @@
 
-        type hihi interface {
-            foo(a int)
-            faa(b int)
-        }
-        type Person struct {
-            a int
-        }
-        func main() {
-            var a Person
-            var b hihi
-            b := a
-        }
+        var col = 3.5
+        var arr = [2][col]int{1,2,3,4}
         

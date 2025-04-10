@@ -1,11 +1,14 @@
 
-        var a[1]int = [1]int{1};
-        var b [5]float;
+        var a = 2 + 5 * 3;
+        var b = a + 1;
+        var c = a * b;
+        var d = c - 1;
+        var e = d / 2;
         func foo(){
-            b := [5]int{1,2,3,4,5};
-            var c = a[0];
+            k := a + b;
+            putInt(k);
+            var c = d + e;
             putInt(c);
-            var d = e+1;
+            var e = h + 1;
         }
-        var e int = 2;
         

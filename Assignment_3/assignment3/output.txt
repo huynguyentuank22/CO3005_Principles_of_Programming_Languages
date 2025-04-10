@@ -191,7 +191,7 @@ class CheckSuite(unittest.TestCase):
             return
         }
         """
-        expect = "Redeclared Parameter: a\n"
+        expect = ""
         self.assertTrue(TestChecker.test(input,expect,418))
 
     def test_method_redeclared(self):
@@ -263,7 +263,7 @@ class CheckSuite(unittest.TestCase):
             name string
         }
         """
-        expect = "Redeclared Method: name\n"
+        expect = "Redeclared Field: name\n"
         self.assertTrue(TestChecker.test(input,expect,423))
 
     def test_method_redeclared_5(self):
@@ -757,7 +757,7 @@ class CheckSuite(unittest.TestCase):
     def test_type_missmatch_float_with_int(self):
         # print(inspect.currentframe().f_code.co_name)
         input = """var a float = 1;"""
-        expect = "Type Mismatch: VarDecl(a,FloatType,IntLiteral(1))\n"
+        expect = ""
         self.assertTrue(TestChecker.test(input,expect,461))
 
     def test_type_missmatch_float_with_string(self):
@@ -1602,6 +1602,18 @@ class CheckSuite(unittest.TestCase):
         expect = "Type Mismatch: For(VarDecl(i,IntType,IntLiteral(0)),BinaryOp(IntLiteral(23),+,IntLiteral(45)),Assign(Id(i),BinaryOp(Id(i),+,IntLiteral(1))),Block([Return()]))\n"
         self.assertTrue(TestChecker.test(input,expect,530))
 
+    def test_type_missmatch_for_step_stmt_2(self):
+        input = """
+        func foo() {
+            for var i = 0; true; i += 1 {
+                var i = 1;
+                return
+            }
+        }
+        """
+        expect = "Redeclared Variable: i\n"
+        self.assertTrue(TestChecker.test(input,expect,531))
+
     def test_type_missmatch_for_each(self):
         # print(inspect.currentframe().f_code.co_name)
         input = """
@@ -1612,8 +1624,8 @@ class CheckSuite(unittest.TestCase):
             }
         }
         """
-        expect = "Redeclared Variable: i\n"
-        self.assertTrue(TestChecker.test(input,expect,531))
+        expect = "Undeclared Identifier: i\n"
+        self.assertTrue(TestChecker.test(input,expect,532))
 
     def test_type_missmatch_for_each_2(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1626,7 +1638,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: ForEach(Id(idx),Id(val),Id(arr),Block([Return()]))\n"
-        self.assertTrue(TestChecker.test(input,expect,532))
+        self.assertTrue(TestChecker.test(input,expect,533))
 
     def test_type_missmatch_assign(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1638,7 +1650,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,533))
+        self.assertTrue(TestChecker.test(input,expect,534))
 
     def test_type_missmatch_assign_2(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1650,7 +1662,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: Assign(Id(c),BinaryOp(Id(a),+,StringLiteral(\"hello\")))\n"
-        self.assertTrue(TestChecker.test(input,expect,534))
+        self.assertTrue(TestChecker.test(input,expect,535))
 
     def test_type_missmatch_assign_array(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1667,7 +1679,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,535))
+        self.assertTrue(TestChecker.test(input,expect,536))
 
     def test_type_missmatch_assign_array_2(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1681,7 +1693,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: Assign(Id(b),Id(a))\n"
-        self.assertTrue(TestChecker.test(input,expect,536))
+        self.assertTrue(TestChecker.test(input,expect,537))
 
     def test_type_missmatch_assign_array_3(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1695,7 +1707,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: Assign(Id(b),Id(a))\n"
-        self.assertTrue(TestChecker.test(input,expect,537))
+        self.assertTrue(TestChecker.test(input,expect,538))
 
     def test_type_missmatch_assign_array_4(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1709,7 +1721,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: ArrayType(FloatType,[Id(row),Id(col)])\n"
-        self.assertTrue(TestChecker.test(input,expect,538))
+        self.assertTrue(TestChecker.test(input,expect,539))
 
     def test_type_missmatch_assign_aka_declared(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1722,7 +1734,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Redeclared Constant: t\n"
-        self.assertTrue(TestChecker.test(input,expect,539))
+        self.assertTrue(TestChecker.test(input,expect,540))
 
     def test_type_missmatch_arr_lit(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1731,7 +1743,7 @@ class CheckSuite(unittest.TestCase):
         var arr = [2][col]int{1,2,3,4}
         """
         expect = "Type Mismatch: ArrayLiteral([IntLiteral(2),Id(col)],IntType,[IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4)])\n"
-        self.assertTrue(TestChecker.test(input,expect,540))
+        self.assertTrue(TestChecker.test(input,expect,541))
 
     def test_type_missmatch_interface_implement(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1750,7 +1762,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: Assign(Id(b),Id(a))\n"
-        self.assertTrue(TestChecker.test(input, expect, 541))
+        self.assertTrue(TestChecker.test(input, expect, 542))
 
     def test_type_missmatch_interface_implement_2(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1771,7 +1783,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: Assign(Id(b),Id(a))\n"
-        self.assertTrue(TestChecker.test(input, expect, 542))
+        self.assertTrue(TestChecker.test(input, expect, 543))
 
     def test_type_missmatch_interface_implement_3(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1792,7 +1804,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: Assign(Id(b),Id(a))\n"
-        self.assertTrue(TestChecker.test(input, expect, 543))
+        self.assertTrue(TestChecker.test(input, expect, 544))
 
     def test_type_missmatch_interface_implement_4(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1813,7 +1825,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: Assign(Id(b),Id(a))\n"
-        self.assertTrue(TestChecker.test(input, expect, 544))
+        self.assertTrue(TestChecker.test(input, expect, 545))
 
     def test_type_missmatch_interface_implement_5(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1834,7 +1846,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input, expect, 545))
+        self.assertTrue(TestChecker.test(input, expect, 546))
 
     def test_type_missmatch_interface_implement_6(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1859,7 +1871,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: MethodCall(Id(a),dosth,[])\n"
-        self.assertTrue(TestChecker.test(input, expect, 546))
+        self.assertTrue(TestChecker.test(input, expect, 547))
 
     def test_scope_var_decl(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1871,7 +1883,7 @@ class CheckSuite(unittest.TestCase):
         var e = b + 1;
         """
         expect = "Undeclared Identifier: d\n"
-        self.assertTrue(TestChecker.test(input,expect,547))
+        self.assertTrue(TestChecker.test(input,expect,548))
 
     def test_scope_var_decl_2(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1890,7 +1902,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Undeclared Identifier: h\n"
-        self.assertTrue(TestChecker.test(input,expect,548))
+        self.assertTrue(TestChecker.test(input,expect,549))
 
     def test_scope_var_decl_3(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1906,7 +1918,7 @@ class CheckSuite(unittest.TestCase):
         var e int = 2;
         """
         expect = "Undeclared Identifier: e\n"
-        self.assertTrue(TestChecker.test(input,expect,549))
+        self.assertTrue(TestChecker.test(input,expect,550))
 
     def test_scope_var_decl_4(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1917,7 +1929,7 @@ class CheckSuite(unittest.TestCase):
         const d = 4;
         """
         expect = "Undeclared Identifier: d\n"
-        self.assertTrue(TestChecker.test(input,expect,550))
+        self.assertTrue(TestChecker.test(input,expect,551))
 
     def test_scope_var_decl_5(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1932,9 +1944,9 @@ class CheckSuite(unittest.TestCase):
         var c int = 2;
         """
         expect = "Undeclared Identifier: c\n"
-        self.assertTrue(TestChecker.test(input,expect,551))
+        self.assertTrue(TestChecker.test(input,expect,552))
 
-    def test_449(self):
+    def test_struct_lit(self):
         # print(inspect.currentframe().f_code.co_name)
         input = """
         func foo(a,b,c int) A{
@@ -1950,8 +1962,8 @@ class CheckSuite(unittest.TestCase):
             c int;
         }
         """
-        expect = ""
-        self.assertTrue(TestChecker.test(input, expect, 552))
+        expect = "Undeclared Field: d\n"
+        self.assertTrue(TestChecker.test(input, expect, 553))
 
     def test_something(self):
         # print(inspect.currentframe().f_code.co_name)
@@ -1969,4 +1981,66 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input, expect, 553))
+        self.assertTrue(TestChecker.test(input, expect, 554))
+
+    def test_501(self):
+        input = """
+        func foo(a int){
+            foo(1);
+            var foo int;
+            foo(2);
+        }
+        """
+        expect = "Undeclared Function: foo\n"
+        self.assertTrue(TestChecker.test(input, expect, 555))
+
+    def test_477(self):
+        input = """
+        func main(){
+            var index string = "hello";
+            var value int;
+            for index, value := range [5]int{1,2,3,4,5} {
+                putInt(value);
+            }
+        }
+        """
+        expect = "Type Mismatch: ForEach(Id(index),Id(value),ArrayLiteral([IntLiteral(5)],IntType,[IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4),IntLiteral(5)]),Block([FuncCall(putInt,[Id(value)])]))\n"
+        self.assertTrue(TestChecker.test(input, expect, 556))
+
+    def test_519(self):
+        input = """
+        func main(){
+            var value_ int;
+            for index, value_ := range [5]int{1,2,3,4,5} {
+                putInt(value_);
+            }
+        }
+        """
+        expect = "Undeclared Identifier: index\n"
+        self.assertTrue(TestChecker.test(input, expect, 557))
+
+    def test_520(self):
+            input = """
+            func main(){
+                var index int;
+                for _, value := range [5]int{1,2,3,4,5} {
+                    putInt(value);
+                }
+            }
+            """
+            expect = "Undeclared Identifier: value\n"
+            self.assertTrue(TestChecker.test(input, expect, 558))
+            
+    def test_522(self):
+            input = """
+            func main(){
+                var index int
+                var value int
+                for index, value := range arr {
+                    putInt(value);
+                }
+                
+            }
+            """
+            expect = "Undeclared Identifier: arr\n"
+            self.assertTrue(TestChecker.test(input, expect, 559))

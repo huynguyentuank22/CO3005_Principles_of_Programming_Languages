@@ -1,9 +1,12 @@
 
         func foo() {
-            var row = 2 + 1
-            var col = 3 + 1 + 1
+            const one = 1
+            var row = 2 + one
+            var col = 3 + 2 * one
             var a [3][5]int
-            var b [row][col][col]int
+            var b [row][col]int
+            var c [3][5]float
             b := a
+            c := a
         }
         

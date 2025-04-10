@@ -1,8 +1,7 @@
 
-        func foo() {
-            for var i = 0; true; i += 1 {
-                var i = 1;
-                return
-            }
+        func foo(a int){
+            foo(1);
+            var foo int;
+            foo(2);
         }
         
