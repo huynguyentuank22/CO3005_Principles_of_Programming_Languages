@@ -2089,3 +2089,17 @@ class CheckSuite(unittest.TestCase):
         expect = "Type Mismatch: Assign(ArrayCell(Id(arr),[IntLiteral(0)]),ArrayLiteral([IntLiteral(3)],IntType,[IntLiteral(1),IntLiteral(2),IntLiteral(3)]))\n"
         self.assertTrue(TestChecker.test(input, expect, 516))
         
+    def test_something_11(self):
+        input = """
+        func foo(a int, b float, c string){
+            var a int;
+            var b float;
+            var c string;
+            putInt(a);
+        }
+        func main(){
+            foo(foo(1, 2.0, "hello"), 2.0, "hello");
+        }
+        """
+        expect = "Type Mismatch: FuncCall(foo,[IntLiteral(1),FloatLiteral(2.0),StringLiteral(\"hello\")])\n"
+        self.assertTrue(TestChecker.test(input, expect, 598))
