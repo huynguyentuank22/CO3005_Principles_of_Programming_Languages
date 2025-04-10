@@ -490,7 +490,7 @@ class StaticChecker(BaseVisitor,Utils):
             raise TypeMismatch(ast)
         if any([not isinstance(self.getType(x), IntType) for x in idx]):
             raise TypeMismatch(ast)
-        return arr_type[0].eleType if isinstance(arr_type, tuple) else arr_type.eleType
+        return self.getType(arr_type).eleType
     
     def visitNilLiteral(self, ast, c):
         return (VoidType(), None)
