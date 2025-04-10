@@ -1,1 +1,1 @@
-Redeclared Function: a
+Type Mismatch: Assign(ArrayCell(Id(a),[IntLiteral(0)]),IntLiteral(1))

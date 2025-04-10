@@ -67,8 +67,7 @@ class Utils:
             if not ((self.compareType(type_lhs.eleType, type_rhs.eleType)) or (isinstance(type_lhs.eleType, FloatType) and isinstance(type_rhs.eleType, IntType))):
                 raise TypeMismatch(ast)
         if isinstance(type_lhs, Id) and isinstance(type_rhs, Id):
-            if type_lhs.name == type_rhs.name:
-                return
+            if type_lhs.name == type_rhs.name: return
             res_lhs = self.lookup(env, (type_lhs.name, lambda x: x.name), ('INTERFACE', lambda x: x.value))
             res_rhs = self.lookup(env, (type_rhs.name, lambda x: x.name), ('STRUCT', lambda x: x.value))
             if res_lhs and res_rhs:
@@ -269,8 +268,7 @@ class StaticChecker(BaseVisitor,Utils):
             if res:
                 raise Redeclared(Parameter(), ast.parName)
             return env + [(ast.parName ,ast.parType)]
-        else:
-            return [env[0] + [Symbol(ast.parName, ast.parType)]] + env[1:]
+        else: return [env[0] + [Symbol(ast.parName, ast.parType)]] + env[1:]
     
     def visitMethodDecl(self,ast, c):
         env, isGlobal = c
@@ -563,8 +561,7 @@ class StaticChecker(BaseVisitor,Utils):
         left_value = left[1] if isinstance(left, tuple) else None
         right_type = self.getType(right)
         right_value = right[1] if isinstance(right, tuple) else None
-        can_compute = (left_value is not None and right_value is not None and 
-                    isinstance(left_value, (int, float)) and isinstance(right_value, (int, float)))
+        can_compute = (left_value is not None and right_value is not None and isinstance(left_value, (int, float)) and isinstance(right_value, (int, float)))
         if ast.op == '+':
             if not (isinstance(left_type, (IntType, FloatType, StringType)) and isinstance(right_type, (IntType, FloatType, StringType))):
                 raise TypeMismatch(ast)
@@ -585,7 +582,7 @@ class StaticChecker(BaseVisitor,Utils):
             if can_compute:
                 left_val = float(left_value) if isinstance(left_type, FloatType) else left_value
                 right_val = float(right_value) if isinstance(right_type, FloatType) else right_value
-                if ast.op == '-':
+                if ast.op == '-': 
                     result = left_val - right_val
                 elif ast.op == '*':
                     result = left_val * right_val
@@ -622,8 +619,7 @@ class StaticChecker(BaseVisitor,Utils):
             result_type = FloatType() if isinstance(body_type, FloatType) else IntType()
             if can_compute:
                 value = float(body_value) if isinstance(body_type, FloatType) else body_value
-                result = -value
-                return (result_type, result)
+                return (result_type, -value)
             return result_type
         if ast.op == '!':
             if not isinstance(body_type, BoolType):

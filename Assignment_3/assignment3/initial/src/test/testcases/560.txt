@@ -1,8 +1,6 @@
 
-            type a struct {
-                a int
-            }
-            func a () {
-                return
-            }
+        var a [2][2]int;
+        func main(){
+            a[0] := 1;
+        }
         

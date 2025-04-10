@@ -2053,7 +2053,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: Assign(ArrayCell(Id(a),[IntLiteral(0)]),IntLiteral(1))\n"
-        self.assertTrue(TestChecker.test(input, expect, 517))
+        self.assertTrue(TestChecker.test(input, expect, 560))
 
     def test_something_8(self):
         input = """
@@ -2061,7 +2061,7 @@ class CheckSuite(unittest.TestCase):
         var b [4] int = a;
         """
         expect = """Type Mismatch: VarDecl(b,ArrayType(IntType,[IntLiteral(4)]),Id(a))\n"""
-        self.assertTrue(TestChecker.test(input, expect, 528))
+        self.assertTrue(TestChecker.test(input, expect, 561))
 
     def test_something_9(self):
         input = """ 
@@ -2074,7 +2074,7 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = ""
-        self.assertTrue(TestChecker.test(input, expect, 523))
+        self.assertTrue(TestChecker.test(input, expect, 562))
 
     def test_something_10(self):
         input = """
@@ -2087,7 +2087,7 @@ class CheckSuite(unittest.TestCase):
 
         """
         expect = "Type Mismatch: Assign(ArrayCell(Id(arr),[IntLiteral(0)]),ArrayLiteral([IntLiteral(3)],IntType,[IntLiteral(1),IntLiteral(2),IntLiteral(3)]))\n"
-        self.assertTrue(TestChecker.test(input, expect, 516))
+        self.assertTrue(TestChecker.test(input, expect, 563))
         
     def test_something_11(self):
         input = """
@@ -2102,4 +2102,4 @@ class CheckSuite(unittest.TestCase):
         }
         """
         expect = "Type Mismatch: FuncCall(foo,[IntLiteral(1),FloatLiteral(2.0),StringLiteral(\"hello\")])\n"
-        self.assertTrue(TestChecker.test(input, expect, 598))
+        self.assertTrue(TestChecker.test(input, expect, 564))

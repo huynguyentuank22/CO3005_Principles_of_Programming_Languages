@@ -1,15 +1,9 @@
 
-        
-        type A interface {
-            a ()
+        const a = 2
+        const b = 3
+        var arr[2][2]int;
+        func main(){
+            arr[0] := [3]int{1,2,3}
         }
-        func (a A) main(a int) {
-            return
-        }
-        type A struct {
-            a int
-        }
-        func main(a int ) {
-            return 
-        }
+
         

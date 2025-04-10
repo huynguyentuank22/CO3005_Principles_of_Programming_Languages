@@ -1,5 +1,4 @@
 
-        func main(a int, a int ) {
-            return 
-        }
+        var a [3][4] int;
+        var b [4] int = a;
         
