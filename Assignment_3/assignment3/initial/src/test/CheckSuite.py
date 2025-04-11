@@ -2113,3 +2113,16 @@ class CheckSuite(unittest.TestCase):
         """
         expect = 'Undeclared Function: foo\n'
         self.assertTrue(TestChecker.test(input, expect, 565))
+
+    def test_something_13(self):
+        input = """
+        func foo() {
+            var a = 2
+            a += 1
+            var arr [3]int
+            var array [a]int
+            arr := array
+        }
+        """
+        expect = ""
+        self.assertTrue(TestChecker.test(input, expect, 566))
