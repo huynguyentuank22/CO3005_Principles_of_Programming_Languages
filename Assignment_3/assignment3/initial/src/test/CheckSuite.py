@@ -2103,3 +2103,13 @@ class CheckSuite(unittest.TestCase):
         """
         expect = "Type Mismatch: FuncCall(foo,[IntLiteral(1),FloatLiteral(2.0),StringLiteral(\"hello\")])\n"
         self.assertTrue(TestChecker.test(input, expect, 564))
+
+    def test_something_12(self):
+        input = """
+        func foo() {
+            foo := 1
+            foo()
+        }
+        """
+        expect = 'Undeclared Function: foo\n'
+        self.assertTrue(TestChecker.test(input, expect, 565))
