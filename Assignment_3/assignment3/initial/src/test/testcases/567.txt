@@ -1,8 +1,0 @@
-
-        func foo() {
-            return
-        }
-        func main(a int ) int {
-            return foo();
-        }
-        

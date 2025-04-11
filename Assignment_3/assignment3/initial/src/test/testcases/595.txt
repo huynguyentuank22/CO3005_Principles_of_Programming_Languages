@@ -1,8 +1,0 @@
- 
-        type A struct {
-        a int
-        }
-        func main(a int) {
-            var a = A { a: main}
-        }
-        

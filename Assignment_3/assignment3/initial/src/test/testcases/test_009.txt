@@ -1,1 +1,0 @@
-Program([InterfaceType(VoTien,[Prototype(VoTien,[],VoidType),Prototype(VoTien,[IntType],VoidType)])])

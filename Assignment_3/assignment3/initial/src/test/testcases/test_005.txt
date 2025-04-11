@@ -1,1 +1,0 @@
-Program([FuncDecl(VoTien,[],VoidType,Block([Return()])),VarDecl(VoTien,IntLiteral(1))])

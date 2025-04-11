@@ -1,8 +1,0 @@
-
-        type A struct {
-            a int
-        }
-        func (z A) a(b int ) {
-        return
-        }
-        

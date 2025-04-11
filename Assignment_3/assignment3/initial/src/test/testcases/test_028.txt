@@ -1,1 +1,0 @@
-Program([StructType(TIEN,[(Votien,IntType)],[]),StructType(TIEN,[(v,IntType)],[])])

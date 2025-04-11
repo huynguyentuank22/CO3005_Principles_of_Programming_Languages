@@ -1,5 +1,0 @@
-
-                var a int; 
-                const b = a +10+ 3 -2 *4
-                var c [5]float = [b]int{1,2,3}
-                

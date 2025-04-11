@@ -1,6 +1,0 @@
-
-        func main() A {
-            return A;
-        }
-        type A struct { val int; }
-        

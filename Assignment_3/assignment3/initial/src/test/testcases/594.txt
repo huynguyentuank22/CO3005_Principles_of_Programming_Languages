@@ -1,5 +1,0 @@
- 
-        func main(a int) {
-            main(main(1));
-        }
-        

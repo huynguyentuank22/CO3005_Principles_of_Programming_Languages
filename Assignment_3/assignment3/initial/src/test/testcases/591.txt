@@ -1,9 +1,0 @@
- 
-        func main() {
-            var i = 3;
-            var b string;
-            for i,b := range [4] string {"a"} {
-                return
-            }
-        }
-        

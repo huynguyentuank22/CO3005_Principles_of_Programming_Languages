@@ -1,7 +1,0 @@
-
-        var a main;
-        const b  = 2;
-        func main() {
-            return
-        }
-        

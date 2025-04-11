@@ -1,5 +1,0 @@
-
-                var a string;
-                var b float;
-                const c = a;
-                

@@ -1,1 +1,0 @@
-Program([VarDecl(v,Id(TIEN)),ConstDecl(b,FieldAccess(Id(v),b)),StructType(TIEN,[(a,IntType),(b,IntType),(c,IntType)],[]),ConstDecl(a,FieldAccess(Id(v),a)),ConstDecl(e,FieldAccess(Id(v),e))])

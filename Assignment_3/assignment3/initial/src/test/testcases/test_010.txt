@@ -1,1 +1,0 @@
-Program([FuncDecl(Votien,[ParDecl(a,IntType),ParDecl(a,IntType)],VoidType,Block([Return()]))])

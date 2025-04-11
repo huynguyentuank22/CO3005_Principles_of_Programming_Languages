@@ -1,1 +1,0 @@
-Program([StructType(s,[],[]),VarDecl(a,StructType(s,[],[]))])

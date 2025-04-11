@@ -1,1 +1,0 @@
-Program([FuncDecl(foo,[],VoidType,Block([])),StructType(foo,[(name,StringType)],[])])
