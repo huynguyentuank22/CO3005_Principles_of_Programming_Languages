@@ -1,5 +1,6 @@
 
-        func foo() {
-            var c = !123;
+        type A struct {
+            getInt int;
+            getFloat float;
         }
         

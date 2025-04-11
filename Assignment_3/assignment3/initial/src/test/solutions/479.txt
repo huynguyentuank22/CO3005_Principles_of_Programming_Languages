@@ -1,1 +1,1 @@
-Type Mismatch: BinaryOp(IntLiteral(123),%,FloatLiteral(45.6))
+Type Mismatch: FuncCall(putString,[ArrayCell(Id(arr),[IntLiteral(1)])])

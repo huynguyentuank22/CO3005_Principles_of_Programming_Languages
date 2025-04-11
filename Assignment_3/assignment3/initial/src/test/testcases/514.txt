@@ -1,7 +1,7 @@
 
-        func foo() {
-            var a [5]int;
-            var b = 2;
-            var c = a[b][23];
+        type Person struct {
+            name string
         }
+        var a Person;
+        var b = c.name;
         

@@ -1,1 +1,1 @@
-Type Mismatch: VarDecl(a,FloatType,BooleanLiteral(false))
+Type Mismatch: FuncCall(foo,[FloatLiteral(2.0)])

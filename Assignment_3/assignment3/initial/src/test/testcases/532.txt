@@ -1,8 +1,14 @@
 
-        func foo() {
-            var arr [5]int
-            for i, i := range arr {
-                return
-            }
+        type A struct {
+            x int
+        }
+        type B interface {
+            test() int
+        }
+        func (a A) test() int {
+            return a.x;
+        }
+        func foo(a A, b B) B{
+            return a;
         }
         

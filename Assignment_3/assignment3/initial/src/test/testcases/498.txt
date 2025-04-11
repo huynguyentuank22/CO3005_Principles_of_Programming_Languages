@@ -1,6 +1,6 @@
 
-        func foo() {
-            var a = true && false
-            var b = true || false
+        func main(){
+            var a[2][3]int;
+            a[0][0] := 1.0;
         }
         

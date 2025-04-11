@@ -1,5 +1,9 @@
 
-        func foo() {
-            var c = 123 && 12.3;
+        type A struct {
+            x int;
+            y float;
+        }
+        func (a A) test() int {
+            return a.z;
         }
         

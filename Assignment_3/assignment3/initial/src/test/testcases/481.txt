@@ -1,5 +1,7 @@
 
-        func foo() {
-            var c = true == 123;
+        var a float = 3.0;
+        func main(){
+            a += 2;
+            arr := [a]int{1,2,3,4,5};
         }
         

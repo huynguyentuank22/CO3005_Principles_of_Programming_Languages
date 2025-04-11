@@ -1,1 +1,1 @@
-Type Mismatch: BinaryOp(BooleanLiteral(true),!=,IntLiteral(123))
+Type Mismatch: FuncCall(putFloat,[MethodCall(FieldAccess(Id(a),z),test,[])])

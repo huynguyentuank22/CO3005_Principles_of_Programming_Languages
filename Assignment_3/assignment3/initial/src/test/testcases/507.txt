@@ -1,8 +1,9 @@
 
+        func (a Person) name() {
+            return
+        } 
         type Person struct {
             name string
         }
-
-        var a Person;
-        var b = a.name.first_name;
+               
         

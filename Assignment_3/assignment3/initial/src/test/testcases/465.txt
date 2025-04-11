@@ -1,5 +1,10 @@
 
-        func foo() int {
-            return true;
+        func main(){
+            var a int;
+            
+            for a < "hello" {
+                putInt(a);
+                a += 1;
+            }
         }
         

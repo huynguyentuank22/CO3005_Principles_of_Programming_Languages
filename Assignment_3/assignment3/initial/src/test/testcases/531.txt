@@ -1,8 +1,11 @@
 
-        func foo() {
-            for var i = 0; true; i += 1 {
-                var i = 1;
-                return
-            }
+        type A struct{
+            x int
+        }
+        type B struct{
+            y int
+        }
+        func foo(a A, b B) A{
+            return b;
         }
         

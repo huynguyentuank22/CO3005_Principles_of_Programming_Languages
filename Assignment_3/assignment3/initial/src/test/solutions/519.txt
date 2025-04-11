@@ -1,1 +1,1 @@
-Type Mismatch: ArrayCell(MethodCall(Id(huy),foo,[]),[IntLiteral(23)])
+Undeclared Identifier: index

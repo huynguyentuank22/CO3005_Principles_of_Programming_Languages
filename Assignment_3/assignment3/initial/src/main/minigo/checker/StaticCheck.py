@@ -435,14 +435,15 @@ class StaticChecker(BaseVisitor,Utils):
     def visitStructLiteral(self, ast, c):
         env, isGlobal = c
         res = self.lookup(env, (ast.name, lambda x: x.name), ('STRUCT', lambda x: x.value))
-        fields = []
-        for field, expr in ast.elements:
-            if field in fields:
-                raise Redeclared(Field(), field)
-            ress = self.lookupRedeclared(field, res.mtype, lambda x: x.name)
-            if ress is None:
-                raise Undeclared(Field(), field)
-            fields.append(field)
+        if res:
+            fields = []
+            for field, expr in ast.elements:
+                if field in fields:
+                    raise Redeclared(Field(), field)
+                ress = self.lookupRedeclared(field, res.mtype, lambda x: x.name)
+                if ress is None:
+                    raise Undeclared(Field(), field)
+                fields.append(field)
         return (Id(ast.name), None) 
 
     def visitAssign(self, ast, c):
@@ -482,9 +483,14 @@ class StaticChecker(BaseVisitor,Utils):
         rhs = self.visit(ast.rhs, c)
         type_lhs = self.getType(lhs)
         type_rhs = self.getType(rhs)
+        val_rhs = self.getValue(rhs)
         if isinstance(type_lhs, VoidType):
             raise TypeMismatch(ast)
         self.checkAssignType(type_lhs, type_rhs, ast, c)
+        if type(ast.lhs) is Id:
+            res = self.lookupUndeclared(ast.lhs.name, env, lambda x: x.name)
+            if type(res.mtype) in [IntType, FloatType]: 
+                res.value = val_rhs
         return env
     
     def visitId(self,ast,c):

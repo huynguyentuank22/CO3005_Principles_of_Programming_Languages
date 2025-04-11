@@ -1,1 +1,1 @@
-Redeclared Variable: i
+Type Mismatch: Return(Id(b))

@@ -1,12 +1,8 @@
 
-        var a Persondepchai;
-        var b = a.foo(12, 34, 45);
-
-        type Persondepchai struct {
-            name string
-        }
-
-        func (c Persondepchai) foo(a, b int) {
-            return
+        var a[5]int;
+        var b[5]int;
+        func main(){
+            b:= [5]int{1,2,3,4,5};
+            a := b;
         }
         

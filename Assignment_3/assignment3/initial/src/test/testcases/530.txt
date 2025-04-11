@@ -1,7 +1,13 @@
 
-        func foo() {
-            for var i = 0; 23 + 45; i += 1 {
-                return
-            }
+        type A struct{
+            x int
+        }
+        func (a A) test() int {
+            return a.x;
+        }
+        func main(){
+            var a int;
+            var b A = A{x: 1};
+            var c = a + !b.test();
         }
         

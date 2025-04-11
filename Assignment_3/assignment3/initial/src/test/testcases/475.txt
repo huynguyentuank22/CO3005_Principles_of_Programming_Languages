@@ -1,5 +1,13 @@
 
-        func foo() {
-            var c = "huy" / 12.3;
+        var i string;
+        func main(){
+            for i:=0; i< 2 + 2; i+=1{
+                if (i % 2 == 0){
+                    putInt(i);
+                }
+            }
+            
+            i := "hello";
+            i += 0.12;
         }
         

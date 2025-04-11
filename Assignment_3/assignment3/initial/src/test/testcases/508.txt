@@ -1,13 +1,13 @@
 
-        type Community struct {
-            commu [3]Person
-        }
+
         type Person struct {
             name string
         }
-        
+
         func main() {
-            var obj Community
-            var result = obj.commu.age
+
+            var Person int = 1;
+
+            var n string = Person.name;
         }
         

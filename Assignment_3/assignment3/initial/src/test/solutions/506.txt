@@ -1,1 +1,1 @@
-Type Mismatch: FieldAccess(Id(a),name)
+Undeclared Method: location

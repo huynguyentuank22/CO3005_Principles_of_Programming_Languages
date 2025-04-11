@@ -1,7 +1,9 @@
 
-        func foo() {
-            var a int;
-            var b = 2;
-            var c = a[b][23];
+        const a = 2
+        const b = 3
+        var arr[2][2]int;
+        func main(){
+            arr[0] := [3]int{1,2,3}
         }
+        
         

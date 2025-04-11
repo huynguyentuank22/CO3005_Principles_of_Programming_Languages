@@ -1,8 +1,13 @@
 
-        func foo() {
-            var arr int
-            for idx, val := range arr {
-                return
-            }
+        type A interface {
+            test() int
+        }
+        type B interface {
+            test() int
+        }
+        func foo() A{
+            var a A
+            var b B
+            return b;
         }
         

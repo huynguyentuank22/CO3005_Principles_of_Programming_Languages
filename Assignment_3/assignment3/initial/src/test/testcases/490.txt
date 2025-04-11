@@ -1,5 +1,1 @@
-
-        func foo() {
-            var c = 123 > 12.3;
-        }
-        
+func main() {var a = "hello"; var b = !a;};

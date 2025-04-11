@@ -1,5 +1,9 @@
 
-        func foo() {
-            var c = true % 123;
+        func main(){
+            var index string = "hello";
+            var value int;
+            for index, value := range [5]int{1,2,3,4,5} {
+                putInt(value);
+            }
         }
         

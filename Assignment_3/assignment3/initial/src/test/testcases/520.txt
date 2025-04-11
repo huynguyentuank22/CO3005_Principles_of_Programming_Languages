@@ -1,8 +1,8 @@
 
-        func foo() {
-            var a = 1
-        }
-        func main() {
-            var b = foo();
+        func main(){
+            var index int;
+            for _, value := range [5]int{1,2,3,4,5} {
+                putInt(value);
+            }
         }
         

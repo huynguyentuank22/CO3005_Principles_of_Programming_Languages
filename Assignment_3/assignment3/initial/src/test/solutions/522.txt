@@ -1,1 +1,1 @@
-Type Mismatch: MethodCall(Id(huy),foo,[])
+Undeclared Identifier: arr

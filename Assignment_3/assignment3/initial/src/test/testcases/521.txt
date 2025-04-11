@@ -1,8 +1,5 @@
 
-        func foo() int {
-            return 2
-        }
-        func main() {
-            foo();
+        func main(){
+            a := "string" + 1 + 2 - 3
         }
         

@@ -1,13 +1,7 @@
 
-        type Community struct {
-            commu [3]Person
-        }
-        type Person struct {
-            name string
-        }
-        
-        func main() {
-            var obj Community
-            var result = obj.commu[3].age
-        }
+        var a = true || false;
+        var b = a && true;
+        var c = a && b;
+        var d = !a;
+        var e = a + b;
         

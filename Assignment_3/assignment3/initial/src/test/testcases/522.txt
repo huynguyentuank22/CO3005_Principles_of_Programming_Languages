@@ -1,12 +1,10 @@
 
-        type Person struct {
-            name string
-        }
-        func (p Person) foo() int {
-            return 2
-        }
-        func main() {
-            var huy Person
-            huy.foo();
+        func main(){
+            var index int
+            var value int
+            for index, value := range arr {
+                putInt(value);
+            }
+            
         }
         
