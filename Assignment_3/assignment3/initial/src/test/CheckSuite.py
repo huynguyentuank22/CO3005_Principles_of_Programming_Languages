@@ -198,6 +198,9 @@ class CheckSuite(unittest.TestCase):
         # print(inspect.currentframe().f_code.co_name)
         input = """
         var foo int;
+        type Person struct {
+            name string
+        }
         func (a Person) foo() {
             return
         }
@@ -263,7 +266,7 @@ class CheckSuite(unittest.TestCase):
             name string
         }
         """
-        expect = "Redeclared Field: name\n"
+        expect = "Redeclared Method: name\n"
         self.assertTrue(TestChecker.test(input,expect,423))
 
     def test_method_redeclared_5(self):
@@ -1454,7 +1457,7 @@ class CheckSuite(unittest.TestCase):
             var b = foo();
         }
         """
-        expect = "Type Mismatch: FuncCall(foo,[])\n"
+        expect = "Type Mismatch: VarDecl(b,FuncCall(foo,[]))\n"
         self.assertTrue(TestChecker.test(input,expect,520))
 
     def test_type_missmatch_func_call_2(self):
@@ -1501,7 +1504,7 @@ class CheckSuite(unittest.TestCase):
             var a = huy.foo();
         }
         """
-        expect = "Type Mismatch: MethodCall(Id(huy),foo,[])\n"
+        expect = "Type Mismatch: VarDecl(a,MethodCall(Id(huy),foo,[]))\n"
         self.assertTrue(TestChecker.test(input,expect,523))
 
     def test_type_missmatch_if_stmt(self):
@@ -2101,7 +2104,7 @@ class CheckSuite(unittest.TestCase):
             foo(foo(1, 2.0, "hello"), 2.0, "hello");
         }
         """
-        expect = "Type Mismatch: FuncCall(foo,[IntLiteral(1),FloatLiteral(2.0),StringLiteral(\"hello\")])\n"
+        expect = "Type Mismatch: FuncCall(foo,[FuncCall(foo,[IntLiteral(1),FloatLiteral(2.0),StringLiteral(\"hello\")]),FloatLiteral(2.0),StringLiteral(\"hello\")])\n"
         self.assertTrue(TestChecker.test(input, expect, 564))
 
     def test_something_12(self):
@@ -2126,3 +2129,18 @@ class CheckSuite(unittest.TestCase):
         """
         expect = ""
         self.assertTrue(TestChecker.test(input, expect, 566))
+
+    def test_something_14(self):
+        input = """
+        func foo(){
+            var a int; 
+            a := 1;
+            putInt(a);
+        }
+        func main(){
+            var b int;
+            b := foo() + 2
+        }
+        """
+        expect = "Type Mismatch: BinaryOp(FuncCall(foo,[]),+,IntLiteral(2))\n"
+        self.assertTrue(TestChecker.test(input, expect, 567))

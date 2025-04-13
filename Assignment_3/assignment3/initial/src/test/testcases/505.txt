@@ -1,8 +1,6 @@
 
-        type Person struct {
-            name string
-        }
-        type Person interface {
-            age()
+        func foo() {
+            var a = !true
+            var b = !false
         }
         

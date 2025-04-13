@@ -1,1 +1,1 @@
-Type Mismatch: FuncCall(putFloat,[FieldAccess(Id(p),age)])
+Type Mismatch: BinaryOp(IntLiteral(123),<=,FloatLiteral(12.3))

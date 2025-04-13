@@ -1,1 +1,1 @@
-Type Mismatch: FuncCall(foo,[])
+Type Mismatch: UnaryOp(-,StringLiteral("huy"))

@@ -1,11 +1,5 @@
 
         func foo() {
-            a := 1;
-            b := 2;
-            c := a + b;
-            putInt(c);
-        }
-        func main() {
-            var a = foo();
+            var c = true * 123;
         }
         

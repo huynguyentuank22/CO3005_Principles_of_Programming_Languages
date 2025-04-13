@@ -153,8 +153,10 @@ class StaticChecker(BaseVisitor,Utils):
         global_env = reduce(lambda acc,ele: self.visit(ele, (acc, True)), global_ast, builtin_env)
         global_ast = [x for x in ast.decl if isinstance(x, (StructType, InterfaceType, FuncDecl))]
         global_env = reduce(lambda acc,ele: self.visit(ele, (acc, True)), global_ast, builtin_env)
-        methods = [x for x in ast.decl if isinstance(x, (MethodDecl, StructType))]
-        global_env = reduce(lambda acc, ele: self.visit(ele, (acc, True)) if isinstance(ele, MethodDecl) else self.visit(ele, (acc, False)), methods, global_env)
+        # methods = [x for x in ast.decl if isinstance(x, (MethodDecl, StructType))]
+        # global_env = reduce(lambda acc, ele: self.visit(ele, (acc, True)) if isinstance(ele, MethodDecl) else self.visit(ele, (acc, False)), methods, global_env)
+        methods = [x for x in ast.decl if isinstance(x, MethodDecl)]
+        global_env = reduce(lambda acc, ele: self.visit(ele, (acc, True)), methods, global_env)        
         body = [x for x in ast.decl if isinstance(x, (VarDecl, ConstDecl, FuncDecl, MethodDecl))]
         reduce(lambda acc, ele: self.visit(ele, (acc, False)), body, global_env)
 
@@ -176,7 +178,9 @@ class StaticChecker(BaseVisitor,Utils):
                 c = (env, 'expr')
                 init = self.visit(ast.varInit, c)
                 initType = self.getType(init) 
-                initValue = self.getValue(init)  
+                initValue = self.getValue(init) 
+                if type(initType) is VoidType:
+                    raise TypeMismatch(ast)
                 if ast.varType is None:
                     ast.varType = initType
                 self.checkAssignType(ast.varType, initType, ast, c)
@@ -199,36 +203,53 @@ class StaticChecker(BaseVisitor,Utils):
             init = self.visit(ast.iniExpr, c)
             conType = self.getType(init)  
             initValue = self.getValue(init)  
+            if type(conType) is VoidType:
+                raise TypeMismatch(ast)
             if ast.conType is None:
                 ast.conType = conType
             return [env[0] + [Symbol(ast.conName, ast.conType, initValue)]] + env[1:]
         
     def visitStructType(self,ast, c):
         env, isGlobal = c
-        if isGlobal:
-            if self.lookupRedeclared(ast.name, env[0], lambda x: x.name):
-                raise Redeclared(Type(), ast.name)
-            return [env[0] + [Symbol(ast.name, [], 'STRUCT')]] + env[1:]
-        else:
-            for _, x in enumerate(env): 
-                for _, y in enumerate(x): 
-                    if ast.name == y.name:
-                        for name, typ in ast.elements:
-                            for _, z in enumerate(y.mtype):
-                                if name == z.name:
-                                    raise Redeclared(Field(), name)
-                            y.mtype.append(Symbol(name, typ, 'FIELD'))
-                        if ast.methods:
-                            for method in ast.methods:
-                                for _, z in enumerate(y.mtype):
-                                    if method.fun.name == z.name:
-                                        raise Redeclared(Method(), method.fun.name)
-                                parTypes = []
-                                if method.fun.params:
-                                    param = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), method.fun.params, parTypes)
-                                    parTypes = [x[1] for x in param]
-                                y.mtype.append(Symbol(method.fun.name, MType(parTypes, method.fun.retType), 'METHOD'))
-            return env
+        # if isGlobal:
+        if self.lookupRedeclared(ast.name, env[0], lambda x: x.name):
+            raise Redeclared(Type(), ast.name)
+        fields = []
+        for name, typ in ast.elements:
+            if self.lookupRedeclared(name, fields, lambda x: x.name):
+                raise Redeclared(Field(), name)
+            fields.append(Symbol(name, typ, 'FIELD'))
+        if ast.methods:
+            for method in ast.methods:
+                if self.lookupRedeclared(method.fun.name, fields, lambda x: x.name):
+                    raise Redeclared(Method(), name)
+                parTypes = []
+                if method.fun.params:
+                    param = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), method.fun.params, parTypes)
+                    parTypes = [x[1] for x in param]
+                fields.append(Symbol(method.fun.name, MType(parTypes, method.fun.retType), 'METHOD'))
+            # return [env[0] + [Symbol(ast.name, [], 'STRUCT')]] + env[1:]
+        # else:
+        # for _, x in enumerate(env): 
+        #     for _, y in enumerate(x): 
+        #         if ast.name == y.name:
+        #             for name, typ in ast.elements:
+        #                 for _, z in enumerate(y.mtype):
+        #                     if name == z.name:
+        #                         raise Redeclared(Field(), name)
+        #                 y.mtype.append(Symbol(name, typ, 'FIELD'))
+        #             if ast.methods:
+        #                 for method in ast.methods:
+        #                     for _, z in enumerate(y.mtype):
+        #                         if method.fun.name == z.name:
+        #                             raise Redeclared(Method(), method.fun.name)
+        #                     parTypes = []
+        #                     if method.fun.params:
+        #                         param = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), method.fun.params, parTypes)
+        #                         parTypes = [x[1] for x in param]
+        #                     y.mtype.append(Symbol(method.fun.name, MType(parTypes, method.fun.retType), 'METHOD'))
+            # return env
+        return [env[0] + [Symbol(ast.name, fields, 'STRUCT')]] + env[1:]
 
     def visitInterfaceType(self,ast, c):
         env, isGlobal = c
@@ -311,13 +332,14 @@ class StaticChecker(BaseVisitor,Utils):
             if any([not self.checkSameType(self.getType(self.visit(x, c)), res.mtype.partype[i], c) for i, x in enumerate(ast.args)]):
                 raise TypeMismatch(ast)
             if str(isGlobal) == 'expr':
-                if isinstance(res.mtype.rettype, VoidType):
-                    raise TypeMismatch(ast)
+                # if isinstance(res.mtype.rettype, VoidType):
+                #     raise TypeMismatch(ast)
                 return res.mtype.rettype
             else:
                 if not isinstance(res.mtype.rettype, VoidType):
                     raise TypeMismatch(ast)
                 return env
+            # return res.mtype.rettype
     
     def visitMethCall(self, ast, c):
         env, isGlobal = c
@@ -352,13 +374,15 @@ class StaticChecker(BaseVisitor,Utils):
         if any([not self.checkSameType(self.getType(self.visit(x, c)), method_symbol.mtype.partype[i], c) for i, x in enumerate(ast.args)]):
             raise TypeMismatch(ast)
         if str(isGlobal) == 'expr':
-            if isinstance(method_symbol.mtype.rettype, VoidType):
-                raise TypeMismatch(ast)
+            # if isinstance(method_symbol.mtype.rettype, VoidType):
+            #     raise TypeMismatch(ast)
             return method_symbol.mtype.rettype  
         else: 
             if not isinstance(method_symbol.mtype.rettype, VoidType):
                 raise TypeMismatch(ast)
             return env
+        # return method_symbol.mtype.rettype  
+
 
     def visitFieldAccess(self, ast, c):
         env = c[0]
@@ -461,6 +485,8 @@ class StaticChecker(BaseVisitor,Utils):
                     rhs = self.visit(ast.rhs, c)
                     type_rhs = self.getType(rhs)
                     val_rhs = self.getValue(rhs)
+                    if type(type_rhs) is VoidType:
+                        raise TypeMismatch(ast)
                     return [env[0] + [Symbol(ast.lhs.name, type_rhs, val_rhs)]] + env[1:]
                 except Undeclared as e:
                     if ast.lhs.name == e.n:
@@ -472,6 +498,8 @@ class StaticChecker(BaseVisitor,Utils):
                     rhs = self.visit(ast.rhs, c)
                     type_rhs = self.getType(rhs)
                     val_rhs = self.getValue(rhs)
+                    if type(type_rhs) is VoidType:
+                        raise TypeMissmatch(ast)
                     if type(ress.mtype) is not type(type_rhs):
                         return [env[0] + [Symbol(ast.lhs.name, type_rhs, val_rhs)]] + env[1:]
                 except Undeclared as e:
@@ -484,7 +512,7 @@ class StaticChecker(BaseVisitor,Utils):
         type_lhs = self.getType(lhs)
         type_rhs = self.getType(rhs)
         val_rhs = self.getValue(rhs)
-        if isinstance(type_lhs, VoidType):
+        if isinstance(type_lhs, VoidType) or isinstance(type_rhs, VoidType):
             raise TypeMismatch(ast)
         self.checkAssignType(type_lhs, type_rhs, ast, c)
         if type(ast.lhs) is Id:
@@ -567,6 +595,8 @@ class StaticChecker(BaseVisitor,Utils):
         left_value = left[1] if isinstance(left, tuple) else None
         right_type = self.getType(right)
         right_value = right[1] if isinstance(right, tuple) else None
+        if type(left_type) is VoidType or type(right_type) is VoidType:
+            raise TypeMismatch(ast)
         can_compute = (left_value is not None and right_value is not None and isinstance(left_value, (int, float)) and isinstance(right_value, (int, float)))
         if ast.op == '+':
             if not (isinstance(left_type, (IntType, FloatType, StringType)) and isinstance(right_type, (IntType, FloatType, StringType))):
@@ -618,6 +648,8 @@ class StaticChecker(BaseVisitor,Utils):
         body = self.visit(ast.body, c)
         body_type = self.getType(body)
         body_value = body[1] if isinstance(body, tuple) else None
+        if type(body_type) is VoidType:
+            raise TypeMismatch(ast)
         can_compute = body_value is not None and isinstance(body_value, (int, float))
         if ast.op == '-':
             if not isinstance(body_type, (IntType, FloatType)):

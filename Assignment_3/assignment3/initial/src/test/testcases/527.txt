@@ -1,4 +1,11 @@
 
-        
-        var a float = 1;
+        func foo() {
+            if (true) {
+                break
+            } else if (1.2 + 3) {
+                continue
+            } else {
+                return
+            }
+        }
         

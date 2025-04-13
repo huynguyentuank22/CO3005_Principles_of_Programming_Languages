@@ -1,11 +1,5 @@
 
-        type Person struct {
-            name string;
-            age int;
-        }
-        func main(){
-            var p Person;
-            p := Person{age: 25, name: "Alice"};
-            putFloat(p.age);
+        func foo() {
+            var c = 123 <= 12.3;
         }
         

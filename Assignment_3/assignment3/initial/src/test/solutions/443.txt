@@ -1,1 +1,1 @@
-Undeclared Method: test
+Type Mismatch: FuncCall(foo,[IntLiteral(12),FloatLiteral(2.3)])

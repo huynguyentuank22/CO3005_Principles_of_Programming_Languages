@@ -1,7 +1,1 @@
-
-        func foo(x, y int) {
-            a := x + y;
-            b := a > y;
-            c := a && b;
-        }
-        
+var a int = 1.2;

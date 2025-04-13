@@ -1,16 +1,7 @@
 
-        type A struct {
-            x int;
-            other B;
+        type Person struct {
+            name string
         }
-        func (a A) test() int {
-            return a.x;
-        }
-        type B struct {
-            x int;
-            other A;
-        }
-        func (b B) test() int {
-            return b.x + b.other.test() + b.other.test1();
-        }
+        var a Person;
+        var b = a.foo();
         

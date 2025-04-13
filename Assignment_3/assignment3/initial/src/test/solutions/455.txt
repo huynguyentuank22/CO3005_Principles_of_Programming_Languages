@@ -1,1 +1,1 @@
-Type Mismatch: BinaryOp(Id(a),+,Id(b))
+Undeclared Field: age

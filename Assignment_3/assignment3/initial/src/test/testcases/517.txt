@@ -1,6 +1,10 @@
 
-        var a [2][2]int;
-        func main(){
-            a[0] := 1;
+        type Person struct {
+            name string
+            nickname [2]string
+        }
+        func foo() {
+            var huy Person
+            var c = huy.nickname[2];
         }
         

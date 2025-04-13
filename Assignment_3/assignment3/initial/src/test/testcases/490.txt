@@ -1,1 +1,5 @@
-func main() {var a = "hello"; var b = !a;};
+
+        func foo() {
+            var c = 123 > 12.3;
+        }
+        

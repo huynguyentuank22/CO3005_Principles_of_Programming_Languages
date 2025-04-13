@@ -1,1 +1,1 @@
-Type Mismatch: FuncCall(putString,[Id(index)])
+Type Mismatch: BinaryOp(StringLiteral("huy"),%,FloatLiteral(12.3))

@@ -1,5 +1,1 @@
-
-        func test(a int, a float) {
-            return;
-        }
-        
+const a = 1; const b = 2; const a = 3;

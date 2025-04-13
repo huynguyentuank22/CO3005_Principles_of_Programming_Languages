@@ -1,1 +1,1 @@
-Undeclared Field: age
+Type Mismatch: MethodCall(Id(obj),Add,[IntLiteral(1),IntLiteral(2),IntLiteral(3)])

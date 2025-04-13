@@ -1,9 +1,5 @@
 
-        type A struct{
-            x int;
-            y float;
-        }
-        func (a A) foo(a int) int{
-            return a.x;
+        func foo() {
+            var c = true <= 123;
         }
         

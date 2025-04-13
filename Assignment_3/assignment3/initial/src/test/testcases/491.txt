@@ -1,10 +1,5 @@
 
-        func foo(){
-            a := A{x: 1, y: 2};
-        }
-        type A struct {
-            x int;
-            y int;
-            x int;
+        func foo() {
+            var c = true >= 123;
         }
         

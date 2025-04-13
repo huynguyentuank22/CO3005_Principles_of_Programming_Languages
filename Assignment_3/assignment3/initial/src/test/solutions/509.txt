@@ -1,1 +1,1 @@
-Redeclared Method: foo
+Type Mismatch: MethodCall(Id(a),foo,[])

@@ -1,17 +1,7 @@
 
-        func foo() {
-            foo1();
-            foo2();
+        type Person struct {
+            name string
         }
-        func foo1() {
-            return;
-        }
-        func foo2() {
-            return;
-        }
-        func main() {
-            foo();
-            putInt(1);
-            foo3(1,2);
-        }
+        var a Person;
+        var b = c.d.name;
         

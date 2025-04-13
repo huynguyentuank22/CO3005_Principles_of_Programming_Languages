@@ -1,16 +1,11 @@
 
-        func calculate(x int) int {
-            var x int;
-            x := 1;
-            return x;
+        type Person123 struct {
+            name string
         }
-        
-        func main() {
-            var x int;
-            x := calculate(x);
+        func (a Person123) foo() {
+            return
         }
-        
-        func calculate(x float) {
-            return;
+        func (a Huy) foo() {
+            return
         }
         

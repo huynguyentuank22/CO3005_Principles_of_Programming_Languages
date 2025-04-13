@@ -1,6 +1,9 @@
 
-        func main() {
-            var x int;
-            const x = 10;
+        var foo int;
+        type Person struct {
+            name string
+        }
+        func (a Person) foo() {
+            return
         }
         

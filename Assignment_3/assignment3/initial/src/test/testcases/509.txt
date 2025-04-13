@@ -1,11 +1,12 @@
 
-        func (b A) foo() {
-            return
-        }
-        type A struct {
+        var a Persondepchai;
+        var b = a.foo();
+
+        type Persondepchai struct {
             name string
         }
-        func (a A) foo() {
+
+        func (c Persondepchai) foo(a, b int) {
             return
         }
         

@@ -1,13 +1,7 @@
 
-        type Address struct {
-            street string
-            city string
-            country string
-        }
         type Person struct {
             name string
-            address Address
         }
-        var huy Person;
-        var loc = huy.address.location();
+        var a int;
+        var b = a.name;
         

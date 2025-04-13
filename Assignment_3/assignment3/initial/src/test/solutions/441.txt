@@ -1,1 +1,1 @@
-Undeclared Method: test2
+Type Mismatch: FuncCall(foo,[])

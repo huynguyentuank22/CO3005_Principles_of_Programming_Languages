@@ -1,11 +1,5 @@
 
-        func foo(){
-            var getInt int;
-            getInt := 1;
-            putInt(getInt);
-        }
-        func main(){
-            var a int;
-            a := foo();
+        func foo() {
+            var c = -"huy";
         }
         

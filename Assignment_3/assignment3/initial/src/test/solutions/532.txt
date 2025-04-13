@@ -1,1 +1,1 @@
-Type Mismatch: Return(Id(a))
+Undeclared Identifier: i

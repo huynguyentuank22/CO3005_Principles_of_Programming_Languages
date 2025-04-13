@@ -1,6 +1,8 @@
 
-        type Student struct {
-            name string;
-            name int;
+        type Person struct {
+            name string
+        }
+        func (a Person) foo(a, b int, c int) {
+            return
         }
         

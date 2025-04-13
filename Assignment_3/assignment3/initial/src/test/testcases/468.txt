@@ -1,15 +1,5 @@
 
-        func main(){
-            var value float;
-            for _, value := range [5]float{1.0,2.0,3.0,4.0,5.0} {
-                putInt(value);
-            }
-            var value_ string;
-            var index int;
-            arr := [5]string{"1","2","3","4","5"};
-            for index, value_ := range arr {
-                putInt(index);
-                putString(value);
-            }
+        func foo() {
+            var c = true + "huy";
         }
         

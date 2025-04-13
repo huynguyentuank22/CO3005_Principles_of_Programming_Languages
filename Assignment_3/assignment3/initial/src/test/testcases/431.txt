@@ -1,6 +1,6 @@
 
-        func main(){
-            x := y;
-            putInt(x);
+        var foo int;
+        func foo() {
+            return
         }
         

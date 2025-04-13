@@ -1,9 +1,12 @@
- 
-    const a = 2
-    const b = 2
-    func foo () [a]int {
-        var arr[2][2]int;
-        arr[0] := [2]int{1,2};
-        return arr[0];
-    }
-    
+
+        type Person struct {
+            name string
+        }
+        func (p Person) foo() {
+            return 
+        }
+        func main() {
+            var huy Person
+            var a = huy.foo();
+        }
+        

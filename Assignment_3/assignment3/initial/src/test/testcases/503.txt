@@ -1,11 +1,5 @@
 
-        func foo(){
-            var a int;
-            var b float;
-            var c string;
-            putInt(a);
-        }
-        func main(){
-            var x = foo()
+        func foo() {
+            var c = !"huy";
         }
         

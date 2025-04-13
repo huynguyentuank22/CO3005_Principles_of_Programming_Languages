@@ -1,1 +1,1 @@
-Type Mismatch: FuncCall(foo,[])
+Type Mismatch: MethodCall(Id(obj),Add,[FloatLiteral(1.2),FloatLiteral(2.3)])

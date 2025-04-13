@@ -1,6 +1,5 @@
 
-        type Drawable interface {
-            draw();
-            draw(color string);
+        func foo(a, b int, a int) {
+            return
         }
         

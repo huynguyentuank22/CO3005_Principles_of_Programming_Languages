@@ -1,10 +1,5 @@
 
-        func main(){
-            a := foo(1,2);
-            b := a + 1;
-            c := a > b;
-        }
-        func foo(a int, b int) int{
-            return;
+        func foo() int {
+            return "huy";
         }
         

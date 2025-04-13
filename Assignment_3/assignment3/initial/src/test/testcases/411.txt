@@ -1,4 +1,1 @@
-
-        var x int = getInt();
-        var x float;
-        
+var a int; var b int; var a Huy; 

@@ -1,1 +1,1 @@
-Type Mismatch: FuncCall(foo,[])
+Type Mismatch: BinaryOp(BooleanLiteral(true),&&,IntLiteral(123))

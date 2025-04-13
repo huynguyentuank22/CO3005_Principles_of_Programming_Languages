@@ -1,13 +1,11 @@
 
-        type Community struct {
-            commu [3]Person
+        type Calculator interface {
+            Add(a, b int) int
+            Subtract(a, b int) int
         }
-        type Person struct {
-            name string
-        }
-        
+
         func main() {
-            var obj Community
-            var result = obj.commu[3].age
+            var obj Calculator
+            var result = obj.Add(1, 2, 3)
         }
         

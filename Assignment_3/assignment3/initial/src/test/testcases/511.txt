@@ -1,1 +1,12 @@
-Program([StructType(A,[(y,<class 'AST.IntType'>)],[MethodDecl(a,Id(A),FuncDecl(test,[],<class 'AST.IntType'>,Block([Return(FieldAccess(Id(a),y))]))),MethodDecl(a,Id(A),FuncDecl(y,[],<class 'AST.IntType'>,Block([Return(FieldAccess(Id(a),y))])))])])
+
+        var a Persondepchai;
+        var b = a.foo(12, 3.4);
+
+        type Persondepchai struct {
+            name string
+        }
+
+        func (c Persondepchai) foo(a, b int) {
+            return
+        }
+        
