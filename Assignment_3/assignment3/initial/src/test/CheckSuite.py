@@ -2139,7 +2139,7 @@ class CheckSuite(unittest.TestCase):
         }
         func main(){
             var b int;
-            b := foo() + 2
+            b := foo() + 2 + 5
         }
         """
         expect = "Type Mismatch: BinaryOp(FuncCall(foo,[]),+,IntLiteral(2))\n"

@@ -153,8 +153,6 @@ class StaticChecker(BaseVisitor,Utils):
         global_env = reduce(lambda acc,ele: self.visit(ele, (acc, True)), global_ast, builtin_env)
         global_ast = [x for x in ast.decl if isinstance(x, (StructType, InterfaceType, FuncDecl))]
         global_env = reduce(lambda acc,ele: self.visit(ele, (acc, True)), global_ast, builtin_env)
-        # methods = [x for x in ast.decl if isinstance(x, (MethodDecl, StructType))]
-        # global_env = reduce(lambda acc, ele: self.visit(ele, (acc, True)) if isinstance(ele, MethodDecl) else self.visit(ele, (acc, False)), methods, global_env)
         methods = [x for x in ast.decl if isinstance(x, MethodDecl)]
         global_env = reduce(lambda acc, ele: self.visit(ele, (acc, True)), methods, global_env)        
         body = [x for x in ast.decl if isinstance(x, (VarDecl, ConstDecl, FuncDecl, MethodDecl))]
@@ -211,7 +209,6 @@ class StaticChecker(BaseVisitor,Utils):
         
     def visitStructType(self,ast, c):
         env, isGlobal = c
-        # if isGlobal:
         if self.lookupRedeclared(ast.name, env[0], lambda x: x.name):
             raise Redeclared(Type(), ast.name)
         fields = []
@@ -228,27 +225,6 @@ class StaticChecker(BaseVisitor,Utils):
                     param = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), method.fun.params, parTypes)
                     parTypes = [x[1] for x in param]
                 fields.append(Symbol(method.fun.name, MType(parTypes, method.fun.retType), 'METHOD'))
-            # return [env[0] + [Symbol(ast.name, [], 'STRUCT')]] + env[1:]
-        # else:
-        # for _, x in enumerate(env): 
-        #     for _, y in enumerate(x): 
-        #         if ast.name == y.name:
-        #             for name, typ in ast.elements:
-        #                 for _, z in enumerate(y.mtype):
-        #                     if name == z.name:
-        #                         raise Redeclared(Field(), name)
-        #                 y.mtype.append(Symbol(name, typ, 'FIELD'))
-        #             if ast.methods:
-        #                 for method in ast.methods:
-        #                     for _, z in enumerate(y.mtype):
-        #                         if method.fun.name == z.name:
-        #                             raise Redeclared(Method(), method.fun.name)
-        #                     parTypes = []
-        #                     if method.fun.params:
-        #                         param = reduce(lambda acc, ele: self.visit(ele, (acc, isGlobal)), method.fun.params, parTypes)
-        #                         parTypes = [x[1] for x in param]
-        #                     y.mtype.append(Symbol(method.fun.name, MType(parTypes, method.fun.retType), 'METHOD'))
-            # return env
         return [env[0] + [Symbol(ast.name, fields, 'STRUCT')]] + env[1:]
 
     def visitInterfaceType(self,ast, c):
@@ -332,14 +308,11 @@ class StaticChecker(BaseVisitor,Utils):
             if any([not self.checkSameType(self.getType(self.visit(x, c)), res.mtype.partype[i], c) for i, x in enumerate(ast.args)]):
                 raise TypeMismatch(ast)
             if str(isGlobal) == 'expr':
-                # if isinstance(res.mtype.rettype, VoidType):
-                #     raise TypeMismatch(ast)
                 return res.mtype.rettype
             else:
                 if not isinstance(res.mtype.rettype, VoidType):
                     raise TypeMismatch(ast)
                 return env
-            # return res.mtype.rettype
     
     def visitMethCall(self, ast, c):
         env, isGlobal = c
@@ -374,15 +347,11 @@ class StaticChecker(BaseVisitor,Utils):
         if any([not self.checkSameType(self.getType(self.visit(x, c)), method_symbol.mtype.partype[i], c) for i, x in enumerate(ast.args)]):
             raise TypeMismatch(ast)
         if str(isGlobal) == 'expr':
-            # if isinstance(method_symbol.mtype.rettype, VoidType):
-            #     raise TypeMismatch(ast)
             return method_symbol.mtype.rettype  
         else: 
             if not isinstance(method_symbol.mtype.rettype, VoidType):
                 raise TypeMismatch(ast)
             return env
-        # return method_symbol.mtype.rettype  
-
 
     def visitFieldAccess(self, ast, c):
         env = c[0]
