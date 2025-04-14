@@ -1,0 +1,152 @@
+import unittest
+from TestUtils import TestVM
+
+
+class VMSuite(unittest.TestCase):
+    def test_simple_program(self):        
+        input = """[[],[],[call(writeInt,[3])]]."""
+        expect = "3"
+        self.assertTrue(TestVM.test(input, expect, 401))
+
+    def test_simple_expression(self):        
+        input = """[[],[],[call(writeInt,[add(3,1)])]]."""
+        expect = "4"
+        self.assertTrue(TestVM.test(input, expect, 402))
+
+    def test_minus_expression(self):        
+        input = """[[],[],[call(writeInt,[sub(3,1)])]]."""
+        expect = "2"
+        self.assertTrue(TestVM.test(input, expect, 403))
+
+    def test_nested_expression(self):        
+        input = """[[],[],[call(writeInt,[add(4,sub(3,1))])]]."""
+        expect = "6"
+        self.assertTrue(TestVM.test(input, expect, 404))
+
+    def test_redeclared_built_in(self):
+        input = """[[var(writeInt,integer)],[],[]]."""
+        expect = "Redeclared identifier: var(writeInt,integer)"
+        self.assertTrue(TestVM.test(input, expect, 405))
+
+    def test_redeclared_built_in_2(self):
+        input = """[[var(writeIntLn, integer)], [], []]."""
+        expect = "Redeclared identifier: var(writeIntLn,integer)"
+        self.assertTrue(TestVM.test(input, expect, 406))
+
+    def test_redeclared_built_in_3(self):
+        input = """[[var(writeReal, integer)], [], []]."""
+        expect = "Redeclared identifier: var(writeReal,integer)"
+        self.assertTrue(TestVM.test(input, expect, 407))
+    
+    def test_redeclared_built_in_4(self):
+        input = """[[var(writeRealLn, integer)], [], []]."""
+        expect = "Redeclared identifier: var(writeRealLn,integer)"
+        self.assertTrue(TestVM.test(input, expect, 408))
+
+    def test_redeclared_built_in_5(self):
+        input = """[[var(writeBool, integer)], [], []]."""
+        expect = "Redeclared identifier: var(writeBool,integer)"
+        self.assertTrue(TestVM.test(input, expect, 409))
+
+    def test_redeclared_built_in_6(self):
+        input = """[[var(writeBoolLn, integer)], [], []]."""
+        expect = "Redeclared identifier: var(writeBoolLn,integer)"
+        self.assertTrue(TestVM.test(input, expect, 410))
+
+    def test_redeclared_built_in_7(self):
+        input = """[[var(writeStr, integer)], [], []]."""
+        expect = "Redeclared identifier: var(writeStr,integer)"
+        self.assertTrue(TestVM.test(input, expect, 411))
+
+    def test_redeclared_built_in_8(self):
+        input = """[[var(writeStrLn, integer)], [], []]."""
+        expect = "Redeclared identifier: var(writeStrLn,integer)"
+        self.assertTrue(TestVM.test(input, expect, 412))
+
+    def test_redeclared_built_in_9(self):
+        input = """[[var(writeLn, integer)], [], []]."""
+        expect = "Redeclared identifier: var(writeLn,integer)"
+        self.assertTrue(TestVM.test(input, expect, 413))
+
+    def test_redeclared_built_in_10(self):
+        input = """[[var(readInt, integer)], [], []]."""
+        expect = "Redeclared identifier: var(readInt,integer)"
+        self.assertTrue(TestVM.test(input, expect, 414))
+
+    def test_redeclared_built_in_11(self):
+        input = """[[var(readReal, integer)], [], []]."""
+        expect = "Redeclared identifier: var(readReal,integer)"
+        self.assertTrue(TestVM.test(input, expect, 415))
+
+    def test_redeclared_built_in_12(self):
+        input = """[[var(readBool, integer)], [], []]."""
+        expect = "Redeclared identifier: var(readBool,integer)"
+        self.assertTrue(TestVM.test(input, expect, 416))
+
+    def test_redeclared_var(self):        
+        input = """[[var(a,integer),var(b,integer),var(a,float)],[],[call(writeInt,[1])]]."""
+        expect = "Redeclared identifier: var(a,float)"
+        self.assertTrue(TestVM.test(input, expect, 417))
+
+    def test_redeclared_var_2(self):        
+        input = """[[const(a,2),var(b,integer),var(a,float)],[],[call(writeInt,[1])]]."""
+        expect = "Redeclared identifier: var(a,float)"
+        self.assertTrue(TestVM.test(input, expect, 418))    
+
+    def test_redeclared_const(self):
+        input = """[[const(writeInt, 7)],[],[]]."""
+        expect = "Redeclared identifier: const(writeInt,7)"
+        self.assertTrue(TestVM.test(input, expect, 419))
+
+    def test_redeclared_const_2(self):
+        input = """[[const(a,2),var(b,integer),const(a,8)],[],[call(writeInt,[1])]]."""
+        expect = "Redeclared identifier: const(a,8)"
+        self.assertTrue(TestVM.test(input, expect, 420))
+
+    def test_redeclared_const_3(self):
+        input = """[[var(a,integer),var(b,integer),const(a,9)],[],[call(writeInt,[1])]]."""
+        expect = "Redeclared identifier: const(a,9)"
+        self.assertTrue(TestVM.test(input, expect, 421))
+
+    def test_redeclared_func(self):
+        input = """[[],[func(readInt,[],real,[])],[]]."""
+        expect = """Redeclared function: readInt"""
+        self.assertTrue(TestVM.test(input, expect, 422))
+
+    def test_redclared_func_2(self):
+        input = """[[var(foo, integer),const(faa,2)],[func(foo,[],real,[])],[]]."""
+        expect = """Redeclared function: foo"""
+        self.assertTrue(TestVM.test(input, expect, 423))
+
+    def test_redclared_func_3(self):
+        input = """[[const(foo, 3)],[func(foo,[],real,[])],[]]."""
+        expect = """Redeclared function: foo"""
+        self.assertTrue(TestVM.test(input, expect, 424))
+
+    def test_redeclared_func_4(self):
+        input = """[[],
+        [func(foo,[],real,[]),
+        func(foo,[],int,[])],
+        []]."""
+        expect = """Redeclared function: foo"""
+        self.assertTrue(TestVM.test(input, expect, 425))
+
+    def test_redeclared_proc(self):
+        input = """[[],[proc(readInt,[],[])],[]]."""
+        expect = """Redeclared procedure: readInt"""
+        self.assertTrue(TestVM.test(input, expect, 426))
+
+    def test_redclared_proc_2(self):
+        input = """[[var(foo, integer),const(faa,2)],[proc(foo,[],[])],[]]."""
+        expect = """Redeclared procedure: foo"""
+        self.assertTrue(TestVM.test(input, expect, 427))
+
+    def test_redclared_proc_3(self):
+        input = """[[const(foo, 3)],[proc(foo,[],[])],[]]."""
+        expect = """Redeclared procedure: foo"""
+        self.assertTrue(TestVM.test(input, expect, 428))
+
+    def test_redeclared_proc_4(self):
+        input = """[[],[func(foo,[],integer,[]),proc(foo,[a],[])],[]]."""
+        expect = """Redeclared procedure: foo"""
+        self.assertTrue(TestVM.test(input, expect, 429))

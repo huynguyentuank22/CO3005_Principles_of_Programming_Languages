@@ -1,0 +1,1 @@
+[[var(a,integer),var(b,integer),const(a,9)],[],[call(writeInt,[1])]].
