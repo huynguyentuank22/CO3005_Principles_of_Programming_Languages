@@ -1,1 +1,1 @@
-[[],[proc(foo,[par(a,integer),par(b,integer),par(a,real)],[])],[]]. 
+[[],[proc(foo,[par(a,integer),par(b,integer),par(a,real)],[])],[]].

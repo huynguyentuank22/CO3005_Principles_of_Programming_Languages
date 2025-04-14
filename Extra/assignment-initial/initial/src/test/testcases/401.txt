@@ -1,1 +1,1 @@
-[[],[],[call(writeInt,[3])]].
+[[],[proc(foo,[],[])],[call(writeInt,[3])]].

@@ -1,0 +1,1 @@
+[[],[proc(foo,[],[var(a,real),[var(a,integer)]])],[call(writeIntLn,[3])]].

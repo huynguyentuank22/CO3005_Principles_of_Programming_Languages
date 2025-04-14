@@ -1,10 +1,10 @@
 import unittest
 from TestUtils import TestVM
 
-
+"""443, 436, 438, 440, 441, 442"""
 class VMSuite(unittest.TestCase):
     def test_simple_program(self):        
-        input = """[[],[],[call(writeInt,[3])]]."""
+        input = """[[],[proc(foo,[],[])],[call(writeInt,[3])]]."""
         expect = "3"
         self.assertTrue(TestVM.test(input, expect, 401))
 
@@ -147,21 +147,118 @@ class VMSuite(unittest.TestCase):
         self.assertTrue(TestVM.test(input, expect, 428))
 
     def test_redeclared_proc_4(self):
-        input = """[[],[func(foo,[],integer,[]),proc(foo,[a],[])],[]]."""
+        input = """[[],[func(foo,[],integer,[]),proc(foo,[],[])],[]]."""
         expect = """Redeclared procedure: foo"""
         self.assertTrue(TestVM.test(input, expect, 429))
 
     def test_redeclared_proc_5(self):
-        input = """[[],[proc(foo,[],[]),proc(foo,[a],[])],[]]."""
+        input = """[[],[proc(foo,[],[]),proc(foo,[],[])],[]]."""
         expect = """Redeclared procedure: foo"""
         self.assertTrue(TestVM.test(input, expect, 430))
 
     def test_redeclared_param(self):
-        input = """[[],[proc(foo,[par(a,integer),par(b,integer),par(a,real)],[])],[]]. """
+        input = """[[],[proc(foo,[par(a,integer),par(b,integer),par(a,real)],[])],[]]."""
         expect = """Redeclared identifier: par(a,real)"""
         self.assertTrue(TestVM.test(input, expect, 431))
 
     def test_redeclared_param_2(self):
-        input = """[[],[func(foo,[par(a,integer),par(b,integer),par(a,real)],integer,[])],[]]. """
+        input = """[[],[func(foo,[par(a,integer),par(b,integer),par(a,real)],integer,[])],[]]."""
         expect = """Redeclared identifier: par(a,real)"""
         self.assertTrue(TestVM.test(input, expect, 432))
+
+    def test_redeclared_local(self):
+        input = """[[],[proc(foo,[],[const(a,7),var(a,real)])],[]]."""
+        expect = """Redeclared identifier: var(a,real)"""
+        self.assertTrue(TestVM.test(input, expect, 433))
+
+    # def test_redeclared_local_2(self):
+    #     input = """[[],[proc(foo,[],[var(a,real),[var(a,integer)]])],[call(writeIntLn,[3])]]."""
+    #     expect = """3\n"""
+    #     self.assertTrue(TestVM.test(input, expect, 434))
+
+    def test_type_mismatch(self):
+        input = """[[],[],[call(writeInt,[add(10,true)])]]."""
+        expect = """Type mismatch: add(10,true)"""
+        self.assertTrue(TestVM.test(input, expect, 435))
+
+    def test_type_mismatch_2(self):
+        input = """[[],[],[call(writeBool,[add(10,3)])]]."""
+        expect = """Type mismatch: call(writeBool,[add(10,3)])"""
+        self.assertTrue(TestVM.test(input, expect, 436))
+
+    def test_type_mismatch_3(self):
+        input = """[[var(a,integer)],[],[assign(a,3),if(a,call(writeInt,[3]))]]."""
+        expect = """Type mismatch: if(a,call(writeInt,[3]))"""
+        self.assertTrue(TestVM.test(input, expect, 437))
+
+    def test_type_mismatch_4(self):
+        input = """
+        [[],
+        [func(foo,[],float,[assign(foo,3.0)])], 
+        [call(writeInt,[call(foo,[])])]]."""
+        expect = """Type mismatch: call(writeInt,[call(foo,[])])"""
+        self.assertTrue(TestVM.test(input, expect, 438))
+
+    def test_undeclared_id(self):
+        input = """[[var(a,integer)],[],[assign(a,add(b,1)),call(writeIntLn,[a])]]."""
+        expect = """Undeclared identifier: b"""
+        self.assertTrue(TestVM.test(input, expect, 439))
+
+    def test_undeclared_id_2(self):
+        input = """[[var(a,integer)],
+        [proc(foo,[],[var(b,integer),assign(b,1),assign(a,b)])], 
+        [call(writeIntLn,[b])]]."""
+        expect = """Undeclared identifier: b"""
+        self.assertTrue(TestVM.test(input, expect, 440))
+
+    def test_wrong_num_of_args(self):
+        input = """[[],[proc(foo,[],[])],[call(foo,[1])]]."""
+        expect = """Wrong number of arguments: call(foo,[1])"""
+        self.assertTrue(TestVM.test(input, expect, 441))
+
+    def test_wrong_num_of_args_2(self):
+        input = """[[],[proc(foo,[par(a,integer)],[])],[call(foo,[])]]."""
+        expect = """Wrong number of arguments: call(foo,[])"""
+        self.assertTrue(TestVM.test(input, expect, 442))
+
+    def test_invalid_expr(self):
+        input = """
+        [[var(a,integer)],
+        [func(foo,[],integer,[])],
+        [assign(a,call(foo,[]))]].
+        """
+        expect = """Invalid expression: call(foo,[])"""
+        self.assertTrue(TestVM.test(input, expect, 443))
+
+    def test_invalid_expr_2(self):
+        input = """[[var(a,integer)],[],[call(writeInt,[a])]]."""
+        expect = """Invalid expression: a"""
+        self.assertTrue(TestVM.test(input, expect, 444))
+
+    def test_undeclared_func(self):
+        input = """[[var(a,integer)],[],[assign(a,call(foo,[]))]]."""
+        expect = """Undeclared function: call(foo,[])"""
+        self.assertTrue(TestVM.test(input, expect, 445))
+
+    def test_undeclared_proc(self):
+        input = """[[],[],[call(foo,[])]]."""
+        expect = """Undeclared procedure: call(foo,[])"""
+        self.assertTrue(TestVM.test(input, expect, 446))
+
+    def test_break_not_in_loop(self):
+        input = """[[],[],[break(null)]]."""
+        expect = """Break not in a loop: break(null)"""
+        self.assertTrue(TestVM.test(input, expect, 447))
+
+    def test_break_not_in_loop_2(self):
+        input = """[[],[func(foo,[],[],[break(null)])],[do(call(foo,[]),true)]]."""
+        expect = """Break not in a loop: break(null)"""
+        self.assertTrue(TestVM.test(input, expect, 448))
+
+    def test_continue_not_in_loop(self):
+        pass
+    
+    def test_assign_to_const(self):
+        input = """[[const(a,7)],[],[assign(a,8)]]."""
+        expect = """Cannot assign to a constant: assign(a,8)"""
+        self.assertTrue(TestVM.test(input, expect, 450))

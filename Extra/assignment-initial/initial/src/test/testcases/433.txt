@@ -1,0 +1,1 @@
+[[],[proc(foo,[],[const(a,7),var(a,real)])],[]].
