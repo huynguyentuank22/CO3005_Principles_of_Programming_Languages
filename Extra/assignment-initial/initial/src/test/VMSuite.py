@@ -1,7 +1,7 @@
 import unittest
 from TestUtils import TestVM
 
-"""443, 436, 438, 440, 441, 442"""
+"""436, 438, 440, 441, 442"""
 class VMSuite(unittest.TestCase):
     def test_simple_program(self):        
         input = """[[],[proc(foo,[],[])],[call(writeInt,[3])]]."""

@@ -1,1 +1,1 @@
-Undeclared identifier: foo
+Type mismatch: call(writeInt,[call(foo,[])])

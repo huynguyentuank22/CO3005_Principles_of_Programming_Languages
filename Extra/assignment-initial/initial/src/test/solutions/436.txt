@@ -1,1 +1,1 @@
-Type mismatch: call(writeBool,[13])
+Type mismatch: call(writeBool,[add(10,3)])

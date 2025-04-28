@@ -13,13 +13,15 @@ reduce_prog([Var, Procs, Body]) :-
     reduce_stmt(config(Body, Env), _).
 
 check_proc_bodies([]).
-check_proc_bodies([proc(_, _, Stmts)|Rest]) :-
-    % Tạo môi trường cục bộ cho proc: không có tham số nên dùng env([[]], false, [])
-    catch(reduce_stmt(config(Stmts, env([[]], false, [])), _), Error, throw(Error)),
+check_proc_bodies([func(Name, Params, Type, Stmts)|Rest]) :-
+    check_params(Params),
+    create_func_env(Params, [], env([[id(Name, var, undef, Type)]], false, []), FuncEnv),
+    reduce_stmt(config(Stmts, FuncEnv), config([], _)),
     check_proc_bodies(Rest).
-check_proc_bodies([func(_, _, _, Stmts)|Rest]) :-
-    % Tạo môi trường cục bộ cho func
-    catch(reduce_stmt(config(Stmts, env([[]], false, [])), _), Error, throw(Error)),
+check_proc_bodies([proc(Name, Params, Stmts)|Rest]) :-
+    check_params(Params),
+    create_func_env(Params, [], env([[]], false, []), FuncEnv),
+    reduce_stmt(config(Stmts, FuncEnv), config([], _)),
     check_proc_bodies(Rest).
 
 % Kiểm tra khai báo lại cho biến và hằng
@@ -221,17 +223,25 @@ reduce(config(I, Env), config(V, Env)) :-
         (   V = undef -> throw(invalid_expression(I)) ; true )
     ;   throw(undeclare_identifier(I))
     ).
-reduce(config(call(Name, Args), Env), config(R, Env)) :-
+% Giảm biểu thức cho lời gọi hàm
+reduce(config(call(Name, Args), Env), config(R, NewEnv)) :-
     is_builtin(Name, func),
+    valid_builtin_args(Name, Args, Env),
     reduce_args(Args, Env, Vals),
     p_call_builtin(Name, Vals, R), !.
 reduce(config(call(Name, Args), Env), config(R, NewEnv)) :-
-    lookup_func(Name, Env, func(Name, Params, _, Stmts)),
+    lookup_func(Name, Env, func(Name, Params, Type, Stmts)),
     length(Args, N), length(Params, N), !,
     reduce_args(Args, Env, Vals),
-    create_func_env(Params, Vals, env([[]], false, []), FuncEnv),  % Giai đoạn 2: Thêm params
+    create_func_env(Params, Vals, env([[id(Name, var, undef, Type)]], false, Env), FuncEnv),
     reduce_stmt(config(Stmts, FuncEnv), config(_, FinalEnv)),
     has_declared(Name, FinalEnv, id(Name, _, R, _)),
+    (   R \= undef ->
+        (   valid_type(R, Type) -> true
+        ;   throw(type_mismatch(call(Name, Args)))
+        )
+    ;   throw(invalid_expression(call(Name, Args)))
+    ),
     NewEnv = Env.
 reduce(config(call(Name, Args), _), _) :-
     throw(undeclare_function(call(Name, Args))).
@@ -250,7 +260,34 @@ create_func_env([par(X, Type)|Ps], [V|Vs], env([L|L2], T, Procs), EnvOut) :-
 % Tìm hàm
 lookup_func(Name, env(_, _, Procs), func(Name, Params, Type, Stmts)) :-
     member(func(Name, Params, Type, Stmts), Procs).
+% Kiểm tra kiểu hợp lệ cho đối số của hàm built-in
+valid_builtin_args(Name, Args, Env) :-
+    length(Args, 1),
+    [Arg] = Args,
+    reduce_all(config(Arg, Env), config(V, _)),
+    valid_builtin_type(Name, V, Args).
 
+valid_builtin_type(writeBool, V, _) :-
+    boolean(V), !.
+valid_builtin_type(writeInt, V, _) :-
+    integer(V), !.
+valid_builtin_type(writeReal, V, _) :-
+    float(V), !.
+valid_builtin_type(writeStr, V, _) :-
+    string(V), !.
+valid_builtin_type(writeBoolLn, V, _) :-
+    boolean(V), !.
+valid_builtin_type(writeIntLn, V, _) :-
+    integer(V), !.
+valid_builtin_type(writeRealLn, V, _) :-
+    float(V), !.
+valid_builtin_type(writeStrLn, V, _) :-
+    string(V), !.
+valid_builtin_type(Name, _, _) :-
+    member(Name, [readInt, readReal, readBool, writeLn]),
+    !.
+valid_builtin_type(Name, _, Args) :-
+    throw(type_mismatch(call(Name, Args))).
 % Giảm biểu thức đầy đủ
 reduce_all(config(V, Env), config(V, Env)) :- integer(V), !.
 reduce_all(config(V, Env), config(V, Env)) :- float(V), !.
@@ -261,7 +298,7 @@ reduce_all(config(E, Env), config(E2, Env)) :-
     reduce_all(config(E1, Env), config(E2, Env)).
 
 % Giảm câu lệnh
-reduce_stmt(config([], _), config([], _)).
+reduce_stmt(config([], Env), config([], Env)).
 reduce_stmt(config([Stmt|Stmts], Env), config([], NewEnv)) :-
     reduce_one_stmt(config(Stmt, Env), config(_, Env1)),
     reduce_stmt(config(Stmts, Env1), config([], NewEnv)).
@@ -289,11 +326,9 @@ reduce_one_stmt(config(const(X, Val), Env), config(_, NewEnv)) :-
 reduce_one_stmt(config(assign(I, E), Env), config(_, NewEnv)) :-
     atom(I),
     reduce_all(config(E, Env), config(V, Env)),
-    (   has_declared(I, Env, id(I, const, _, _)) ->
-        throw(cannot_assign(assign(I, E)))
-    ;   has_declared(I, Env, id(I, _, _, Type)) ->
-        (   valid_type(V, Type) ->
-            update_env(I, V, Env, NewEnv)
+    (   has_declared(I, Env, id(I, Kind, _, Type)) ->
+        (   Kind = const -> throw(cannot_assign(assign(I, E)))
+        ;   valid_type(V, Type) -> update_env(I, V, Env, NewEnv)
         ;   throw(type_mismatch(assign(I, E)))
         )
     ;   throw(undeclare_identifier(I))
@@ -364,15 +399,34 @@ reduce_one_stmt(config(continue(null), Env), config(continue, Env)) :-
 reduce_one_stmt(config(continue(null), _), _) :-
     throw(continue_not_in_loop(continue(null))).
 reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv)) :-
+    is_builtin(Name, func),
+    length(Args, 1),  % Kiểm tra số lượng đối số
+    (   valid_builtin_args(Name, Args, Env) ->
+        reduce_args(Args, Env, Vals),
+        p_call_builtin(Name, Vals, _),
+        NewEnv = Env
+    ;   throw(type_mismatch(call(Name, Args)))
+    ), !.
+reduce_one_stmt(config(call(Name, Args), _), config(_, _)) :-
+    is_builtin(Name, func),
+    throw(type_mismatch(call(Name, Args))), !.  % Sai số lượng đối số
+reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv)) :-
     is_builtin(Name, proc),
-    reduce_args(Args, Env, Vals),
-    p_call_builtin(Name, Vals), !,
-    NewEnv = Env.
+    length(Args, 1),
+    (   valid_builtin_args(Name, Args, Env) ->
+        reduce_args(Args, Env, Vals),
+        p_call_builtin(Name, Vals),
+        NewEnv = Env
+    ;   throw(type_mismatch(call(Name, Args)))
+    ), !.
+reduce_one_stmt(config(call(Name, Args), _), config(_, _)) :-
+    is_builtin(Name, proc),
+    throw(type_mismatch(call(Name, Args))), !.
 reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv)) :-
     lookup_proc(Name, Env, proc(Name, Params, Stmts)),
     length(Args, N), length(Params, N), !,
     reduce_args(Args, Env, Vals),
-    create_func_env(Params, Vals, env([[]], false, []), ProcEnv),  % Giai đoạn 2: Thêm params
+    create_func_env(Params, Vals, env([[]], false, []), ProcEnv),
     reduce_stmt(config(Stmts, ProcEnv), config(_, _)),
     NewEnv = Env.
 reduce_one_stmt(config(call(Name, Args), _), _) :-

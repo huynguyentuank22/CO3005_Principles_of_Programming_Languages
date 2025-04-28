@@ -1,1 +1,1 @@
-Type mismatch: assign(a,call(foo,[]))
+Invalid expression: call(foo,[])
