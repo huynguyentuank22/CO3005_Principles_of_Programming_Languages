@@ -1,1 +1,1 @@
-Undeclared procedure: call(foo,[1])
+Wrong number of arguments: call(foo,[1])

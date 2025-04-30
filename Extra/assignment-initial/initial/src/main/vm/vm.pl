@@ -237,18 +237,21 @@ reduce(config(call(Name, Args), Env), config(R, NewEnv)) :-
     NewEnv = Env.
 reduce(config(call(Name, Args), Env), config(R, NewEnv)) :-
     lookup_func(Name, Env, func(Name, Params, Type, Stmts)),
-    length(Args, N), length(Params, N), !,
-    reduce_args(Args, Env, Vals),
-    create_func_env(Params, Vals, env([[id(Name, var, undef, Type)]], false, Env), FuncEnv),
-    reduce_stmt(config(Stmts, FuncEnv), config([], FinalEnv), Env),
-    has_declared(Name, FinalEnv, id(Name, _, R, _)),
-    (   R \= undef ->
-        (   valid_type(R, Type) -> true
-        ;   throw(type_mismatch(call(Name, Args)))
-        )
-    ;   throw(invalid_expression(call(Name, Args)))
-    ),
-    NewEnv = Env.
+    length(Args, NArgs), length(Params, NParams),
+    (   NArgs = NParams ->
+        reduce_args(Args, Env, Vals),
+        create_func_env(Params, Vals, env([[id(Name, var, undef, Type)]], false, Env), FuncEnv),
+        reduce_stmt(config(Stmts, FuncEnv), config([], FinalEnv), Env),
+        has_declared(Name, FinalEnv, id(Name, _, R, _)),
+        (   R \= undef ->
+            (   valid_type(R, Type) -> true
+            ;   throw(type_mismatch(call(Name, Args)))
+            )
+        ;   throw(invalid_expression(call(Name, Args)))
+        ),
+        NewEnv = Env
+    ;   throw(wrong_number_of_argument(call(Name, Args)))
+    ).
 reduce(config(call(Name, Args), _), _) :-
     throw(undeclare_function(call(Name, Args))).
 
@@ -416,9 +419,6 @@ reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv) :-
         NewEnv = Env
     ;   throw(type_mismatch(call(Name, Args)))
     ), !.
-reduce_one_stmt(config(call(Name, Args), _), config(_, _), _) :-
-    is_builtin(Name, func),
-    throw(type_mismatch(call(Name, Args))), !.
 reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv) :-
     is_builtin(Name, proc),
     length(Args, 1),
@@ -426,16 +426,16 @@ reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv) :-
         NewEnv = Env
     ;   throw(type_mismatch(call(Name, Args)))
     ), !.
-reduce_one_stmt(config(call(Name, Args), _), config(_, _), _) :-
-    is_builtin(Name, proc),
-    throw(type_mismatch(call(Name, Args))), !.
 reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv) :-
     lookup_proc(Name, Env, proc(Name, Params, Stmts)),
-    length(Args, N), length(Params, N), !,
-    reduce_args(Args, Env, Vals),
-    create_func_env(Params, Vals, env([[]], false, []), ProcEnv),
-    reduce_stmt(config(Stmts, ProcEnv), config([], _), GlobalEnv),
-    NewEnv = Env.
+    length(Args, NArgs), length(Params, NParams),
+    (   NArgs = NParams ->
+        reduce_args(Args, Env, Vals),
+        create_func_env(Params, Vals, env([[]], false, GlobalEnv), ProcEnv),
+        reduce_stmt(config(Stmts, ProcEnv), config([], _), GlobalEnv),
+        NewEnv = Env
+    ;   throw(wrong_number_of_argument(call(Name, Args)))
+    ).
 reduce_one_stmt(config(call(Name, Args), _), config(_, _), _) :-
     throw(undeclare_procedure(call(Name, Args))).
 
