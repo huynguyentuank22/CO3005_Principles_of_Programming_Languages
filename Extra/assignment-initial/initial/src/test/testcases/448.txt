@@ -1,1 +1,1 @@
-[[],[func(foo,[],[],[break(null)])],[do(call(foo,[]),true)]].
+[[],[],[call(foo,[])]].

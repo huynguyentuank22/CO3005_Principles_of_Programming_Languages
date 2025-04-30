@@ -1,1 +1,1 @@
-[[],[],[break(null)]].
+[[var(a,integer)],[],[assign(a,call(foo,[]))]].

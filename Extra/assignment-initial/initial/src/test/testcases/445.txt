@@ -1,1 +1,5 @@
-[[var(a,integer)],[],[assign(a,call(foo,[]))]].
+
+        [[var(a,integer)],
+        [func(foo,[],integer,[])],
+        [assign(a,call(foo,[]))]].
+        

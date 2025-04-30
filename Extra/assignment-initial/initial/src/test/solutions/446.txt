@@ -1,1 +1,1 @@
-Undeclared procedure: call(foo,[])
+Invalid expression: a

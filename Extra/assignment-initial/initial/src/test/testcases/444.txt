@@ -1,1 +1,1 @@
-[[var(a,integer)],[],[call(writeInt,[a])]].
+[[],[func(foo,[par(a,integer)],integer,[])],[call(foo,[1,2])]].
