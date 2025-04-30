@@ -20,7 +20,10 @@ check_proc_bodies([func(Name, Params, Type, Stmts)|Rest], GlobalEnv, FinalEnv) :
     check_proc_bodies(Rest, GlobalEnv, FinalEnv).
 check_proc_bodies([proc(Name, Params, Stmts)|Rest], GlobalEnv, FinalEnv) :-
     check_params(Params),
-    create_func_env(Params, [], env([[]], false, []), FuncEnv),
+    % Tạo FuncEnv với danh sách đối số giả (không dùng giá trị thực)
+    length(Params, N),
+    length(DummyArgs, N),
+    create_func_env(Params, DummyArgs, env([[]], false, []), FuncEnv),
     reduce_stmt(config(Stmts, FuncEnv), config([], _), GlobalEnv),
     check_proc_bodies(Rest, GlobalEnv, FinalEnv).
 
