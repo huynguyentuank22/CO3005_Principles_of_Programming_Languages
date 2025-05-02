@@ -308,8 +308,14 @@ reduce_all(config(V, Env), config(V, Env)) :- integer(V), !.
 reduce_all(config(V, Env), config(V, Env)) :- float(V), !.
 reduce_all(config(V, Env), config(V, Env)) :- boolean(V), !.
 reduce_all(config(V, Env), config(V, Env)) :- string(V), !.
+reduce_all(config(E, Env), config(V, Env)) :-
+    atom(E),
+    (   has_declared(E, Env, id(E, _, V, _)) ->
+        (   V = undef -> throw(invalid_expression(E)) ; true )
+    ;   throw(undeclare_identifier(E))
+    ), !.
 reduce_all(config(E, Env), config(E2, Env)) :-
-    reduce(config(E, Env), config(E1, Env)), !,
+    reduce(config(E, Env), config(E1, Env)),
     reduce_all(config(E1, Env), config(E2, Env)).
 
 % Giảm câu lệnh
