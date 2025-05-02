@@ -5,12 +5,18 @@ boolean(true).
 boolean(false).
 
 % Chương trình chính
-reduce_prog([Var, Procs, Body]) :-
-    check_redeclarations(Var),
-    create_env(Var, env([[]], false, Procs), Env0),
-    check_procs_phase1(Procs, Env0, Env),
-    check_proc_bodies(Procs, Env, UpdatedEnv),
-    reduce_stmt(config(Body, UpdatedEnv), config([], _), UpdatedEnv).
+reduce_prog([Var, Procs, Body], Output) :-
+    (   catch(
+            (   check_redeclarations(Var),
+                create_env(Var, env([[]], false, Procs), Env0),
+                check_procs_phase1(Procs, Env0, Env),
+                check_proc_bodies(Procs, Env, UpdatedEnv),
+                reduce_stmt(config(Body, UpdatedEnv), config([], _), UpdatedEnv, Output)
+            ),
+            Error,
+            format(atom(Output), '~w', [Error])
+        )
+    ).
 
 % Kiểm tra thân hàm và thủ tục (chỉ kiểm tra cú pháp, không thực thi)
 check_proc_bodies([], Env, Env).
@@ -19,33 +25,35 @@ check_proc_bodies([func(Name, Params, Type, Stmts)|Rest], GlobalEnv, FinalEnv) :
     length(Params, N),
     length(DummyArgs, N),
     create_func_env(Params, DummyArgs, env([[]], false, []), FuncEnv),
-    check_stmt(Stmts, FuncEnv, GlobalEnv),
+    check_stmt(config(Stmts, FuncEnv), config([], _), GlobalEnv),
     check_proc_bodies(Rest, GlobalEnv, FinalEnv).
 check_proc_bodies([proc(Name, Params, Stmts)|Rest], GlobalEnv, FinalEnv) :-
     check_params(Params),
     length(Params, N),
     length(DummyArgs, N),
     create_func_env(Params, DummyArgs, env([[]], false, []), FuncEnv),
-    check_stmt(Stmts, FuncEnv, GlobalEnv),
+    check_stmt(config(Stmts, FuncEnv), config([], _), GlobalEnv),
     check_proc_bodies(Rest, GlobalEnv, FinalEnv).
 
 % Kiểm tra cú pháp của danh sách câu lệnh
-check_stmt([], _, _).
-check_stmt([Stmt|Stmts], Env, GlobalEnv) :-
+check_stmt(config([], Env), config([], Env), _).
+check_stmt(config([Stmt|Stmts], Env), config([], NewEnv), GlobalEnv) :-
     (   is_list(Stmt) ->
-        check_one_stmt(block(Stmt, []), Env, GlobalEnv)
-    ;   check_one_stmt(Stmt, Env, GlobalEnv)
+        check_one_stmt(config(block(Stmt, []), Env), config(_, Env1), GlobalEnv)
+    ;   check_one_stmt(config(Stmt, Env), config(_, Env1), GlobalEnv)
     ),
-    check_stmt(Stmts, Env, GlobalEnv).
+    check_stmt(config(Stmts, Env1), config([], NewEnv), GlobalEnv).
 
 % Kiểm tra cú pháp của một câu lệnh
-check_one_stmt(var(X, Type), Env, _) :-
-    (   is_local_declared(X, Env) -> throw(redeclare_identifier(var(X, Type))) ; true ).
+check_one_stmt(config(var(X, Type), Env), config(_, NewEnv), _) :-
+    (   is_local_declared(X, Env) -> throw(redeclare_identifier(var(X, Type))) ; true ),
+    add_to_env(id(X, var, undef, Type), Env, NewEnv).
 
-check_one_stmt(const(X, Val), Env, _) :-
-    (   is_local_declared(X, Env) -> throw(redeclare_identifier(const(X, Val))) ; true ).
+check_one_stmt(config(const(X, Val), Env), config(_, NewEnv), _) :-
+    (   is_local_declared(X, Env) -> throw(redeclare_identifier(const(X, Val))) ; true ),
+    add_to_env(id(X, const, Val, unknown), Env, NewEnv).
 
-check_one_stmt(assign(I, E), Env, GlobalEnv) :-
+check_one_stmt(config(assign(I, E), Env), config(_, Env), GlobalEnv) :-
     atom(I),
     (   has_declared_with_global(I, Env, GlobalEnv, id(I, Kind, _, _)) ->
         (   Kind = const -> throw(cannot_assign(assign(I, E))) ; true )
@@ -53,43 +61,44 @@ check_one_stmt(assign(I, E), Env, GlobalEnv) :-
     ),
     check_expr(E, Env, GlobalEnv).
 
-check_one_stmt(block(Vars, Stmts), Env, GlobalEnv) :-
+check_one_stmt(config(block(Vars, Stmts), Env), config(_, NewEnv), GlobalEnv) :-
     check_redeclarations(Vars),
     create_env(Vars, env([[]|Env], false, Env), LocalEnv),
-    check_stmt(Stmts, LocalEnv, GlobalEnv).
+    check_stmt(config(Stmts, LocalEnv), config([], _), GlobalEnv),
+    NewEnv = Env.
 
-check_one_stmt(if(E, S1), Env, GlobalEnv) :-
+check_one_stmt(config(if(E, S1), Env), config(_, Env), GlobalEnv) :-
     check_expr(E, Env, GlobalEnv),
-    check_one_stmt(S1, Env, GlobalEnv).
+    check_one_stmt(config(S1, Env), config(_, _), GlobalEnv).
 
-check_one_stmt(if(E, S1, S2), Env, GlobalEnv) :-
+check_one_stmt(config(if(E, S1, S2), Env), config(_, Env), GlobalEnv) :-
     check_expr(E, Env, GlobalEnv),
-    check_one_stmt(S1, Env, GlobalEnv),
-    check_one_stmt(S2, Env, GlobalEnv).
+    check_one_stmt(config(S1, Env), config(_, _), GlobalEnv),
+    check_one_stmt(config(S2, Env), config(_, _), GlobalEnv).
 
-check_one_stmt(while(E, S), Env, GlobalEnv) :-
+check_one_stmt(config(while(E, S), Env), config(_, Env), GlobalEnv) :-
     check_expr(E, Env, GlobalEnv),
-    check_one_stmt(S, Env, GlobalEnv).
+    check_one_stmt(config(S, Env), config(_, _), GlobalEnv).
 
-check_one_stmt(do(Stmts, E), Env, GlobalEnv) :-
-    check_stmt(Stmts, Env, GlobalEnv),
+check_one_stmt(config(do(Stmts, E), Env), config(_, Env), GlobalEnv) :-
+    check_stmt(config(Stmts, Env), config([], _), GlobalEnv),
     check_expr(E, Env, GlobalEnv).
 
-check_one_stmt(loop(E, S), Env, GlobalEnv) :-
+check_one_stmt(config(loop(E, S), Env), config(_, Env), GlobalEnv) :-
     check_expr(E, Env, GlobalEnv),
-    check_one_stmt(S, Env, GlobalEnv).
+    check_one_stmt(config(S, Env), config(_, _), GlobalEnv).
 
-check_one_stmt(break(null), Env, _) :-
+check_one_stmt(config(break(null), Env), config(_, Env), _) :-
     Env = env(_, true, _), !.
-check_one_stmt(break(null), _, _) :-
+check_one_stmt(config(break(null), _, _), _, _) :-
     throw(break_not_in_loop(break(null))).
 
-check_one_stmt(continue(null), Env, _) :-
+check_one_stmt(config(continue(null), Env), config(_, Env), _) :-
     Env = env(_, true, _), !.
-check_one_stmt(continue(null), _, _) :-
+check_one_stmt(config(continue(null), _, _), _, _) :-
     throw(continue_not_in_loop(continue(null))).
 
-check_one_stmt(call(Name, Args), Env, GlobalEnv) :-
+check_one_stmt(config(call(Name, Args), Env), config(_, Env), GlobalEnv) :-
     (   is_builtin(Name, func) ->
         length(Args, 1)
     ;   is_builtin(Name, proc) ->
@@ -410,15 +419,17 @@ reduce(config(call(Name, Args), Env), config(R, NewEnv)) :-
         reduce_args(Args, Env, Vals),
         create_func_env(Params, Vals, env([[]], false, GlobalEnv), FuncEnvTemp),
         add_to_env(id(Name, var, undef, Type), FuncEnvTemp, FuncEnv),
-        reduce_stmt(config(Stmts, FuncEnv), config([], FinalEnv), FuncEnv),
-        has_declared(Name, FinalEnv, id(Name, _, R, _)),
-        (   R \= undef ->
-            (   valid_type(R, Type) -> true
-            ;   throw(type_mismatch(call(Name, Args)))
+        reduce_stmt(config(Stmts, FuncEnv), config([], FinalEnv), FuncEnv, SubOutput),
+        (   has_declared(Name, FinalEnv, id(Name, _, R, _)) ->
+            (   R \= undef ->
+                (   valid_type(R, Type) -> true
+                ;   throw(type_mismatch(call(Name, Args)))
+                )
+            ;   throw(invalid_expression(call(Name, Args)))
             )
-        ;   throw(invalid_expression(call(Name, Args)))
+        ;   R = undef
         ),
-        NewEnv = Env
+        (   SubOutput \= "" -> Output = SubOutput ; Output = "" )
     ;   throw(wrong_number_of_argument(call(Name, Args)))
     ).
 reduce(config(call(Name, Args), _), _) :-
@@ -486,28 +497,30 @@ reduce_all(config(E, Env), config(E2, Env)) :-
     reduce_all(config(E1, Env), config(E2, Env)).
 
 % Giảm câu lệnh
-reduce_stmt(config([], Env), config([], Env), _).
-reduce_stmt(config([Stmt|Stmts], Env), config([], NewEnv), GlobalEnv) :-
+reduce_stmt(config([], Env), config([], Env), _, "").
+reduce_stmt(config([Stmt|Stmts], Env), config([], FinalEnv), GlobalEnv, Output) :-
     (   is_list(Stmt) ->
-        reduce_one_stmt(config(block(Stmt, []), Env), config(_, Env1), GlobalEnv)
-    ;   reduce_one_stmt(config(Stmt, Env), config(_, Env1), GlobalEnv)
+        reduce_one_stmt(config(block(Stmt, []), Env), config(_, Env1), GlobalEnv, SubOutput)
+    ;   reduce_one_stmt(config(Stmt, Env), config(_, Env1), GlobalEnv, SubOutput)
     ),
-    reduce_stmt(config(Stmts, Env1), config([], NewEnv), GlobalEnv).
+    (   SubOutput \= "" -> Output = SubOutput ; true ),
+    reduce_stmt(config(Stmts, Env1), config([], FinalEnv), GlobalEnv, NextOutput),
+    (   NextOutput \= "" -> Output = NextOutput ; true ).
 
 % Định nghĩa predicate helper: kiểm tra redeclaration trong local scope
 is_local_declared(X, env([Scope|_], _, _)) :-
     member(id(X, _, _, _), Scope).
 
 % Xử lý khai báo biến ở mức lệnh (cho proc, func, ...)
-reduce_one_stmt(config(var(X, Type), Env), config(_, NewEnv), _) :-
+reduce_one_stmt(config(var(X, Type), Env), config(_, NewEnv), _, "") :-
     (   is_local_declared(X, Env) -> throw(redeclare_identifier(var(X, Type))) ; true ),
     add_to_env(id(X, var, undef, Type), Env, NewEnv).
 
-reduce_one_stmt(config(const(X, Val), Env), config(_, NewEnv), _) :-
+reduce_one_stmt(config(const(X, Val), Env), config(_, NewEnv), _, "") :-
     (   is_local_declared(X, Env) -> throw(redeclare_identifier(const(X, Val))) ; true ),
     add_to_env(id(X, const, Val, unknown), Env, NewEnv).
 
-reduce_one_stmt(config(assign(I, E), Env), config(_, NewEnv), GlobalEnv) :-
+reduce_one_stmt(config(assign(I, E), Env), config(_, NewEnv), GlobalEnv, "") :-
     atom(I),
     reduce_all(config(E, Env), config(V, Env)),
     (   has_declared_with_global(I, Env, GlobalEnv, id(I, Kind, _, Type)) ->
@@ -521,61 +534,61 @@ reduce_one_stmt(config(assign(I, E), Env), config(_, NewEnv), GlobalEnv) :-
     ;   throw(undeclare_identifier(I))
     ).
 
-reduce_one_stmt(config(block(Vars, Stmts), Env), config(_, NewEnv), GlobalEnv) :-
+reduce_one_stmt(config(block(Vars, Stmts), Env), config(_, NewEnv), GlobalEnv, "") :-
     check_redeclarations(Vars),
     create_env(Vars, env([[]|Env], false, Env), LocalEnv),
-    reduce_stmt(config(Stmts, LocalEnv), config([], _), GlobalEnv),
+    reduce_stmt(config(Stmts, LocalEnv), config([], _), GlobalEnv, _),
     NewEnv = Env.
 
-reduce_one_stmt(config(if(E, S1), Env), config(_, NewEnv), GlobalEnv) :-
+reduce_one_stmt(config(if(E, S1), Env), config(_, NewEnv), GlobalEnv, "") :-
     reduce_all(config(E, Env), config(V, Env)),
     (   boolean(V) ->
-        (   V = true -> reduce_one_stmt(config(S1, Env), config(_, NewEnv), GlobalEnv)
+        (   V = true -> reduce_one_stmt(config(S1, Env), config(_, NewEnv), GlobalEnv, _)
         ;   NewEnv = Env
         )
     ;   throw(type_mismatch(if(E, S1)))
     ).
 
-reduce_one_stmt(config(if(E, S1, S2), Env), config(_, NewEnv), GlobalEnv) :-
+reduce_one_stmt(config(if(E, S1, S2), Env), config(_, NewEnv), GlobalEnv, "") :-
     reduce_all(config(E, Env), config(V, Env)),
     (   boolean(V) ->
-        (   V = true -> reduce_one_stmt(config(S1, Env), config(_, NewEnv), GlobalEnv)
-        ;   reduce_one_stmt(config(S2, Env), config(_, NewEnv), GlobalEnv)
+        (   V = true -> reduce_one_stmt(config(S1, Env), config(_, NewEnv), GlobalEnv, _)
+        ;   reduce_one_stmt(config(S2, Env), config(_, NewEnv), GlobalEnv, _)
         )
     ;   throw(type_mismatch(if(E, S1, S2)))
     ).
 
-reduce_one_stmt(config(while(E, S), Env), config(_, NewEnv), GlobalEnv) :-
+reduce_one_stmt(config(while(E, S), Env), config(_, NewEnv), GlobalEnv, "") :-
     reduce_all(config(E, Env), config(V, Env)),
     (   boolean(V) ->
         set_loop_flag(Env, LoopEnv),
         (   V = true ->
-            reduce_one_stmt(config(S, LoopEnv), config(Result, Env1), GlobalEnv),
+            reduce_one_stmt(config(S, LoopEnv), config(Result, Env1), GlobalEnv, _),
             (   Result = break -> NewEnv = Env1
-            ;   Result = continue -> reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv)
-            ;   reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv)
+            ;   Result = continue -> reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv, _)
+            ;   reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv, _)
             )
         ;   NewEnv = Env
         )
     ;   throw(type_mismatch(while(E, S)))
     ).
 
-reduce_one_stmt(config(do(Stmts, E), Env), config(_, NewEnv), GlobalEnv) :-
+reduce_one_stmt(config(do(Stmts, E), Env), config(_, NewEnv), GlobalEnv, "") :-
     set_loop_flag(Env, LoopEnv),
-    reduce_stmt(config(Stmts, LoopEnv), config(Result, Env1), GlobalEnv),
+    reduce_stmt(config(Stmts, LoopEnv), config(Result, Env1), GlobalEnv, _),
     (   Result = break ->
         NewEnv = Env1
     ;   reduce_all(config(E, Env1), config(V, Env1)),
         (   boolean(V) ->
             (   V = true ->
-                reduce_one_stmt(config(do(Stmts, E), Env1), config(_, NewEnv), GlobalEnv)
+                reduce_one_stmt(config(do(Stmts, E), Env1), config(_, NewEnv), GlobalEnv, _)
             ;   NewEnv = Env1
             )
         ;   throw(type_mismatch(do(Stmts, E)))
         )
     ).
 
-reduce_one_stmt(config(loop(E, S), Env), config(_, NewEnv), GlobalEnv) :-
+reduce_one_stmt(config(loop(E, S), Env), config(_, NewEnv), GlobalEnv, "") :-
     reduce_all(config(E, Env), config(N, Env)),
     (   integer(N), N >= 0 ->
         set_loop_flag(Env, LoopEnv),
@@ -583,26 +596,29 @@ reduce_one_stmt(config(loop(E, S), Env), config(_, NewEnv), GlobalEnv) :-
     ;   throw(type_mismatch(loop(E, S)))
     ).
 
-reduce_one_stmt(config(break(null), Env), config(break, Env), _) :-
+reduce_one_stmt(config(break(null), Env), config(break, Env), _, "") :-
     Env = env(_, true, _), !.
-reduce_one_stmt(config(break(null), _), _, _) :-
-    throw(break_not_in_loop(break(null))).
-reduce_one_stmt(config(continue(null), Env), config(continue, Env), _) :-
-    Env = env(_, true, _), !.
-reduce_one_stmt(config(continue(null), _), _, _) :-
-    throw(continue_not_in_loop(continue(null))).
+reduce_one_stmt(config(break(null), _), _, _, Output) :-
+    format(atom(Output), 'Break not in a loop: break(null)').
 
-reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv) :-
+reduce_one_stmt(config(continue(null), Env), config(continue, Env), _, "") :-
+    Env = env(_, true, _), !.
+reduce_one_stmt(config(continue(null), _), _, _, Output) :-
+    format(atom(Output), 'Continue not in a loop: continue(null)').
+
+reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv, Output) :-
     (   is_builtin(Name, func) ->
         length(Args, 1),
-        (   valid_builtin_args(Name, Args, Env, func, _) ->
+        (   valid_builtin_args(Name, Args, Env, func, R) ->
+            (   nonvar(R), atom(R) -> Output = R ; Output = "" ),
             NewEnv = Env
         ;   throw(type_mismatch(call(Name, Args)))
         )
     ;   is_builtin(Name, proc) ->
         length(Args, 1),
         (   valid_builtin_args(Name, Args, Env, proc, _) ->
-            NewEnv = Env
+            NewEnv = Env,
+            Output = ""
         ;   throw(type_mismatch(call(Name, Args)))
         )
     ;   (   (   lookup_func(Name, Env, func(Name, Params, _, _)) ->
@@ -621,35 +637,40 @@ reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv) :-
             true
         ;   throw(undeclare_procedure(call(Name, Args)))
         ),
-        NewEnv = Env
+        NewEnv = Env,
+        Output = ""
     ), !.
 
-reduce_one_stmt(config(call(Name, Args), Env), config(R, NewEnv), GlobalEnv) :-
+reduce_one_stmt(config(call(Name, Args), Env), config(R, NewEnv), GlobalEnv, Output) :-
     lookup_func(Name, Env, func(Name, Params, Type, Stmts)),
     length(Args, NArgs), length(Params, NParams),
     (   NArgs = NParams ->
         reduce_args(Args, Env, Vals),
         create_func_env(Params, Vals, env([[]], false, GlobalEnv), FuncEnvTemp),
         add_to_env(id(Name, var, undef, Type), FuncEnvTemp, FuncEnv),
-        reduce_stmt(config(Stmts, FuncEnv), config([], FinalEnv), FuncEnv),
-        has_declared(Name, FinalEnv, id(Name, _, R, _)),
-        (   R \= undef ->
-            (   valid_type(R, Type) -> true
-            ;   throw(type_mismatch(call(Name, Args)))
+        reduce_stmt(config(Stmts, FuncEnv), config([], FinalEnv), FuncEnv, SubOutput),
+        (   has_declared(Name, FinalEnv, id(Name, _, R, _)) ->
+            (   R \= undef ->
+                (   valid_type(R, Type) -> true
+                ;   throw(type_mismatch(call(Name, Args)))
+                )
+            ;   throw(invalid_expression(call(Name, Args)))
             )
-        ;   throw(invalid_expression(call(Name, Args)))
+        ;   R = undef
         ),
+        (   SubOutput \= "" -> Output = SubOutput ; Output = "" ),
         NewEnv = Env
     ;   throw(wrong_number_of_argument(call(Name, Args)))
     ).
-reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv) :-
+reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv, Output) :-
     lookup_proc(Name, Env, proc(Name, Params, Stmts)),
     length(Args, NArgs), length(Params, NParams),
     (   NArgs = NParams ->
         reduce_args(Args, Env, Vals),
         create_func_env(Params, Vals, env([[]], false, GlobalEnv), ProcEnv),
-        reduce_stmt(config(Stmts, ProcEnv), config([], _), ProcEnv),
-        NewEnv = Env
+        reduce_stmt(config(Stmts, ProcEnv), config([], _), ProcEnv, SubOutput),
+        NewEnv = Env,
+        (   SubOutput \= "" -> Output = SubOutput ; Output = "" )
     ;   throw(wrong_number_of_argument(call(Name, Args)))
     ).
 
@@ -657,7 +678,7 @@ reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv) :-
 execute_loop(0, _, Env, Env, _) :- !.
 execute_loop(N, S, Env, NewEnv, GlobalEnv) :-
     N > 0,
-    reduce_one_stmt(config(S, Env), config(Result, Env1), GlobalEnv),
+    reduce_one_stmt(config(S, Env), config(Result, Env1), GlobalEnv, _),
     (   Result = break -> NewEnv = Env1
     ;   Result = continue ->
         N1 is N - 1,
