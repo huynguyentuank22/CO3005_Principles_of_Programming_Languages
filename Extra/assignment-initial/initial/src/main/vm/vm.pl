@@ -315,7 +315,10 @@ reduce_all(config(E, Env), config(E2, Env)) :-
 % Giảm câu lệnh
 reduce_stmt(config([], Env), config([], Env), _).
 reduce_stmt(config([Stmt|Stmts], Env), config([], NewEnv), GlobalEnv) :-
-    reduce_one_stmt(config(Stmt, Env), config(_, Env1), GlobalEnv),
+    (   is_list(Stmt) ->
+        reduce_one_stmt(config(block(Stmt, []), Env), config(_, Env1), GlobalEnv)
+    ;   reduce_one_stmt(config(Stmt, Env), config(_, Env1), GlobalEnv)
+    ),
     reduce_stmt(config(Stmts, Env1), config([], NewEnv), GlobalEnv).
 
 % Định nghĩa predicate helper: kiểm tra redeclaration trong local scope

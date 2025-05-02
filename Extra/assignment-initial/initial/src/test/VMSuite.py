@@ -279,3 +279,12 @@ class VMSuite(unittest.TestCase):
         input = """[[const(a,7)],[],[assign(a,8)]]."""
         expect = """Cannot assign to a constant: assign(a,8)"""
         self.assertTrue(TestVM.test(input, expect, 453))
+
+    def func_call_expr(self):
+        input = """
+        [[var(a,integer)],
+        [func(foo,[par(a,integer),par(b,integer)], 
+            [assign(a,add(a,b)),assign(foo,a)])], 
+        [assign(a,3),call(writeIntLn,[call(foo,[a,3])]),call(writeIntLn,[a])]]."""
+        expect = """6\n3\n"""    
+        self.assertTrue(TestVM.test(input, expect, 454))
