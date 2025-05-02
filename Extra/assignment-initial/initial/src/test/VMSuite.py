@@ -304,6 +304,6 @@ class VMSuite(unittest.TestCase):
         [[var(a,integer)],
         [func(foo,[par(a,integer)],integer,
             [assign(foo,add(a,1))])], 
-        [assign(a,call(foo,[1]))]]."""
-        expect = """None\n"""    
+        [assign(a,call(foo,[1])),call(writeIntLn,[a])]]."""
+        expect = """2\n"""    
         self.assertTrue(TestVM.test(input, expect, 457))
