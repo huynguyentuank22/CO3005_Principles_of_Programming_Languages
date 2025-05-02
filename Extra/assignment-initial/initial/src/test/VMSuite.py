@@ -280,11 +280,30 @@ class VMSuite(unittest.TestCase):
         expect = """Cannot assign to a constant: assign(a,8)"""
         self.assertTrue(TestVM.test(input, expect, 453))
 
-    def func_call_expr(self):
+    def test_func_call_expr(self):
         input = """
         [[var(a,integer)],
-        [func(foo,[par(a,integer),par(b,integer)], 
+        [func(foo,[par(a,integer),par(b,integer)], integer,
             [assign(a,add(a,b)),assign(foo,a)])], 
         [assign(a,3),call(writeIntLn,[call(foo,[a,3])]),call(writeIntLn,[a])]]."""
         expect = """6\n3\n"""    
         self.assertTrue(TestVM.test(input, expect, 454))
+
+    def test_proc_call_stmt(self):
+        input = """[[var(a,integer)],[],[assign(a,3),call(writeIntLn,[a])]]."""
+        expect = """3\n"""    
+        self.assertTrue(TestVM.test(input, expect, 455))
+
+    def test_return_stmt(self):
+        input = """[[],[func(foo,[],integer,[assign(foo,3)])],[call(writeIntLn,[call(foo,[])])]]."""
+        expect = """3\n"""    
+        self.assertTrue(TestVM.test(input, expect, 456))
+
+    def test_something(self):
+        input = """
+        [[var(a,integer)],
+        [func(foo,[par(a,integer)],integer,
+            [assign(foo,add(a,1))])], 
+        [assign(a,call(foo,[1]))]]."""
+        expect = """None\n"""    
+        self.assertTrue(TestVM.test(input, expect, 457))
