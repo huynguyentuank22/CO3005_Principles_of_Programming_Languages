@@ -13,16 +13,32 @@ reduce_prog([Var, Procs, Body]) :-
     reduce_stmt(config(Body, UpdatedEnv), config([], _), UpdatedEnv).
 
 % Kiểm tra thân hàm và thủ tục (chỉ kiểm tra cú pháp, không thực thi)
+check_local_declarations(Stmts) :- 
+    check_local_declarations(Stmts, []).
+
+check_local_declarations([], _).
+check_local_declarations([Stmt|Rest], Seen) :- 
+    (   (Stmt = var(X, Type); Stmt = const(X, _)) ->
+        (   member(X, Seen) ->
+            throw(redeclare_identifier(Stmt))
+        ;   check_local_declarations(Rest, [X|Seen])
+        )
+    ;   check_local_declarations(Rest, Seen)
+    ).
+
+% Kiểm tra thân hàm và thủ tục (chỉ kiểm tra cú pháp, không thực thi)
 check_proc_bodies([], Env, Env).
-check_proc_bodies([func(Name, Params, Type, Stmts)|Rest], GlobalEnv, FinalEnv) :-
+check_proc_bodies([func(Name, Params, Type, Stmts)|Rest], GlobalEnv, FinalEnv) :- 
     check_params(Params),
+    check_local_declarations(Stmts),
     length(Params, N),
     length(DummyArgs, N),
     create_func_env(Params, DummyArgs, env([[]], false, []), FuncEnv),
     check_stmt(Stmts, FuncEnv, GlobalEnv),
     check_proc_bodies(Rest, GlobalEnv, FinalEnv).
-check_proc_bodies([proc(Name, Params, Stmts)|Rest], GlobalEnv, FinalEnv) :-
+check_proc_bodies([proc(Name, Params, Stmts)|Rest], GlobalEnv, FinalEnv) :- 
     check_params(Params),
+    check_local_declarations(Stmts),
     length(Params, N),
     length(DummyArgs, N),
     create_func_env(Params, DummyArgs, env([[]], false, []), FuncEnv),
@@ -30,13 +46,24 @@ check_proc_bodies([proc(Name, Params, Stmts)|Rest], GlobalEnv, FinalEnv) :-
     check_proc_bodies(Rest, GlobalEnv, FinalEnv).
 
 % Kiểm tra cú pháp của danh sách câu lệnh
-check_stmt([], _, _).
-check_stmt([Stmt|Stmts], Env, GlobalEnv) :-
+% Kiểm tra cú pháp của danh sách câu lệnh
+check_stmt(Stmts, Env, GlobalEnv) :- 
+    check_stmt(Stmts, Env, GlobalEnv, []).
+
+check_stmt([], _, _, _).
+check_stmt([Stmt|Stmts], Env, GlobalEnv, Seen) :- 
+    (   (Stmt = var(X, Type); Stmt = const(X, _)) ->
+        (   member(X, Seen) ->
+            throw(redeclare_identifier(Stmt))
+        ;   NewSeen = [X|Seen]
+        )
+    ;   NewSeen = Seen
+    ),
     (   is_list(Stmt) ->
         check_one_stmt(block(Stmt, []), Env, GlobalEnv)
     ;   check_one_stmt(Stmt, Env, GlobalEnv)
     ),
-    check_stmt(Stmts, Env, GlobalEnv).
+    check_stmt(Stmts, Env, GlobalEnv, NewSeen).
 
 % Kiểm tra cú pháp của một câu lệnh
 check_one_stmt(var(X, Type), Env, _) :-
