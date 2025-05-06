@@ -1,0 +1,529 @@
+[trace] 2 ?- go.
+   Call: (12) go ? creep
+   Call: (13) open('input.txt', read, _10226) ? creep
+   Exit: (13) open('input.txt', read, <stream>(000002aa1756f3b0)) ? creep
+   Call: (13) read_term(<stream>(000002aa1756f3b0), _11856, []) ? creep
+   Exit: (13) read_term(<stream>(000002aa1756f3b0), [[var(a, integer)], [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], [assign(a, call(foo, [1])), call(writeIntLn, [a])]], []) ? creep
+   Call: (13) close(<stream>(000002aa1756f3b0)) ? creep
+   Exit: (13) close(<stream>(000002aa1756f3b0)) ? creep
+   Call: (13) open('output.txt', write, _15232) ? creep
+   Exit: (13) open('output.txt', write, <stream>(000002aa175707e0)) ? creep
+   Call: (13) set_output(<stream>(000002aa175707e0)) ? creep
+   Exit: (13) set_output(<stream>(000002aa175707e0)) ? creep
+^  Call: (13) catch(reduce_prog([[var(a, integer)], [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], [assign(a, call(foo, [1])), call(writeIntLn, [a])]]), _18478, process(_18478)) ? creep
+   Call: (14) reduce_prog([[var(a, integer)], [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], [assign(a, call(foo, [1])), call(writeIntLn, [a])]]) ? creep
+   Call: (15) check_redeclarations([var(a, integer)]) ? creep
+   Call: (16) check_redeclarations([var(a, integer)], []) ? creep
+   Call: (17) lists:member(a, []) ? creep
+   Fail: (17) lists:member(a, []) ? creep
+   Redo: (16) check_redeclarations([var(a, integer)], []) ? creep
+   Call: (17) is_builtin(a, _25800) ? creep
+   Call: (18) lists:member((a, _26540), [(readInt, func), (writeIntLn, proc), (writeInt, proc), (readReal, func), (writeRealLn, proc), (writeReal, proc), (..., ...)|...]) ? creep
+   Fail: (18) lists:member((a, _26540), [(readInt, func), (writeIntLn, proc), (writeInt, proc), (readReal, func), (writeRealLn, proc), (writeReal, proc), (..., ...)|...]) ? creep
+   Fail: (17) is_builtin(a, _28404) ? creep
+   Redo: (16) check_redeclarations([var(a, integer)], []) ? creep
+   Call: (17) check_redeclarations([], [a]) ? creep
+   Exit: (17) check_redeclarations([], [a]) ? creep
+   Exit: (16) check_redeclarations([var(a, integer)], []) ? creep
+   Exit: (15) check_redeclarations([var(a, integer)]) ? creep
+   Call: (15) create_env([var(a, integer)], env([[]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _1882) ? creep
+   Call: (16) create_env([], env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _1882) ? creep
+   Exit: (16) create_env([], env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])) ? creep
+   Exit: (15) create_env([var(a, integer)], env([[]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])) ? creep
+   Call: (15) check_procs_phase1([func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _5170) ? creep
+   Call: (16) check_procs_phase1([func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _5170, []) ? creep
+   Call: (17) check_params([par(a, integer)]) ? creep
+   Call: (18) check_params([par(a, integer)], []) ? creep
+   Call: (19) lists:member(a, []) ? creep
+   Fail: (19) lists:member(a, []) ? creep
+   Redo: (18) check_params([par(a, integer)], []) ? creep
+   Call: (19) check_params([], [a]) ? creep
+   Exit: (19) check_params([], [a]) ? creep
+   Exit: (18) check_params([par(a, integer)], []) ? creep
+   Exit: (17) check_params([par(a, integer)]) ? creep
+   Call: (17) is_builtin(foo, _14190) ? creep
+   Call: (18) lists:member((foo, _14930), [(readInt, func), (writeIntLn, proc), (writeInt, proc), (readReal, func), (writeRealLn, proc), (writeReal, proc), (..., ...)|...]) ? creep
+   Fail: (18) lists:member((foo, _14930), [(readInt, func), (writeIntLn, proc), (writeInt, proc), (readReal, func), (writeRealLn, proc), (writeReal, proc), (..., ...)|...]) ? creep
+   Fail: (17) is_builtin(foo, _16794) ? creep
+   Redo: (16) check_procs_phase1([func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _5170, []) ? creep
+   Call: (17) has_declared(foo, env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _18424) ? creep
+   Call: (18) lists:member(id(foo, _19166, _19168, _19170), [id(a, var, undef, integer)]) ? creep
+   Fail: (18) lists:member(id(foo, _19166, _19168, _19170), [id(a, var, undef, integer)]) ? creep
+   Redo: (17) has_declared(foo, env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _20902) ? creep
+   Call: (18) []\=[] ? creep
+   Fail: (18) []\=[] ? creep
+   Fail: (17) has_declared(foo, env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _23336) ? creep
+   Redo: (16) check_procs_phase1([func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _5170, []) ? creep
+   Call: (17) lists:member(foo-_24896, []) ? creep
+   Fail: (17) lists:member(foo-_24896, []) ? creep
+   Redo: (16) check_procs_phase1([func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _5170, []) ? creep
+   Call: (17) add_to_env(id(foo, func, undef, integer), env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _27370) ? creep
+   Call: (18) _28196=[id(foo, func, undef, integer), id(a, var, undef, integer)] ? creep
+   Exit: (18) [id(foo, func, undef, integer), id(a, var, undef, integer)]=[id(foo, func, undef, integer), id(a, var, undef, integer)] ? creep
+   Exit: (17) add_to_env(id(foo, func, undef, integer), env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])) ? creep
+   Call: (17) check_procs_phase1([], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _5170, [foo-func]) ? creep
+   Exit: (17) check_procs_phase1([], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), [foo-func]) ? creep
+   Exit: (16) check_procs_phase1([func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), []) ? creep
+   Exit: (15) check_procs_phase1([func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], env([[id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])) ? creep
+   Call: (15) check_proc_bodies([func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _2754) ? creep
+   Call: (16) check_params([par(a, integer)]) ? creep
+   Call: (17) check_params([par(a, integer)], []) ? creep
+   Call: (18) lists:member(a, []) ? creep
+   Fail: (18) lists:member(a, []) ? creep
+   Redo: (17) check_params([par(a, integer)], []) ? creep
+   Call: (18) check_params([], [a]) ? creep
+   Exit: (18) check_params([], [a]) ? creep
+   Exit: (17) check_params([par(a, integer)], []) ? creep
+   Exit: (16) check_params([par(a, integer)]) ? creep
+   Call: (16) create_dummy_args([par(a, integer)], _10882) ? creep
+   Call: (17) create_dummy_args([], _11698) ? creep
+   Exit: (17) create_dummy_args([], []) ? creep
+   Exit: (16) create_dummy_args([par(a, integer)], [0]) ? creep
+   Call: (16) create_func_env([par(a, integer)], [0], env([[id(foo, var, undef, integer)]], false, []), _14160) ? creep
+   Call: (17) create_func_env([], [], env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), _14160) ? creep
+   Exit: (17) create_func_env([], [], env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])) ? creep
+   Exit: (16) create_func_env([par(a, integer)], [0], env([[id(foo, var, undef, integer)]], false, []), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])) ? creep
+   Call: (16) reduce_stmt(config([assign(foo, add(a, 1))], env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config([], _17474), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), false) ? creep
+   Call: (17) is_list(assign(foo, add(a, 1))) ? creep
+   Fail: (17) is_list(assign(foo, add(a, 1))) ? creep
+   Redo: (16) reduce_stmt(config([assign(foo, add(a, 1))], env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config([], _17474), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), false) ? creep
+   Call: (17) reduce_one_stmt(config(assign(foo, add(a, 1)), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_20732, _20734), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), false) ? creep
+   Call: (18) atom(foo) ? creep
+   Exit: (18) atom(foo) ? creep
+   Call: (18) reduce_all(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_23174, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (19) integer(add(a, 1)) ? creep
+   Fail: (19) integer(add(a, 1)) ? creep
+   Redo: (18) reduce_all(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_23174, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (19) float(add(a, 1)) ? creep
+   Fail: (19) float(add(a, 1)) ? creep
+   Redo: (18) reduce_all(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_23174, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (19) boolean(add(a, 1)) ? creep
+   Fail: (19) boolean(add(a, 1)) ? creep
+   Redo: (18) reduce_all(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_23174, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (19) string(add(a, 1)) ? creep
+   Fail: (19) string(add(a, 1)) ? creep
+   Redo: (18) reduce_all(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_410, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (19) atom(add(a, 1)) ? creep
+   Fail: (19) atom(add(a, 1)) ? creep
+   Redo: (18) reduce_all(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_410, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (19) reduce(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_5142, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (20) integer(add(a, 1)) ? creep
+   Fail: (20) integer(add(a, 1)) ? creep
+   Redo: (19) reduce(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_5142, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (20) float(add(a, 1)) ? creep
+   Fail: (20) float(add(a, 1)) ? creep
+   Redo: (19) reduce(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_5142, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (20) boolean(add(a, 1)) ? creep
+   Fail: (20) boolean(add(a, 1)) ? creep
+   Redo: (19) reduce(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_5142, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (20) string(add(a, 1)) ? creep
+   Fail: (20) string(add(a, 1)) ? creep
+   Redo: (19) reduce(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_5142, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (20) atom(add(a, 1)) ? creep
+   Fail: (20) atom(add(a, 1)) ? creep
+   Redo: (19) reduce(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_5142, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (20) reduce_all(config(a, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_18098, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (21) integer(a) ? creep
+   Fail: (21) integer(a) ? creep
+   Redo: (20) reduce_all(config(a, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_18098, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (21) float(a) ? creep
+   Fail: (21) float(a) ? creep
+   Redo: (20) reduce_all(config(a, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_18098, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (21) boolean(a) ? creep
+   Fail: (21) boolean(a) ? creep
+   Redo: (20) reduce_all(config(a, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_18098, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (21) string(a) ? creep
+   Fail: (21) string(a) ? creep
+   Redo: (20) reduce_all(config(a, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_18098, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (21) atom(a) ? creep
+   Exit: (21) atom(a) ? creep
+   Call: (21) has_declared(a, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), id(a, _30236, _18098, _30240)) ? creep
+   Call: (22) lists:member(id(a, _442, _434, _446), [id(a, var, 0, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (22) lists:member(id(a, var, 0, integer), [id(a, var, 0, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (21) has_declared(a, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), id(a, var, 0, integer)) ? creep
+   Call: (21) false=true ? creep
+   Fail: (21) false=true ? creep
+   Redo: (20) reduce_all(config(a, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(0, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (21) true ? creep
+   Exit: (21) true ? creep
+   Exit: (20) reduce_all(config(a, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(0, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (20) reduce_all(config(1, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_7472, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (21) integer(1) ? creep
+   Exit: (21) integer(1) ? creep
+   Exit: (20) reduce_all(config(1, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(1, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (20) integer(0) ? creep
+   Exit: (20) integer(0) ? creep
+   Call: (20) integer(1) ? creep
+   Exit: (20) integer(1) ? creep
+   Call: (20) false=true ? creep
+   Fail: (20) false=true ? creep
+   Redo: (19) reduce(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_422, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (20) _422=0 ? creep
+   Exit: (20) 0=0 ? creep
+   Exit: (19) reduce(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(0, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (19) reduce_all(config(0, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_410, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (20) integer(0) ? creep
+   Exit: (20) integer(0) ? creep
+   Exit: (19) reduce_all(config(0, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(0, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Exit: (18) reduce_all(config(add(a, 1), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(0, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), false) ? creep
+   Call: (18) has_declared_with_global(foo, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(foo, _22878, _22880, _22882)) ? creep
+   Call: (19) has_declared(foo, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), id(foo, _22878, _22880, _22882)) ? creep
+   Call: (20) lists:member(id(foo, _22878, _22880, _22882), [id(a, var, 0, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (20) lists:member(id(foo, var, undef, integer), [id(a, var, 0, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (19) has_declared(foo, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), id(foo, var, undef, integer)) ? creep
+   Call: (19) true ? creep
+   Exit: (19) true ? creep
+   Exit: (18) has_declared_with_global(foo, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(foo, var, undef, integer)) ? creep
+   Call: (18) var=const ? creep
+   Fail: (18) var=const ? creep
+   Redo: (17) reduce_one_stmt(config(assign(foo, add(a, 1)), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_398, _400), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), false) ? creep
+   Call: (18) valid_type(0, integer) ? creep
+   Call: (19) integer(0) ? creep
+   Exit: (19) integer(0) ? creep
+   Exit: (18) valid_type(0, integer) ? creep
+   Call: (18) has_declared(foo, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), _4188) ? creep
+   Call: (19) lists:member(id(foo, _4930, _4932, _4934), [id(a, var, 0, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (19) lists:member(id(foo, var, undef, integer), [id(a, var, 0, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (18) has_declared(foo, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), id(foo, var, undef, integer)) ? creep
+   Call: (18) update_env(foo, 0, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), _400) ? creep
+   Call: (19) lists:select(id(foo, _8240, _8242, _8244), [id(a, var, 0, integer), id(foo, var, undef, integer)], id(foo, _8240, 0, _8244), _8232) ? creep
+   Exit: (19) lists:select(id(foo, var, undef, integer), [id(a, var, 0, integer), id(foo, var, undef, integer)], id(foo, var, 0, integer), [id(a, var, 0, integer), id(foo, var, 0, integer)]) ? creep
+   Exit: (18) update_env(foo, 0, env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, []), env([[id(a, var, 0, integer), id(foo, var, 0, integer)]], false, [])) ? creep
+   Exit: (17) reduce_one_stmt(config(assign(foo, add(a, 1)), env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config(_398, env([[id(a, var, 0, integer), id(foo, var, 0, integer)]], false, [])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), false) ? creep
+   Call: (17) reduce_stmt(config([], env([[id(a, var, 0, integer), id(foo, var, 0, integer)]], false, [])), config([], _388), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), false) ? creep
+   Exit: (17) reduce_stmt(config([], env([[id(a, var, 0, integer), id(foo, var, 0, integer)]], false, [])), config([], env([[id(a, var, 0, integer), id(foo, var, 0, integer)]], false, [])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), false) ? creep
+   Exit: (16) reduce_stmt(config([assign(foo, add(a, 1))], env([[id(a, var, 0, integer), id(foo, var, undef, integer)]], false, [])), config([], env([[id(a, var, 0, integer), id(foo, var, 0, integer)]], false, [])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), false) ? creep
+   Call: (16) check_proc_bodies([], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _320) ? creep
+   Exit: (16) check_proc_bodies([], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])) ? creep
+   Exit: (15) check_proc_bodies([func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])) ? creep
+   Call: (15) reduce_stmt(config([assign(a, call(foo, [1])), call(writeIntLn, [a])], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config([], _16730), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (16) is_list(assign(a, call(foo, [1]))) ? creep
+   Fail: (16) is_list(assign(a, call(foo, [1]))) ? creep
+   Redo: (15) reduce_stmt(config([assign(a, call(foo, [1])), call(writeIntLn, [a])], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config([], _16730), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (16) reduce_one_stmt(config(assign(a, call(foo, [1])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_19988, _19990), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (17) atom(a) ? creep
+   Exit: (17) atom(a) ? creep
+   Call: (17) reduce_all(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_22430, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (18) integer(call(foo, [1])) ? creep
+   Fail: (18) integer(call(foo, [1])) ? creep
+   Redo: (17) reduce_all(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_22430, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (18) float(call(foo, [1])) ? creep
+   Fail: (18) float(call(foo, [1])) ? creep
+   Redo: (17) reduce_all(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_22430, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (18) boolean(call(foo, [1])) ? creep
+   Fail: (18) boolean(call(foo, [1])) ? creep
+   Redo: (17) reduce_all(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_22430, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (18) string(call(foo, [1])) ? creep
+   Fail: (18) string(call(foo, [1])) ? creep
+   Redo: (17) reduce_all(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_356, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (18) atom(call(foo, [1])) ? creep
+   Fail: (18) atom(call(foo, [1])) ? creep
+   Redo: (17) reduce_all(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_356, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (18) reduce(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_4282, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (19) integer(call(foo, [1])) ? creep
+   Fail: (19) integer(call(foo, [1])) ? creep
+   Redo: (18) reduce(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_4282, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (19) float(call(foo, [1])) ? creep
+   Fail: (19) float(call(foo, [1])) ? creep
+   Redo: (18) reduce(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_4282, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (19) boolean(call(foo, [1])) ? creep
+   Fail: (19) boolean(call(foo, [1])) ? creep
+   Redo: (18) reduce(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_4282, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (19) string(call(foo, [1])) ? creep
+   Fail: (19) string(call(foo, [1])) ? creep
+   Redo: (18) reduce(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_4282, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (19) atom(call(foo, [1])) ? creep
+   Fail: (19) atom(call(foo, [1])) ? creep
+   Redo: (18) reduce(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_4282, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (19) is_builtin(foo, func) ? creep
+   Call: (20) lists:member((foo, func), [(readInt, func), (writeIntLn, proc), (writeInt, proc), (readReal, func), (writeRealLn, proc), (writeReal, proc), (..., ...)|...]) ? creep
+   Fail: (20) lists:member((foo, func), [(readInt, func), (writeIntLn, proc), (writeInt, proc), (readReal, func), (writeRealLn, proc), (writeReal, proc), (..., ...)|...]) ? creep
+   Fail: (19) is_builtin(foo, func) ? creep
+   Redo: (18) reduce(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_4282, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (19) lookup_func(foo, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), func(foo, _21462, _21464, _21466)) ? creep
+   Call: (20) lists:member(func(foo, _21462, _21464, _21466), [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]) ? creep
+   Exit: (20) lists:member(func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))]), [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]) ? creep
+   Exit: (19) lookup_func(foo, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])) ? creep
+   Call: (19) length([1], _24750) ? creep
+   Exit: (19) length([1], 1) ? creep
+   Call: (19) length([par(a, integer)], _26376) ? creep
+   Exit: (19) length([par(a, integer)], 1) ? creep
+   Call: (19) 1=1 ? creep
+   Exit: (19) 1=1 ? creep
+   Call: (19) reduce_args([1], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _29622, true) ? creep
+   Call: (20) reduce_all(config(1, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_30444, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (21) integer(1) ? creep
+   Exit: (21) integer(1) ? creep
+   Exit: (20) reduce_all(config(1, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(1, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (20) reduce_args([], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _388, true) ? creep
+   Exit: (20) reduce_args([], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), [], true) ? creep
+   Exit: (19) reduce_args([1], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), [1], true) ? creep
+   Call: (19) create_func_env([par(a, integer)], [1], env([[id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), _5180) ? creep
+   Call: (20) create_func_env([], [], env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), _5180) ? creep
+   Exit: (20) create_func_env([], [], env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))) ? creep
+   Exit: (19) create_func_env([par(a, integer)], [1], env([[id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))) ? creep
+   Call: (19) true=true ? creep
+   Exit: (19) true=true ? creep
+   Call: (19) reduce_stmt(config([assign(foo, add(a, 1))], env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config([], _10114), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (20) is_list(assign(foo, add(a, 1))) ? creep
+   Fail: (20) is_list(assign(foo, add(a, 1))) ? creep
+   Redo: (19) reduce_stmt(config([assign(foo, add(a, 1))], env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config([], _10114), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (20) reduce_one_stmt(config(assign(foo, add(a, 1)), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_13372, _13374), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (21) atom(foo) ? creep
+   Exit: (21) atom(foo) ? creep
+   Call: (21) reduce_all(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_15814, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (22) integer(add(a, 1)) ? creep
+   Fail: (22) integer(add(a, 1)) ? creep
+   Redo: (21) reduce_all(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_15814, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (22) float(add(a, 1)) ? creep
+   Fail: (22) float(add(a, 1)) ? creep
+   Redo: (21) reduce_all(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_15814, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (22) boolean(add(a, 1)) ? creep
+   Fail: (22) boolean(add(a, 1)) ? creep
+   Redo: (21) reduce_all(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_15814, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (22) string(add(a, 1)) ? creep
+   Fail: (22) string(add(a, 1)) ? creep
+   Redo: (21) reduce_all(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_15814, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (22) atom(add(a, 1)) ? creep
+   Fail: (22) atom(add(a, 1)) ? creep
+   Redo: (21) reduce_all(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_15814, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (22) reduce(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_28770, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) integer(add(a, 1)) ? creep
+   Fail: (23) integer(add(a, 1)) ? creep
+   Redo: (22) reduce(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_482, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) float(add(a, 1)) ? creep
+   Fail: (23) float(add(a, 1)) ? creep
+   Redo: (22) reduce(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_482, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) boolean(add(a, 1)) ? creep
+   Fail: (23) boolean(add(a, 1)) ? creep
+   Redo: (22) reduce(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_482, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) string(add(a, 1)) ? creep
+   Fail: (23) string(add(a, 1)) ? creep
+   Redo: (22) reduce(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_482, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) atom(add(a, 1)) ? creep
+   Fail: (23) atom(add(a, 1)) ? creep
+   Redo: (22) reduce(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_482, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) reduce_all(config(a, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_10802, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (24) integer(a) ? creep
+   Fail: (24) integer(a) ? creep
+   Redo: (23) reduce_all(config(a, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_10802, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (24) float(a) ? creep
+   Fail: (24) float(a) ? creep
+   Redo: (23) reduce_all(config(a, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_10802, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (24) boolean(a) ? creep
+   Fail: (24) boolean(a) ? creep
+   Redo: (23) reduce_all(config(a, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_10802, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (24) string(a) ? creep
+   Fail: (24) string(a) ? creep
+   Redo: (23) reduce_all(config(a, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_10802, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (24) atom(a) ? creep
+   Exit: (24) atom(a) ? creep
+   Call: (24) has_declared(a, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), id(a, _22940, _10802, _22944)) ? creep
+   Call: (25) lists:member(id(a, _22940, _10802, _22944), [id(a, var, 1, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (25) lists:member(id(a, var, 1, integer), [id(a, var, 1, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (24) has_declared(a, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), id(a, var, 1, integer)) ? creep
+   Call: (24) true=true ? creep
+   Exit: (24) true=true ? creep
+   Call: (24) 1=undef ? creep
+   Fail: (24) 1=undef ? creep
+   Redo: (23) reduce_all(config(a, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(1, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (24) true ? creep
+   Exit: (24) true ? creep
+   Exit: (23) reduce_all(config(a, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(1, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) reduce_all(config(1, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_1832, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (24) integer(1) ? creep
+   Exit: (24) integer(1) ? creep
+   Exit: (23) reduce_all(config(1, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(1, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) integer(1) ? creep
+   Exit: (23) integer(1) ? creep
+   Call: (23) integer(1) ? creep
+   Exit: (23) integer(1) ? creep
+   Call: (23) true=true ? creep
+   Exit: (23) true=true ? creep
+   Call: (23) float(1) ? creep
+   Fail: (23) float(1) ? creep
+   Redo: (22) reduce(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_482, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) float(1) ? creep
+   Fail: (23) float(1) ? creep
+   Redo: (22) reduce(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_482, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) _482 is 1+1 ? creep
+   Exit: (23) 2 is 1+1 ? creep
+   Exit: (22) reduce(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(2, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (22) reduce_all(config(2, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_470, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (23) integer(2) ? creep
+   Exit: (23) integer(2) ? creep
+   Exit: (22) reduce_all(config(2, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(2, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Exit: (21) reduce_all(config(add(a, 1), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(2, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), true) ? creep
+   Call: (21) has_declared_with_global(foo, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(foo, _21282, _21284, _21286)) ? creep
+   Call: (22) has_declared(foo, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), id(foo, _21282, _21284, _21286)) ? creep
+   Call: (23) lists:member(id(foo, _21282, _21284, _21286), [id(a, var, 1, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (23) lists:member(id(foo, var, undef, integer), [id(a, var, 1, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (22) has_declared(foo, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), id(foo, var, undef, integer)) ? creep
+   Call: (22) true ? creep
+   Exit: (22) true ? creep
+   Exit: (21) has_declared_with_global(foo, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(foo, var, undef, integer)) ? creep
+   Call: (21) var=const ? creep
+   Fail: (21) var=const ? creep
+   Redo: (20) reduce_one_stmt(config(assign(foo, add(a, 1)), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_458, _460), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (21) valid_type(2, integer) ? creep
+   Call: (22) integer(2) ? creep
+   Exit: (22) integer(2) ? creep
+   Exit: (21) valid_type(2, integer) ? creep
+   Call: (21) has_declared(foo, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), _2674) ? creep
+   Call: (22) lists:member(id(foo, _3416, _3418, _3420), [id(a, var, 1, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (22) lists:member(id(foo, var, undef, integer), [id(a, var, 1, integer), id(foo, var, undef, integer)]) ? creep
+   Exit: (21) has_declared(foo, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), id(foo, var, undef, integer)) ? creep
+   Call: (21) update_env(foo, 2, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), _460) ? creep
+   Call: (22) lists:select(id(foo, _6726, _6728, _6730), [id(a, var, 1, integer), id(foo, var, undef, integer)], id(foo, _6726, 2, _6730), _6718) ? creep
+   Exit: (22) lists:select(id(foo, var, undef, integer), [id(a, var, 1, integer), id(foo, var, undef, integer)], id(foo, var, 2, integer), [id(a, var, 1, integer), id(foo, var, 2, integer)]) ? creep
+   Exit: (21) update_env(foo, 2, env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), env([[id(a, var, 1, integer), id(foo, var, 2, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))) ? creep
+   Exit: (20) reduce_one_stmt(config(assign(foo, add(a, 1)), env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config(_458, env([[id(a, var, 1, integer), id(foo, var, 2, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (20) reduce_stmt(config([], env([[id(a, var, 1, integer), id(foo, var, 2, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config([], _448), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Exit: (20) reduce_stmt(config([], env([[id(a, var, 1, integer), id(foo, var, 2, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config([], env([[id(a, var, 1, integer), id(foo, var, 2, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Exit: (19) reduce_stmt(config([assign(foo, add(a, 1))], env([[id(a, var, 1, integer), id(foo, var, undef, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), config([], env([[id(a, var, 1, integer), id(foo, var, 2, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]))), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (19) has_declared(foo, env([[id(a, var, 1, integer), id(foo, var, 2, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), id(foo, _12520, _368, _12524)) ? creep
+   Call: (20) lists:member(id(foo, _12520, _368, _12524), [id(a, var, 1, integer), id(foo, var, 2, integer)]) ? creep
+   Exit: (20) lists:member(id(foo, var, 2, integer), [id(a, var, 1, integer), id(foo, var, 2, integer)]) ? creep
+   Exit: (19) has_declared(foo, env([[id(a, var, 1, integer), id(foo, var, 2, integer)]], false, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), id(foo, var, 2, integer)) ? creep
+   Call: (19) 2\=undef ? creep
+   Exit: (19) 2\=undef ? creep
+   Call: (19) valid_type(2, integer) ? creep
+   Call: (20) integer(2) ? creep
+   Exit: (20) integer(2) ? creep
+   Exit: (19) valid_type(2, integer) ? creep
+   Call: (19) true ? creep
+   Exit: (19) true ? creep
+   Exit: (18) reduce(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(2, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (18) reduce_all(config(2, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_356, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (19) integer(2) ? creep
+   Exit: (19) integer(2) ? creep
+   Exit: (18) reduce_all(config(2, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(2, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Exit: (17) reduce_all(config(call(foo, [1]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(2, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (17) has_declared_with_global(a, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(a, _27140, _27142, _27144)) ? creep
+   Call: (18) has_declared(a, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(a, _27140, _27142, _27144)) ? creep
+   Call: (19) lists:member(id(a, _27140, _27142, _27144), [id(foo, func, undef, integer), id(a, var, undef, integer)]) ? creep
+   Exit: (19) lists:member(id(a, var, undef, integer), [id(foo, func, undef, integer), id(a, var, undef, integer)]) ? creep
+   Exit: (18) has_declared(a, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(a, var, undef, integer)) ? creep
+   Call: (18) true ? creep
+   Exit: (18) true ? creep
+   Exit: (17) has_declared_with_global(a, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(a, var, undef, integer)) ? creep
+   Call: (17) var=const ? creep
+   Fail: (17) var=const ? creep
+   Redo: (16) reduce_one_stmt(config(assign(a, call(foo, [1])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_344, _346), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (17) valid_type(2, integer) ? creep
+   Call: (18) integer(2) ? creep
+   Exit: (18) integer(2) ? creep
+   Exit: (17) valid_type(2, integer) ? creep
+   Call: (17) has_declared(a, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _8374) ? creep
+   Call: (18) lists:member(id(a, _9116, _9118, _9120), [id(foo, func, undef, integer), id(a, var, undef, integer)]) ? creep
+   Exit: (18) lists:member(id(a, var, undef, integer), [id(foo, func, undef, integer), id(a, var, undef, integer)]) ? creep
+   Exit: (17) has_declared(a, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(a, var, undef, integer)) ? creep
+   Call: (17) update_env(a, 2, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _346) ? creep
+   Call: (18) lists:select(id(a, _12426, _12428, _12430), [id(foo, func, undef, integer), id(a, var, undef, integer)], id(a, _12426, 2, _12430), _12418) ? creep
+   Exit: (18) lists:select(id(a, var, undef, integer), [id(foo, func, undef, integer), id(a, var, undef, integer)], id(a, var, 2, integer), [id(foo, func, undef, integer), id(a, var, 2, integer)]) ? creep
+   Exit: (17) update_env(a, 2, env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])) ? creep
+   Exit: (16) reduce_one_stmt(config(assign(a, call(foo, [1])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_344, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (16) reduce_stmt(config([call(writeIntLn, [a])], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config([], _334), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (17) is_list(call(writeIntLn, [a])) ? creep
+   Fail: (17) is_list(call(writeIntLn, [a])) ? creep
+   Redo: (16) reduce_stmt(config([call(writeIntLn, [a])], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config([], _334), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (17) reduce_one_stmt(config(call(writeIntLn, [a]), env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_19018, _19020), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (18) is_builtin(writeIntLn, func) ? creep
+   Call: (19) lists:member((writeIntLn, func), [(readInt, func), (writeIntLn, proc), (writeInt, proc), (readReal, func), (writeRealLn, proc), (writeReal, proc), (..., ...)|...]) ? creep
+   Fail: (19) lists:member((writeIntLn, func), [(readInt, func), (writeIntLn, proc), (writeInt, proc), (readReal, func), (writeRealLn, proc), (writeReal, proc), (..., ...)|...]) ? creep
+   Fail: (18) is_builtin(writeIntLn, func) ? creep
+   Redo: (17) reduce_one_stmt(config(call(writeIntLn, [a]), env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_19018, _19020), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (18) is_builtin(writeIntLn, proc) ? creep
+   Call: (19) lists:member((writeIntLn, proc), [(readInt, func), (writeIntLn, proc), (writeInt, proc), (readReal, func), (writeRealLn, proc), (writeReal, proc), (..., ...)|...]) ? creep
+   Exit: (19) lists:member((writeIntLn, proc), [(readInt, func), (writeIntLn, proc), (writeInt, proc), (readReal, func), (writeRealLn, proc), (writeReal, proc), (..., ...)|...]) ? creep
+   Exit: (18) is_builtin(writeIntLn, proc) ? creep
+   Call: (18) length([a], 1) ? creep
+   Exit: (18) length([a], 1) ? creep
+   Call: (18) valid_builtin_args(writeIntLn, [a], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), proc, _29190, true) ? creep
+   Call: (19) length([a], 1) ? creep
+   Exit: (19) length([a], 1) ? creep
+   Call: (19) [a]=[_586] ? creep
+   Exit: (19) [a]=[a] ? creep
+   Call: (19) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_2196, _2198), true) ? creep
+   Call: (20) integer(a) ? creep
+   Fail: (20) integer(a) ? creep
+   Redo: (19) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_2196, _2198), true) ? creep
+   Call: (20) float(a) ? creep
+   Fail: (20) float(a) ? creep
+   Redo: (19) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_2196, _2198), true) ? creep
+   Call: (20) boolean(a) ? creep
+   Fail: (20) boolean(a) ? creep
+   Redo: (19) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_2196, _2198), true) ? creep
+   Call: (20) string(a) ? creep
+   Fail: (20) string(a) ? creep
+   Redo: (19) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_2196, _2198), true) ? creep
+   Call: (20) atom(a) ? creep
+   Exit: (20) atom(a) ? creep
+   Call: (20) has_declared(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(a, _14334, _2196, _14338)) ? creep
+   Call: (21) lists:member(id(a, _14334, _2196, _14338), [id(foo, func, undef, integer), id(a, var, 2, integer)]) ? creep
+   Exit: (21) lists:member(id(a, var, 2, integer), [id(foo, func, undef, integer), id(a, var, 2, integer)]) ? creep
+   Exit: (20) has_declared(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(a, var, 2, integer)) ? creep
+   Call: (20) true=true ? creep
+   Exit: (20) true=true ? creep
+   Call: (20) 2=undef ? creep
+   Fail: (20) 2=undef ? creep
+   Redo: (19) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(2, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (20) true ? creep
+   Exit: (20) true ? creep
+   Exit: (19) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(2, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (19) valid_builtin_type(writeIntLn, 2) ? creep
+   Call: (20) integer(2) ? creep
+   Exit: (20) integer(2) ? creep
+   Exit: (19) valid_builtin_type(writeIntLn, 2) ? creep
+   Call: (19) true=true ? creep
+   Exit: (19) true=true ? creep
+   Call: (19) reduce_args([a], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _28938, true) ? creep
+   Call: (20) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_29760, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (21) integer(a) ? creep
+   Fail: (21) integer(a) ? creep
+   Redo: (20) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_590, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (21) float(a) ? creep
+   Fail: (21) float(a) ? creep
+   Redo: (20) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_590, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (21) boolean(a) ? creep
+   Fail: (21) boolean(a) ? creep
+   Redo: (20) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_590, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (21) string(a) ? creep
+   Fail: (21) string(a) ? creep
+   Redo: (20) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_590, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (21) atom(a) ? creep
+   Exit: (21) atom(a) ? creep
+   Call: (21) has_declared(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(a, _11032, _590, _11036)) ? creep
+   Call: (22) lists:member(id(a, _11032, _590, _11036), [id(foo, func, undef, integer), id(a, var, 2, integer)]) ? creep
+   Exit: (22) lists:member(id(a, var, 2, integer), [id(foo, func, undef, integer), id(a, var, 2, integer)]) ? creep
+   Exit: (21) has_declared(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), id(a, var, 2, integer)) ? creep
+   Call: (21) true=true ? creep
+   Exit: (21) true=true ? creep
+   Call: (21) 2=undef ? creep
+   Fail: (21) 2=undef ? creep
+   Redo: (20) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(2, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (21) true ? creep
+   Exit: (21) true ? creep
+   Exit: (20) reduce_all(config(a, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(2, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), true) ? creep
+   Call: (20) reduce_args([], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), _592, true) ? creep
+   Exit: (20) reduce_args([], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), [], true) ? creep
+   Exit: (19) reduce_args([a], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), [2], true) ? creep
+   Call: (19) p_call_builtin(writeIntLn, [2]) ? creep
+   Call: (20) integer(2) ? creep
+   Exit: (20) integer(2) ? creep
+   Call: (20) writeln(2) ? creep
+   Exit: (20) writeln(2) ? creep
+   Exit: (19) p_call_builtin(writeIntLn, [2]) ? creep
+   Exit: (18) valid_builtin_args(writeIntLn, [a], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), proc, _28162, true) ? creep
+   Call: (18) _430=env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]) ? creep
+   Exit: (18) env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])=env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]) ? creep
+   Exit: (17) reduce_one_stmt(config(call(writeIntLn, [a]), env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config(_428, env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Call: (17) reduce_stmt(config([], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config([], _334), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Exit: (17) reduce_stmt(config([], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config([], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Exit: (16) reduce_stmt(config([call(writeIntLn, [a])], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config([], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Exit: (15) reduce_stmt(config([assign(a, call(foo, [1])), call(writeIntLn, [a])], env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), config([], env([[id(foo, func, undef, integer), id(a, var, 2, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])])), env([[id(foo, func, undef, integer), id(a, var, undef, integer)]], false, [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])]), true) ? creep
+   Exit: (14) reduce_prog([[var(a, integer)], [func(foo, [par(a, integer)], integer, [assign(foo, add(a, 1))])], [assign(a, call(foo, [1])), call(writeIntLn, [a])]]) ? creep
+^  Exit: (13) catch(user:reduce_prog([[var(a, integer)], [func(foo, [par(a, integer)], integer, [assign(foo, add(..., ...))])], [assign(a, call(foo, [...])), call(writeIntLn, [...])]]), _238, user:process(_238)) ? creep
+   Call: (13) close(<stream>(000002aa175707e0)) ? creep
+   Exit: (13) close(<stream>(000002aa175707e0)) ? creep
+   Exit: (12) go ? creep

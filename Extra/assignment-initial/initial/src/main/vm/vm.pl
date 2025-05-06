@@ -28,15 +28,13 @@ check_proc_bodies([proc(Name, Params, Stmts)|Rest], GlobalEnv, FinalEnv) :-
 
 create_dummy_args([], []).
 create_dummy_args([par(_, integer)|Ps], [0|Ds]) :-
-    create_dummy_args(Ps, Ds).
+    create_dummy_args(Ps, Ds), !.
 create_dummy_args([par(_, float)|Ps], [0.0|Ds]) :-
-    create_dummy_args(Ps, Ds).
+    create_dummy_args(Ps, Ds), !.
 create_dummy_args([par(_, string)|Ps], [""|Ds]) :-
-    create_dummy_args(Ps, Ds).
+    create_dummy_args(Ps, Ds), !.
 create_dummy_args([par(_, boolean)|Ps], [false|Ds]) :- 
-    create_dummy_args(Ps, Ds).
-create_dummy_args([par(Name, Type)|_], _) :-
-    throw(unsupported_type(par(Name, Type))).
+    create_dummy_args(Ps, Ds), !.
 % Kiểm tra khai báo lại cho biến và hằng
 check_redeclarations(Vars) :-
     check_redeclarations(Vars, []).
@@ -352,7 +350,7 @@ reduce(config(call(Name, Args), Env), config(R, NewEnv), Flag) :-
 
 % Lời gọi hàm người dùng
 reduce(config(call(Name, Args), Env), config(R, NewEnv), Flag) :-
-    lookup_func(Name, Env, func(Name, Params, Type, Stmts)),
+    lookup_func(Name, Env, func(Name, Params, Type, Stmts)), !,
     length(Args, NArgs), length(Params, NParams),
     (   NArgs = NParams ->
         reduce_args(Args, Env, Vals, Flag),
@@ -405,7 +403,8 @@ valid_builtin_args(Name, Args, Env, func, R, Flag) :-
     (   valid_builtin_type(Name, V) ->
         (   Flag = true ->
             reduce_args(Args, Env, Vals, Flag),
-            p_call_builtin(Name, Vals, R)
+            p_call_builtin(Name, Vals),
+            R = V
         ;   (   Name = readInt -> R = 0
             ;   Name = readReal -> R = 0.0
             ;   Name = readBool -> R = false
@@ -647,7 +646,7 @@ reduce_one_stmt(config(call(Name, Args), _), config(_, _), _, _) :-
 execute_loop(0, _, Env, Env, _) :- !.
 execute_loop(N, S, Env, NewEnv, GlobalEnv) :-
     N > 0,
-    reduce_one_stmt(config(S, Env), config(Result, Env1), GlobalEnv),
+    reduce_one_stmt(config(S, Env), config(Result, Env1), GlobalEnv, true),
     (   Result = break -> NewEnv = Env1
     ;   Result = continue ->
         N1 is N - 1,

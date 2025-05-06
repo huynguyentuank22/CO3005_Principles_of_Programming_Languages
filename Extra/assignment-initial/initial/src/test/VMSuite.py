@@ -356,12 +356,12 @@ class VMSuite(unittest.TestCase):
         expect = """3\n"""    
         self.assertTrue(TestVM.test(input, expect, 456))
 
-    # def test_something(self):
-    #     print(inspect.currentframe().f_code.co_name)
-    #     input = """
-    #     [[var(a,integer)],
-    #     [func(foo,[par(a,integer)],integer,
-    #         [assign(foo,add(a,1))])], 
-    #     [assign(a,call(foo,[1])),call(writeIntLn,[a])]]."""
-    #     expect = """2\n"""    
-    #     self.assertTrue(TestVM.test(input, expect, 457))
+    def test_1something(self):
+        print(inspect.currentframe().f_code.co_name)
+        input = """
+        [[var(a,integer)],
+        [func(foo,[par(a,integer)],integer,
+            [assign(foo,add(a,1))])], 
+        [assign(a,call(foo,[1])),call(writeIntLn,[a])]]."""
+        expect = """2\n"""    
+        self.assertTrue(TestVM.test(input, expect, 457))
