@@ -1,0 +1,1 @@
+Type mismatch: assign(a,call(f,[1]))

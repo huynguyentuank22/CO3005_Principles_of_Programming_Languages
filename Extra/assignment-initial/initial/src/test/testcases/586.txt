@@ -1,0 +1,11 @@
+
+        [[const(a, 1), const(b, 2.3), const(c, "Hello world!"), const(d, true)],[],[
+            call(writeInt, [a]),
+            call(writeLn, []),
+            call(writeReal, [b]),
+            call(writeLn, []),
+            call(writeStr, [c]),
+            call(writeLn, []),
+            call(writeBool, [d]),
+            call(writeLn, [])
+        ]].

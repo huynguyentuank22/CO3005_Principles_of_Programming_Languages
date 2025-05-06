@@ -1,0 +1,1 @@
+Type mismatch: call(writeBoolLn,[a])

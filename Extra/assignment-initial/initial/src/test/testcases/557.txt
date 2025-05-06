@@ -1,0 +1,8 @@
+[[],
+            [
+                func(f, [par(a, integer)], integer, [assign(f, add(a, 1))])
+            ],
+            [
+                call(writeIntLn, [call(f, [122])])
+            ]
+        ].

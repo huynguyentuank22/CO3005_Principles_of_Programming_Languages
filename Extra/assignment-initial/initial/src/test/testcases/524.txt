@@ -1,0 +1,1 @@
+[[var(a,integer)],[proc(foo,[par(b,integer),par(c,integer)],[assign(a,add(b,c)),call(writeInt,[a])])],[assign(a,1),call(writeIntLn,[a]),call(goo,[1,2]),call(writeIntLn,[a])]].

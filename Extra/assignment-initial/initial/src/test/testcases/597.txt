@@ -1,0 +1,1 @@
+[[var(a,integer),var(b,real),var(a,boolean)],[],[]].

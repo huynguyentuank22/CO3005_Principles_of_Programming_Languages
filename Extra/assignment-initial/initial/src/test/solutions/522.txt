@@ -1,0 +1,2 @@
+1
+Wrong number of arguments: call(foo,[2])

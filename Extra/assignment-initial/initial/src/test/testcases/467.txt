@@ -1,0 +1,1 @@
+[[var(a,integer),var(b,float),var(c,integer),var(d,boolean),var(e,integer)],[],[assign(a,1),assign(c,2),assign(e,3)]].

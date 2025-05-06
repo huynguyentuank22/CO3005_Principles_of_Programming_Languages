@@ -1,0 +1,1 @@
+[[var(a,integer)],[],[assign(a,0),loop(10,block([],[assign(a,add(a,1)),if(eql(a,5),continue(null)),call(writeInt,[a])]))]].

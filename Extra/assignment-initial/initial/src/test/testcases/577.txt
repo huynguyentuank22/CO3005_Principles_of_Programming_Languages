@@ -1,0 +1,11 @@
+[
+            [
+                var(i, integer)
+            ],
+            [],
+            [
+                assign(i, 0),
+                do([call(writeInt, [i]), assign(i, add(1, i)), break(null), assign(i, add(100, i))], less(i, 10)),
+                call(writeInt, [i])
+            ]
+        ].

@@ -1,0 +1,1 @@
+[[],[],[call(writeInt,[add(sub(1),times(sub(1,2),imod(3,4)))])]].

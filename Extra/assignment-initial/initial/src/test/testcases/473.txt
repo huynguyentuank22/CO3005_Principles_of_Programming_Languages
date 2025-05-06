@@ -1,0 +1,1 @@
+[[var(a,integer),var(b,integer)],[],[assign(a,8),assign(b,idiv(a,2)),call(writeIntLn,[b])]].

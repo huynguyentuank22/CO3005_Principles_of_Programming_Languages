@@ -1,0 +1,9 @@
+[[
+            var(a,float)
+        ],[
+            func(f,[par(a,integer)],integer,[
+                assign(f,add(a,1))
+            ])
+        ],[
+            assign(a,call(f,[1]))
+        ]].

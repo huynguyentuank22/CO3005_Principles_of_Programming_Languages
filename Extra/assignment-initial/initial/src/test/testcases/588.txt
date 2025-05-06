@@ -1,0 +1,15 @@
+[
+        [],[
+            proc(f,[par(a,integer)],[call(writeInt,[a])]),
+            proc(g,[par(a,float)],[call(writeReal,[a])]),
+            proc(h,[par(a,string)],[call(writeStr,[a])]),
+            proc(i,[par(a,boolean)],[call(writeBool,[a])]),
+            proc(j,[par(a,integer),par(b,float),par(c,integer)],[call(writeReal,[add(a,add(b,c))])])
+        ],[
+            call(f,[1]),
+            call(g,[2.3]),
+            call(h,["Hello world!"]),
+            call(i,[true]),
+            call(j,[1,2.3,4])
+        ]
+        ].

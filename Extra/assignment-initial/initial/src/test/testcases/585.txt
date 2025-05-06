@@ -1,0 +1,15 @@
+
+        [[var(a1,integer), var(a2,float), var(a3,string), var(a4,boolean)],[],[
+            assign(a1,1),
+            assign(a2,2.3),
+            assign(a3,"Hello world!"),
+            assign(a4,true),
+            call(writeInt, [a1]),
+            call(writeLn, []),
+            call(writeReal, [a2]),
+            call(writeLn, []),
+            call(writeStr, [a3]),
+            call(writeLn, []),
+            call(writeBool, [a4]),
+            call(writeLn, [])
+        ]].

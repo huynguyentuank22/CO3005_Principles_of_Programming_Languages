@@ -1,0 +1,14 @@
+
+        [
+            [],
+            [
+                func(fibonacci, [par(n, integer)], integer, [
+                    if(eql(n, 0), assign(fibonacci, 0)),
+                    if(eql(n, 1), assign(fibonacci, 1)),
+                    if(greater(n, 1), assign(fibonacci, add(call(fibonacci, [sub(n, 1)]), call(fibonacci, [sub(n, 2)]))))
+                ])
+            ],
+            [
+                call(writeInt, [call(fibonacci, [10])])
+            ]
+        ].

@@ -1,0 +1,1 @@
+[[var(a,integer)],[],[assign(a,0),while(less(a,10),block([],[assign(a,add(a,1)),if(eql(a,5),break(null)),call(writeIntLn,[a])]))]].

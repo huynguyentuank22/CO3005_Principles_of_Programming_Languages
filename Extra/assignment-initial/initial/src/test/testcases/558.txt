@@ -1,0 +1,12 @@
+[
+            [
+                var(b, integer)
+            ],
+            [
+                func(f, [par(a, integer)], integer, [assign(b, add(a, 100)), call(writeIntLn, [b]), assign(f, add(a, 1))])
+            ],
+            [
+                call(writeIntLn, [call(f, [122])]),
+                call(writeIntLn, [b])
+            ]
+        ].

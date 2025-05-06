@@ -1,0 +1,1 @@
+[[var(a,integer),var(b,integer),var(c,integer)],[func(foo,[par(a,integer),par(b,integer)],integer,[])],[call(writeInt,[3])]].

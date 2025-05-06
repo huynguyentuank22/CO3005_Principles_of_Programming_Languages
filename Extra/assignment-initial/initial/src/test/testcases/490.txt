@@ -1,0 +1,1 @@
+[[var(a,boolean),var(b,integer)],[],[assign(a,true),assign(b,1),call(writeBool,[ne(a,b)])]].

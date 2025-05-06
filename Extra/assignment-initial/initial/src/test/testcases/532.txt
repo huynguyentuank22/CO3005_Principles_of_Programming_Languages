@@ -1,0 +1,1 @@
+[[var(a,integer)],[],[call(writeStr,["Hello"]),call(writeLn,[]),call(writeStr,["World"])]].

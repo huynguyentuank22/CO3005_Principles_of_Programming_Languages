@@ -1,0 +1,9 @@
+[
+            [],
+            [
+                proc(f, [par(s, string)], [call(writeStr, [s])])
+            ],
+            [
+                call(f, ["Hello world!"])
+            ]
+        ].

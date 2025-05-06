@@ -1,0 +1,2 @@
+1
+Undeclared procedure: call(goo,[1,2])

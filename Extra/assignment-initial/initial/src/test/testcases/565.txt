@@ -1,0 +1,10 @@
+[
+            [
+                var(a, integer)
+            ],
+            [],
+            [
+                assign(a, 0),
+                if(add(1, 2), assign(a, 1))
+            ]
+        ].

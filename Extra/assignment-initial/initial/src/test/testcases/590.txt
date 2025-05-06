@@ -1,0 +1,16 @@
+[[var(a,boolean), var(b,boolean)],[],[
+            assign(a,true),
+            assign(b,false),
+            call(writeBool,[bnot(a)]),
+            call(writeBool,[bnot(b)]),
+            call(writeBool,[band(b,b)]),
+            call(writeBool,[band(b,a)]),
+            call(writeBool,[band(a,b)]),
+            call(writeBool,[band(a,a)]),
+            call(writeBool,[bor(b,b)]),
+            call(writeBool,[bor(b,a)]),
+            call(writeBool,[bor(a,b)]),
+            call(writeBool,[bor(a,a)]),
+            call(writeBool,[band(b,"test shortcut")]),
+            call(writeBool,[bor(a,"test shortcut")])
+        ]].

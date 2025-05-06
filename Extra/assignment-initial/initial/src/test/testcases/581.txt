@@ -1,0 +1,45 @@
+[
+        [
+            var(n,integer),
+            const(m, 50)
+            ],
+            [
+                func(
+                    isPrime,
+                    [par(n,integer)],
+                    boolean,
+                    [
+                        assign(isPrime,true),
+                        block(
+                            [var(div,integer)],
+                            [assign(div,2),
+                                while(
+                                    less(div,n),
+                                    block([],[
+                                        if(eql(imod(n,div),0),
+                                            block([],[
+                                                assign(isPrime,false),
+                                                break(null)
+                                            ])
+                                        ),
+                                        assign(div,add(div,1))
+                                    ]
+                                    )
+                                )
+                            ]
+                        )
+                    ]
+                )
+            ],
+            [
+                assign(n,2),
+                while(less(n,m),
+                    block([],[
+                            if(call(isPrime,[n]),
+                                block([],[call(writeInt,[n]), call(writeStr,[" "])])),
+                            assign(n,add(n,1))
+                        ]
+                    )
+                )
+            ]
+        ].

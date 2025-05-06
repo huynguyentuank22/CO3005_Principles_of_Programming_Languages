@@ -1,0 +1,1 @@
+[[var(a,integer)],[func(foo,[],integer,[assign(a,3),assign(foo,1)])],[call(writeInt,[call(foo,[])]),call(writeInt,[a])]].

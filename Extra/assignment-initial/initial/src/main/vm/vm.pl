@@ -354,25 +354,28 @@ reduce(config(call(Name, Args), Env), config(R, NewEnv), Flag) :-
     length(Args, NArgs), length(Params, NParams),
     (   NArgs = NParams ->
         reduce_args(Args, Env, Vals, Flag),
-        create_func_env(Params, Vals, env([[id(Name, var, undef, Type)]], false, Env), FuncEnv),
-        (   Flag = true ->
-            reduce_stmt(config(Stmts, FuncEnv), config([], FinalEnv), Env, Flag),
-            has_declared(Name, FinalEnv, id(Name, _, R, _)),
-            (   R \= undef ->
-                (   valid_type(R, Type) ->
-                    true
-                ;   throw(type_mismatch(call(Name, Args)))
+        (   valid_param_types(Params, Vals) ->
+            create_func_env(Params, Vals, env([[id(Name, var, undef, Type)]], false, Env), FuncEnv),
+            (   Flag = true ->
+                reduce_stmt(config(Stmts, FuncEnv), config([], FinalEnv), Env, Flag),
+                has_declared(Name, FinalEnv, id(Name, _, R, _)),
+                (   R \= undef ->
+                    (   valid_type(R, Type) ->
+                        true
+                    ;   throw(type_mismatch(call(Name, Args)))
+                    )
+                ;   throw(invalid_expression(call(Name, Args)))
                 )
-            ;   throw(invalid_expression(call(Name, Args)))
+            ;   reduce_stmt(config(Stmts, FuncEnv), config([], _), Env, false),
+                (   Type = integer -> R = 0
+                ;   Type = float -> R = 0.0
+                ;   Type = boolean -> R = false
+                ;   Type = string -> R = ""
+                ;   R = undef
+                ),
+                NewEnv = Env
             )
-        ;   reduce_stmt(config(Stmts, FuncEnv), config([], _), Env, false), % Chỉ kiểm tra thân hàm
-            (   Type = integer -> R = 0
-            ;   Type = float -> R = 0.0
-            ;   Type = boolean -> R = false
-            ;   Type = string -> R = ""
-            ;   R = undef % Mặc định nếu kiểu không xác định
-            ),
-            NewEnv = Env
+        ;   throw(type_mismatch(call(Name, Args)))
         )
     ;   throw(wrong_number_of_argument(call(Name, Args)))
     ).
@@ -380,6 +383,11 @@ reduce(config(call(Name, Args), Env), config(R, NewEnv), Flag) :-
 % Lỗi: Hàm không được khai báo
 reduce(config(call(Name, Args), _), _, _) :-
     throw(undeclare_function(call(Name, Args))).
+
+valid_param_types([], []).
+valid_param_types([par(_, Type)|Params], [V|Vs]) :-
+    valid_type(V, Type),
+    valid_param_types(Params, Vs).
 
 % Giảm danh sách đối số
 reduce_args([], _, [], _).
@@ -628,7 +636,7 @@ reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv, Fla
 
 % Call (user-defined procedure)
 reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv, Flag) :-
-    lookup_proc(Name, Env, proc(Name, Params, Stmts)),
+    lookup_proc(Name, Env, proc(Name, Params, Stmts)), !,
     length(Args, NArgs), length(Params, NParams),
     (   NArgs = NParams ->
         reduce_args(Args, Env, Vals, Flag),

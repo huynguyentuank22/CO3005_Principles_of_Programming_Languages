@@ -1,0 +1,10 @@
+[
+            [],
+            [],
+            [
+                block([var(i, integer)], [
+                    assign(i, 0),
+                    do([call(writeInt, [i]), assign(i, add(1, i))], less(i, 10))
+                ])
+            ]
+        ].

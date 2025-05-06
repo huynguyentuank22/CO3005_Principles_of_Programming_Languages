@@ -1,0 +1,1 @@
+[[var(a,float),var(b,integer)],[],[assign(a,0.1),assign(b,1),call(writeBool,[greater(a,b)])]].

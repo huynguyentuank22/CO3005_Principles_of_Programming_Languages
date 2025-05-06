@@ -1,0 +1,12 @@
+[
+            [
+                var(i, integer)
+            ],
+            [
+            ],
+            [
+                assign(i, 0),
+                while(ne(i, 10), block([],[call(writeInt, [i]), assign(i, add(i, 1)), continue(null), assign(i, add(i, 100))])),
+                call(writeInt, [i])
+            ]
+        ].

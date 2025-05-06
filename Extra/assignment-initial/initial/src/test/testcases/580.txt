@@ -1,0 +1,11 @@
+[
+            [
+            ],
+            [
+                proc(f, [par(a, integer)], [call(writeInt, [a])]),
+                func(g, [par(a, integer)], integer, [assign(g, a)])
+            ],
+            [
+                call(writeInt, [call(g, [1])])
+            ]
+        ].

@@ -1,0 +1,1 @@
+[[var(a,integer),var(b,integer),var(c,integer)],[func(foo,[par(a,integer),par(b,integer)],integer,[]),proc(bar,[par(a,integer),par(b,integer)],[call(foo,[a,b])])],[call(writeInt,[3])]].

@@ -1,0 +1,21 @@
+
+        [
+            [],
+            [],
+            [
+                call(writeInt, [1]),
+                call(writeLn, []),
+                call(writeIntLn, [2]),
+                call(writeLn, []),
+                call(writeReal, [3.14]),
+                call(writeLn, []),
+                call(writeRealLn, [4.2025]),
+                call(writeLn, []),
+                call(writeBool, [true]),
+                call(writeLn, []),
+                % call(writeBoolLn, [false]),
+                call(writeLn, []),
+                call(writeStrLn, ["Ganyu iz tha bezt"]),
+                call(writeStr, ["HCMUT"])
+            ]
+        ].

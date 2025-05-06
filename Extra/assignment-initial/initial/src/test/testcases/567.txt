@@ -1,0 +1,13 @@
+[
+            [
+                var(i, integer)
+            ],
+            [
+                proc(doWhileBody, [], [call(writeInt, [i]), assign(i, add(i, 1))])
+            ],
+            [
+                assign(i, 0),
+                do([call(doWhileBody, [])], less(i, 10)),
+                do([call(doWhileBody, [])], less(i, 10))
+            ]
+        ].

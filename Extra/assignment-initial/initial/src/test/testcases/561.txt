@@ -1,0 +1,10 @@
+[
+            [],
+            [
+                proc(f, [], [call(writeStr, ["Hello "]), call(g, [])]),
+                proc(g, [], [call(writeStr, ["world!"])])
+            ],
+            [
+                call(f, [])
+            ]
+        ].

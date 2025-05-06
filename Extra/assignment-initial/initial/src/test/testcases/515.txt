@@ -1,0 +1,1 @@
+[[],[func(foo,[par(a,integer),par(b,boolean)],integer,[if(b,assign(foo,a),assign(foo,0))])],[call(writeInt,[call(foo,[2,false])])]].

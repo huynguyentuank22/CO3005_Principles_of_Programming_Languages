@@ -1,0 +1,1 @@
+[[var(a,integer)],[proc(foo,[],[call(writeRealLn,[1.25])])],[loop(3,call(foo,[]))]].

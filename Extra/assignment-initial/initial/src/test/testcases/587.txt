@@ -1,0 +1,27 @@
+
+        [
+        [],[
+            func(f,[par(a,integer)],integer,[
+                assign(f,add(a,1))
+            ]),
+            func(g,[par(a,float)],float,[
+                assign(g,add(a,1))
+            ]),
+            func(h,[par(a,string)],string,[
+                assign(h,a)
+            ]),
+            func(i,[par(a,boolean)],boolean,[
+                assign(i,a)
+            ])
+        
+        ],[
+            call(writeInt,[call(f,[1])]),
+            call(writeLn,[]),
+            call(writeReal,[call(g,[2.3])]),
+            call(writeLn,[]),
+            call(writeStr,[call(h,["Hello world!"])]),
+            call(writeLn,[]),
+            call(writeBool,[call(i,[true])]),
+            call(writeLn,[])
+        ]
+        ].
