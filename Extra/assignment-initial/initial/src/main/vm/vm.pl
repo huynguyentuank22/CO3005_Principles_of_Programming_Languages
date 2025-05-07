@@ -147,7 +147,9 @@ reduce(config(add(E1, E2), Env), config(R, Env), Flag) :-
                 R is float(V1 + V2)
             ;   R is V1 + V2
             )
-        ;   R = 0 % Chỉ kiểm tra kiểu
+        ;   (   integer(V1), integer(V2) -> R = 0
+            ;   R = 0.0
+            ) % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(add(E1, E2)))
     ).
@@ -177,7 +179,9 @@ reduce(config(sub(E1, E2), Env), config(R, Env), Flag) :-
                 R is float(V1 - V2)
             ;   R is V1 - V2
             )
-        ;   R = 0 % Chỉ kiểm tra kiểu
+        ;   (   integer(V1), integer(V2) -> R = 0
+            ;   R = 0.0
+            ) % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(sub(E1, E2)))
     ).
@@ -192,7 +196,9 @@ reduce(config(times(E1, E2), Env), config(R, Env), Flag) :-
                 R is float(V1 * V2)
             ;   R is V1 * V2
             )
-        ;   R = 0 % Chỉ kiểm tra kiểu
+        ;   (   integer(V1), integer(V2) -> R = 0
+            ;   R = 0.0
+            ) % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(times(E1, E2)))
     ).

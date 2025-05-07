@@ -1,1 +1,4 @@
-Type mismatch: assign(g,add(a,1))
+2
+3.3
+Hello world!
+true

@@ -1,1 +1,1 @@
-Type mismatch: call(writeReal,[add(a,add(b,c))])
+12.3Hello world!true7.3
