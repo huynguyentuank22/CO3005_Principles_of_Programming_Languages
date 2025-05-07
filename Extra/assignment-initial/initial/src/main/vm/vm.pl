@@ -1,5 +1,3 @@
-% main program
-
 % Kiểm tra giá trị boolean
 boolean(true).
 boolean(false).
@@ -524,13 +522,18 @@ reduce_all(config(E, Env), config(E2, Env), Flag) :-
     reduce_all(config(E1, Env), config(E2, Env), Flag).
 
 % Giảm câu lệnh
-reduce_stmt(config([], Env), config([], Env), _, _).
-reduce_stmt(config([Stmt|Stmts], Env), config([], NewEnv), GlobalEnv, Flag) :-
-    (   is_list(Stmt) ->
-        reduce_one_stmt(config(block(Stmt, []), Env), config(_, Env1), GlobalEnv, Flag)
-    ;   reduce_one_stmt(config(Stmt, Env), config(_, Env1), GlobalEnv, Flag)
-    ),
-    reduce_stmt(config(Stmts, Env1), config([], NewEnv), GlobalEnv, Flag).
+reduce_stmt(config([], Env), config([], Env), _, _) :- !.
+reduce_stmt(config([Stmt|Stmts], Env), config(FinalResult, NewEnv), GlobalEnv, Flag) :-
+    reduce_one_stmt(config(Stmt, Env), config(Result, Env1), GlobalEnv, Flag),
+    (   Result == break ->
+        FinalResult = break,
+        NewEnv = Env1
+    ;   Result == continue ->
+        reduce_stmt(config(Stmts, Env1), config(FinalResult, NewEnv), GlobalEnv, Flag)
+    ;   is_list(Result) ->
+        reduce_stmt(config(Result, Env1), config(FinalResult, NewEnv), GlobalEnv, Flag)
+    ;   reduce_stmt(config(Stmts, Env1), config(FinalResult, NewEnv), GlobalEnv, Flag)
+    ).
 
 % Định nghĩa predicate helper: kiểm tra redeclaration trong local scope
 is_local_declared(X, env([Scope|_], _, _)) :-
@@ -601,7 +604,7 @@ reduce_one_stmt(config(while(E, S), Env), config(_, NewEnv), GlobalEnv, Flag) :-
         set_loop_flag(Env, LoopEnv),
         (   Flag = true, V = true ->
             reduce_one_stmt(config(S, LoopEnv), config(Result, Env1), GlobalEnv, Flag),
-            (   Result = break -> NewEnv = Env1
+            (   Result == break -> NewEnv = Env1
             ;   Result = continue -> reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv, Flag)
             ;   reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv, Flag)
             )
@@ -615,7 +618,7 @@ reduce_one_stmt(config(do(Stmts, E), Env), config(_, NewEnv), GlobalEnv, Flag) :
     set_loop_flag(Env, LoopEnv),
     (   Flag = true ->
         reduce_stmt(config(Stmts, LoopEnv), config(Result, Env1), GlobalEnv, Flag),
-        (   Result = break ->
+        (   Result == break ->
             NewEnv = Env1
         ;   reduce_all(config(E, Env1), config(V, Env1), Flag),
             (   boolean(V) ->
