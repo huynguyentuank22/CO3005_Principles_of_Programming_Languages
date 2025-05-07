@@ -232,36 +232,49 @@ reduce(config(bnot(E), Env), config(R, Env), Flag) :-
     reduce_all(config(E, Env), config(V, Env), Flag),
     (   boolean(V) ->
         (   Flag = true ->
-            R is \V
+        (   V = true -> R = false ; R = true )
         ;   R = false % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(bnot(E)))
     ).
 
-% And
+% And (with short-circuit evaluation)
 reduce(config(band(E1, E2), Env), config(R, Env), Flag) :-
     reduce_all(config(E1, Env), config(V1, Env), Flag),
-    reduce_all(config(E2, Env), config(V2, Env), Flag),
-    (   boolean(V1), boolean(V2) ->
+    (   boolean(V1) ->
         (   Flag = true ->
-            (   V1 = true, V2 = true ->
-                R = true
-            ;   R = false
+            (   V1 = false ->
+                R = false % Short-circuit: E2 not evaluated
+            ;   reduce_all(config(E2, Env), config(V2, Env), Flag),
+                (   boolean(V2) ->
+                    (   V1 = true, V2 = true ->
+                        R = true
+                    ;   R = false
+                    )
+                ;   throw(type_mismatch(band(E1, E2)))
+                )
             )
         ;   R = false % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(band(E1, E2)))
     ).
 
-% Or
+
+% Or (with short-circuit evaluation)
 reduce(config(bor(E1, E2), Env), config(R, Env), Flag) :-
     reduce_all(config(E1, Env), config(V1, Env), Flag),
-    reduce_all(config(E2, Env), config(V2, Env), Flag),
-    (   boolean(V1), boolean(V2) ->
+    (   boolean(V1) ->
         (   Flag = true ->
-            (   V1 = true; V2 = true ->
-                R = true
-            ;   R = false
+            (   V1 = true ->
+                R = true % Short-circuit: E2 not evaluated
+            ;   reduce_all(config(E2, Env), config(V2, Env), Flag),
+                (   boolean(V2) ->
+                    (   V1 = true; V2 = true ->
+                        R = true
+                    ;   R = false
+                    )
+                ;   throw(type_mismatch(bor(E1, E2)))
+                )
             )
         ;   R = false % Chỉ kiểm tra kiểu
         )
@@ -317,16 +330,23 @@ reduce(config(le(E1, E2), Env), config(R, Env), Flag) :-
     ).
 
 % Equal
-reduce(config(eq(E1, E2), Env), config(R, Env), Flag) :-
+reduce(config(eql(E1, E2), Env), config(R, Env), Flag) :-
     reduce_all(config(E1, Env), config(V1, Env), Flag),
     reduce_all(config(E2, Env), config(V2, Env), Flag),
     (   (integer(V1); float(V1); boolean(V1); string(V1)),
         (integer(V2); float(V2); boolean(V2); string(V2)) ->
         (   Flag = true ->
-            (   V1 =:= V2 -> R = true ; R = false )
+            (   (boolean(V1), boolean(V2)) ->
+                (   V1 == V2 -> R = true ; R = false )
+            ;   (integer(V1); float(V1)), (integer(V2); float(V2)) ->
+                (   V1 =:= V2 -> R = true ; R = false )
+            ;   (string(V1), string(V2)) ->
+                (   V1 == V2 -> R = true ; R = false )
+            ;   throw(type_mismatch(eql(E1, E2)))
+            )
         ;   R = false % Chỉ kiểm tra kiểu
         )
-    ;   throw(type_mismatch(eq(E1, E2)))
+    ;   throw(type_mismatch(eql(E1, E2)))
     ).
 
 % Not equal
@@ -336,7 +356,14 @@ reduce(config(ne(E1, E2), Env), config(R, Env), Flag) :-
     (   (integer(V1); float(V1); boolean(V1); string(V1)),
         (integer(V2); float(V2); boolean(V2); string(V2)) ->
         (   Flag = true ->
-            (   V1 =\= V2 -> R = true ; R = false )
+            (   (boolean(V1), boolean(V2)) ->
+                (   V1 \= V2 -> R = true ; R = false )
+            ;   (integer(V1); float(V1)), (integer(V2); float(V2)) ->
+                (   V1 =\= V2 -> R = true ; R = false )
+            ;   (string(V1), string(V2)) ->
+                (   V1 \= V2 -> R = true ; R = false )
+            ;   throw(type_mismatch(ne(E1, E2)))
+            )
         ;   R = false % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(ne(E1, E2)))

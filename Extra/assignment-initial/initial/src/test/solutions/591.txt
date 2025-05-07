@@ -1,2 +1,2 @@
 falsetruefalsefalsefalsefalsetruefalsefalsefalsefalsefalsefalsetruetruetruetruetrue
-truefalsetruetruetruetrueType mismatch: call(writeBool,[eql(1,2)])
+truefalsetruetruetruetruefalsefalsetruefalsefalsetruetruetruefalsetruetruefalse
