@@ -204,10 +204,15 @@ reduce(config(rdiv(E1, E2), Env), config(R, Env), Flag) :-
     (   (integer(V1); float(V1)), (integer(V2); float(V2)) ->
         (   Flag = true ->
             (   V2 =\= 0 ->
-                R is float(V1 / V2)
+                (   integer(V1), integer(V2) ->
+                    R is V1 // V2 % Integer division for integer operands
+                ;   R is float(V1 / V2) % Float division if any operand is float
+                )
             ;   throw(division_by_zero(rdiv(E1, E2)))
             )
-        ;   R = 0 % Chỉ kiểm tra kiểu
+        ;   (   integer(V1), integer(V2) -> R = 0
+            ;   R = 0.0
+            ) % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(rdiv(E1, E2)))
     ).
