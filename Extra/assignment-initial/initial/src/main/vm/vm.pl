@@ -422,6 +422,13 @@ valid_builtin_args(Name, Args, Env, func, R, Flag) :-
     ;   throw(type_mismatch(call(Name, Args)))
     ).
 valid_builtin_args(Name, Args, Env, proc, _, Flag) :-
+    length(Args, 0),
+    valid_builtin_type(Name, _),  % No value to check for writeLn
+    (   Flag = true ->
+        p_call_builtin(Name, Args)
+    ;   true % Only type checking
+    ), !.
+valid_builtin_args(Name, Args, Env, proc, _, Flag) :-
     length(Args, 1),
     [Arg] = Args,
     reduce_all(config(Arg, Env), config(V, _), Flag),
@@ -605,6 +612,13 @@ reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv, Fla
     ), !.
 
 % Call (built-in procedure)
+reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv, Flag) :-
+    is_builtin(Name, proc),
+    length(Args, 0),  % For procedures with no arguments
+    (   valid_builtin_args(Name, Args, Env, proc, _, Flag) ->
+        NewEnv = Env
+    ;   throw(type_mismatch(call(Name, Args)))
+    ), !.
 reduce_one_stmt(config(call(Name, Args), Env), config(_, NewEnv), GlobalEnv, Flag) :-
     is_builtin(Name, proc),
     length(Args, 1),

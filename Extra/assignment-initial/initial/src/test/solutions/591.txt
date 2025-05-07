@@ -1,1 +1,2 @@
-falsetruefalsefalsefalsefalsetruefalsefalsefalsefalsefalsefalsetruetruetruetruetrueUndeclared procedure: call(writeLn,[])
+falsetruefalsefalsefalsefalsetruefalsefalsefalsefalsefalsefalsetruetruetruetruetrue
+truefalsetruetruetruetrueType mismatch: call(writeBool,[eql(1,2)])

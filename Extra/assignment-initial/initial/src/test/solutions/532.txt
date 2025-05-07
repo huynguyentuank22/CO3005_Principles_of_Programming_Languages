@@ -1,1 +1,2 @@
-HelloUndeclared procedure: call(writeLn,[])
+Hello
+World
