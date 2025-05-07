@@ -152,6 +152,21 @@ reduce(config(add(E1, E2), Env), config(R, Env), Flag) :-
     ;   throw(type_mismatch(add(E1, E2)))
     ).
 
+% Unary subtraction (–E1)
+reduce(config(sub(E1), Env), config(R, Env), Flag) :-
+    reduce_all(config(E1, Env), config(V1, Env), Flag),
+    (   (integer(V1); float(V1)) ->
+        (   Flag = true ->
+            (   integer(V1) ->
+                R is -V1
+            ;   R is float(-V1)
+            )
+        ;   (   integer(V1) -> R = 0
+            ;   R = 0.0
+            ) % Chỉ kiểm tra kiểu
+        )
+    ;   throw(type_mismatch(sub(E1)))
+    ).
 % Trừ
 reduce(config(sub(E1, E2), Env), config(R, Env), Flag) :-
     reduce_all(config(E1, Env), config(V1, Env), Flag),

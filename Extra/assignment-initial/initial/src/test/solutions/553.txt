@@ -1,1 +1,1 @@
-Type mismatch: call(writeReal,[sub(false)])
+Type mismatch: sub(false)
