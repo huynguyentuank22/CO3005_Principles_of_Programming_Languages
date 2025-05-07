@@ -623,16 +623,6 @@ reduce_one_stmt(config(do(Stmts, E), Env), config(_, NewEnv), GlobalEnv, Flag) :
         reduce_stmt(config(Stmts, LoopEnv), config(Result, Env1), GlobalEnv, Flag),
         (   Result == break_stmt ->
             NewEnv = Env1
-        ;   Result == continue_stmt ->
-            reduce_all(config(E, Env1), config(V, Env1), Flag),
-            (   boolean(V) ->
-                (   V = true ->
-                    !,
-                    reduce_one_stmt(config(do(Stmts, E), Env1), config(_, NewEnv), GlobalEnv, Flag)
-                ;   NewEnv = Env1
-                )
-            ;   throw(type_mismatch(do(Stmts, E)))
-            )
         ;   reduce_all(config(E, Env1), config(V, Env1), Flag),
             (   boolean(V) ->
                 (   V = true ->
