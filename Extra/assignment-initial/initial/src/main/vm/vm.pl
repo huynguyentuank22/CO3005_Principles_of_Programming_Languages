@@ -525,11 +525,12 @@ reduce_all(config(E, Env), config(E2, Env), Flag) :-
 reduce_stmt(config([], Env), config([], Env), _, _) :- !.
 reduce_stmt(config([Stmt|Stmts], Env), config(FinalResult, NewEnv), GlobalEnv, Flag) :-
     reduce_one_stmt(config(Stmt, Env), config(Result, Env1), GlobalEnv, Flag),
-    (   Result == break ->
-        FinalResult = break,
+    (   Result == break_stmt ->
+        FinalResult = break_stmt,
         NewEnv = Env1
-    ;   Result == continue ->
-        reduce_stmt(config(Stmts, Env1), config(FinalResult, NewEnv), GlobalEnv, Flag)
+    ;   Result == continue_stmt ->
+        FinalResult = continue_stmt, % Propagate continue upward
+        NewEnv = Env1
     ;   is_list(Result) ->
         reduce_stmt(config(Result, Env1), config(FinalResult, NewEnv), GlobalEnv, Flag)
     ;   reduce_stmt(config(Stmts, Env1), config(FinalResult, NewEnv), GlobalEnv, Flag)
@@ -604,8 +605,10 @@ reduce_one_stmt(config(while(E, S), Env), config(_, NewEnv), GlobalEnv, Flag) :-
         set_loop_flag(Env, LoopEnv),
         (   Flag = true, V = true ->
             reduce_one_stmt(config(S, LoopEnv), config(Result, Env1), GlobalEnv, Flag),
-            (   Result == break -> NewEnv = Env1
-            ;   Result = continue -> reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv, Flag)
+            (   Result == break_stmt ->
+                NewEnv = Env1
+            ;   Result == continue_stmt ->
+                reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv, Flag)
             ;   reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv, Flag)
             )
         ;   reduce_one_stmt(config(S, LoopEnv), config(_, NewEnv), GlobalEnv, false) % Chỉ kiểm tra S
@@ -618,12 +621,22 @@ reduce_one_stmt(config(do(Stmts, E), Env), config(_, NewEnv), GlobalEnv, Flag) :
     set_loop_flag(Env, LoopEnv),
     (   Flag = true ->
         reduce_stmt(config(Stmts, LoopEnv), config(Result, Env1), GlobalEnv, Flag),
-        (   Result == break ->
+        (   Result == break_stmt ->
             NewEnv = Env1
+        ;   Result == continue_stmt ->
+            reduce_all(config(E, Env1), config(V, Env1), Flag),
+            (   boolean(V) ->
+                (   V = true ->
+                    !,
+                    reduce_one_stmt(config(do(Stmts, E), Env1), config(_, NewEnv), GlobalEnv, Flag)
+                ;   NewEnv = Env1
+                )
+            ;   throw(type_mismatch(do(Stmts, E)))
+            )
         ;   reduce_all(config(E, Env1), config(V, Env1), Flag),
             (   boolean(V) ->
                 (   V = true ->
-                	!,
+                    !,
                     reduce_one_stmt(config(do(Stmts, E), Env1), config(_, NewEnv), GlobalEnv, Flag)
                 ;   NewEnv = Env1
                 )
@@ -652,13 +665,12 @@ reduce_one_stmt(config(loop(E, S), Env), config(_, NewEnv), GlobalEnv, Flag) :-
     ).
 
 % Break
-reduce_one_stmt(config(break(null), Env), config(break, Env), _, _) :-
+reduce_one_stmt(config(break(null), Env), config(break_stmt, Env), _, _) :-
     Env = env(_, true, _), !.
 reduce_one_stmt(config(break(null), _), _, _, _) :-
     throw(break_not_in_loop(break(null))).
 
-% Continue
-reduce_one_stmt(config(continue(null), Env), config(continue, Env), _, _) :-
+reduce_one_stmt(config(continue(null), Env), config(continue_stmt, Env), _, _) :-
     Env = env(_, true, _), !.
 reduce_one_stmt(config(continue(null), _), _, _, _) :-
     throw(continue_not_in_loop(continue(null))).
@@ -731,8 +743,9 @@ execute_loop(0, _, Env, Env, _) :- !.
 execute_loop(N, S, Env, NewEnv, GlobalEnv) :-
     N > 0,
     reduce_one_stmt(config(S, Env), config(Result, Env1), GlobalEnv, true),
-    (   Result = break -> NewEnv = Env1
-    ;   Result = continue ->
+    (   Result == break_stmt ->
+        NewEnv = Env1
+    ;   Result == continue_stmt ->
         N1 is N - 1,
         execute_loop(N1, S, Env1, NewEnv, GlobalEnv)
     ;   N1 is N - 1,
