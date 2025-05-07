@@ -16,7 +16,7 @@ check_proc_bodies([], Env, Env).
 check_proc_bodies([func(Name, Params, Type, Stmts)|Rest], GlobalEnv, FinalEnv) :-
     check_params(Params),
     create_dummy_args(Params, DummyArgs),
-    create_func_env(Params, DummyArgs, env([[id(Name, var, undef, Type)]], false, []), FuncEnv),
+    create_func_env(Params, DummyArgs, func(Name, Params, Type, Stmts), env([[]], false, []), FuncEnv),
     reduce_stmt(config(Stmts, FuncEnv), config([], _), GlobalEnv, false),
     check_proc_bodies(Rest, GlobalEnv, FinalEnv).
 check_proc_bodies([proc(Name, Params, Stmts)|Rest], GlobalEnv, FinalEnv) :-
@@ -408,7 +408,8 @@ reduce(config(call(Name, Args), Env), config(R, NewEnv), Flag) :-
     (   NArgs = NParams ->
         reduce_args(Args, Env, Vals, Flag),
         (   valid_param_types(Params, Vals) ->
-            create_func_env(Params, Vals, env([[id(Name, var, undef, Type)]], false, Env), FuncEnv),
+            % Pass the function definition to create_func_env
+            create_func_env(Params, Vals, func(Name, Params, Type, Stmts), Env, FuncEnv),
             (   Flag = true ->
                 reduce_stmt(config(Stmts, FuncEnv), config([], FinalEnv), Env, Flag),
                 has_declared(Name, FinalEnv, id(Name, _, R, _)),
@@ -452,6 +453,10 @@ reduce_args([E|Es], Env, [V|Vs], Flag) :-
 create_func_env([], [], Env, Env).
 create_func_env([par(X, Type)|Ps], [V|Vs], env([L|L2], T, Procs), EnvOut) :-
     create_func_env(Ps, Vs, env([[id(X, var, V, Type)|L]|L2], T, Procs), EnvOut).
+
+% Modified create_func_env for function calls to include the function itself in Procs
+create_func_env(Params, Vals, func(Name, Params, Type, Stmts), env([L|L2], T, Procs), EnvOut) :-
+    create_func_env(Params, Vals, env([[id(Name, var, undef, Type)|L]|L2], T, [func(Name, Params, Type, Stmts)|Procs]), EnvOut).
 
 % Tìm hàm
 lookup_func(Name, env(_, _, Procs), func(Name, Params, Type, Stmts)) :-
