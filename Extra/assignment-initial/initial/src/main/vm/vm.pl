@@ -274,7 +274,7 @@ reduce(config(greater(E1, E2), Env), config(R, Env), Flag) :-
     reduce_all(config(E2, Env), config(V2, Env), Flag),
     (   (integer(V1); float(V1)), (integer(V2); float(V2)) ->
         (   Flag = true ->
-            R = (V1 > V2)
+            (   V1 > V2 -> R = true ; R = false )
         ;   R = false % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(greater(E1, E2)))
@@ -286,7 +286,7 @@ reduce(config(less(E1, E2), Env), config(R, Env), Flag) :-
     reduce_all(config(E2, Env), config(V2, Env), Flag),
     (   (integer(V1); float(V1)), (integer(V2); float(V2)) ->
         (   Flag = true ->
-            R = (V1 < V2)
+            (   V1 < V2 -> R = true ; R = false )
         ;   R = false % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(less(E1, E2)))
@@ -298,7 +298,7 @@ reduce(config(ge(E1, E2), Env), config(R, Env), Flag) :-
     reduce_all(config(E2, Env), config(V2, Env), Flag),
     (   (integer(V1); float(V1)), (integer(V2); float(V2)) ->
         (   Flag = true ->
-            R = (V1 >= V2)
+            (   V1 >= V2 -> R = true ; R = false )
         ;   R = false % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(ge(E1, E2)))
@@ -310,7 +310,7 @@ reduce(config(le(E1, E2), Env), config(R, Env), Flag) :-
     reduce_all(config(E2, Env), config(V2, Env), Flag),
     (   (integer(V1); float(V1)), (integer(V2); float(V2)) ->
         (   Flag = true ->
-            R = (V1 =< V2)
+            (   V1 =< V2 -> R = true ; R = false )
         ;   R = false % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(le(E1, E2)))
@@ -323,7 +323,7 @@ reduce(config(eq(E1, E2), Env), config(R, Env), Flag) :-
     (   (integer(V1); float(V1); boolean(V1); string(V1)),
         (integer(V2); float(V2); boolean(V2); string(V2)) ->
         (   Flag = true ->
-            R = (V1 =:= V2)
+            (   V1 =:= V2 -> R = true ; R = false )
         ;   R = false % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(eq(E1, E2)))
@@ -336,7 +336,7 @@ reduce(config(ne(E1, E2), Env), config(R, Env), Flag) :-
     (   (integer(V1); float(V1); boolean(V1); string(V1)),
         (integer(V2); float(V2); boolean(V2); string(V2)) ->
         (   Flag = true ->
-            R = (V1 =\= V2)
+            (   V1 =\= V2 -> R = true ; R = false )
         ;   R = false % Chỉ kiểm tra kiểu
         )
     ;   throw(type_mismatch(ne(E1, E2)))
@@ -555,6 +555,7 @@ reduce_one_stmt(config(do(Stmts, E), Env), config(_, NewEnv), GlobalEnv, Flag) :
         ;   reduce_all(config(E, Env1), config(V, Env1), Flag),
             (   boolean(V) ->
                 (   V = true ->
+                	!,
                     reduce_one_stmt(config(do(Stmts, E), Env1), config(_, NewEnv), GlobalEnv, Flag)
                 ;   NewEnv = Env1
                 )

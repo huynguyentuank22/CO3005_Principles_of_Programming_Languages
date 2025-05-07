@@ -1,1 +1,1 @@
-Type mismatch: call(writeBool,[ne(a,b)])
+false

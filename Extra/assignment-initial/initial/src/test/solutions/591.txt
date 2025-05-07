@@ -1,1 +1,1 @@
-Type mismatch: call(writeBool,[greater(1,2)])
+falsetruefalsefalsefalsefalsetruefalsefalsefalsefalsefalsefalsetruetruetruetruetrueUndeclared procedure: call(writeLn,[])

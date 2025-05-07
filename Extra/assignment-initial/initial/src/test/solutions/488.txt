@@ -1,1 +1,1 @@
-Type mismatch: call(writeBool,[greater(a,b)])
+false

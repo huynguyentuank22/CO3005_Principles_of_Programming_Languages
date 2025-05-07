@@ -1,0 +1,20 @@
+[[],[],[
+            block([var(i, integer)], [
+                assign(i, 0),
+                loop(add(i, 10), call(writeInt, [i])),
+                assign(i, 0),
+                while(ne(i, 10), block([], [call(writeInt, [i]), assign(i, add(i, 1))])),
+                assign(i, 0),
+                do([call(writeInt, [i]), assign(i, add(i, 1)), break(null), call(writeInt, [1000])], less(i, 10)),
+                assign(i, 0),
+                loop(add(i, 10), block([], [call(writeInt, [i]), break(null), call(writeInt, [1000])])),
+                assign(i, 0),
+                while(ne(i, 10), block([], [call(writeInt, [i]), assign(i, add(i, 1)), break(null), call(writeInt, [1000])])),
+                assign(i, 0),
+                do([call(writeInt, [i]), assign(i, add(i, 1)), continue(null), call(writeInt, [1000])], less(i, 10)),
+                assign(i, 0),
+                loop(add(i, 10), block([], [call(writeInt, [i]), continue(null), call(writeInt, [1000])])),
+                assign(i, 0),
+                while(ne(i, 10), block([], [call(writeInt, [i]), assign(i, add(i, 1)), continue(null), call(writeInt, [1000])]))
+            ])
+        ]].
