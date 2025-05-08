@@ -617,6 +617,8 @@ reduce_one_stmt(config(while(E, S), Env), config(_, NewEnv), GlobalEnv, Flag) :-
                 reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv, Flag)
             ;   reduce_one_stmt(config(while(E, S), Env1), config(_, NewEnv), GlobalEnv, Flag)
             )
+        ;   Flag = true, V = false ->
+        NewEnv = Env % Return current environment when condition is false
         ;   reduce_one_stmt(config(S, LoopEnv), config(_, NewEnv), GlobalEnv, false) % Chỉ kiểm tra S
         )
     ;   throw(type_mismatch(while(E, S)))
