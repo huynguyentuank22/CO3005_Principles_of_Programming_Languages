@@ -567,11 +567,17 @@ reduce_one_stmt(config(assign(I, E), Env), config(_, NewEnv), GlobalEnv, Flag) :
     ).
 
 % Block
-reduce_one_stmt(config(block(Vars, Stmts), Env), config(_, NewEnv), GlobalEnv, Flag) :-
+reduce_one_stmt(config(block(Vars, Stmts), Env), config(Result, NewEnv), GlobalEnv, Flag) :-
     check_redeclarations(Vars),
-    create_env(Vars, env([[]|Env], false, Env), LocalEnv),
-    reduce_stmt(config(Stmts, LocalEnv), config([], _), GlobalEnv, Flag),
-    NewEnv = Env.
+    Env = env(Scopes, LoopFlag, Procs),
+    create_env(Vars, env([[] | Scopes], LoopFlag, Procs), LocalEnv),
+    reduce_stmt(config(Stmts, LocalEnv), config(Result, TempEnv), GlobalEnv, Flag),
+    (   Result == break_stmt ->
+        NewEnv = TempEnv
+    ;   Result == continue_stmt ->
+        NewEnv = TempEnv
+    ;   NewEnv = TempEnv
+    ).
 
 % If (without else)
 reduce_one_stmt(config(if(E, S1), Env), config(_, NewEnv), GlobalEnv, Flag) :-

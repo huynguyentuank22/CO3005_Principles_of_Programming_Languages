@@ -1,12 +1,1 @@
-[
-            [
-                var(i, integer)
-            ],
-            [
-            ],
-            [
-                assign(i, 0),
-                loop(add(i, 10), block([],[call(writeInt, [i]), assign(i, add(i, 1)), break(null), assign(i, add(i, 100))])),
-                call(writeInt, [i])
-            ]
-        ].
+[[var(a,integer)],[],[assign(a,0),while(less(a,10),block([],[assign(a,add(a,1))])),call(writeInt,[a])]].
