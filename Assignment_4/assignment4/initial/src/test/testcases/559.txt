@@ -1,0 +1,24 @@
+
+        type A struct{
+            x int;
+            b B
+        }
+        type B struct {
+            y int
+        }
+        const MAX = 2
+        func main(){
+            var arr[MAX] A;
+            arr := [MAX] A{A{x: 1, b: B{y: 2}}, A{x: 3, b: B{y: 4}}}
+            for i:=0; i<MAX; i+=1{
+                arr[i].foo()
+            }
+        }
+        func (a A) foo(){
+            putIntLn(a.x)
+            a.b.foo()
+        }
+        func (b B) foo(){
+            putIntLn(b.y)
+        }
+        

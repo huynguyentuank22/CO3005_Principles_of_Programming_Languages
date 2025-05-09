@@ -1,0 +1,32 @@
+
+        func test(x string, a A, b B) {
+            x := "Hello"
+            a.setS("World")
+            b.setS("!")
+        }
+        type A struct {
+            s string
+        }
+        type B interface {
+            setS(s string)
+            getS() string
+        }
+        func (a A) setS(s string) {
+            a.s := s
+        }
+        func (a A) getS() string {
+            return a.s
+        }
+        func main() {
+            var a A = A{}
+            var b B = a
+            var c string;
+            putStringLn(c)
+            putStringLn(a.getS())
+            putStringLn(b.getS())
+            test(c, a, b)
+            putStringLn(c)
+            putStringLn(a.getS())
+            putStringLn(b.getS())
+        }
+        

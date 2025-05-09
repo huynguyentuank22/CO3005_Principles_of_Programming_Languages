@@ -1,0 +1,38 @@
+
+        type A struct {
+            x int
+            y float
+        
+        }
+        func (a A) main(s string) {
+            putStringLn(s)
+            putIntLn(a.x)
+            putFloatLn(a.y)
+        }
+        func main() {
+            const a = [3]int{1,2,3}
+            const b = [2]float{1.5, 4.5}
+            const c = [2]string{"hh", "ll"}
+            const d = [2]A{A{}, A{}}
+            const e = [2][2]int{{1,2}, {3,4}}
+            const f = "aaa"
+            const g = f + "hhh"
+            const a1 = 1
+            const b1 = 2 + a1 * 7
+            const c1 = 3 * b1
+            const d1 = 4 * c1 // 27 * 4
+            const e1 = 5.0 * c1 // 27 * 5
+            putInt(a[0])
+            putFloat(b[1])
+            putStringLn(c[0])
+            d[1].main("honors")
+            putInt(e[0][0])
+            putStringLn(f)
+            putStringLn(g)
+            putIntLn(a1)
+            putIntLn(b1)
+            putIntLn(c1)
+            putIntLn(d1)
+            putFloatLn(e1)
+        }
+        

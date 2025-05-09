@@ -1,0 +1,7 @@
+
+        var a = "Hello";
+        var b = "World";
+        func main() {
+            putStringLn(a + b);
+        };
+        

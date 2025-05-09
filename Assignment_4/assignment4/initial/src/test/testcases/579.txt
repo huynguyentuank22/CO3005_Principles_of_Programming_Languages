@@ -1,0 +1,18 @@
+
+        type Library struct {
+            name string
+            books [3]string
+        }
+        func (lib Library) printBooks() {
+            for i := 0; i < 3; i += 1 {
+                if (lib.books[i] != "") {
+                    putStringLn("- " + lib.books[i])
+                }
+            }
+        }
+        func main() {
+            myLib := Library{name: "Central Library", books: [3]string{"Go Programming", "Python Basics", ""}}
+            myLib.printBooks()
+
+        }
+        

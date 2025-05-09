@@ -1,0 +1,17 @@
+
+        var k = 5
+        func main(){
+            putInt(A{x: 1, y: 2.0}.foo())
+            putFloat(A{x: 3, y: 4.0}.bar())
+        }
+        type A struct{
+            x int;
+            y float;
+        }
+        func (a A) foo() int {
+            return a.x + k;
+        }
+        func (b A) bar() float {
+            return b.y + k;
+        }
+        

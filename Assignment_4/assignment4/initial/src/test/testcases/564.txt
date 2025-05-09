@@ -1,0 +1,9 @@
+
+        const M = 0b10
+        const N = 0o02
+        const P = 0x02
+        func main(){
+            a := [M][N][P]int{{{1,2},{3,4}},{{5,6},{7,8}}}
+            putInt(a[0o00][0b00][0x00])
+        }
+        

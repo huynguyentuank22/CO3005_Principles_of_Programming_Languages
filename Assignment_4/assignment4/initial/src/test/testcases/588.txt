@@ -1,0 +1,29 @@
+
+        type A struct{
+            _s [5]string
+        }
+        func (a A) setS(s [5]string ) {
+            a._s := s
+        }
+        func (a A) getS() [5]string {
+            return a._s
+        }
+        func (a A) printS() {
+            for i := 0; i < 5; i += 1 {
+                putStringLn(a._s[i])
+            }
+        }
+        type B interface {
+            setS(s [5]string )
+            getS() [5]string
+        }
+        func main(){
+            var a A 
+            var b B = a
+            var c [5]string = [5]string{"Hello", "World", "!", "This", "is"}
+            b.setS(c)
+            putStringLn(b.getS()[0])
+            putStringLn(b.getS()[1])
+            putStringLn(b.getS()[2])
+        }
+        

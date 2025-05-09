@@ -1,0 +1,13 @@
+
+        var a = "Hello"
+        var b = "World"
+        func main(){
+            putStringLn(a)
+            putStringLn(b)
+            a += " " 
+            a += b 
+            putStringLn(a)
+            b := a
+            putStringLn(b)
+        }
+        

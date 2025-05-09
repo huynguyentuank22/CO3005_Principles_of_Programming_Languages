@@ -1,0 +1,22 @@
+
+        var counter = 0
+
+        func main() {
+            // This should call incrementAndGet only once
+            if (false && incrementAndGet() > 0 && incrementAndGet() > 0) {
+                putStringLn("This won't print")
+            }
+            putIntLn(counter) // expect 0
+            
+            counter := 0
+            // This should call incrementAndGet only once
+            if (true || incrementAndGet() > 0 || incrementAndGet() > 0) {
+                putIntLn(counter) // 0
+            }
+        }
+
+        func incrementAndGet() int {
+            counter += 1
+            return counter
+        }
+        

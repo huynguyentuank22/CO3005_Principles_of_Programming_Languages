@@ -1,0 +1,31 @@
+
+        var a = "Hello"
+        var b B = B{a: 5, b: 10.0}
+        var c C = b
+        func main(){
+            testPassByRef(a, b, c)
+            putStringLn(a)
+            putIntLn(b.getA())
+            putIntLn(c.getA())
+        }
+        func testPassByRef(s string, m B, n C) {
+            s := "hello"
+            m.foo()
+        }
+        
+        func (a B) foo() {
+            a.a := 10
+            a.b := 20.0
+        }
+        type B struct {
+            a int;
+            b float;
+        }
+        func (a B) getA() int {
+            return a.a
+        }
+        type C interface {
+            foo();
+            getA() int;
+        }
+        

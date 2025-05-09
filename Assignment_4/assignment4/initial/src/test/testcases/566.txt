@@ -1,0 +1,11 @@
+
+        const MAX = 3
+        func main(){
+            var a[MAX][MAX]float;
+            a := [MAX][MAX]float{{4,4.0,4},{4,4.0,4},{4,4.0,4}}
+            putFloatLn(a[0][0])
+        }
+        func arrint(val int) [MAX]int{
+            return [MAX]int{val, val, val}
+        }
+        

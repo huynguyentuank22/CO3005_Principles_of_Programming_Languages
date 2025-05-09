@@ -1,0 +1,17 @@
+
+        func foo(a int, b float, c boolean) {
+            var a float;
+            var b int;
+            var c string;
+            a := 5.0;
+            b := 10;
+            c := "Hello";
+            putFloatLn(a);
+            putIntLn(b);
+            putStringLn(c);
+        }
+        func main(){
+            foo(5, 10.0, true);
+        }
+        
+        

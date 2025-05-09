@@ -1,0 +1,17 @@
+
+        func main(){
+          
+            putInt(5);
+            putIntLn(5);
+            putFloat(5.0);
+            
+            putFloatLn(5.0);
+            
+            putBool(true);
+            putBoolLn(false);
+            
+            putString("Hello");
+            putStringLn("World");
+            putLn();
+        };
+        

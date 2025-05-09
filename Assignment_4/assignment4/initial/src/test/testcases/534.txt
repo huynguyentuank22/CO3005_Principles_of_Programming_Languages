@@ -1,0 +1,23 @@
+
+            var arr [4]A;
+            var arr1 = [4]A{A{x: 1, y: 2.0}, A{x: 3, y: 4.0}, A{x: 5, y: 6.0}, A{x: 7, y: 8.0}}
+            type A struct {
+                x int;
+                y float;
+            }
+            func (a A) foo() int {
+                return a.x + 1;
+            }
+            func main(){
+                arr := [4]A{A{x: 1, y: 2.0}, A{x: 3, y: 4.0}, A{x: 5, y: 6.0}, A{x: 7, y: 8.0}}
+                putIntLn(arr[0].foo())
+                putIntLn(arr[1].foo())
+                putIntLn(arr[2].foo())
+                putIntLn(arr[3].foo())
+                
+                putIntLn(arr1[0].foo())
+                putIntLn(arr1[1].foo())
+                putIntLn(arr1[2].foo())
+                putIntLn(arr1[3].foo())
+            }
+            

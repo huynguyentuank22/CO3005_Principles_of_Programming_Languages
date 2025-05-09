@@ -1,0 +1,44 @@
+
+        type A struct{
+            x int;
+            y float;
+            z boolean;
+            s string;
+            arr [5]int
+            b A
+        }
+        func (z A) foo(){
+            putInt(z.x)
+            putFloat(z.y)
+            putString(z.s)
+            putBool(z.z)
+        }
+        func (y A) initarr(val int){
+            y.arr := [5]int{val, val, val, val, val}
+        }
+        func (a A) printArr(){
+            for i:=0; i<5; i+=1{
+                putInt(a.arr[i])
+            }
+        }
+        func (a A) testB(){
+            a.b.foo()
+            a.b.initarr(6)
+            a.b.printArr()
+        }
+        func (k A) initB(){
+            k.b := initA(1, true, "kakaka")
+        }
+        func initA(x int, z boolean, s string) A {
+            return A{x: x, z: z, s: s}
+        }
+        func main(){
+            var a A
+            a := initA(1, true, "Hello")
+            a.foo()
+            a.initarr(5)
+            a.printArr()
+            a.initB()
+            a.testB()
+        }
+        

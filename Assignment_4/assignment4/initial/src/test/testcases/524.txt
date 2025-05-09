@@ -1,0 +1,10 @@
+
+        func main(){
+            a := 5;
+            foo();
+        }
+        var a string = "Hello";
+        func foo(){
+            putStringLn(a);
+        }
+        

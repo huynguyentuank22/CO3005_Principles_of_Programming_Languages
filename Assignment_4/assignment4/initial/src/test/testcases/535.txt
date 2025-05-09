@@ -1,0 +1,22 @@
+
+        var a[5]int = [5]int{1,2,3,4,5}
+        var b[3]A = [3]A{A{x: 1, y: 2.0}, A{x: 3, y: 4.0}, A{x: 5, y: 6.0}}
+        func main(){
+            putInt(a[0])
+            putInt(a[1])
+            putInt(a[2])
+            putInt(a[3])
+            putInt(a[4])
+            
+            putIntLn(b[0].foo())
+            putIntLn(b[1].foo())
+            putIntLn(b[2].foo())
+        }
+        type A struct {
+            x int;
+            y float;
+        }
+        func (x A) foo() int {
+            return x.x + 1;
+        }
+        

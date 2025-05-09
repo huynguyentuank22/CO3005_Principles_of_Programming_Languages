@@ -1,0 +1,19 @@
+
+        type A struct {
+            a int;
+            b float;
+        }
+        func (a A) foo() int {
+           return 1;
+        }
+        type B interface{
+            foo() int;
+        }
+        type C interface{
+            foo() int;
+        }
+        func main() {
+            putInt(5);
+            putFloat(10.0);
+        }
+        

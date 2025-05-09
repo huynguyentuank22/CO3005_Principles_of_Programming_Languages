@@ -1,0 +1,8 @@
+
+        func main(){
+            a := true && false || true;
+            putBoolLn(a);
+            b := false || true && false;
+            putBoolLn(b);
+        }
+        

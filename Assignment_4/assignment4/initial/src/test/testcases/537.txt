@@ -1,0 +1,48 @@
+
+        type Person struct{
+            name string;
+            age int;
+            cars [2]Car;
+        }
+        func (q  Person) print(){
+            putStringLn(q.name)
+            putIntLn(q.age)
+            q.cars[0].print()
+        }
+        func (p Person) changed(){
+            p.name := "Peter"
+            p.age := 81
+            p.cars[0].changed()
+        }
+        type Car struct{
+            name string;
+            year int;
+        }
+        func (a Car) print(){
+            putStringLn(a.name)
+            putIntLn(a.year)
+        }
+        func (c Car) changed(){
+            c.name := "Honda"
+            c.year := 2019
+        }
+        type AI interface{
+            getCar() Car;
+        }
+        func (p Person) getCar() Car {
+            return p.cars[0];
+        }
+        func main(){
+            var p Person;
+            p := Person{name: "John", age: 30, cars: [2]Car{Car{name: "Toyota", year: 2020}, Car{name: "Honda", year: 2021}}}
+            p.print()
+            p.changed()
+            p.print()
+            var bot AI = p
+            var car Car = bot.getCar()
+            car.print()
+            car.changed()
+            car.print()
+            bot.getCar().print()
+        }
+        

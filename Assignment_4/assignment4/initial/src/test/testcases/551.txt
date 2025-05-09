@@ -1,0 +1,27 @@
+
+        var a = "Hello"
+        var c = "xin chao"
+        var d = "Bonjour"
+        var e = "Hallo"
+        var f = "Ciao"
+        var g = "Konnichiwa"
+        var h = "Annyeonghaseyo"
+        func main(){
+            if (a >= c) {
+                if (a < d){
+                    putStringLn(a)
+                } else {
+                    putStringLn(c)
+                }
+            } else if (a < d) {
+                putStringLn(d)
+            } else {
+                putStringLn(e)
+            }
+            if (a == "Hello") {
+                putStringLn(f)
+            } else {
+                putStringLn(g)
+            }
+        }
+        

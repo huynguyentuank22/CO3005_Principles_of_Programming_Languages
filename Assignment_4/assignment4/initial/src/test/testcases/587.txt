@@ -1,0 +1,14 @@
+
+        const a = 1
+        const b = 2 + a * 7
+        const c = 3 * b
+        const d = 4 * c // 27 * 4
+        const e = 5.0 * c // 27 * 5
+        func main(){
+            putIntLn(a)
+            putIntLn(b)
+            putIntLn(c)
+            putIntLn(d)
+            putFloatLn(e)
+        }
+        

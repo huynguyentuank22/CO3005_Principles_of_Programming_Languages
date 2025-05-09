@@ -1,0 +1,18 @@
+
+        func main(){
+            a := 5;
+            b := 10;
+            c := a + b;
+            putIntLn(c);
+            foo();
+            bar();
+        }
+        var a int = 1;
+        func foo(){
+            putIntLn(a);
+        }
+        var b int = 2;
+        func bar(){
+            putIntLn(b);
+        }
+        

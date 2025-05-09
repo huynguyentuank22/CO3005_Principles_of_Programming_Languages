@@ -1,0 +1,10 @@
+
+        var e int = getInt()
+        var d = getString()
+        func main(){
+            var a = getString()
+            var b int = getInt()
+            var c = getBool()
+            var d float = getFloat()
+        }
+        

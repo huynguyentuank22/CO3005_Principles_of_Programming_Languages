@@ -1,0 +1,10 @@
+
+        var a = true;
+        var b = false;
+        func main(){
+            putBoolLn(a);
+            putBoolLn(b);
+            putBoolLn(a && b);
+            putBoolLn(a || b);
+        }
+        

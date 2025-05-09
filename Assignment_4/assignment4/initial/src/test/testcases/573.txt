@@ -1,0 +1,8 @@
+
+        var a = "ahhaaha"
+        var b string = "hjhjhj"
+        func main(){
+            putStringLn(a)
+            putStringLn(b)
+        }
+        

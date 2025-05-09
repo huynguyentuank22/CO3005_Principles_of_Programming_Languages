@@ -1,0 +1,24 @@
+
+        type A struct {
+            x int
+            y float
+            z boolean
+            s string
+        }
+        func (a A) print(){
+            putIntLn(a.x)
+            putFloatLn(a.y)
+            putStringLn(a.s)
+            putBoolLn(a.z)
+        }
+        func main(){
+            temp := A{x:1}
+            temp.print()
+            temp1 := A{y:2.0}
+            temp1.print()
+            temp2 := A{z:true}
+            temp2.print()
+            temp3 := A{s:"abc"}
+            temp3.print()
+        }
+        

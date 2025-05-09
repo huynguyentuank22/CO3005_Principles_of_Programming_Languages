@@ -1,0 +1,16 @@
+
+        const MAX = 5
+        func foo(arr [MAX]float){
+            for i:=0; i<MAX; i+=1{
+                arr[i] *=2
+            }
+        }
+        func main(){
+            var a [MAX]float
+            a := [MAX]float{1.0,2.0,3.0,4.0,5.0}
+            foo(a)
+            for i:=0; i<MAX; i+=1{
+                putFloat(a[i])
+            }
+        }        
+        

@@ -1,0 +1,13 @@
+
+        const MAX = 5
+        func main(){
+            var a[MAX]int;
+            a := [MAX]int{1,2,3,4,5}
+            putIntLn(a[0])
+            a[0] += 2
+            putIntLn(a[0])
+            for i := 0; i<MAX; i+=1{
+                putInt(a[i])
+            }
+        }
+        

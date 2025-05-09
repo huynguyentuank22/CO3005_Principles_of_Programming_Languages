@@ -1,0 +1,16 @@
+
+        const MAX = 2
+        func arrStr(v string) [MAX]string{
+            return [MAX]string{"abc", "xyz"}
+        }
+        func main(){
+            var a = arrStr("Hello")
+            putStringLn(a[0])
+            putStringLn(a[1])
+            var b = a[0]
+            a[0] := "def"
+            putStringLn(b)
+            putStringLn(a[0])
+            putStringLn(a[1])
+        }
+        

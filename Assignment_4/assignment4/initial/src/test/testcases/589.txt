@@ -1,0 +1,16 @@
+
+        type A struct {
+            x int
+            y float
+        
+        }
+        func (a A) main(s string) {
+            putStringLn(s)
+            putIntLn(a.x)
+            putFloatLn(a.y)
+        }
+        func main() {
+            var a A = A{}
+            a.main("Hello")
+        }
+        

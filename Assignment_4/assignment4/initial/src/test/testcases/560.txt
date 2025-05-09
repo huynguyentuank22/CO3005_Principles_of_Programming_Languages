@@ -1,0 +1,19 @@
+
+        type A struct{
+            x int;
+        }
+        func (b A) foo() int{
+            return b.x
+        }
+        type B interface{
+            foo() int
+        }
+        const MAX = 2
+        func main(){
+            var a[MAX]B
+            a := [MAX]B{A{x: 1}, A{x: 2}}
+            for i:=0; i<MAX; i+=1{
+                putIntLn(a[i].foo())
+            }
+        }
+        

@@ -1,0 +1,26 @@
+
+        const MAX = 2
+        var a = [MAX][MAX]string{{"aa","bb"},{"cc","zz"}}
+        func main(){
+            a1 := [MAX]string{"cc","zz"}
+            foo(a[1][1])
+            foo(a1[0])
+            foo(a1[1])
+            for i := 0; i<MAX; i+=1{
+                putStringLn(a1[i])
+            }
+            for i := 0; i<MAX; i+=1{
+                putStringLn(a[i][i])
+            }
+            str := "xx"
+            foo(str)
+            putStringLn(str)
+        }
+        func foo(s string){
+            if (s < "uu"){
+                s += "passbyref"
+            } else {
+                s := "pass"
+            }
+        }
+        

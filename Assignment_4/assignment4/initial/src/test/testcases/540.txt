@@ -1,0 +1,7 @@
+
+        var b = "Hello"
+        func main(){
+            b += " World"
+            putStringLn(b)
+        }
+        

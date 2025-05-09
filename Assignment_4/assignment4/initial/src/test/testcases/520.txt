@@ -1,0 +1,14 @@
+
+        func main(){
+            a := 5;
+            b := 10;
+            c := a + b;
+            putIntLn(c);
+            d := a - b;
+            putIntLn(d);
+            e := a * b;
+            putIntLn(e);
+            f := a / b;
+            putIntLn(f);
+        }
+        

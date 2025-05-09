@@ -1,0 +1,8 @@
+
+        var a int;
+        var b float;
+        func main(){
+            c := a + b;
+            putFloatLn(c);
+        }
+        

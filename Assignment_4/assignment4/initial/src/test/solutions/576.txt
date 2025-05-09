@@ -1,0 +1,2 @@
+Safe from division by zero
+Division result <= 2

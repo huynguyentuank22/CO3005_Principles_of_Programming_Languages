@@ -1,0 +1,12 @@
+
+        var a string = "Hello";
+        var b string = "World";
+        func main(){
+            var a int;
+            var b int;
+            a := 1 + 2;
+            b := 3 - 4;
+            putIntLn(a);
+            putIntLn(b);
+        }
+        

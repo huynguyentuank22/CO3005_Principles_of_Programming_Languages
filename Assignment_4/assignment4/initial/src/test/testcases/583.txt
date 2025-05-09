@@ -1,0 +1,27 @@
+
+        type A struct{
+            s string
+        }
+        func (a A) foo() string {
+            return a.s + "foo"
+        }
+        func (a A) setS(s string) {
+            a.s := s
+        }
+        func (a A) getS()string {
+            return a.s
+        }
+        func main(){
+            var a A = A{}
+            putStringLn(a.foo())
+            a.setS("Hello")
+            putStringLn(a.getS())
+            var b B = a
+            b.setS("aaa")
+            putStringLn(b.getS())
+        }
+        type B interface{
+            setS(s string)
+            getS() string
+        }
+        

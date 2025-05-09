@@ -1,0 +1,24 @@
+
+        func test() string{
+            var a = "Hello"
+            var b = "World"
+            c := a + b
+            return c
+        }
+        func test1() string{
+            return "vibe coding"
+        }
+        func foo(s string) {
+            s += "lala"
+            s += "meowmeow"
+        }
+        func main(){
+            var str1 = test()
+            foo(str1)
+            putString(str1)
+            str2 := test1()
+            putString(str2)
+            foo(str2)
+            putString(str2)
+        }
+        

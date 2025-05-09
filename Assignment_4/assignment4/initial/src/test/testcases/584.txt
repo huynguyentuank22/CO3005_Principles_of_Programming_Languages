@@ -1,0 +1,21 @@
+
+        const MAX = 2
+        type A struct{
+            s string
+        }
+        func (a A) getS() string{
+            return a.s
+        }
+        type B interface{
+            getS() string
+        }
+        func complex(a A, arr [MAX]string, b B){
+            putString(a.getS())
+            putString(arr[0])
+            putString(arr[1])
+            putString(b.getS())
+        }
+        func main(){
+            complex(A{}, [MAX]string{"aa", "bb"}, A{s:"uu"})
+        }
+        

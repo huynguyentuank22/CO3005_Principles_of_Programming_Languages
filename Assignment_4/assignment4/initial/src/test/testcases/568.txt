@@ -1,0 +1,12 @@
+
+        func fibo(n int) int{
+            if (n < 2){
+                return n
+            }
+            return fibo(n-1) + fibo(n-2)
+        }
+        func main(){
+            putIntLn(fibo(3))
+            putIntLn(fibo(4))
+        }
+        

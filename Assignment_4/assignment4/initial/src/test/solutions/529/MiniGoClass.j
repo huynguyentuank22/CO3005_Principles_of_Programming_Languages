@@ -1,0 +1,171 @@
+.source MiniGoClass.java
+.class public MiniGoClass
+.super java.lang.Object
+.field static final a I
+
+.method public static main([Ljava/lang/String;)V
+.var 0 is args [Ljava/lang/String; from Label0 to Label1
+Label0:
+Label2:
+.var 1 is b I from Label2 to Label3
+	iconst_3
+	istore_1
+.var 2 is a [I from Label2 to Label3
+	iconst_4
+	newarray int
+	dup
+	iconst_0
+	iconst_5
+	iastore
+	dup
+	iconst_1
+	iconst_2
+	iastore
+	dup
+	iconst_2
+	iconst_3
+	iastore
+	dup
+	iconst_3
+	iconst_4
+	iastore
+	astore_2
+.var 3 is arr [[I from Label2 to Label3
+	iconst_3
+	iconst_4
+	multianewarray [[I 2
+	dup
+	iconst_0
+	aaload
+	iconst_0
+	iconst_1
+	iastore
+	dup
+	iconst_0
+	aaload
+	iconst_1
+	iconst_2
+	iastore
+	dup
+	iconst_0
+	aaload
+	iconst_2
+	iconst_3
+	iastore
+	dup
+	iconst_0
+	aaload
+	iconst_3
+	iconst_4
+	iastore
+	dup
+	iconst_1
+	aaload
+	iconst_0
+	iconst_1
+	iastore
+	dup
+	iconst_1
+	aaload
+	iconst_1
+	iconst_2
+	iastore
+	dup
+	iconst_1
+	aaload
+	iconst_2
+	iconst_3
+	iastore
+	dup
+	iconst_1
+	aaload
+	iconst_3
+	iconst_4
+	iastore
+	dup
+	iconst_2
+	aaload
+	iconst_0
+	bipush 10
+	iastore
+	dup
+	iconst_2
+	aaload
+	iconst_1
+	bipush 20
+	iastore
+	dup
+	iconst_2
+	aaload
+	iconst_2
+	bipush 30
+	iastore
+	dup
+	iconst_2
+	aaload
+	iconst_3
+	bipush 40
+	iastore
+	astore_3
+.var 4 is x I from Label2 to Label3
+	bipush 10
+	istore 4
+	aload_2
+	iconst_0
+	iaload
+	aload_3
+	iconst_2
+	aaload
+	iconst_1
+	iaload
+	iconst_2
+	imul
+	iadd
+	invokestatic io/putIntLn(I)V
+	aload_3
+	iconst_0
+	aaload
+	iconst_3
+	iaload
+	invokestatic io/putIntLn(I)V
+	aload_3
+	iconst_0
+	aaload
+	iconst_3
+	bipush 10
+	iastore
+	aload_3
+	iconst_0
+	aaload
+	iconst_3
+	iaload
+	invokestatic io/putIntLn(I)V
+Label3:
+Label1:
+	return
+.limit stack 76
+.limit locals 5
+.end method
+
+.method public <init>()V
+.var 0 is this LMiniGoClass; from Label0 to Label1
+Label0:
+	aload_0
+	invokespecial java/lang/Object/<init>()V
+Label4:
+Label5:
+Label1:
+	return
+.limit stack 1
+.limit locals 1
+.end method
+
+.method public static <clinit>()V
+	iconst_5
+	putstatic MiniGoClass/a I
+Label0:
+Label1:
+	return
+.limit stack 2
+.limit locals 0
+.end method

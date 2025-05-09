@@ -1,0 +1,12 @@
+
+        func main(){
+            a := !true;
+            putBoolLn(a);
+            b := !false;
+            putBoolLn(b);
+            c := !a;
+            putBoolLn(c);
+            d := !b;
+            putBoolLn(d);
+        }
+        

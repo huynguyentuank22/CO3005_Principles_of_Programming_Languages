@@ -1,0 +1,8 @@
+
+        func main(){
+            a := -5 + 10;
+            putIntLn(a);
+            b := -5 - 10;
+            putIntLn(b);
+        }
+        

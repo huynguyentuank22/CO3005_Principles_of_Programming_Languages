@@ -1,0 +1,17 @@
+
+        const MAX = 2
+        func main(){
+            var a[MAX][MAX][MAX]int;
+            a := [MAX][MAX][MAX]int{{{1,2},{3,4}},{{5,6},{7,8}}}
+            putIntLn(a[0][0][0])
+            a[0][1][1] += 2
+            putIntLn(a[0][1][1])
+            for i := 0; i<MAX; i+=1{
+                for j := 0; j<MAX; j+=1{
+                    for k := 0; k<MAX; k+=1{
+                        putInt(a[i][j][k])
+                    }
+                }
+            }
+        }
+        

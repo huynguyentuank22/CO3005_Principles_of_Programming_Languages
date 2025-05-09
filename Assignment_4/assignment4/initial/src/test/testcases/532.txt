@@ -1,0 +1,24 @@
+
+        type A struct {
+            x int;
+            y float;
+        }
+        type B interface {
+            foo() int;
+        }
+        func (a A) foo() int {
+            return a.x + 1;
+        }
+        func main() {
+            var a A;
+            a := A{x: 5, y: 10.0};
+            putIntLn(a.foo());
+            var b B = a;
+            putIntLn(b.foo());
+            var c B = A{x: 10, y: 20.0};
+            putIntLn(c.foo());
+            var d B;
+            d := A{y: 8.5, x: 10}
+            putIntLn(d.foo());
+        }
+        

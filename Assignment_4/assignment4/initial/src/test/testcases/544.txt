@@ -1,0 +1,10 @@
+
+        func main(){
+            putIntLn([2]int{1,2}[0])
+            putIntLn([2]int{1,2}[1])
+            putFloatLn([2]float{1.0,2.0}[0])
+            putFloatLn([2]float{1.0,2.0}[1])
+            putStringLn([2]string{"Hello","World"}[0])
+            putStringLn([2]string{"Hello","World"}[1])
+        }
+        

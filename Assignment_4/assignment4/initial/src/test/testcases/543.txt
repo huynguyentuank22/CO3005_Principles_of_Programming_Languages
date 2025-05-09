@@ -1,0 +1,19 @@
+
+        func getArr() [2]Person {
+            return [2]Person{Person{name: "John", age: 30}, Person{name: "Jane", age: 25}}
+        }
+        func main (){
+            var a[2]Person;
+            a := getArr()
+            a[0].print()
+            
+        }
+        type Person struct{
+            name string;
+            age int;
+        }
+        func (p Person) print(){
+            putStringLn(p.name)
+            putIntLn(p.age)
+        }
+        

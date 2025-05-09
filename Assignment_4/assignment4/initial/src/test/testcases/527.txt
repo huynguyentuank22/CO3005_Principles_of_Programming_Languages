@@ -1,0 +1,9 @@
+
+        func main(){
+            var a[2]int = [2]int{1,2};
+            var b[2]float = [2]float{1.0,2.0};
+            c := 1
+            putInt(a[c]);
+            putFloat(b[0]);
+        }
+        

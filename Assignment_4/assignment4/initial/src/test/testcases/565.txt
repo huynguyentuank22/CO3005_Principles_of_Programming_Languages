@@ -1,0 +1,10 @@
+
+        func main(){
+            putFloatLn(3.14)
+            putFloatLn(0.)
+            putFloatLn(2.0e2)
+            putFloatLn(1.0e-2)
+            putFloatLn(1.0E-3)
+            putFloatLn(1.2E+2)
+        }
+        

@@ -1,0 +1,11 @@
+
+        const MAX = 2
+        func genStr(v string) string{
+            return v + "aa" + "bc"
+        }
+        func main(){
+            var a = [MAX]string{"pp", "cc"};
+            var b = genStr("jj")
+            var c string = genStr("ii")
+        }
+        
