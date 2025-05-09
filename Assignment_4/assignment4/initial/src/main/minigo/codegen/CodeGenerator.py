@@ -62,10 +62,35 @@ class Access():
         self.sym = sym
         self.isLeft = isLeft
         self.isArrayFloat = isArrayFloat
+
+class CodeGenerator():
+    def __init__(self):
+        self.libName = "io"
         
+    def init(self):
+        return [Symbol("getInt", MType([], IntType()), CName(self.libName)),
+                Symbol("putInt", MType([IntType()], VoidType()), CName(self.libName)),
+                Symbol("putIntLn", MType([IntType()], VoidType()), CName(self.libName)),
+                Symbol("getFloat", MType([], FloatType()), CName(self.libName)),
+                Symbol("putFloat", MType([FloatType()], VoidType()), CName(self.libName)),
+                Symbol("putFloatLn", MType([FloatType()], VoidType()), CName(self.libName)),
+                Symbol("getBool", MType([], BoolType()), CName(self.libName)),
+                Symbol("putBool", MType([BoolType()], VoidType()), CName(self.libName)),
+                Symbol("putBoolLn", MType([BoolType()], VoidType()), CName(self.libName)),
+                Symbol("getString", MType([], StringType()), CName(self.libName)),
+                Symbol("putString", MType([StringType()], VoidType()), CName(self.libName)),
+                Symbol("putStringLn", MType([StringType()], VoidType()), CName(self.libName)),
+                Symbol("putLn", MType([], VoidType()), CName(self.libName))]
+        
+    def gen(self, ast, path):
+        gl = self.init() 
+        preprocess = PreCodeGen(gl)
+        preprocess.visit(ast, None) 
+        gc = CodeGenVisitor(preprocess.env, path, preprocess.structTypes, preprocess.structMethods, preprocess.interfaceTypes)
+        gc.visit(ast, None)
+          
 class PreCodeGen(BaseVisitor):
-    def __init__(self, astTree, env):
-        self.astTree = astTree
+    def __init__(self, env):
         self.env = env
         self.className = "MiniGoClass"    
         self.structTypes = {} 
@@ -75,9 +100,9 @@ class PreCodeGen(BaseVisitor):
     def visitProgram(self, ast, c): 
         e = SubBody(None, self.env)
         for decl in ast.decl:
-            if isinstance(decl, FuncDecl) or isinstance(decl, StructType) or isinstance(decl, InterfaceType) or isinstance(decl, VarDecl) or isinstance(decl, ConstDecl):
+            if isinstance(decl, (FuncDecl, StructType, InterfaceType, VarDecl, ConstDecl)):
                 e = self.visit(decl, e)
-        
+         
         for decl in ast.decl:
             if isinstance(decl, MethodDecl):
                 e = self.visit(decl, e)
@@ -88,6 +113,7 @@ class PreCodeGen(BaseVisitor):
     def visitVarDecl(self, ast, c):
         c.sym += [Symbol(ast.varName, ast, CName(self.className))]
         return c
+    
     def visitConstDecl(self, ast, c):
         c.sym += [Symbol(ast.conName, ast, CName(self.className))]
         return c
@@ -117,37 +143,10 @@ class PreCodeGen(BaseVisitor):
             
         self.structMethods[structName][ast.fun.name] = ast
         return c
-    
-class CodeGenerator():
-    def __init__(self):
-        self.libName = "io"
-        
-    def init(self):
-        return [Symbol("getInt", MType([], IntType()), CName(self.libName)),
-                Symbol("putInt", MType([IntType()], VoidType()), CName(self.libName)),
-                Symbol("putIntLn", MType([IntType()], VoidType()), CName(self.libName)),
-                Symbol("getFloat", MType([], FloatType()), CName(self.libName)),
-                Symbol("putFloat", MType([FloatType()], VoidType()), CName(self.libName)),
-                Symbol("putFloatLn", MType([FloatType()], VoidType()), CName(self.libName)),
-                Symbol("getBool", MType([], BoolType()), CName(self.libName)),
-                Symbol("putBool", MType([BoolType()], VoidType()), CName(self.libName)),
-                Symbol("putBoolLn", MType([BoolType()], VoidType()), CName(self.libName)),
-                Symbol("getString", MType([], StringType()), CName(self.libName)),
-                Symbol("putString", MType([StringType()], VoidType()), CName(self.libName)),
-                Symbol("putStringLn", MType([StringType()], VoidType()), CName(self.libName)),
-                Symbol("putLn", MType([], VoidType()), CName(self.libName))]
-        
-    def gen(self, ast, path):
-        gl = self.init() 
-        preprocess = PreCodeGen(ast, gl)
-        preprocess.visit(ast, None) 
-        gc = CodeGenVisitor(ast, preprocess.env, path, preprocess.structTypes, preprocess.structMethods, preprocess.interfaceTypes)
-        gc.visit(ast, None)
 
 class CodeGenVisitor(BaseVisitor):
-    def __init__(self, astTree, env, path, structTypes, structMethods, interfaceTypes):
+    def __init__(self, env, path, structTypes, structMethods, interfaceTypes):
         self.className = "MiniGoClass"
-        self.astTree = astTree
         self.env = env 
         self.path = path
         self.emit = Emitter(path + "/" + self.className + ".j")
@@ -1288,16 +1287,16 @@ class CodeGenVisitor(BaseVisitor):
             ast.eleType = ClassType("GoString")
         for dim in ast.dimens:
             dim_code, _ = self.visit(dim, Access(frame, env, False))
-            result.append(dim_code)
+            result += [dim_code]
         
         if len(ast.dimens) > 1:
             array_type = ArrayType(ast.dimens, ast.eleType)
-            result.append(self.emit.emitNEWARRAY(array_type, frame))
+            result += [self.emit.emitNEWARRAY(array_type, frame)]
         else:
             if isinstance(ast.eleType, (IntType, FloatType, BoolType)):
-                result.append(self.emit.jvm.emitNEWARRAY(self.emit.getFullType(ast.eleType)))
+                result += [self.emit.jvm.emitNEWARRAY(self.emit.getFullType(ast.eleType))]
             else:
-                result.append(self.emit.emitNEWARRAY(ast, frame))
+                result += [self.emit.emitNEWARRAY(ast, frame)]
         
         def init_nested_array(values, current_indices=[]):
             if not isinstance(values, list):
@@ -1338,9 +1337,9 @@ class CodeGenVisitor(BaseVisitor):
         frame = o.frame
         env = o.sym
         result = []
-        result.append(self.emit.emitNEW(ast.name, frame))
-        result.append(self.emit.emitDUP(frame))
-        result.append(self.emit.emitINVOKESPECIAL(frame, f"{ast.name}/<init>", MType([], VoidType())))
+        result += [self.emit.emitNEW(ast.name, frame), 
+                   self.emit.emitDUP(frame), 
+                   self.emit.emitINVOKESPECIAL(frame, f"{ast.name}/<init>", MType([], VoidType()))]
         
         initialized_fields = {field_name: field_expr for field_name, field_expr in ast.elements}
         if ast.name in self.structTypes:
@@ -1348,34 +1347,34 @@ class CodeGenVisitor(BaseVisitor):
             
             for field_name, field_type in struct_def.elements:
                 if field_name not in initialized_fields:
-                    if isinstance(field_type, Id) or isinstance(field_type, ArrayType):
+                    if isinstance(field_type, (Id, ArrayType)):
                         continue
                     
-                    result.append(self.emit.emitDUP(frame))  
+                    result += [self.emit.emitDUP(frame)]
                     
                     default_val = self.getDefaultValue(field_type)
                     default_code, _ = self.visit(default_val, Access(frame, env, False))
-                    result.append(default_code)
+                    result += [default_code]
                     
                     if isinstance(field_type, Id):
                         field_type = ClassType(field_type.name)
                     if isinstance(field_type, StringType):
                         field_type = ClassType("GoString")
                         
-                    result.append(self.emit.emitPUTFIELD(f"{ast.name}/{field_name}", field_type, frame))
+                    result += [self.emit.emitPUTFIELD(f"{ast.name}/{field_name}", field_type, frame)]
                 else:
-                    result.append(self.emit.emitDUP(frame))  
+                    result += [self.emit.emitDUP(frame)]
                     expr_code, expr_type = self.visit(initialized_fields[field_name], Access(frame, env, False))
-                    result.append(expr_code)
+                    result += [expr_code]
                     
                     if isinstance(field_type, FloatType) and isinstance(expr_type, IntType):
-                        result.append(self.emit.emitI2F(frame))
+                        result += [self.emit.emitI2F(frame)]
                     if isinstance(field_type, Id):
                         field_type = ClassType(field_type.name)
                     if isinstance(field_type, StringType):
-                        result.append(self.emit.emitPUTFIELD(f"{ast.name}/{field_name}",ClassType("GoString"), frame))
+                        result += [self.emit.emitPUTFIELD(f"{ast.name}/{field_name}",ClassType("GoString"), frame)]
                         continue
-                    result.append(self.emit.emitPUTFIELD(f"{ast.name}/{field_name}", field_type, frame))
+                    result += [self.emit.emitPUTFIELD(f"{ast.name}/{field_name}", field_type, frame)]
             
         return ''.join(result), ClassType(ast.name)
         
@@ -1386,7 +1385,7 @@ class CodeGenVisitor(BaseVisitor):
         for scope in env:
             for sym in scope:
                 if sym.name == ast.name and not isinstance(sym.mtype, (VarDecl, ConstDecl)):
-                    if type(sym.mtype) is Id:
+                    if isinstance(sym.mtype, Id):
                         sym.mtype = ClassType(sym.mtype.name)
 
                     if isLeft:
@@ -1417,10 +1416,10 @@ class CodeGenVisitor(BaseVisitor):
     def visitStringLiteral(self, ast, o):
         frame = o.frame
         result = []
-        result.append(self.emit.emitNEW("GoString", frame))
-        result.append(self.emit.emitDUP(frame))
-        result.append(self.emit.emitPUSHCONST(ast.value, StringType(), frame))
-        result.append(self.emit.emitINVOKESPECIAL(frame, "GoString/<init>", MType([StringType()], VoidType())))
+        result += [self.emit.emitNEW("GoString", frame),
+                   self.emit.emitDUP(frame),
+                   self.emit.emitPUSHCONST(ast.value, StringType(), frame),
+                   self.emit.emitINVOKESPECIAL(frame, "GoString/<init>", MType([StringType()], VoidType()))]
         return ''.join(result), ClassType("GoString")
         
     def visitBooleanLiteral(self, ast, o):
