@@ -14,26 +14,26 @@ Label2:
 	istore_2
 	iload_2
 	iconst_0
-	if_icmpeq Label5
+	if_icmpeq Label4
 	iconst_1
-	goto Label6
-Label5:
+	goto Label5
+Label4:
 	iconst_0
-Label6:
+Label5:
 	dup
-	ifle Label4
+	ifle Label8
 	pop
 	iload_1
 	iload_2
 	idiv
 	iconst_2
-	if_icmple Label7
+	if_icmple Label6
 	iconst_1
-	goto Label8
-Label7:
+	goto Label7
+Label6:
 	iconst_0
+Label7:
 Label8:
-Label4:
 	ifle Label9
 Label11:
 Label12:
@@ -60,26 +60,26 @@ Label10:
 	istore_2
 	iload_2
 	iconst_0
-	if_icmpeq Label18
+	if_icmpeq Label17
 	iconst_1
-	goto Label19
-Label18:
+	goto Label18
+Label17:
 	iconst_0
-Label19:
+Label18:
 	dup
-	ifle Label17
+	ifle Label21
 	pop
 	iload_1
 	iload_2
 	idiv
 	iconst_2
-	if_icmple Label20
+	if_icmple Label19
 	iconst_1
-	goto Label21
-Label20:
+	goto Label20
+Label19:
 	iconst_0
+Label20:
 Label21:
-Label17:
 	ifle Label22
 Label24:
 Label25:

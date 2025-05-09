@@ -9,37 +9,37 @@ Label2:
 .var 1 is a Z from Label2 to Label3
 	iconst_1
 	dup
-	ifle Label5
+	ifle Label4
 	pop
 	iconst_0
-Label5:
+Label4:
 	dup
-	ifgt Label4
+	ifgt Label5
 	pop
 	iconst_1
-Label4:
+Label5:
 	istore_1
 	iload_1
 	invokestatic io/putBoolLn(Z)V
 .var 2 is b Z from Label2 to Label3
 	iconst_0
 	dup
-	ifgt Label6
+	ifgt Label7
 	pop
 	iconst_1
 	dup
-	ifle Label7
+	ifle Label6
 	pop
 	iconst_0
-Label7:
 Label6:
+Label7:
 	istore_2
 	iload_2
 	invokestatic io/putBoolLn(Z)V
 Label3:
 Label1:
 	return
-.limit stack 2
+.limit stack 4
 .limit locals 3
 .end method
 

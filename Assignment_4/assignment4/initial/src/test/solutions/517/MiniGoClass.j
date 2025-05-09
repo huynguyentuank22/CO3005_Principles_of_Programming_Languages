@@ -29,7 +29,7 @@ Label5:
 Label3:
 Label1:
 	return
-.limit stack 2
+.limit stack 3
 .limit locals 1
 .end method
 

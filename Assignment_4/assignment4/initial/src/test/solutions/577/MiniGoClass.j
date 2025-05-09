@@ -9,29 +9,29 @@ Label0:
 Label2:
 	iconst_0
 	dup
-	ifle Label5
+	ifle Label6
 	pop
 	invokestatic MiniGoClass/incrementAndGet()I
 	iconst_0
-	if_icmple Label6
+	if_icmple Label4
 	iconst_1
-	goto Label7
-Label6:
-	iconst_0
-Label7:
-Label5:
-	dup
-	ifle Label4
-	pop
-	invokestatic MiniGoClass/incrementAndGet()I
-	iconst_0
-	if_icmple Label8
-	iconst_1
-	goto Label9
-Label8:
-	iconst_0
-Label9:
+	goto Label5
 Label4:
+	iconst_0
+Label5:
+Label6:
+	dup
+	ifle Label9
+	pop
+	invokestatic MiniGoClass/incrementAndGet()I
+	iconst_0
+	if_icmple Label7
+	iconst_1
+	goto Label8
+Label7:
+	iconst_0
+Label8:
+Label9:
 	ifle Label10
 Label12:
 Label13:
@@ -50,29 +50,29 @@ Label11:
 	putstatic MiniGoClass/counter I
 	iconst_1
 	dup
-	ifgt Label16
+	ifgt Label17
 	pop
 	invokestatic MiniGoClass/incrementAndGet()I
 	iconst_0
-	if_icmple Label17
+	if_icmple Label15
 	iconst_1
-	goto Label18
-Label17:
-	iconst_0
-Label18:
-Label16:
-	dup
-	ifgt Label15
-	pop
-	invokestatic MiniGoClass/incrementAndGet()I
-	iconst_0
-	if_icmple Label19
-	iconst_1
-	goto Label20
-Label19:
-	iconst_0
-Label20:
+	goto Label16
 Label15:
+	iconst_0
+Label16:
+Label17:
+	dup
+	ifgt Label20
+	pop
+	invokestatic MiniGoClass/incrementAndGet()I
+	iconst_0
+	if_icmple Label18
+	iconst_1
+	goto Label19
+Label18:
+	iconst_0
+Label19:
+Label20:
 	ifle Label21
 Label23:
 Label24:
@@ -84,7 +84,7 @@ Label22:
 Label3:
 Label1:
 	return
-.limit stack 15
+.limit stack 17
 .limit locals 1
 .end method
 

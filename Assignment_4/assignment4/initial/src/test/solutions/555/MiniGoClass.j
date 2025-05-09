@@ -152,25 +152,25 @@ Label18:
 	iload 7
 	iaload
 	iconst_1
-	if_icmpne Label21
+	if_icmpne Label20
 	iconst_1
-	goto Label22
-Label21:
+	goto Label21
+Label20:
 	iconst_0
-Label22:
+Label21:
 	dup
-	ifle Label20
+	ifle Label24
 	pop
 	aload_2
 	iload 7
 	baload
-	ifgt Label23
+	ifgt Label22
 	iconst_1
-	goto Label24
-Label23:
+	goto Label23
+Label22:
 	iconst_0
+Label23:
 Label24:
-Label20:
 	ifle Label25
 Label27:
 Label28:

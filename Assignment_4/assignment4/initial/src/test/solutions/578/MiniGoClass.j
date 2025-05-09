@@ -46,18 +46,18 @@ Label0:
 Label2:
 	iconst_0
 	dup
-	ifle Label4
+	ifle Label6
 	pop
 	iconst_5
 	invokestatic MiniGoClass/factorial(I)I
 	bipush 10
-	if_icmple Label5
+	if_icmple Label4
 	iconst_1
-	goto Label6
-Label5:
-	iconst_0
-Label6:
+	goto Label5
 Label4:
+	iconst_0
+Label5:
+Label6:
 	ifle Label7
 Label9:
 Label10:
@@ -74,18 +74,18 @@ Label8:
 	invokestatic io/putIntLn(I)V
 	iconst_1
 	dup
-	ifgt Label12
+	ifgt Label14
 	pop
 	iconst_5
 	invokestatic MiniGoClass/factorial(I)I
 	bipush 10
-	if_icmple Label13
+	if_icmple Label12
 	iconst_1
-	goto Label14
-Label13:
-	iconst_0
-Label14:
+	goto Label13
 Label12:
+	iconst_0
+Label13:
+Label14:
 	ifle Label15
 Label17:
 Label18:

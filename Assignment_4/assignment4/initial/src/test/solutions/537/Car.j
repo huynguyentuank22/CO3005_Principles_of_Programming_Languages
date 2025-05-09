@@ -1,7 +1,6 @@
 .source Car.java
 .class public Car
 .super java/lang/Object
-.implements AI
 .field name LGoString;
 .field year I
 
