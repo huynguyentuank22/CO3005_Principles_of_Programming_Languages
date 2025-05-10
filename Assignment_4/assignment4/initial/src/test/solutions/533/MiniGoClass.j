@@ -2,8 +2,8 @@
 .class public MiniGoClass
 .super java.lang.Object
 
-.method public static init(LGoString;IFLCar;)LPerson;
-.var 0 is name LGoString; from Label0 to Label1
+.method public static init(LString_MiniGo;IFLCar;)LPerson;
+.var 0 is name LString_MiniGo; from Label0 to Label1
 .var 1 is age I from Label0 to Label1
 .var 2 is height F from Label0 to Label1
 .var 3 is car LCar; from Label0 to Label1
@@ -14,7 +14,7 @@ Label2:
 	invokespecial Person/<init>()V
 	dup
 	aload_0
-	putfield Person/name LGoString;
+	putfield Person/name LString_MiniGo;
 	dup
 	iload_1
 	putfield Person/age I
@@ -40,11 +40,11 @@ Label2:
 	dup
 	invokespecial Car/<init>()V
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Toyota"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield Car/name LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield Car/name LString_MiniGo;
 	dup
 	sipush 2020
 	putfield Car/year I
@@ -56,14 +56,14 @@ Label2:
 	aload_1
 	invokevirtual Car/print()V
 .var 2 is x LPerson; from Label2 to Label3
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "John"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	bipush 30
 	ldc 177.3
 	aload_1
-	invokestatic MiniGoClass/init(LGoString;IFLCar;)LPerson;
+	invokestatic MiniGoClass/init(LString_MiniGo;IFLCar;)LPerson;
 	astore_2
 	aload_2
 	invokevirtual Person/bar()V

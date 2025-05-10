@@ -5,8 +5,6 @@ import CodeGenerator as cgen
 from MachineCode import JasminCode
 from AST import *
 
-
-
 class Emitter():
     def __init__(self, filename):
         self.filename = filename
@@ -102,8 +100,6 @@ class Emitter():
             return self.emitPUSHFCONST(in_, frame)
         else:
             raise IllegalOperandException(in_)
-
-    ##############################################################
 
     def emitALOAD(self, in_, frame):
         #in_: Type
@@ -480,8 +476,8 @@ class Emitter():
             elif op == "==":
                 result.append(self.jvm.emitIFNE(labelF))
         elif type(in_) is cgen.ClassType:
-            result.append(self.emitINVOKEVIRTUAL("GoString/compare", 
-                                          MType([cgen.ClassType("GoString")], IntType()), 
+            result.append(self.emitINVOKEVIRTUAL("String_MiniGo/compare", 
+                                          MType([cgen.ClassType("String_MiniGo")], IntType()), 
                                           frame))
             if op == ">":
                 result.append(self.jvm.emitIFLE(labelF))
@@ -654,6 +650,9 @@ class Emitter():
             return self.jvm.emitFRETURN()
         elif type(in_) is VoidType:
             return self.jvm.emitRETURN()
+        elif type(in_) is BoolType:
+            frame.pop()
+            return self.jvm.emitIRETURN()
         elif type(in_) is cgen.ClassType or type(in_) is StringType or type(in_) is Id or type(in_) is ArrayType:
             frame.pop()
             return self.jvm.emitARETURN()
@@ -727,12 +726,7 @@ class Emitter():
 
     def clearBuff(self):
         self.buff.clear()
-
-    # def emitARRAYLITERAL(self, dim_codes ,array_type, frame):
-    #     code = ""
-        
-        
-        
+   
     def emitNEWARRAY(self, in_: ArrayType, frame):
         # in_: ArrayType 
         if len(in_.dimens) == 1:
@@ -753,34 +747,14 @@ class Emitter():
             # Multi-dimensional array - use multianewarray
             return self.jvm.emitMULTIANEWARRAY(self.getJVMType(in_), str(len(in_.dimens)))
 
-    # def emitANEWARRAY(self, in_, frame):
-    #     # Create a new array of reference types
-    #     frame.pop()
-    #     return self.jvm.emitANEWARRAY(in_)
-    
-    # def emitMULTIANEWARRAY(self, typ, dims, frame):
-    #     # Create a multidimensional array
-    #     for _ in range(dims):
-    #         frame.pop()
-    #     return self.jvm.emitMULTIANEWARRAY(typ, dims)
-
     def emitNEW(self, in_, frame):
-        # Create a new object of the given class
         frame.push()
         return self.jvm.emitNEW(in_)
-    def emitToGoString(self, frame):
-        """Helper to convert various types to GoString"""
+    def emitToStringMiniGo(self, frame):
         result = []
         
-        # Then create GoString from String
-        result.append(self.emitNEW("GoString", frame))
+        result.append(self.emitNEW("String_MiniGo", frame))
         result.append(self.emitDUP(frame))
-        # The string value is on the stack from the previous valueOf call
-        result.append(self.emitINVOKESPECIAL(frame, "GoString/<init>", MType([StringType()], VoidType())))
+        result.append(self.emitINVOKESPECIAL(frame, "String_MiniGo/<init>", MType([StringType()], VoidType())))
         
         return ''.join(result)
-
-
-
-
-

@@ -1,0 +1,14 @@
+
+        func power(base int, exp int) int {
+            var result int = 1;
+            for i := 0; i < exp; i += 1 {
+                result *= base;
+            }
+            return result;
+        }
+        func main(){
+            var a int = power(2, 3);
+            var b int = power(3, 2);
+            putIntLn(a + b);
+        }
+        

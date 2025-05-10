@@ -1,43 +1,43 @@
 .source MiniGoClass.java
 .class public MiniGoClass
 .super java.lang.Object
-.field static a LGoString;
-.field static b LGoString;
+.field static a LString_MiniGo;
+.field static b LString_MiniGo;
 
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
 Label2:
-	getstatic MiniGoClass/a LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	getstatic MiniGoClass/a LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
-	getstatic MiniGoClass/b LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	getstatic MiniGoClass/b LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
-	getstatic MiniGoClass/a LGoString;
-	getstatic MiniGoClass/a LGoString;
-	new GoString
+	getstatic MiniGoClass/a LString_MiniGo;
+	getstatic MiniGoClass/a LString_MiniGo;
+	new String_MiniGo
 	dup
 	ldc " "
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/concat(LGoString;)LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
-	invokevirtual GoString/setValue(Ljava/lang/String;)V
-	getstatic MiniGoClass/a LGoString;
-	getstatic MiniGoClass/a LGoString;
-	getstatic MiniGoClass/b LGoString;
-	invokevirtual GoString/concat(LGoString;)LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
-	invokevirtual GoString/setValue(Ljava/lang/String;)V
-	getstatic MiniGoClass/a LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/concat(LString_MiniGo;)LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/setValue(Ljava/lang/String;)V
+	getstatic MiniGoClass/a LString_MiniGo;
+	getstatic MiniGoClass/a LString_MiniGo;
+	getstatic MiniGoClass/b LString_MiniGo;
+	invokevirtual String_MiniGo/concat(LString_MiniGo;)LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/setValue(Ljava/lang/String;)V
+	getstatic MiniGoClass/a LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
-	getstatic MiniGoClass/b LGoString;
-	getstatic MiniGoClass/a LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
-	invokevirtual GoString/setValue(Ljava/lang/String;)V
-	getstatic MiniGoClass/b LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	getstatic MiniGoClass/b LString_MiniGo;
+	getstatic MiniGoClass/a LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/setValue(Ljava/lang/String;)V
+	getstatic MiniGoClass/b LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 Label3:
 Label1:
@@ -60,16 +60,16 @@ Label1:
 .end method
 
 .method public static <clinit>()V
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putstatic MiniGoClass/a LGoString;
-	new GoString
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putstatic MiniGoClass/a LString_MiniGo;
+	new String_MiniGo
 	dup
 	ldc "World"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putstatic MiniGoClass/b LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putstatic MiniGoClass/b LString_MiniGo;
 Label0:
 Label1:
 	return

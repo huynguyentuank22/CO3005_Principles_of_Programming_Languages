@@ -2,7 +2,7 @@
 .class public A
 .super java/lang/Object
 .implements B
-.field s LGoString;
+.field s LString_MiniGo;
 
 .method public <init>()V
 .var 0 is this LA; from Label0 to Label1
@@ -15,12 +15,12 @@ Label1:
 .limit locals 1
 .end method
 
-.method public getS()LGoString;
+.method public getS()LString_MiniGo;
 .var 0 is this LA; from Label0 to Label1
 Label0:
 Label2:
 	aload_0
-	getfield A/s LGoString;
+	getfield A/s LString_MiniGo;
 	areturn
 Label3:
 Label1:

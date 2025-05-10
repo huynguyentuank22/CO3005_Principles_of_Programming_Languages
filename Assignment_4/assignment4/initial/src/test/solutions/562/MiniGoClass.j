@@ -20,11 +20,11 @@ Label2:
 	iconst_0
 	putfield A/z Z
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc ""
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield A/s LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield A/s LString_MiniGo;
 	astore_1
 	aload_1
 	invokevirtual A/print()V
@@ -42,11 +42,11 @@ Label2:
 	iconst_0
 	putfield A/z Z
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc ""
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield A/s LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield A/s LString_MiniGo;
 	astore_2
 	aload_2
 	invokevirtual A/print()V
@@ -64,11 +64,11 @@ Label2:
 	iconst_1
 	putfield A/z Z
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc ""
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield A/s LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield A/s LString_MiniGo;
 	astore_3
 	aload_3
 	invokevirtual A/print()V
@@ -86,11 +86,11 @@ Label2:
 	iconst_0
 	putfield A/z Z
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "abc"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield A/s LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield A/s LString_MiniGo;
 	astore 4
 	aload 4
 	invokevirtual A/print()V

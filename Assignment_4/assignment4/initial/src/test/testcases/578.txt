@@ -1,33 +1,14 @@
 
-        var callCount = 0
-        
-        func factorial(n int) int {
-            callCount += 1
-            
-            // Base case
-            if (n <= 1) {
-                return 1
-            }
-            
-            return n * factorial(n-1)
+        type Product struct {
+            price float;
+            discount float;
         }
-        
-        func main() {
-            // Short circuit prevents evaluating factorial(5)
-            if (false && factorial(5) > 10) {
-                putStringLn("Won't print")
-            }
-            
-            putIntLn(callCount) // Should be 0
-            
-            if (true || factorial(5) > 10) {
-                putStringLn("Short-circuited")
-            }
-            
-            putIntLn(callCount) // Still 0
-
-            result := factorial(5)
-            putIntLn(result)  // 120
-            putIntLn(callCount) // 5
+        func (p Product) finalPrice() float {
+            var discountAmount float = p.price * p.discount;
+            return p.price - discountAmount;
+        }
+        func main(){
+            var item Product = Product{price: 100.0, discount: 0.2};
+            putFloatLn(item.finalPrice());
         }
         

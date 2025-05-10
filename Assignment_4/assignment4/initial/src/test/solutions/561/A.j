@@ -4,7 +4,7 @@
 .field x I
 .field y F
 .field z Z
-.field s LGoString;
+.field s LString_MiniGo;
 .field arr [I
 .field b LA;
 
@@ -30,8 +30,8 @@ Label2:
 	getfield A/y F
 	invokestatic io/putFloat(F)V
 	aload_0
-	getfield A/s LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	getfield A/s LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putString(Ljava/lang/String;)V
 	aload_0
 	getfield A/z Z
@@ -151,11 +151,11 @@ Label2:
 	aload_0
 	iconst_1
 	iconst_1
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "kakaka"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokestatic MiniGoClass/initA(IZLGoString;)LA;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokestatic MiniGoClass/initA(IZLString_MiniGo;)LA;
 
 	putfield A/b LA;
 Label3:

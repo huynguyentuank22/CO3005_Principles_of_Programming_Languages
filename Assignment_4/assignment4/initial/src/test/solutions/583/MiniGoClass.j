@@ -11,38 +11,38 @@ Label2:
 	dup
 	invokespecial A/<init>()V
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc ""
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield A/s LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield A/s LString_MiniGo;
 	astore_1
 	aload_1
-	invokevirtual A/foo()LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual A/foo()LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	aload_1
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual A/setS(LGoString;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual A/setS(LString_MiniGo;)V
 	aload_1
-	invokevirtual A/getS()LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual A/getS()LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 .var 2 is b LB; from Label2 to Label3
 	aload_1
 	astore_2
 	aload_2
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "aaa"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokeinterface B/setS(LGoString;)V 2
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokeinterface B/setS(LString_MiniGo;)V 2
 	aload_2
-	invokeinterface B/getS()LGoString; 1
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokeinterface B/getS()LString_MiniGo; 1
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 Label3:
 Label1:

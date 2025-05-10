@@ -14,65 +14,65 @@ Label2:
 .var 2 is b LB; from Label2 to Label3
 	aload_1
 	astore_2
-.var 3 is c [LGoString; from Label2 to Label3
+.var 3 is c [LString_MiniGo; from Label2 to Label3
 	iconst_5
-	anewarray GoString
+	anewarray String_MiniGo
 	dup
 	iconst_0
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	dup
 	iconst_1
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "World"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	dup
 	iconst_2
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "!"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	dup
 	iconst_3
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "This"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	dup
 	iconst_4
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "is"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	astore_3
 	aload_2
 	aload_3
-	invokeinterface B/setS([LGoString;)V 2
+	invokeinterface B/setS([LString_MiniGo;)V 2
 	aload_2
-	invokeinterface B/getS()[LGoString; 1
+	invokeinterface B/getS()[LString_MiniGo; 1
 	iconst_0
 	aaload
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	aload_2
-	invokeinterface B/getS()[LGoString; 1
+	invokeinterface B/getS()[LString_MiniGo; 1
 	iconst_1
 	aaload
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	aload_2
-	invokeinterface B/getS()[LGoString; 1
+	invokeinterface B/getS()[LString_MiniGo; 1
 	iconst_2
 	aaload
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 Label3:
 Label1:

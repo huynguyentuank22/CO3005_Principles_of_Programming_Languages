@@ -1,0 +1,13 @@
+
+        type Box struct {
+            width float;
+            height float;
+        }
+        func (b Box) area() float {
+            return b.width * b.height;
+        }
+        func main(){
+            var box Box = Box{width: 4.5, height: 2.0};
+            putFloatLn(box.area());
+        }
+        

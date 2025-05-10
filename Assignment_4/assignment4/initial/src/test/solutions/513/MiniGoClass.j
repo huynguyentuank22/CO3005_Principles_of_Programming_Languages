@@ -18,17 +18,17 @@ Label2:
 	invokestatic io/putBool(Z)V
 	iconst_0
 	invokestatic io/putBoolLn(Z)V
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putString(Ljava/lang/String;)V
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "World"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	invokestatic io/putLn()V
 Label3:

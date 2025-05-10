@@ -1,2 +1,4 @@
-Safe from division by zero
-Division result <= 2
+false
+false
+true
+true

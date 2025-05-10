@@ -3,21 +3,21 @@
 .super java.lang.Object
 .field static final MAX I
 
-.method public static genStr(LGoString;)LGoString;
-.var 0 is v LGoString; from Label0 to Label1
+.method public static genStr(LString_MiniGo;)LString_MiniGo;
+.var 0 is v LString_MiniGo; from Label0 to Label1
 Label0:
 Label2:
 	aload_0
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "aa"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/concat(LGoString;)LGoString;
-	new GoString
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/concat(LString_MiniGo;)LString_MiniGo;
+	new String_MiniGo
 	dup
 	ldc "bc"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/concat(LGoString;)LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/concat(LString_MiniGo;)LString_MiniGo;
 	areturn
 Label3:
 Label1:
@@ -29,37 +29,37 @@ Label1:
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
 Label2:
-.var 1 is a [LGoString; from Label2 to Label3
+.var 1 is a [LString_MiniGo; from Label2 to Label3
 	getstatic MiniGoClass/MAX I
-	anewarray GoString
+	anewarray String_MiniGo
 	dup
 	iconst_0
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "pp"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	dup
 	iconst_1
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "cc"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	astore_1
-.var 2 is b LGoString; from Label2 to Label3
-	new GoString
+.var 2 is b LString_MiniGo; from Label2 to Label3
+	new String_MiniGo
 	dup
 	ldc "jj"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokestatic MiniGoClass/genStr(LGoString;)LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokestatic MiniGoClass/genStr(LString_MiniGo;)LString_MiniGo;
 	astore_2
-.var 3 is c LGoString; from Label2 to Label3
-	new GoString
+.var 3 is c LString_MiniGo; from Label2 to Label3
+	new String_MiniGo
 	dup
 	ldc "ii"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokestatic MiniGoClass/genStr(LGoString;)LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokestatic MiniGoClass/genStr(LString_MiniGo;)LString_MiniGo;
 	astore_3
 Label3:
 Label1:

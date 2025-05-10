@@ -15,11 +15,11 @@ Label2:
 	dup
 	invokespecial Person/<init>()V
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "John"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield Person/name LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield Person/name LString_MiniGo;
 	dup
 	bipush 30
 	putfield Person/age I
@@ -32,11 +32,11 @@ Label2:
 	dup
 	invokespecial Car/<init>()V
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Toyota"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield Car/name LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield Car/name LString_MiniGo;
 	dup
 	sipush 2020
 	putfield Car/year I
@@ -47,11 +47,11 @@ Label2:
 	dup
 	invokespecial Car/<init>()V
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Honda"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield Car/name LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield Car/name LString_MiniGo;
 	dup
 	sipush 2021
 	putfield Car/year I

@@ -5,7 +5,7 @@
 .method public static foo()I
 Label0:
 Label2:
-	iconst_5
+	bipush 28
 	ireturn
 Label3:
 Label1:

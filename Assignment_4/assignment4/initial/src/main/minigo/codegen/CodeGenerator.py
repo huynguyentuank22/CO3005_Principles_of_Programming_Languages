@@ -15,10 +15,6 @@ from functools import reduce
 from AST import *
 from copy import deepcopy
 
-FRAME = 'frame'
-ENV = 'env'
-ACCESS = 'access'
-
 def print_env(env):
     for i, scope in enumerate(env):
         print(f"Scope {i}:")
@@ -111,7 +107,7 @@ class SetupCodeGen(BaseVisitor):
         returnType = ast.retType
         paramTypes = [param.parType for param in ast.params]
         if isinstance(returnType, StringType):
-            returnType = ClassType("GoString")
+            returnType = ClassType("String_MiniGo")
         return c + [Symbol(ast.name, MType(paramTypes, returnType), CName(self.className))]
     
     def visitStructType(self, ast, c): 
@@ -139,21 +135,24 @@ class CodeGenVisitor(BaseVisitor):
         self.structTypes = structTypes
         self.structMethods = structMethods
         self.interfaceTypes = interfaceTypes
-        
+
+    def check_array_type(self, arr, type):
+        return isinstance(arr, ArrayType) and isinstance(arr.eleType, type)  
+     
     def gen_default_constructor(self, strEmitter):
         frame = Frame("<init>", VoidType())
         strEmitter.printout(strEmitter.emitMETHOD("<init>", MType([], VoidType()), False, frame))
         frame.enterScope(True)
         
-        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("GoString"), 
+        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("String_MiniGo"), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitLABEL(frame.getStartLabel(), frame))
-        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("GoString"), 0, frame))
+        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("String_MiniGo"), 0, frame))
         strEmitter.printout(strEmitter.emitINVOKESPECIAL(frame))
         
-        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("GoString"), 0, frame))
+        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("String_MiniGo"), 0, frame))
         strEmitter.printout(strEmitter.emitPUSHCONST("\"\"", StringType(), frame))
-        strEmitter.printout(strEmitter.emitPUTFIELD("GoString/value", StringType(), frame))
+        strEmitter.printout(strEmitter.emitPUTFIELD("String_MiniGo/value", StringType(), frame))
         
         strEmitter.printout(strEmitter.emitLABEL(frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitRETURN(VoidType(), frame))
@@ -165,18 +164,18 @@ class CodeGenVisitor(BaseVisitor):
         strEmitter.printout(strEmitter.emitMETHOD("<init>", MType([StringType()], VoidType()), False, frame))
         frame.enterScope(True)
         
-        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("GoString"), 
+        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("String_MiniGo"), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "str", StringType(), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
         
         strEmitter.printout(strEmitter.emitLABEL(frame.getStartLabel(), frame))
-        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("GoString"), 0, frame))
+        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("String_MiniGo"), 0, frame))
         strEmitter.printout(strEmitter.emitINVOKESPECIAL(frame))
         
-        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("GoString"), 0, frame))
+        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("String_MiniGo"), 0, frame))
         strEmitter.printout(strEmitter.emitREADVAR("str", StringType(), 1, frame))
-        strEmitter.printout(strEmitter.emitPUTFIELD("GoString/value", StringType(), frame))
+        strEmitter.printout(strEmitter.emitPUTFIELD("String_MiniGo/value", StringType(), frame))
         
         strEmitter.printout(strEmitter.emitLABEL(frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitRETURN(VoidType(), frame))
@@ -185,20 +184,20 @@ class CodeGenVisitor(BaseVisitor):
 
     def gen_compare_method(self, strEmitter):
         frame = Frame("compare", IntType())
-        strEmitter.printout(strEmitter.emitMETHOD("compare", MType([ClassType("GoString")], IntType()), False, frame))
+        strEmitter.printout(strEmitter.emitMETHOD("compare", MType([ClassType("String_MiniGo")], IntType()), False, frame))
         frame.enterScope(True)
         
-        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("GoString"), 
+        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("String_MiniGo"), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
-        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "other", ClassType("GoString"), 
+        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "other", ClassType("String_MiniGo"), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitLABEL(frame.getStartLabel(), frame))
         
-        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("GoString"), 0, frame))
-        strEmitter.printout(strEmitter.emitGETFIELD("GoString/value", StringType(), frame))
+        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("String_MiniGo"), 0, frame))
+        strEmitter.printout(strEmitter.emitGETFIELD("String_MiniGo/value", StringType(), frame))
         
-        strEmitter.printout(strEmitter.emitREADVAR("other", ClassType("GoString"), 1, frame))
-        strEmitter.printout(strEmitter.emitGETFIELD("GoString/value", StringType(), frame))
+        strEmitter.printout(strEmitter.emitREADVAR("other", ClassType("String_MiniGo"), 1, frame))
+        strEmitter.printout(strEmitter.emitGETFIELD("String_MiniGo/value", StringType(), frame))
         
         strEmitter.printout(strEmitter.emitINVOKEVIRTUAL("java/lang/String/compareTo", 
                                                     MType([StringType()], IntType()), frame))
@@ -209,32 +208,32 @@ class CodeGenVisitor(BaseVisitor):
         frame.exitScope()
 
     def gen_concat_method(self, strEmitter):
-        frame = Frame("concat", ClassType("GoString"))
-        strEmitter.printout(strEmitter.emitMETHOD("concat", MType([ClassType("GoString")], ClassType("GoString")), False, frame))
+        frame = Frame("concat", ClassType("String_MiniGo"))
+        strEmitter.printout(strEmitter.emitMETHOD("concat", MType([ClassType("String_MiniGo")], ClassType("String_MiniGo")), False, frame))
         frame.enterScope(True)
         
-        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("GoString"), 
+        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("String_MiniGo"), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
-        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "other", ClassType("GoString"), 
+        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "other", ClassType("String_MiniGo"), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitLABEL(frame.getStartLabel(), frame))
         
-        strEmitter.printout(strEmitter.emitNEW("GoString", frame))
+        strEmitter.printout(strEmitter.emitNEW("String_MiniGo", frame))
         strEmitter.printout(strEmitter.emitDUP(frame))
         
-        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("GoString"), 0, frame))
-        strEmitter.printout(strEmitter.emitGETFIELD("GoString/value", StringType(), frame))
+        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("String_MiniGo"), 0, frame))
+        strEmitter.printout(strEmitter.emitGETFIELD("String_MiniGo/value", StringType(), frame))
         
-        strEmitter.printout(strEmitter.emitREADVAR("other", ClassType("GoString"), 1, frame))
-        strEmitter.printout(strEmitter.emitGETFIELD("GoString/value", StringType(), frame))
+        strEmitter.printout(strEmitter.emitREADVAR("other", ClassType("String_MiniGo"), 1, frame))
+        strEmitter.printout(strEmitter.emitGETFIELD("String_MiniGo/value", StringType(), frame))
         
         strEmitter.printout(strEmitter.emitINVOKEVIRTUAL("java/lang/String/concat", 
                                                     MType([StringType()], StringType()), frame))
         
-        strEmitter.printout(strEmitter.emitINVOKESPECIAL(frame, "GoString/<init>", 
+        strEmitter.printout(strEmitter.emitINVOKESPECIAL(frame, "String_MiniGo/<init>", 
                                                     MType([StringType()], VoidType())))
         
-        strEmitter.printout(strEmitter.emitRETURN(ClassType("GoString"), frame))
+        strEmitter.printout(strEmitter.emitRETURN(ClassType("String_MiniGo"), frame))
         strEmitter.printout(strEmitter.emitLABEL(frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitENDMETHOD(frame))
         frame.exitScope()
@@ -244,12 +243,12 @@ class CodeGenVisitor(BaseVisitor):
         strEmitter.printout(strEmitter.emitMETHOD("toString", MType([], StringType()), False, frame))
         frame.enterScope(True)
         
-        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("GoString"), 
+        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("String_MiniGo"), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitLABEL(frame.getStartLabel(), frame))
         
-        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("GoString"), 0, frame))
-        strEmitter.printout(strEmitter.emitGETFIELD("GoString/value", StringType(), frame))
+        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("String_MiniGo"), 0, frame))
+        strEmitter.printout(strEmitter.emitGETFIELD("String_MiniGo/value", StringType(), frame))
         
         strEmitter.printout(strEmitter.emitRETURN(StringType(), frame))
         strEmitter.printout(strEmitter.emitLABEL(frame.getEndLabel(), frame))
@@ -261,12 +260,12 @@ class CodeGenVisitor(BaseVisitor):
         strEmitter.printout(strEmitter.emitMETHOD("getValue", MType([], StringType()), False, frame))
         frame.enterScope(True)
         
-        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("GoString"), 
+        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("String_MiniGo"), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitLABEL(frame.getStartLabel(), frame))
         
-        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("GoString"), 0, frame))
-        strEmitter.printout(strEmitter.emitGETFIELD("GoString/value", StringType(), frame))
+        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("String_MiniGo"), 0, frame))
+        strEmitter.printout(strEmitter.emitGETFIELD("String_MiniGo/value", StringType(), frame))
         
         strEmitter.printout(strEmitter.emitRETURN(StringType(), frame))
         strEmitter.printout(strEmitter.emitLABEL(frame.getEndLabel(), frame))
@@ -278,26 +277,26 @@ class CodeGenVisitor(BaseVisitor):
         strEmitter.printout(strEmitter.emitMETHOD("setValue", MType([StringType()], VoidType()), False, frame))
         frame.enterScope(True)
         
-        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("GoString"), 
+        strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "this", ClassType("String_MiniGo"), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitVAR(frame.getNewIndex(), "str", StringType(), 
                         frame.getStartLabel(), frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitLABEL(frame.getStartLabel(), frame))
         
-        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("GoString"), 0, frame))
+        strEmitter.printout(strEmitter.emitREADVAR("this", ClassType("String_MiniGo"), 0, frame))
         strEmitter.printout(strEmitter.emitREADVAR("str", StringType(), 1, frame))
-        strEmitter.printout(strEmitter.emitPUTFIELD("GoString/value", StringType(), frame))
+        strEmitter.printout(strEmitter.emitPUTFIELD("String_MiniGo/value", StringType(), frame))
         
         strEmitter.printout(strEmitter.emitLABEL(frame.getEndLabel(), frame))
         strEmitter.printout(strEmitter.emitRETURN(VoidType(), frame))
         strEmitter.printout(strEmitter.emitENDMETHOD(frame))
         frame.exitScope()
 
-    def gen_GoString_type(self):
-        goStringFile = self.path + "/GoString.j"
+    def gen_String_MiniGo_type(self):
+        goStringFile = self.path + "/String_MiniGo.j"
         strEmitter = Emitter(goStringFile)
         
-        strEmitter.printout(strEmitter.emitPROLOG("GoString", "java/lang/Object"))
+        strEmitter.printout(strEmitter.emitPROLOG("String_MiniGo", "java/lang/Object"))
         strEmitter.printout(".field private value Ljava/lang/String;\n\n")
         
         self.gen_default_constructor(strEmitter)
@@ -359,16 +358,16 @@ class CodeGenVisitor(BaseVisitor):
         for method in interface_ast.methods:
             returnType = method.retType
             if isinstance(returnType, StringType):
-                returnType = ClassType("GoString")
-            elif isinstance(returnType, ArrayType) and isinstance(returnType.eleType, StringType):
-                returnType.eleType = ClassType("GoString")
+                returnType = ClassType("String_MiniGo")
+            elif self.check_array_type(returnType, StringType):
+                returnType.eleType = ClassType("String_MiniGo")
             paramTypes = []
             for param in method.params:
                 type = param
                 if isinstance(type, StringType):
-                    type = ClassType("GoString")
-                elif isinstance(type, ArrayType) and isinstance(type.eleType, StringType):
-                    type.eleType = ClassType("GoString")
+                    type = ClassType("String_MiniGo")
+                elif self.check_array_type(type, StringType):
+                    type.eleType = ClassType("String_MiniGo")
                 paramTypes += [type]
 
             methodType = MType(paramTypes, returnType)
@@ -389,9 +388,9 @@ class CodeGenVisitor(BaseVisitor):
         
         for fieldName, fieldType in fields:
             if isinstance(fieldType, StringType):
-                fieldType = ClassType("GoString")
-            if isinstance(fieldType, ArrayType) and isinstance(fieldType.eleType, StringType):
-                fieldType.eleType = ClassType("GoString")
+                fieldType = ClassType("String_MiniGo")
+            if self.check_array_type(fieldType, StringType):
+                fieldType.eleType = ClassType("String_MiniGo")
             structEmit.printout(structEmit.emitATTRIBUTE(fieldName, fieldType, True, False, None, isStruct=True))
         
         self.gen_struct_constructor(structName, structEmit)
@@ -421,43 +420,39 @@ class CodeGenVisitor(BaseVisitor):
         
         frame = Frame(method.fun.name, method.fun.retType)
         env = {}
-        env[ENV] = [[]] + [self.env] 
-        env[FRAME] = frame
+        env['env'] = [[]] + [self.env] 
+        env['frame'] = frame
         
         ret = method.fun.retType if not isinstance(method.fun.retType, Id) else ClassType(method.fun.retType.name)
         if isinstance(ret, StringType):
-            ret = ClassType("GoString")
-        elif isinstance(ret, ArrayType) and isinstance(ret.eleType, StringType):
-            ret.eleType = ClassType("GoString")
+            ret = ClassType("String_MiniGo")
+        elif self.check_array_type(ret, StringType):
+            ret.eleType = ClassType("String_MiniGo")
         intyp = []
         for param in method.fun.params:
             if isinstance(param.parType, Id):
                 param.parType = ClassType(param.parType.name)
             if isinstance(param.parType, StringType):
-                param.parType = ClassType("GoString")
-            if isinstance(param.parType, ArrayType) and isinstance(param.parType.eleType, StringType):
-                param.parType.eleType = ClassType("GoString")
+                param.parType = ClassType("String_MiniGo")
+            if self.check_array_type(param.parType, StringType):
+                param.parType.eleType = ClassType("String_MiniGo")
             intyp += [param.parType]
             
         self.emit.printout(self.emit.emitMETHOD(method.fun.name, MType(intyp, ret), False, frame))
-        
         frame.enterScope(True)
-        
         self.emit.printout(self.emit.emitVAR(frame.getNewIndex(), "this" , ClassType(structName), frame.getStartLabel(), frame.getEndLabel(), frame))
         
         for param in method.fun.params:
             idx = frame.getNewIndex()
             if isinstance(param.parType, StringType):
-                param.parType = ClassType("GoString")
+                param.parType = ClassType("String_MiniGo")
             self.emit.printout(self.emit.emitVAR(idx, param.parName, param.parType, frame.getStartLabel(), frame.getEndLabel(), frame))
-            env[ENV][0] = [Symbol(param.parName, param.parType, Index(idx))] + env[ENV][0]
+            env['env'][0] = [Symbol(param.parName, param.parType, Index(idx))] + env['env'][0]
         
-        env[ENV][0] = [Symbol(method.receiver, ClassType(structName), Index(0))] + env[ENV][0]
+        env['env'][0] = [Symbol(method.receiver, ClassType(structName), Index(0))] + env['env'][0]
         
         self.emit.printout(self.emit.emitLABEL(frame.getStartLabel(), frame))
-
         self.visit(method.fun.body, env)
-        
         self.emit.printout(self.emit.emitLABEL(frame.getEndLabel(), frame))
         
         if isinstance(method.fun.retType, VoidType):
@@ -497,7 +492,6 @@ class CodeGenVisitor(BaseVisitor):
 
         if is_init:
             self.handle_init_logic(frame)
-
         if not is_clinit:
             self.visit(ast.body, env)
 
@@ -512,9 +506,9 @@ class CodeGenVisitor(BaseVisitor):
             return VoidType()
         ret_type = ast.retType if not isinstance(ast.retType, Id) else ClassType(ast.retType.name)
         if isinstance(ret_type, StringType):
-            return ClassType("GoString")
-        if isinstance(ret_type, ArrayType) and isinstance(ret_type.eleType, StringType):
-            ret_type.eleType = ClassType("GoString")
+            return ClassType("String_MiniGo")
+        if self.check_array_type(ret_type, StringType):
+            ret_type.eleType = ClassType("String_MiniGo")
         return ret_type
 
     def get_input_types(self, ast, is_main):
@@ -523,9 +517,9 @@ class CodeGenVisitor(BaseVisitor):
         input_types = [param.parType for param in ast.params]
         for i, param_type in enumerate(input_types):
             if isinstance(param_type, StringType):
-                input_types[i] = ClassType("GoString")
-            elif isinstance(param_type, ArrayType) and isinstance(param_type.eleType, StringType):
-                param_type.eleType = ClassType("GoString")
+                input_types[i] = ClassType("String_MiniGo")
+            elif self.check_array_type(param_type, StringType):
+                param_type.eleType = ClassType("String_MiniGo")
         return input_types
 
     def declare_parameters(self, ast, env, frame):
@@ -534,15 +528,15 @@ class CodeGenVisitor(BaseVisitor):
             if isinstance(param.parType, Id):
                 param.parType = ClassType(param.parType.name)
             if isinstance(param.parType, StringType):
-                param.parType = ClassType("GoString")
-            if isinstance(param.parType, ArrayType) and isinstance(param.parType.eleType, StringType):
-                param.parType.eleType = ClassType("GoString")
+                param.parType = ClassType("String_MiniGo")
+            if self.check_array_type(param.parType, StringType):
+                param.parType.eleType = ClassType("String_MiniGo")
             self.emit.printout(self.emit.emitVAR(idx, param.parName, param.parType, frame.getStartLabel(), frame.getEndLabel(), frame))
-            env[ENV][0].append(Symbol(param.parName, param.parType, Index(idx)))
+            env['env'][0].append(Symbol(param.parName, param.parType, Index(idx)))
 
     def generate_clinit_body(self, env, frame):
         initialized = {}
-        for sym in env[ENV][-1]:
+        for sym in env['env'][-1]:
             if sym.name in initialized:
                 continue
             if isinstance(sym.mtype, VarDecl):
@@ -550,7 +544,7 @@ class CodeGenVisitor(BaseVisitor):
                 if isinstance(expr, NilLiteral):
                     initialized[sym.name] = True
                     continue
-                code, typ = self.visit(expr, Access(frame, env[ENV], False))
+                code, typ = self.visit(expr, Access(frame, env['env'], False))
                 if not sym.mtype.varType:
                     sym.mtype.varType = typ
                 if isinstance(sym.mtype.varType, Id):
@@ -559,7 +553,7 @@ class CodeGenVisitor(BaseVisitor):
                 self.emit.printout(code)
                 initialized[sym.name] = True
             elif isinstance(sym.mtype, ConstDecl):
-                code, typ = self.visit(sym.mtype.iniExpr, Access(frame, env[ENV], False))
+                code, typ = self.visit(sym.mtype.iniExpr, Access(frame, env['env'], False))
                 sym.mtype.conType = typ
                 code += self.emit.emitPUTSTATIC(f"{self.className}/{sym.name}", sym.mtype.conType, frame)
                 self.emit.printout(code)
@@ -571,9 +565,9 @@ class CodeGenVisitor(BaseVisitor):
             
     def visitProgram(self, ast, c):
         curr_env = {}
-        curr_env[ENV] = [self.env]
+        curr_env['env'] = [self.env]
 
-        self.gen_GoString_type()
+        self.gen_String_MiniGo_type()
         self.emit.printout(self.emit.emitPROLOG(self.className, "java.lang.Object"))
 
         for decl in ast.decl:
@@ -586,17 +580,16 @@ class CodeGenVisitor(BaseVisitor):
         for struct_name, struct_def in self.structTypes.items():
             self.gen_struct(struct_name, struct_def.elements, self.structMethods.get(struct_name, {}))
 
-        curr_env[ENV] = [[]] + curr_env[ENV]
+        curr_env['env'] = [[]] + curr_env['env']
 
         for decl in ast.decl:
             if isinstance(decl, (VarDecl, ConstDecl)):
                 decl_name = decl.varName if isinstance(decl, VarDecl) else decl.conName
-                matched_sym = None
-                for sym in curr_env[ENV][-1]:
-                    if sym.name == decl_name and not isinstance(sym.mtype, (VarDecl, ConstDecl)):
-                        matched_sym = sym
-                        break
-                curr_env[ENV][0] += [matched_sym]
+                matched_sym = next((sym for sym in curr_env['env'][-1]
+                    if sym.name == decl_name and not isinstance(sym.mtype, (VarDecl, ConstDecl))),
+                    None
+                )
+                curr_env['env'][0] += [matched_sym]
             elif not isinstance(decl, (StructType, MethodDecl, InterfaceType)):
                 curr_env = self.visit(decl, curr_env)
 
@@ -606,84 +599,25 @@ class CodeGenVisitor(BaseVisitor):
         self.emit.printout(self.emit.emitEPILOG())
         return curr_env
 
-    def visitFuncDecl(self, ast, c):
-        frame = Frame(ast.name, ast.retType)
-        is_main = ast.name == "main"
-        
-        mtype = None
-        
-        if is_main:
-            mtype = MType([ArrayType([None], StringType())], VoidType())
-        else:
-            ret = ast.retType if not isinstance(ast.retType, Id) else ClassType(ast.retType.name)
-            if isinstance(ret, StringType):
-                ret = ClassType("GoString")
-            elif isinstance(ret, ArrayType) and isinstance(ret.eleType, StringType):
-                ret.eleType = ClassType("GoString")
-            params = []
-            for param in ast.params:
-                if isinstance(param.parType, Id):
-                    param.parType = ClassType(param.parType.name)
-                if isinstance(param.parType, StringType):
-                    param.parType = ClassType("GoString")
-                params += [param.parType]
-            mtype = MType(params, ret)
-        c[ENV][0] += [Symbol(ast.name, mtype, CName(self.className))]
-        c[FRAME] = frame
-        self.gen_method(ast, c, frame)
-        
-        return c
-    
-    def visitParamDecl(self, ast, c):
-        idx = c[FRAME].getNewIndex()
-        c[ENV][0] = [Symbol(ast.parName, ast.parType, Index(idx))] + o[ENV][0]
-        return idx
-
-    def visitBlock(self, ast, c):
-        env = c.copy()
-        frame = env[FRAME]
-        env[ENV] = [[]] + env[ENV] 
-        frame.enterScope(False) 
-        self.emit.printout(self.emit.emitLABEL(frame.getStartLabel(), frame))
-        for stmt in ast.member:
-            if isinstance(stmt, VarDecl) or isinstance(stmt, ConstDecl):
-                self.visit(stmt, env)
-            elif isinstance(stmt, Assign):
-                assign_code, assign_type = self.visit(stmt, env)
-                self.emit.printout(assign_code)
-            elif isinstance(stmt, MethCall):
-                code, _ = self.visit(stmt, env)
-                self.emit.printout(code)
-            else:
-                env = self.visit(stmt, env)                
-                if isinstance(env, tuple): 
-                    frame_tmp = env[0][FRAME]
-                    env_tmp = env[0][ENV]
-                    env = {ENV: env_tmp, FRAME: frame_tmp}
-        self.emit.printout(self.emit.emitLABEL(frame.getEndLabel(), frame))
-        frame.exitScope()
-        
-    def visitStructType(self, ast, c): pass
-    
     def visitVarDecl(self, ast, c):
-        if FRAME not in c: 
+        if 'frame' not in c: 
             if ast.varInit:
                 frame_tmp = Frame("<init>", VoidType())
-                code_gen, type = self.visit(ast.varInit, Access(frame_tmp, c[ENV], False))
+                code_gen, type = self.visit(ast.varInit, Access(frame_tmp, c['env'], False))
                 if not ast.varType:
                     ast.varType = type
                 if isinstance(ast.varType, StringType):
-                    ast.varType = ClassType("GoString")
+                    ast.varType = ClassType("String_MiniGo")
             self.emit.printout(self.emit.emitATTRIBUTE(ast.varName, ast.varType, True, False, ""))
-            c[ENV][0] += [Symbol(ast.varName, ast.varType, CName(self.className))]
+            c['env'][0] += [Symbol(ast.varName, ast.varType, CName(self.className))]
         else: 
-            frame = c[FRAME]
+            frame = c['frame']
             idx = frame.getNewIndex()
             code_gen, type = "", None
             
             if ast.varType and isinstance(ast.varType, ArrayType) and not ast.varInit:
                 if isinstance(ast.varType.eleType, StringType):
-                    ast.varType.eleType = ClassType("GoString")
+                    ast.varType.eleType = ClassType("String_MiniGo")
                 self.emit.printout(self.emit.emitVAR(idx, ast.varName, ast.varType, 
                                                     frame.getStartLabel(), frame.getEndLabel(), frame))
                 
@@ -692,7 +626,7 @@ class CodeGenVisitor(BaseVisitor):
                 if len(dims) == 1:
                     size = dims[0].value if hasattr(dims[0], 'value') else dims[0]
                     if isinstance(size, Id):
-                        size = self.visit(size, Access(frame, c[ENV], False))[0]
+                        size = self.visit(size, Access(frame, c['env'], False))[0]
                         self.emit.printout(size)
                     else:
                         self.emit.printout(self.emit.emitPUSHICONST(size, frame))
@@ -704,7 +638,7 @@ class CodeGenVisitor(BaseVisitor):
                     for dim in dims:
                         dim_value = dim.value if hasattr(dim, 'value') else dim
                         if isinstance(dim_value, Id):
-                            dim_value = self.visit(dim_value, Access(frame, c[ENV], False))[0]
+                            dim_value = self.visit(dim_value, Access(frame, c['env'], False))[0]
                             self.emit.printout(dim_value)
                         else:
                             self.emit.printout(self.emit.emitPUSHICONST(dim_value, frame))
@@ -712,7 +646,7 @@ class CodeGenVisitor(BaseVisitor):
                     self.emit.printout(self.emit.emitNEWARRAY(ast.varType, frame))
                 
                 self.emit.printout(self.emit.emitWRITEVAR(ast.varName, ast.varType, idx, frame))
-                c[ENV][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
+                c['env'][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
                 return c
             
             if ast.varType and isinstance(ast.varType, Id):
@@ -722,10 +656,10 @@ class CodeGenVisitor(BaseVisitor):
                 self.emit.printout(self.emit.emitVAR(idx, ast.varName, ast.varType, 
                                                     frame.getStartLabel(), frame.getEndLabel(), frame))
                 if not isStruct and not ast.varInit:
-                    c[ENV][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
+                    c['env'][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
                     return c
                 if ast.varInit:
-                    init_code, _ = self.visit(ast.varInit, Access(frame, c[ENV], False))
+                    init_code, _ = self.visit(ast.varInit, Access(frame, c['env'], False))
                     self.emit.printout(init_code)
                 elif isStruct:
                     self.emit.printout(self.emit.emitNEW(struct_name, frame))
@@ -733,62 +667,120 @@ class CodeGenVisitor(BaseVisitor):
                     self.emit.printout(self.emit.emitINVOKESPECIAL(frame, f"{struct_name}/<init>", MType([], VoidType())))
                 
                 self.emit.printout(self.emit.emitWRITEVAR(ast.varName, ast.varType, idx, frame))
-                c[ENV][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
+                c['env'][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
                 return c
             
             init_val = ast.varInit if ast.varInit else self.get_default_val(ast.varType)
             code_gen, type = "", None
             
-            if isinstance(ast.varType, ArrayType) and isinstance(ast.varType.eleType, StringType):
-                ast.varType.eleType = ClassType("GoString")
+            if self.check_array_type(ast.varType, StringType):
+                ast.varType.eleType = ClassType("String_MiniGo")
             if not isinstance(init_val, NilLiteral):
                 if isinstance(ast.varType, ArrayType) and isinstance(init_val, ArrayLiteral):
                     i2f = (isinstance(ast.varType.eleType, FloatType) and isinstance(init_val.eleType, IntType))
-                    code_gen, type = self.visit(init_val, Access(frame, c[ENV], False, i2f))
+                    code_gen, type = self.visit(init_val, Access(frame, c['env'], False, i2f))
                 else:
-                    code_gen, type = self.visit(init_val, Access(frame, c[ENV], False))
+                    code_gen, type = self.visit(init_val, Access(frame, c['env'], False))
             
             if not ast.varType and not isinstance(type, VoidType):
-                if isinstance(type, ArrayType) and isinstance(type.eleType, StringType):
-                    type.eleType = ClassType("GoString")
+                if self.check_array_type(type, StringType):
+                    type.eleType = ClassType("String_MiniGo")
                 ast.varType = type  
             elif isinstance(ast.varType, Id):
                 ast.varType = ClassType(ast.varType.name)
             elif isinstance(ast.varType, StringType):
-                ast.varType = ClassType("GoString")
+                ast.varType = ClassType("String_MiniGo")
             
             self.emit.printout(self.emit.emitVAR(idx, ast.varName, ast.varType, 
                                                 frame.getStartLabel(), frame.getEndLabel(), frame))
             self.emit.printout(code_gen)
             self.emit.printout(self.emit.emitWRITEVAR(ast.varName, ast.varType, idx, frame))
-            c[ENV][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
+            c['env'][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
         return c
     
     def visitConstDecl(self, ast, c):
-        if FRAME not in c: 
+        if 'frame' not in c: 
             frame_tmp = Frame("<init>", VoidType())
-            code_gen, type = self.visit(ast.iniExpr, Access(frame_tmp, c[ENV], False))
+            code_gen, type = self.visit(ast.iniExpr, Access(frame_tmp, c['env'], False))
             ast.conType = type
             self.emit.printout(self.emit.emitATTRIBUTE(ast.conName, ast.conType, True, True, ""))
-            c[ENV][0] += [Symbol(ast.conName, ast.conType, CName(self.className))]
+            c['env'][0] += [Symbol(ast.conName, ast.conType, CName(self.className))]
         else: 
-            frame = c[FRAME]
+            frame = c['frame']
             idx = frame.getNewIndex()
-            code_gen, const_type = self.visit(ast.iniExpr, Access(frame, c[ENV], False))
-            if isinstance(const_type, ArrayType) and isinstance(const_type.eleType, StringType):
-                const_type.eleType = ClassType("GoString")
+            code_gen, const_type = self.visit(ast.iniExpr, Access(frame, c['env'], False))
+            if self.check_array_type(const_type, StringType):
+                const_type.eleType = ClassType("String_MiniGo")
             ast.conType = const_type
             self.emit.printout(self.emit.emitVAR(idx, ast.conName, ast.conType, 
                                                 frame.getStartLabel(), frame.getEndLabel(), frame))
             self.emit.printout(code_gen)
             self.emit.printout(self.emit.emitWRITEVAR(ast.conName, ast.conType, idx, frame))
                     
-            c[ENV][0] = [Symbol(ast.conName, ast.conType, Index(idx))] + c[ENV][0]
+            c['env'][0] = [Symbol(ast.conName, ast.conType, Index(idx))] + c['env'][0]
+        return c
+
+    def visitFuncDecl(self, ast, c):
+        frame = Frame(ast.name, ast.retType)
+        is_main = ast.name == "main"
+        c_local = c.copy()
+        mtype = None
+        
+        if is_main:
+            mtype = MType([ArrayType([None], StringType())], VoidType())
+        else:
+            ret = ast.retType if not isinstance(ast.retType, Id) else ClassType(ast.retType.name)
+            if isinstance(ret, StringType):
+                ret = ClassType("String_MiniGo")
+            elif self.check_array_type(ret, StringType):
+                ret.eleType = ClassType("String_MiniGo")
+            params = []
+            for param in ast.params:
+                if isinstance(param.parType, Id):
+                    param.parType = ClassType(param.parType.name)
+                if isinstance(param.parType, StringType):
+                    param.parType = ClassType("String_MiniGo")
+                params += [param.parType]
+            mtype = MType(params, ret)
+        c_local['env'][0] += [Symbol(ast.name, mtype, CName(self.className))]
+        c_local['frame'] = frame
+        c_local['env'] = [[]] + c_local['env']
+        self.gen_method(ast, c_local, frame)
+        c['frame'] = frame        
         return c
     
+    def visitParamDecl(self, ast, c):
+        idx = c['frame'].getNewIndex()
+        c['env'][0] = [Symbol(ast.parName, ast.parType, Index(idx))] + o['env'][0]
+        return idx
+
+    def visitBlock(self, ast, c):
+        env = c.copy()
+        frame = env['frame']
+        env['env'] = [[]] + env['env'] 
+        frame.enterScope(False) 
+        self.emit.printout(self.emit.emitLABEL(frame.getStartLabel(), frame))
+        for stmt in ast.member:
+            if isinstance(stmt, (VarDecl, ConstDecl)):
+                self.visit(stmt, env)
+            elif isinstance(stmt, Assign):
+                assign_code, assign_type = self.visit(stmt, env)
+                self.emit.printout(assign_code)
+            elif isinstance(stmt, MethCall):
+                code, _ = self.visit(stmt, env)
+                self.emit.printout(code)
+            else:
+                env = self.visit(stmt, env)                
+                if isinstance(env, tuple): 
+                    frame_tmp = env[0]['frame']
+                    env_tmp = env[0]['env']
+                    env = {'env': env_tmp, 'frame': frame_tmp}
+        self.emit.printout(self.emit.emitLABEL(frame.getEndLabel(), frame))
+        frame.exitScope()
+    
     def visitAssign(self, ast, c):
-        frame = c[FRAME]
-        env = c[ENV]
+        frame = c['frame']
+        env = c['env']
         if isinstance(ast.lhs, ArrayCell):
             rc, rt = self.visit(ast.rhs, Access(frame, env, False))
             lc, lt = self.visit(ast.lhs, Access(frame, env, True))
@@ -806,7 +798,7 @@ class CodeGenVisitor(BaseVisitor):
             rc, rt = self.visit(ast.rhs, Access(frame, env, False))
             lc, lt = self.visit(ast.lhs, Access(frame, env, True))
             lst_codes = lc.split('\n')
-            if isinstance(rt, ClassType) and rt.name == "GoString":
+            if isinstance(rt, ClassType) and rt.name == "String_MiniGo":
                 rc, rt = self.visit(ast.rhs, Access(frame, env, False))
                 lc, lt = self.visit(ast.lhs, Access(frame, env, False))
                 lst_codes = lc.split('\n')
@@ -840,7 +832,7 @@ class CodeGenVisitor(BaseVisitor):
                 i2f = (isinstance(lt.eleType, FloatType) and isinstance(rt.eleType, IntType))
                 rc, rt = self.visit(ast.rhs, Access(frame, env, False, i2f))
                 return rc + lc, VoidType()
-            if isinstance(lt, ClassType) and lt.name == "GoString":
+            if isinstance(lt, ClassType) and lt.name == "String_MiniGo":
                 lc, _ = self.visit(ast.lhs, Access(frame, env, False))
                 rc, rt = self.visit(ast.rhs, Access(frame, env, False))
                 get_val = self.emit.emitINVOKEVIRTUAL(f"{lt.name}/getValue", MType([], StringType()), frame)
@@ -852,8 +844,8 @@ class CodeGenVisitor(BaseVisitor):
             return rc + lc, VoidType()
            
     def visitIf(self, ast, c):
-        frame = c[FRAME]
-        env = c[ENV]
+        frame = c['frame']
+        env = c['env']
         
         cond_code, _ = self.visit(ast.expr, Access(frame, env, False))
         self.emit.printout(cond_code)
@@ -890,8 +882,8 @@ class CodeGenVisitor(BaseVisitor):
         return c
 
     def visitForBasic(self, ast, c):
-        frame = c[FRAME]
-        env = c[ENV]
+        frame = c['frame']
+        env = c['env']
         
         frame.enterLoop()
         
@@ -913,7 +905,7 @@ class CodeGenVisitor(BaseVisitor):
         return c
      
     def visitForStep(self, ast, c):
-        frame = c[FRAME]
+        frame = c['frame']
         
         frame.enterLoop()
         
@@ -925,8 +917,8 @@ class CodeGenVisitor(BaseVisitor):
         end_label = frame.getBreakLabel()
         
         loop_env = {}
-        loop_env[FRAME] = frame
-        loop_env[ENV] = [[]] + c[ENV]
+        loop_env['frame'] = frame
+        loop_env['env'] = [[]] + c['env']
         
         self.emit.printout(self.emit.emitLABEL(loop_start_label, frame))
         name_i = ast.init.varName if isinstance(ast.init, VarDecl) else ast.init.lhs.name
@@ -935,19 +927,19 @@ class CodeGenVisitor(BaseVisitor):
             ast.init.varType = rt
             idx = frame.getNewIndex()
             self.emit.printout(self.emit.emitVAR(idx, name_i, rt, loop_start_label, loop_end_label, frame))
-            loop_env[ENV][0] += [Symbol(name_i, rt, Index(idx))]
+            loop_env['env'][0] += [Symbol(name_i, rt, Index(idx))]
             code = self.emit.emitWRITEVAR(name_i, rt, idx, frame)
             self.emit.printout(rc + code)
         else:
             rc, rt = self.visit(ast.init.rhs, Access(frame, loop_env, False))
             idx = frame.getNewIndex()
             self.emit.printout(self.emit.emitVAR(idx, name_i, rt, loop_start_label, loop_end_label, frame))
-            loop_env[ENV][0] += [Symbol(name_i, rt, Index(idx))]
+            loop_env['env'][0] += [Symbol(name_i, rt, Index(idx))]
             code = self.emit.emitWRITEVAR(name_i, rt, idx, frame)
             self.emit.printout(rc + code)
             
         self.emit.printout(self.emit.emitLABEL(cond_label, frame))
-        cond_code, _ = self.visit(ast.cond, Access(frame, loop_env[ENV], False))
+        cond_code, _ = self.visit(ast.cond, Access(frame, loop_env['env'], False))
         self.emit.printout(cond_code)
         self.emit.printout(self.emit.emitIFFALSE(end_label, frame))
         self.emit.printout(self.emit.emitGOTO(body_label, frame))
@@ -969,20 +961,23 @@ class CodeGenVisitor(BaseVisitor):
         
         frame.exitLoop()
         return c
-        
+
+    def visitForEach(self, ast, c):
+        return c
+
     def visitBreak(self, ast, c):
-        frame = c[FRAME]
+        frame = c['frame']
         self.emit.printout(self.emit.emitGOTO(frame.getBreakLabel(), frame))
         return c
 
     def visitContinue(self, ast, c):
-        frame = c[FRAME]
+        frame = c['frame']
         self.emit.printout(self.emit.emitGOTO(frame.getContinueLabel(), frame))
         return c
         
     def visitReturn(self, ast, c):
-        frame = c[FRAME]
-        env = c[ENV]
+        frame = c['frame']
+        env = c['env']
         result = []
         
         if ast.expr:
@@ -1011,14 +1006,37 @@ class CodeGenVisitor(BaseVisitor):
             if field_pair:
                 field_type = field_pair[1]
                 if isinstance(field_type, StringType):
-                    field_type = ClassType("GoString")
-                if isinstance(field_type, ArrayType) and isinstance(field_type.eleType, StringType):
-                    field_type.eleType = ClassType("GoString")
+                    field_type = ClassType("String_MiniGo")
+                if self.check_array_type(field_type, StringType):
+                    field_type.eleType = ClassType("String_MiniGo")
         
         if isLeft:
             return rec_code + self.emit.emitPUTFIELD(f"{struct_name}/{ast.field}", field_type, frame), field_type
         else:  
             return rec_code + self.emit.emitGETFIELD(f"{struct_name}/{ast.field}", field_type, frame), field_type
+
+    def visitArrayCell(self, ast, c):
+        frame = c.frame
+        env = c.sym
+        is_left = c.isLeft
+        
+        array_code, array_type = self.visit(ast.arr, Access(frame, env, False))
+        current_type = array_type
+        if isinstance(current_type.eleType, StringType):
+            current_type.eleType = ClassType("String_MiniGo")
+        
+        code_parts = [array_code]
+        for i, idx in enumerate(ast.idx):
+            idx_code, _ = self.visit(idx, Access(frame, env, False))
+            code_parts += [idx_code]
+            if i < len(ast.idx) - 1:
+                code_parts += [self.emit.emitALOAD(current_type, frame)]
+        
+        result_type = current_type.eleType if isinstance(current_type, ArrayType) else current_type
+        if not is_left:
+            code_parts += [self.emit.emitALOAD(result_type, frame)]
+        
+        return ''.join(code_parts), result_type
 
     def visitBinaryOp(self, ast, c):
         frame = c.frame
@@ -1026,16 +1044,6 @@ class CodeGenVisitor(BaseVisitor):
 
         left_code, left_type = self.visit(ast.left, Access(frame, env, False))
         right_code, right_type = self.visit(ast.right, Access(frame, env, False))
-
-        if ast.op in ['&&', '||']:
-            end_label = frame.getNewLabel()
-            code = (left_code + 
-                    self.emit.emitDUP(frame) +
-                    (self.emit.emitIFFALSE(end_label, frame) if ast.op == '&&' else self.emit.emitIFTRUE(end_label, frame)) +
-                    self.emit.emitPOP(frame) + 
-                    right_code +
-                    self.emit.emitLABEL(end_label, frame))
-            return code, BoolType()
         
         result_type = left_type
         if isinstance(left_type, FloatType) or isinstance(right_type, FloatType):
@@ -1046,8 +1054,8 @@ class CodeGenVisitor(BaseVisitor):
                 right_code += self.emit.emitI2F(frame)
                 
         op_code_dict = {
-            '+': lambda: self.emit.emitINVOKEVIRTUAL("GoString/concat", MType([ClassType("GoString")], ClassType("GoString")), frame)
-                if result_type == ClassType("GoString") else self.emit.emitADDOP('+', result_type, frame),
+            '+': lambda: self.emit.emitINVOKEVIRTUAL("String_MiniGo/concat", MType([ClassType("String_MiniGo")], ClassType("String_MiniGo")), frame)
+                if result_type == ClassType("String_MiniGo") else self.emit.emitADDOP('+', result_type, frame),
             '-': lambda: self.emit.emitADDOP('-', result_type, frame),
             '*': lambda: self.emit.emitMULOP('*', result_type, frame),
             '/': lambda: self.emit.emitMULOP('/', result_type, frame),
@@ -1058,9 +1066,11 @@ class CodeGenVisitor(BaseVisitor):
             '<=': lambda: self.emit.emitREOP('<=', left_type, frame),
             '>': lambda: self.emit.emitREOP('>', left_type, frame),
             '>=': lambda: self.emit.emitREOP('>=', left_type, frame),
+            '&&': lambda: self.emit.emitANDOP(frame),
+            '||': lambda: self.emit.emitOROP(frame),
         }
         op_code = op_code_dict.get(ast.op, lambda: "")()
-        if ast.op in ['==', '!=', '<', '<=', '>', '>=']:
+        if ast.op in ['==', '!=', '<', '<=', '>', '>=', '&&', '||']:
             result_type = BoolType()
         
         return left_code + right_code + op_code, result_type
@@ -1078,8 +1088,8 @@ class CodeGenVisitor(BaseVisitor):
         return body_code, body_type
 
     def visitFuncCall(self, ast, c):
-        frame = c[FRAME] if isinstance(c, dict) else c.frame
-        env = c[ENV] if isinstance(c, dict) else c.sym
+        frame = c['frame'] if isinstance(c, dict) else c.frame
+        env = c['env'] if isinstance(c, dict) else c.sym
         if ast.funName in ["getInt", "getFloat", "getBool", "getString"]:
             func_sym = next((s for s in env[-1] if s.name == ast.funName), None)
             ret_type = func_sym.mtype.rettype
@@ -1090,7 +1100,7 @@ class CodeGenVisitor(BaseVisitor):
         args_code = ""
         for arg in ast.args:
             arg_code, arg_type = self.visit(arg, Access(frame, env, False, False))
-            if isinstance(arg_type, ClassType) and arg_type.name == "GoString" and (ast.funName == "putString" or ast.funName =="putStringLn"): arg_code += self.emit.emitINVOKEVIRTUAL("GoString/getValue", MType([], StringType()), frame)
+            if isinstance(arg_type, ClassType) and arg_type.name == "String_MiniGo" and (ast.funName == "putString" or ast.funName =="putStringLn"): arg_code += self.emit.emitINVOKEVIRTUAL("String_MiniGo/getValue", MType([], StringType()), frame)
             args_code += arg_code
             if len(func_sym.mtype.partype) > 0 and isinstance(func_sym.mtype.partype[0], FloatType) and isinstance(arg_type, IntType):
                 args_code += self.emit.emitI2F(frame)
@@ -1101,7 +1111,7 @@ class CodeGenVisitor(BaseVisitor):
         else:
             for i, t in enumerate(func_sym.mtype.partype):
                 if isinstance(t, StringType):
-                    func_sym.mtype.partype[i] = ClassType("GoString")
+                    func_sym.mtype.partype[i] = ClassType("String_MiniGo")
             call_code = self.emit.emitINVOKESTATIC(
                 f"{func_sym.value.value}/{ast.funName}", func_sym.mtype, frame)
         if isinstance(func_sym.mtype.rettype, VoidType):
@@ -1109,15 +1119,15 @@ class CodeGenVisitor(BaseVisitor):
         elif ast.funName in ["getInt", "getFloat", "getBool", "getString"]:
             return c
         if isinstance(c, dict) and isinstance(func_sym.mtype.rettype, VoidType):
-            frame = c[FRAME]
-            env = c[ENV]
-            return {ENV: env, FRAME: frame}
+            frame = c['frame']
+            env = c['env']
+            return {'env': env, 'frame': frame}
         else:
             return (args_code + call_code, func_sym.mtype.rettype)
 
     def visitMethCall(self, ast, c):
-        frame = c[FRAME] if isinstance(c, dict) else c.frame
-        env = c[ENV] if isinstance(c, dict) else c.sym
+        frame = c['frame'] if isinstance(c, dict) else c.frame
+        env = c['env'] if isinstance(c, dict) else c.sym
         rec_code, rec_type = self.visit(ast.receiver, Access(frame, env, False))
         
         struct_name = rec_type.name
@@ -1143,16 +1153,16 @@ class CodeGenVisitor(BaseVisitor):
         for param in params:
             param_type = param.parType if is_struct else param
             if isinstance(param_type, StringType):
-                param_types.append(ClassType("GoString"))
-            elif isinstance(param_type, ArrayType) and isinstance(param_type.eleType, StringType):
-                param_types.append(ArrayType(param_type.dimens, ClassType("GoString")))
+                param_types.append(ClassType("String_MiniGo"))
+            elif self.check_array_type(param_type, StringType):
+                param_types.append(ArrayType(param_type.dimens, ClassType("String_MiniGo")))
             else:
                 param_types.append(param_type)
         
         if isinstance(return_type, StringType):
-            return_type = ClassType("GoString")
-        elif isinstance(return_type, ArrayType) and isinstance(return_type.eleType, StringType):
-            return_type = ArrayType(return_type.dimens, ClassType("GoString"))
+            return_type = ClassType("String_MiniGo")
+        elif self.check_array_type(return_type, StringType):
+            return_type = ArrayType(return_type.dimens, ClassType("String_MiniGo"))
         
         method_type = MType(param_types, return_type)
         call_code = (self.emit.emitINVOKEVIRTUAL(f"{struct_name}/{ast.metName}", method_type, frame)
@@ -1160,29 +1170,6 @@ class CodeGenVisitor(BaseVisitor):
                     self.emit.emitINVOKEINTERFACE(f"{struct_name}/{ast.metName}", method_type, frame, len(params) + 1))
         
         return args_code + call_code, return_type
-
-    def visitArrayCell(self, ast, c):
-        frame = c.frame
-        env = c.sym
-        is_left = c.isLeft
-        
-        array_code, array_type = self.visit(ast.arr, Access(frame, env, False))
-        current_type = array_type
-        if isinstance(current_type.eleType, StringType):
-            current_type.eleType = ClassType("GoString")
-        
-        code_parts = [array_code]
-        for i, idx in enumerate(ast.idx):
-            idx_code, _ = self.visit(idx, Access(frame, env, False))
-            code_parts += [idx_code]
-            if i < len(ast.idx) - 1:
-                code_parts += [self.emit.emitALOAD(current_type, frame)]
-        
-        result_type = current_type.eleType if isinstance(current_type, ArrayType) else current_type
-        if not is_left:
-            code_parts += [self.emit.emitALOAD(result_type, frame)]
-        
-        return ''.join(code_parts), result_type
 
     def visitArrayLiteral(self, ast, c):
         frame = c.frame
@@ -1192,7 +1179,7 @@ class CodeGenVisitor(BaseVisitor):
         if isinstance(ast.eleType, IntType) and isArrayFloat:
                 ast.eleType = FloatType()
         if isinstance(ast.eleType, StringType):
-            ast.eleType = ClassType("GoString")
+            ast.eleType = ClassType("String_MiniGo")
         for dim in ast.dimens:
             dim_code, _ = self.visit(dim, Access(frame, env, False))
             result += [dim_code]
@@ -1267,7 +1254,7 @@ class CodeGenVisitor(BaseVisitor):
                     if isinstance(field_type, Id):
                         field_type = ClassType(field_type.name)
                     if isinstance(field_type, StringType):
-                        field_type = ClassType("GoString")
+                        field_type = ClassType("String_MiniGo")
                         
                     result += [self.emit.emitPUTFIELD(f"{ast.name}/{field_name}", field_type, frame)]
                 else:
@@ -1280,11 +1267,43 @@ class CodeGenVisitor(BaseVisitor):
                     if isinstance(field_type, Id):
                         field_type = ClassType(field_type.name)
                     if isinstance(field_type, StringType):
-                        result += [self.emit.emitPUTFIELD(f"{ast.name}/{field_name}",ClassType("GoString"), frame)]
+                        result += [self.emit.emitPUTFIELD(f"{ast.name}/{field_name}",ClassType("String_MiniGo"), frame)]
                         continue
                     result += [self.emit.emitPUTFIELD(f"{ast.name}/{field_name}", field_type, frame)]
             
         return ''.join(result), ClassType(ast.name)
+
+    def visitIntLiteral(self, ast, c):
+        val = ast.value
+        if isinstance(val, str):
+            if val.startswith("0b") or val.startswith("0B"):
+                val = int(val, 2)
+            elif val.startswith("0o") or val.startswith("0O"):
+                val = int(val, 8)
+            elif val.startswith("0x") or val.startswith("0X"):
+                val = int(val, 16)
+        return self.emit.emitPUSHICONST(val, c.frame), IntType()
+
+    def visitFloatLiteral(self, ast, c):
+        return self.emit.emitPUSHFCONST(str(ast.value), c.frame), FloatType()
+
+    def visitStringLiteral(self, ast, c):
+        frame = c.frame
+        result = []
+        result += [self.emit.emitNEW("String_MiniGo", frame),
+                self.emit.emitDUP(frame),
+                self.emit.emitPUSHCONST(ast.value, StringType(), frame),
+                self.emit.emitINVOKESPECIAL(frame, "String_MiniGo/<init>", MType([StringType()], VoidType()))]
+        return ''.join(result), ClassType("String_MiniGo")
+
+    def visitBooleanLiteral(self, ast, c):
+        value = ast.value
+        if isinstance(value, str):
+            value = value.lower() == 'true'
+        return self.emit.emitPUSHICONST(1 if value else 0, c.frame), BoolType()
+
+    def visitNilLiteral(self, ast, c):
+        return self.emit.jvm.emitPUSHNULL(), VoidType()
 
     def visitId(self, ast, c):
         frame = c.frame
@@ -1307,37 +1326,4 @@ class CodeGenVisitor(BaseVisitor):
                         else:
                             return self.emit.emitGETSTATIC(f"{sym.value.value}/{sym.name}", sym.mtype, frame), sym.mtype
 
-    def visitIntLiteral(self, ast, c):
-        val = ast.value
-        if isinstance(val, str):
-            if val.startswith("0b") or val.startswith("0B"):
-                val = int(val, 2)
-            elif val.startswith("0o") or val.startswith("0O"):
-                val = int(val, 8)
-            elif val.startswith("0x") or val.startswith("0X"):
-                val = int(val, 16)
-        return self.emit.emitPUSHICONST(val, c.frame), IntType()
-
-    def visitFloatLiteral(self, ast, c):
-        return self.emit.emitPUSHFCONST(str(ast.value), c.frame), FloatType()
-
-    def visitStringLiteral(self, ast, c):
-        frame = c.frame
-        result = []
-        result += [self.emit.emitNEW("GoString", frame),
-                self.emit.emitDUP(frame),
-                self.emit.emitPUSHCONST(ast.value, StringType(), frame),
-                self.emit.emitINVOKESPECIAL(frame, "GoString/<init>", MType([StringType()], VoidType()))]
-        return ''.join(result), ClassType("GoString")
-
-    def visitBooleanLiteral(self, ast, c):
-        value = ast.value
-        if isinstance(value, str):
-            value = value.lower() == 'true'
-        return self.emit.emitPUSHICONST(1 if value else 0, c.frame), BoolType()
-
-    def visitNilLiteral(self, ast, c):
-        return self.emit.jvm.emitPUSHNULL(), VoidType()
-
-    def visitForEach(self, ast, c):
-        return c
+    def visitStructType(self, ast, c): pass

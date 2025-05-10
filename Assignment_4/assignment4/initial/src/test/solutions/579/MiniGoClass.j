@@ -11,36 +11,36 @@ Label2:
 	dup
 	invokespecial Library/<init>()V
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Central Library"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield Library/name LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield Library/name LString_MiniGo;
 	dup
 	iconst_3
-	anewarray GoString
+	anewarray String_MiniGo
 	dup
 	iconst_0
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Go Programming"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	dup
 	iconst_1
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Python Basics"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	dup
 	iconst_2
-	new GoString
+	new String_MiniGo
 	dup
 	ldc ""
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
-	putfield Library/books [LGoString;
+	putfield Library/books [LString_MiniGo;
 	astore_1
 	aload_1
 	invokevirtual Library/printBooks()V

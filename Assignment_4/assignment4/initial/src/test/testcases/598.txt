@@ -1,0 +1,13 @@
+
+        func concatenate(s1 string, s2 string) string {
+            var result string = s1;
+            for i := 0; i < 2; i += 1 {
+                result += s2;
+            }
+            return result;
+        }
+        func main(){
+            var str string = concatenate("Hi", "!");
+            putStringLn(str);
+        }
+        

@@ -1,8 +1,8 @@
 .source Library.java
 .class public Library
 .super java/lang/Object
-.field name LGoString;
-.field books [LGoString;
+.field name LString_MiniGo;
+.field books [LString_MiniGo;
 
 .method public <init>()V
 .var 0 is this LLibrary; from Label0 to Label1
@@ -43,14 +43,14 @@ Label4:
 Label9:
 Label12:
 	aload_0
-	getfield Library/books [LGoString;
+	getfield Library/books [LString_MiniGo;
 	iload_1
 	aaload
-	new GoString
+	new String_MiniGo
 	dup
 	ldc ""
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/compare(LGoString;)I
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/compare(LString_MiniGo;)I
 	ifeq Label14
 	iconst_1
 	goto Label15
@@ -60,16 +60,16 @@ Label15:
 	ifle Label16
 Label18:
 Label19:
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "- "
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aload_0
-	getfield Library/books [LGoString;
+	getfield Library/books [LString_MiniGo;
 	iload_1
 	aaload
-	invokevirtual GoString/concat(LGoString;)LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/concat(LString_MiniGo;)LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 Label20:
 Label16:

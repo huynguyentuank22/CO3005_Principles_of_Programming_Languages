@@ -4,7 +4,7 @@
 .field x I
 .field y F
 .field z Z
-.field s LGoString;
+.field s LString_MiniGo;
 
 .method public <init>()V
 .var 0 is this LA; from Label0 to Label1
@@ -28,8 +28,8 @@ Label2:
 	getfield A/y F
 	invokestatic io/putFloatLn(F)V
 	aload_0
-	getfield A/s LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	getfield A/s LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	aload_0
 	getfield A/z Z

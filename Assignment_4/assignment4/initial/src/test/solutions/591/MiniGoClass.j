@@ -34,22 +34,22 @@ Label2:
 	ldc 4.5
 	fastore
 	astore_2
-.var 3 is c [LGoString; from Label2 to Label3
+.var 3 is c [LString_MiniGo; from Label2 to Label3
 	iconst_2
-	anewarray GoString
+	anewarray String_MiniGo
 	dup
 	iconst_0
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "hh"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	dup
 	iconst_1
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "ll"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	astore_3
 .var 4 is d [LA; from Label2 to Label3
@@ -109,19 +109,19 @@ Label2:
 	iconst_4
 	iastore
 	astore 5
-.var 6 is f LGoString; from Label2 to Label3
-	new GoString
+.var 6 is f LString_MiniGo; from Label2 to Label3
+	new String_MiniGo
 	dup
 	ldc "aaa"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	astore 6
-.var 7 is g LGoString; from Label2 to Label3
+.var 7 is g LString_MiniGo; from Label2 to Label3
 	aload 6
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "hhh"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/concat(LGoString;)LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/concat(LString_MiniGo;)LString_MiniGo;
 	astore 7
 .var 8 is a1 I from Label2 to Label3
 	iconst_1
@@ -160,16 +160,16 @@ Label2:
 	aload_3
 	iconst_0
 	aaload
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	aload 4
 	iconst_1
 	aaload
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "honors"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual A/main(LGoString;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual A/main(LString_MiniGo;)V
 	aload 5
 	iconst_0
 	aaload
@@ -177,10 +177,10 @@ Label2:
 	iaload
 	invokestatic io/putInt(I)V
 	aload 6
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	aload 7
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	iload 8
 	invokestatic io/putIntLn(I)V

@@ -3,29 +3,29 @@
 .super java.lang.Object
 .field static final MAX I
 
-.method public static complex(LA;[LGoString;LB;)V
+.method public static complex(LA;[LString_MiniGo;LB;)V
 .var 0 is a LA; from Label0 to Label1
-.var 1 is arr [LGoString; from Label0 to Label1
+.var 1 is arr [LString_MiniGo; from Label0 to Label1
 .var 2 is b LB; from Label0 to Label1
 Label0:
 Label2:
 	aload_0
-	invokevirtual A/getS()LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual A/getS()LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putString(Ljava/lang/String;)V
 	aload_1
 	iconst_0
 	aaload
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putString(Ljava/lang/String;)V
 	aload_1
 	iconst_1
 	aaload
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putString(Ljava/lang/String;)V
 	aload_2
-	invokeinterface B/getS()LGoString; 1
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokeinterface B/getS()LString_MiniGo; 1
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putString(Ljava/lang/String;)V
 Label3:
 Label1:
@@ -42,37 +42,37 @@ Label2:
 	dup
 	invokespecial A/<init>()V
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc ""
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield A/s LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield A/s LString_MiniGo;
 	getstatic MiniGoClass/MAX I
-	anewarray GoString
+	anewarray String_MiniGo
 	dup
 	iconst_0
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "aa"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	dup
 	iconst_1
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "bb"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	new A
 	dup
 	invokespecial A/<init>()V
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "uu"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield A/s LGoString;
-	invokestatic MiniGoClass/complex(LA;[LGoString;LB;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield A/s LString_MiniGo;
+	invokestatic MiniGoClass/complex(LA;[LString_MiniGo;LB;)V
 Label3:
 Label1:
 	return

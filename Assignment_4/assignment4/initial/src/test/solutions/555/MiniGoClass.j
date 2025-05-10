@@ -117,11 +117,11 @@ Label8:
 	istore 4
 	iload 6
 	invokestatic io/putInt(I)V
-	new GoString
+	new String_MiniGo
 	dup
 	ldc " "
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putString(Ljava/lang/String;)V
 Label12:
 .var 7 is v I from Label12 to Label13
@@ -158,9 +158,6 @@ Label18:
 Label20:
 	iconst_0
 Label21:
-	dup
-	ifle Label24
-	pop
 	aload_2
 	iload 7
 	baload
@@ -170,10 +167,10 @@ Label21:
 Label22:
 	iconst_0
 Label23:
-Label24:
-	ifle Label25
+	iand
+	ifle Label24
+Label26:
 Label27:
-Label28:
 	aload_2
 	iload 7
 	iconst_1
@@ -186,9 +183,9 @@ Label28:
 	iconst_1
 	iadd
 	istore 5
-Label29:
+Label28:
+Label24:
 Label25:
-Label26:
 Label19:
 	goto Label10
 Label11:

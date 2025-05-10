@@ -8,79 +8,89 @@ class CheckCodeGenSuite(unittest.TestCase):
         input = """func main() {putInt(5);};"""
         expect = "5"
         self.assertTrue(TestCodeGen.test(input,expect,501))
+
     def test_502(self):
         input = """func main() {var a int = 20;  putInt(a);};"""
         expect = "20"
         self.assertTrue(TestCodeGen.test(input,expect,502))
+
     def test_503(self):
         input = """var a int = 10; func main() { putInt(a);};"""
         expect = "10"
         self.assertTrue(TestCodeGen.test(input,expect,503))
+
     def test_504(self):
         input = Program([FuncDecl("main",[],VoidType(),Block([FuncCall("putInt", [IntLiteral(25)])]))])
         expect = "25"
         self.assertTrue(TestCodeGen.test(input,expect,504))
+
     def test_505(self):
         input = Program([FuncDecl("main",[],VoidType(),Block([VarDecl("a",IntType(),IntLiteral(500)),FuncCall("putInt", [Id("a")])]))])
         expect = "500"
         self.assertTrue(TestCodeGen.test(input,expect,505))
+
     def test_506(self):  
         input = Program([VarDecl("a",IntType(),IntLiteral(5000)),FuncDecl("main",[],VoidType(),Block([FuncCall("putInt", [Id("a")])]))])
         expect = "5000"
         self.assertTrue(TestCodeGen.test(input,expect,506))
+
     def test_507(self):
         input = """
-        
         func main() {
             putStringLn("Hello World");
         };
         """
         expect = "Hello World\n"
         self.assertTrue(TestCodeGen.test(input,expect,507))
+
     def test_508(self):
         input = """
         func main() {
-            var a int = 10;
-            var b int = 20;
+            var a int = 20;
+            var b int = 30;
             putInt(a + b);
         };
         """
-        expect = "30"
+        expect = "50"
         self.assertTrue(TestCodeGen.test(input,expect,508))
+
     def test_509(self):
         input = """
         func foo() int {
-            return 5;
+            return 28;
         };
         func main() {
             var a int = foo();
             putInt(a);
         };
         """
-        expect = "5"
+        expect = "28"
         self.assertTrue(TestCodeGen.test(input,expect,509))
+
     def test_510(self):
         input = """
-        const PI = 3.14;
+        const PI = 3.14159;
         func main() {
             putFloat(PI);
         };
         """
-        expect = "3.14"
+        expect = "3.14159"
         self.assertTrue(TestCodeGen.test(input,expect,510))
+
     def test_511(self):
         input = """
         func foo(a int, b float) float{
             return a + b;
         };
         func main() {
-            var a int = 5;
+            var a int = 6;
             var b float = 10.5;
             putFloat(foo(a, b));
         };
         """
-        expect = "15.5"
+        expect = "16.5"
         self.assertTrue(TestCodeGen.test(input,expect,511))
+
     def test_512(self):
         input = """
         var a = "Hello";
@@ -91,6 +101,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "HelloWorld\n"
         self.assertTrue(TestCodeGen.test(input,expect,512))
+
     def test_513(self):
         input = """
         func main(){
@@ -111,6 +122,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "55\n5.05.0\ntruefalse\nHelloWorld\n\n"
         self.assertTrue(TestCodeGen.test(input,expect,513))
+
     def test_514(self):
         input = """
         func main(){
@@ -124,6 +136,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "15.6\n"
         self.assertTrue(TestCodeGen.test(input,expect,514))
+
     def test_515(self):
         input = """
         var a int;
@@ -135,6 +148,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "0.0\n"
         self.assertTrue(TestCodeGen.test(input,expect,515))
+
     def test_516(self):
         input = """
         var a = 5 > 7;
@@ -146,6 +160,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "false\ntrue\n"
         self.assertTrue(TestCodeGen.test(input,expect,516))
+
     def test_517(self):
         input = """
         var a = true;
@@ -159,6 +174,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "true\nfalse\nfalse\ntrue\n"
         self.assertTrue(TestCodeGen.test(input,expect,517))
+
     def test_518(self):
         input = """
         func main(){
@@ -170,6 +186,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "true\nfalse\n"
         self.assertTrue(TestCodeGen.test(input,expect,518))
+
     def test_519(self):
         input = """
         func main(){
@@ -185,6 +202,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "false\ntrue\ntrue\nfalse\n"
         self.assertTrue(TestCodeGen.test(input,expect,519))
+
     def test_520(self):
         input = """
         func main(){
@@ -202,6 +220,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "15\n-5\n50\n0\n"
         self.assertTrue(TestCodeGen.test(input,expect,520))
+
     def test_521(self):
         input = """
         func main(){
@@ -213,6 +232,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "5\n-15\n"
         self.assertTrue(TestCodeGen.test(input,expect,521))
+
     def test_522(self):
         input = """
         func foo(a int, b float, c boolean) {
@@ -233,6 +253,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "5.0\n10\nHello\n"
         self.assertTrue(TestCodeGen.test(input,expect,522))
+
     def test_523(self):
         input = """
         var a string = "Hello";
@@ -248,6 +269,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "3\n-1\n"
         self.assertTrue(TestCodeGen.test(input,expect,523))
+
     def test_524(self):
         input = """
         func main(){
@@ -261,6 +283,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "Hello\n"
         self.assertTrue(TestCodeGen.test(input,expect,524))
+
     def test_525(self):
         input = """
         func main(){
@@ -282,6 +305,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "15\n1\n2\n"
         self.assertTrue(TestCodeGen.test(input,expect,525))
+
     def test_526(self):
         input = """
         type A struct {
@@ -304,6 +328,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "510.0"
         self.assertTrue(TestCodeGen.test(input,expect,526))
+
     def test_527(self):
         input = """
         func main(){
@@ -316,6 +341,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "21.0"
         self.assertTrue(TestCodeGen.test(input,expect,527))
+
     def test_528(self):
         input = """
         func main(){
@@ -326,6 +352,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "712"
         self.assertTrue(TestCodeGen.test(input,expect,528))
+
     def test_529(self):
         input = """
         const a = 5;
@@ -343,6 +370,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "45\n4\n10\n"
         self.assertTrue(TestCodeGen.test(input,expect,529))
+
     def test_530(self):
         input = """
         func main(){
@@ -354,6 +382,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "5\n"
         self.assertTrue(TestCodeGen.test(input,expect,530))
+
     def test_531(self):
         input = """
         type A struct {
@@ -379,6 +408,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "6\n11.0\n11\n11\n"
         self.assertTrue(TestCodeGen.test(input, expect, 531))
+
     def test_532(self):
         input = """
         type A struct {
@@ -406,6 +436,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "6\n6\n11\n11\n"
         self.assertTrue(TestCodeGen.test(input, expect, 532))
+
     def test_533(self):
             input = """
             type Car struct {
@@ -455,6 +486,7 @@ class CheckCodeGenSuite(unittest.TestCase):
             """
             expect = "Toyota\n2020\nHonda\n2021\nJohn\n30\n177.3\nHonda\n2021\n"
             self.assertTrue(TestCodeGen.test(input,expect,533))
+
     def test_534(self):
         input = """
             var arr [4]A;
@@ -481,6 +513,7 @@ class CheckCodeGenSuite(unittest.TestCase):
             """
         expect = "2\n4\n6\n8\n2\n4\n6\n8\n"
         self.assertTrue(TestCodeGen.test(input,expect,534))
+
     def test_535(self):
         input = """
         var a[5]int = [5]int{1,2,3,4,5}
@@ -506,6 +539,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "123452\n4\n6\n"
         self.assertTrue(TestCodeGen.test(input,expect,535))
+
     def test_536(self):
         input = """
         func main(){
@@ -525,6 +559,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "2\n4\n2\n"
         self.assertTrue(TestCodeGen.test(input,expect,536))
+
     def test_537(self):
         input = """
         type Person struct{
@@ -576,6 +611,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "John\n30\nToyota\n2020\nPeter\n81\nHonda\n2019\nHonda\n2019\nHonda\n2019\nHonda\n2019\n"
         self.assertTrue(TestCodeGen.test(input,expect,537))
+
     def test_538(self):
         input = """
         func main(){
@@ -590,6 +626,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "World\nHello\n"
         self.assertTrue(TestCodeGen.test(input,expect,538))
+
     def test_539(self):
         input = """
         var a = 5
@@ -604,6 +641,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "10\n5\n"
         self.assertTrue(TestCodeGen.test(input,expect,539))
+
     def test_540(self):
         input = """
         var b = "Hello"
@@ -614,6 +652,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "Hello World\n"
         self.assertTrue(TestCodeGen.test(input,expect,540))
+
     def test_541(self):
         input = """
         func genArr() [5]int {
@@ -628,6 +667,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1\n10"
         self.assertTrue(TestCodeGen.test(input,expect,541))
+
     def test_542(self):
         input = """
         func getArr() [5]int {
@@ -643,6 +683,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1\n1"
         self.assertTrue(TestCodeGen.test(input,expect,542))
+
     def test_543(self):
         input = """
         func getArr() [2]Person {
@@ -665,6 +706,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "John\n30\n"
         self.assertTrue(TestCodeGen.test(input,expect,543))
+
     def test_544(self):
         input = """
         func main(){
@@ -678,6 +720,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1\n2\n1.0\n2.0\nHello\nWorld\n"
         self.assertTrue(TestCodeGen.test(input,expect,544))
+
     def test_545(self):
         input = """
         var k = 5
@@ -698,6 +741,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "69.0"
         self.assertTrue(TestCodeGen.test(input,expect,545))
+
     def test_546(self):
         input = """
         var a = 5
@@ -721,6 +765,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "8\n"
         self.assertTrue(TestCodeGen.test(input,expect,546))
+
     def test_547(self):
         input = """
         var a = 1 + foo() + 2
@@ -744,6 +789,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "-2.0\n"
         self.assertTrue(TestCodeGen.test(input,expect,547))
+
     def test_548(self):
         input = """
         const a = 20 * 10
@@ -775,6 +821,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "567\n567\n567\n567\n567\n2040123456789"
         self.assertTrue(TestCodeGen.test(input,expect,548))
+
     def test_549(self):
         input = """
         func main(){
@@ -791,6 +838,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "123456789123456789"
         self.assertTrue(TestCodeGen.test(input,expect,549))
+
     def test_550(self):
         input = """
         func main(){
@@ -810,6 +858,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "24681234567"
         self.assertTrue(TestCodeGen.test(input,expect,550))
+
     def test_551(self):
         input = """
         var a = "Hello"
@@ -840,6 +889,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "Hallo\nCiao\n"
         self.assertTrue(TestCodeGen.test(input,expect,551))
+
     def test_552(self):
         input = """
         var arr[5]int = [5]int{1,2,3,4,5}
@@ -858,6 +908,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "24135"
         self.assertTrue(TestCodeGen.test(input,expect,552))
+
     def test_553(self):
         input = """
         func main(){
@@ -868,6 +919,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "14"
         self.assertTrue(TestCodeGen.test(input,expect,553))
+
     def test_554(self):
         input = """
         var a = "Hello"
@@ -902,6 +954,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "hello\n10\n10\n"
         self.assertTrue(TestCodeGen.test(input,expect,554))
+
     def test_555(self):
         input = """
         const MAX = 5;
@@ -940,6 +993,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         }
         """
         self.assertTrue(TestCodeGen.test(input, "0 1 2 3 4 ", 555))
+
     def test_556(self):
         input = """
         const MAX = 5
@@ -956,6 +1010,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1\n3\n32345"
         self.assertTrue(TestCodeGen.test(input, expect, 556))
+
     def test_557(self):
         input = """
         const MAX = 3
@@ -976,6 +1031,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1\n3\n3234867813"
         self.assertTrue(TestCodeGen.test(input, expect, 557))
+
     def test_558(self):
         input = """
         const MAX = 2
@@ -996,6 +1052,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1\n6\n12365678"
         self.assertTrue(TestCodeGen.test(input, expect, 558))
+
     def test_559(self):
         input = """
         type A struct{
@@ -1023,6 +1080,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1\n2\n3\n4\n"
         self.assertTrue(TestCodeGen.test(input, expect, 559))
+
     def test_560(self):
         input = """
         type A struct{
@@ -1045,6 +1103,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1\n2\n"
         self.assertTrue(TestCodeGen.test(input, expect, 560))
+
     def test_561(self):
         input = """
         type A struct{
@@ -1092,6 +1151,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "10.0Hellotrue5555510.0kakakatrue66666"
         self.assertTrue(TestCodeGen.test(input, expect, 561))
+
     def test_562(self):
         input = """
         type A struct {
@@ -1119,6 +1179,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1\n0.0\n\nfalse\n0\n2.0\n\nfalse\n0\n0.0\n\ntrue\n0\n0.0\nabc\nfalse\n"
         self.assertTrue(TestCodeGen.test(input, expect, 562))
+
     def test_563(self):
         input = """
         const MAX = 5
@@ -1138,6 +1199,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "2.04.06.08.010.0"
         self.assertTrue(TestCodeGen.test(input, expect, 563))
+
     def test_564(self):
         input = """
         const M = 0b10
@@ -1150,6 +1212,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1"
         self.assertTrue(TestCodeGen.test(input, expect, 564))
+
     def test_565(self):
         input = """
         func main(){
@@ -1163,6 +1226,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "3.14\n0.0\n200.0\n0.01\n0.001\n120.0\n"
         self.assertTrue(TestCodeGen.test(input, expect, 565))
+
     def test_566(self):
         input = """
         const MAX = 3
@@ -1177,6 +1241,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "4.0\n"
         self.assertTrue(TestCodeGen.test(input, expect, 566))
+
     def test_567(self):
         input = """
         var a = "Hello"
@@ -1193,6 +1258,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "Hello\nWorld\nHello World\nHello World\n"
         self.assertTrue(TestCodeGen.test(input, expect, 567))
+
     def test_568(self):
         input = """
         func fibo(n int) int{
@@ -1208,6 +1274,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "2\n3\n"
         self.assertTrue(TestCodeGen.test(input, expect, 568))
+
     def test_569(self):
         input = """
         const MAX = 10
@@ -1232,6 +1299,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "23478911121415"
         self.assertTrue(TestCodeGen.test(input, expect, 569))
+
     def test_570(self):
         input = """
         func foo(){
@@ -1247,6 +1315,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "Hello\nWorld\nHello\n"
         self.assertTrue(TestCodeGen.test(input, expect, 570))
+
     def test_571(self):
         input = """
         var a = "Hello"
@@ -1256,6 +1325,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "Hello"
         self.assertTrue(TestCodeGen.test(input, expect, 571))
+
     def test_572(self):
         input = """
         func test() string{
@@ -1283,6 +1353,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "HelloWorldlalameowmeowvibe codingvibe codinglalameowmeow"
         self.assertTrue(TestCodeGen.test(input, expect, 572))
+
     def test_573(self):
         input = """
         var a = "ahhaaha"
@@ -1294,6 +1365,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "ahhaaha\nhjhjhj\n"
         self.assertTrue(TestCodeGen.test(input, expect, 573))
+
     def test_574(self):
         input = """
         const MAX = 2
@@ -1321,6 +1393,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "aa\nccpassbyref\nbbpassbyref\npass\npass\n"
         self.assertTrue(TestCodeGen.test(input, expect, 574))
+
     def test_575(self):
         input = """
         const MAX = 2
@@ -1350,6 +1423,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "ccpassbyref\npass\naa\npass\npass\n"
         self.assertTrue(TestCodeGen.test(input, expect, 575))
+
     def test_576(self):
         input = """
         func main() {
@@ -1362,89 +1436,42 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "false\nfalse\ntrue\ntrue\n"
         self.assertTrue(TestCodeGen.test(input, expect, 576))
-    def test_576(self):
-        input = """
-        func main() {
-            var a = 5
-            var b = 0
-            // Without short circuit, this would cause runtime error
-            if (b != 0 && a/b > 2) {
-                putStringLn("Division result > 2")
-            } else {
-                putStringLn("Safe from division by zero")
-            }
-        
-            b := 2
-            if (b != 0 && a/b > 2) {
-                putStringLn("Division result > 2")
-            } else {
-                putStringLn("Division result <= 2")
-            }
-        }
-        """
-        expect = "Safe from division by zero\nDivision result <= 2\n"
-        self.assertTrue(TestCodeGen.test(input, expect, 576))
+
     def test_577(self):
         input = """
-        var counter = 0
-
-        func main() {
-            // This should call incrementAndGet only once
-            if (false && incrementAndGet() > 0 && incrementAndGet() > 0) {
-                putStringLn("This won't print")
+        func sumEvenIndices(arr [4]int) int {
+            var sum int = 0;
+            for i := 0; i < 4; i += 2 {
+                sum += arr[i];
             }
-            putIntLn(counter) // expect 0
-            
-            counter := 0
-            // This should call incrementAndGet only once
-            if (true || incrementAndGet() > 0 || incrementAndGet() > 0) {
-                putIntLn(counter) // 0
-            }
+            return sum;
         }
-
-        func incrementAndGet() int {
-            counter += 1
-            return counter
+        func main(){
+            var arr [4]int = [4]int{5, 10, 15, 20};
+            putIntLn(sumEvenIndices(arr));
         }
         """
-        expect = "0\n0\n"
+        expect = "20\n"
         self.assertTrue(TestCodeGen.test(input, expect, 577))
+
     def test_578(self):
         input = """
-        var callCount = 0
-        
-        func factorial(n int) int {
-            callCount += 1
-            
-            // Base case
-            if (n <= 1) {
-                return 1
-            }
-            
-            return n * factorial(n-1)
+        type Product struct {
+            price float;
+            discount float;
         }
-        
-        func main() {
-            // Short circuit prevents evaluating factorial(5)
-            if (false && factorial(5) > 10) {
-                putStringLn("Won't print")
-            }
-            
-            putIntLn(callCount) // Should be 0
-            
-            if (true || factorial(5) > 10) {
-                putStringLn("Short-circuited")
-            }
-            
-            putIntLn(callCount) // Still 0
-
-            result := factorial(5)
-            putIntLn(result)  // 120
-            putIntLn(callCount) // 5
+        func (p Product) finalPrice() float {
+            var discountAmount float = p.price * p.discount;
+            return p.price - discountAmount;
+        }
+        func main(){
+            var item Product = Product{price: 100.0, discount: 0.2};
+            putFloatLn(item.finalPrice());
         }
         """
-        expect = "0\nShort-circuited\n0\n120\n5\n"
+        expect = "80.0\n"
         self.assertTrue(TestCodeGen.test(input, expect, 578))
+
     def test_579(self):
         input = """
         type Library struct {
@@ -1466,6 +1493,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "- Go Programming\n- Python Basics\n"
         self.assertTrue(TestCodeGen.test(input, expect, 579))
+
     def test_580(self):
         input = """
         const MAX = 2
@@ -1485,6 +1513,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "abc\nxyz\nabc\ndef\nxyz\n"
         self.assertTrue(TestCodeGen.test(input, expect, 580))
+
     def test_581(self):
         input = """
         const MAX = 2
@@ -1499,6 +1528,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = ""
         self.assertTrue(TestCodeGen.test(input, expect, 581))
+
     def test_582(self):
         input = """
         type A struct{
@@ -1522,6 +1552,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "foo\nHello\n"
         self.assertTrue(TestCodeGen.test(input, expect, 582))
+
     def test_582(self):
         input = """
         type A struct{
@@ -1552,6 +1583,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "foo\nHello\naaa\n"
         self.assertTrue(TestCodeGen.test(input, expect, 583))
+
     def test_584(self):
         input = """
         const MAX = 2
@@ -1576,6 +1608,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "aabbuu"
         self.assertTrue(TestCodeGen.test(input, expect, 584))
+
     def test_585(self):
         input = """
         func test(x string, a A, b B) {
@@ -1611,6 +1644,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "\n\n\nHello\n!\n!\n"
         self.assertTrue(TestCodeGen.test(input, expect, 585))
+
     def test_586(self):
         input = """
         var e int = getInt()
@@ -1624,6 +1658,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = ""
         self.assertTrue(TestCodeGen.test(input, expect, 586))
+
     def test_587(self):
         input = """
         const a = 1
@@ -1641,6 +1676,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "1\n9\n27\n108\n135.0\n"
         self.assertTrue(TestCodeGen.test(input, expect, 587))
+
     def test_588(self):
         input = """
         type A struct{
@@ -1673,6 +1709,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "Hello\nWorld\n!\n"
         self.assertTrue(TestCodeGen.test(input, expect, 588))
+
     def test_589(self):
         input = """
         type A struct {
@@ -1692,6 +1729,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "Hello\n0\n0.0\n"
         self.assertTrue(TestCodeGen.test(input, expect, 589))
+
     def test_590(self):
         input = """
         type A struct {
@@ -1719,6 +1757,7 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "14.5hh\nhonors\n0\n0.0\n1"
         self.assertTrue(TestCodeGen.test(input, expect, 590))
+
     def test_591(self):
         input = """
         type A struct {
@@ -1760,3 +1799,185 @@ class CheckCodeGenSuite(unittest.TestCase):
         """
         expect = "14.5hh\nhonors\n0\n0.0\n1aaa\naaahhh\n1\n9\n27\n108\n135.0\n"
         self.assertTrue(TestCodeGen.test(input, expect, 591))
+
+    def test_592(self):
+        input = """
+        func main(){
+            var x int = 7;
+            var y int = 3;
+            var z int = x % y + x * y;
+            putIntLn(z);
+        }
+        """
+        expect = "22\n"
+        self.assertTrue(TestCodeGen.test(input, expect, 592))
+
+    def test_593(self):
+        input = """
+        func reverseArray(arr [3]int) [3]int {
+            var result [3]int;
+            for i := 0; i < 3; i += 1 {
+                result[i] := arr[2 - i];
+            }
+            return result;
+        }
+        func main(){
+            var arr [3]int = [3]int{1, 2, 3};
+            var reversed [3]int = reverseArray(arr);
+            putIntLn(reversed[0]);
+            putIntLn(reversed[1]);
+            putIntLn(reversed[2]);
+        }
+        """
+        expect = "3\n2\n1\n"
+        self.assertTrue(TestCodeGen.test(input, expect, 593))
+
+    def test_594(self):
+        input = """
+        func isPrime(n int) boolean {
+            if (n < 2) {
+                return false
+            }
+            for i := 2; i * i <= n; i += 1 {
+                if (n % i == 0) {
+                    return false
+                }
+            }
+            return true;
+        }
+        func main(){
+            putBoolLn(isPrime(17));
+            putBoolLn(isPrime(15));
+        }
+        """
+        expect = "true\nfalse\n"
+        self.assertTrue(TestCodeGen.test(input, expect, 594))
+
+    def test_595(self):
+        input = """
+        type Box struct {
+            width float;
+            height float;
+        }
+        func (b Box) area() float {
+            return b.width * b.height;
+        }
+        func main(){
+            var box Box = Box{width: 4.5, height: 2.0};
+            putFloatLn(box.area());
+        }
+        """
+        expect = "9.0\n"
+        self.assertTrue(TestCodeGen.test(input, expect, 595))
+
+    def test_596(self):
+        input = """
+        func main(){
+            var sum int = 0;
+            for i := 1; i <= 10; i += 1 {
+                if (i % 3 == 0 || i % 5 == 0) {
+                    sum += i;
+                }
+            }
+            putIntLn(sum);
+        }
+        """
+        expect = "33\n"
+        self.assertTrue(TestCodeGen.test(input, expect, 596))
+
+    def test_597(self):
+        input = """
+        type Vehicle struct {
+            speed int;
+        }
+        type Transport interface {
+            getSpeed() int;
+        }
+        func (v Vehicle) getSpeed() int {
+            return v.speed;
+        }
+        func main(){
+            var fleet [2]Transport = [2]Transport{Vehicle{speed: 60}, Vehicle{speed: 80}};
+            var total int = fleet[0].getSpeed() + fleet[1].getSpeed();
+            putIntLn(total);
+        }
+        """
+        expect = "140\n"
+        self.assertTrue(TestCodeGen.test(input, expect, 597))
+
+    def test_598(self):
+        input = """
+        func concatenate(s1 string, s2 string) string {
+            var result string = s1;
+            for i := 0; i < 2; i += 1 {
+                result += s2;
+            }
+            return result;
+        }
+        func main(){
+            var str string = concatenate("Hi", "!");
+            putStringLn(str);
+        }
+        """
+        expect = "Hi!!\n"
+        self.assertTrue(TestCodeGen.test(input, expect, 598))
+
+    def test_599(self):
+            input = """
+            type Score struct {
+                points int;
+            }
+            func (s Score) evaluate() string {
+                if (s.points >= 50) {
+                    return "Pass";
+                }
+                return "Fail";
+            }
+            func main(){
+                var s1 Score = Score{points: 75};
+                var s2 Score = Score{points: 30};
+                putStringLn(s1.evaluate());
+                putStringLn(s2.evaluate());
+            }
+            """
+            expect = "Pass\nFail\n"
+            self.assertTrue(TestCodeGen.test(input, expect, 599))
+
+    def test_600(self):
+        input = """
+        func maxInMatrix(matrix [2][2]int) int {
+            var max int = matrix[0][0];
+            for i := 0; i < 2; i += 1 {
+                for j := 0; j < 2; j += 1 {
+                    if (matrix[i][j] > max) {
+                        max := matrix[i][j];
+                    }
+                }
+            }
+            return max;
+        }
+        func main(){
+            var matrix [2][2]int = [2][2]int{{1, 2}, {3, 4}};
+            putIntLn(maxInMatrix(matrix));
+        }
+        """
+        expect = "4\n"
+        self.assertTrue(TestCodeGen.test(input, expect, 600))
+
+    def test_601(self):
+        input = """
+        func power(base int, exp int) int {
+            var result int = 1;
+            for i := 0; i < exp; i += 1 {
+                result *= base;
+            }
+            return result;
+        }
+        func main(){
+            var a int = power(2, 3);
+            var b int = power(3, 2);
+            putIntLn(a + b);
+        }
+        """
+        expect = "17\n"
+        self.assertTrue(TestCodeGen.test(input, expect, 601))

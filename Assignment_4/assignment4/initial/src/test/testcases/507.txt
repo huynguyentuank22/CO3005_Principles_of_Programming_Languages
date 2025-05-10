@@ -1,5 +1,4 @@
 
-        
         func main() {
             putStringLn("Hello World");
         };

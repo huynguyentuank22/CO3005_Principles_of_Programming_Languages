@@ -2,17 +2,17 @@
 .class public MiniGoClass
 .super java.lang.Object
 .field static e I
-.field static d LGoString;
+.field static d LString_MiniGo;
 
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
 Label2:
-.var 1 is a LGoString; from Label2 to Label3
-	new GoString
+.var 1 is a LString_MiniGo; from Label2 to Label3
+	new String_MiniGo
 	dup
 	ldc ""
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	astore_1
 .var 2 is b I from Label2 to Label3
 	iconst_0
@@ -46,11 +46,11 @@ Label1:
 .method public static <clinit>()V
 	iconst_0
 	putstatic MiniGoClass/e I
-	new GoString
+	new String_MiniGo
 	dup
 	ldc ""
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putstatic MiniGoClass/d LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putstatic MiniGoClass/d LString_MiniGo;
 Label0:
 Label1:
 	return

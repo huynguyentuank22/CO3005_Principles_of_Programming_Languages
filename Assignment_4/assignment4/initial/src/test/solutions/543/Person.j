@@ -1,7 +1,7 @@
 .source Person.java
 .class public Person
 .super java/lang/Object
-.field name LGoString;
+.field name LString_MiniGo;
 .field age I
 
 .method public <init>()V
@@ -20,8 +20,8 @@ Label1:
 Label0:
 Label2:
 	aload_0
-	getfield Person/name LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	getfield Person/name LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	aload_0
 	getfield Person/age I

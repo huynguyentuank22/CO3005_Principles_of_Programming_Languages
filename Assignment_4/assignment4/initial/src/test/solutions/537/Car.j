@@ -1,7 +1,7 @@
 .source Car.java
 .class public Car
 .super java/lang/Object
-.field name LGoString;
+.field name LString_MiniGo;
 .field year I
 
 .method public <init>()V
@@ -20,8 +20,8 @@ Label1:
 Label0:
 Label2:
 	aload_0
-	getfield Car/name LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	getfield Car/name LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	aload_0
 	getfield Car/year I
@@ -38,16 +38,16 @@ Label1:
 Label0:
 Label2:
 	aload_0
- 	getfield Car/name LGoString;
+ 	getfield Car/name LString_MiniGo;
 
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Honda"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 
-	invokevirtual GoString/setValue(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/setValue(Ljava/lang/String;)V
 
 	aload_0
 	sipush 2019

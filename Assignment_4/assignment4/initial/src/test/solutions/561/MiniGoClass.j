@@ -2,10 +2,10 @@
 .class public MiniGoClass
 .super java.lang.Object
 
-.method public static initA(IZLGoString;)LA;
+.method public static initA(IZLString_MiniGo;)LA;
 .var 0 is x I from Label0 to Label1
 .var 1 is z Z from Label0 to Label1
-.var 2 is s LGoString; from Label0 to Label1
+.var 2 is s LString_MiniGo; from Label0 to Label1
 Label0:
 Label2:
 	new A
@@ -22,7 +22,7 @@ Label2:
 	putfield A/z Z
 	dup
 	aload_2
-	putfield A/s LGoString;
+	putfield A/s LString_MiniGo;
 	areturn
 Label3:
 Label1:
@@ -41,11 +41,11 @@ Label2:
 	astore_1
 	iconst_1
 	iconst_1
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokestatic MiniGoClass/initA(IZLGoString;)LA;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokestatic MiniGoClass/initA(IZLString_MiniGo;)LA;
 	astore_1
 	aload_1
 	invokevirtual A/foo()V

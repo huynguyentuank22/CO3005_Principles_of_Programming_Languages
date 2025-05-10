@@ -14,29 +14,29 @@ Label2:
 .var 4 is b I from Label2 to Label3
 	iconst_0
 	istore 4
-.var 5 is c LGoString; from Label2 to Label3
-	new GoString
+.var 5 is c LString_MiniGo; from Label2 to Label3
+	new String_MiniGo
 	dup
 	ldc ""
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	astore 5
 	ldc 5.0
 	fstore_3
 	bipush 10
 	istore 4
 	aload 5
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/getValue()Ljava/lang/String;
-	invokevirtual GoString/setValue(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/setValue(Ljava/lang/String;)V
 	fload_3
 	invokestatic io/putFloatLn(F)V
 	iload 4
 	invokestatic io/putIntLn(I)V
 	aload 5
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 Label3:
 Label1:

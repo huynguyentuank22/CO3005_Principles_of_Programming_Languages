@@ -1,0 +1,16 @@
+
+        type Vehicle struct {
+            speed int;
+        }
+        type Transport interface {
+            getSpeed() int;
+        }
+        func (v Vehicle) getSpeed() int {
+            return v.speed;
+        }
+        func main(){
+            var fleet [2]Transport = [2]Transport{Vehicle{speed: 60}, Vehicle{speed: 80}};
+            var total int = fleet[0].getSpeed() + fleet[1].getSpeed();
+            putIntLn(total);
+        }
+        

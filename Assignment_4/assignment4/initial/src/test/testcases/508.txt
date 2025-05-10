@@ -1,7 +1,7 @@
 
         func main() {
-            var a int = 10;
-            var b int = 20;
+            var a int = 20;
+            var b int = 30;
             putInt(a + b);
         };
         

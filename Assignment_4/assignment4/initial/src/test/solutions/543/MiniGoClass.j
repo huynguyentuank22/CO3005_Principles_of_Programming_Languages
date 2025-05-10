@@ -13,11 +13,11 @@ Label2:
 	dup
 	invokespecial Person/<init>()V
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "John"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield Person/name LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield Person/name LString_MiniGo;
 	dup
 	bipush 30
 	putfield Person/age I
@@ -28,11 +28,11 @@ Label2:
 	dup
 	invokespecial Person/<init>()V
 	dup
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Jane"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putfield Person/name LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putfield Person/name LString_MiniGo;
 	dup
 	bipush 25
 	putfield Person/age I

@@ -18,11 +18,11 @@ Label2:
 	putfield A/y F
 	astore_1
 	aload_1
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual A/main(LGoString;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual A/main(LString_MiniGo;)V
 Label3:
 Label1:
 	return

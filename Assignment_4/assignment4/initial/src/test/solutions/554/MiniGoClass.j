@@ -1,7 +1,7 @@
 .source MiniGoClass.java
 .class public MiniGoClass
 .super java.lang.Object
-.field static a LGoString;
+.field static a LString_MiniGo;
 .field static b LB;
 .field static c LC;
 
@@ -9,12 +9,12 @@
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
 Label2:
-	getstatic MiniGoClass/a LGoString;
+	getstatic MiniGoClass/a LString_MiniGo;
 	getstatic MiniGoClass/b LB;
 	getstatic MiniGoClass/c LC;
-	invokestatic MiniGoClass/testPassByRef(LGoString;LB;LC;)V
-	getstatic MiniGoClass/a LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokestatic MiniGoClass/testPassByRef(LString_MiniGo;LB;LC;)V
+	getstatic MiniGoClass/a LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	getstatic MiniGoClass/b LB;
 	invokevirtual B/getA()I
@@ -29,19 +29,19 @@ Label1:
 .limit locals 1
 .end method
 
-.method public static testPassByRef(LGoString;LB;LC;)V
-.var 0 is s LGoString; from Label0 to Label1
+.method public static testPassByRef(LString_MiniGo;LB;LC;)V
+.var 0 is s LString_MiniGo; from Label0 to Label1
 .var 1 is m LB; from Label0 to Label1
 .var 2 is n LC; from Label0 to Label1
 Label0:
 Label2:
 	aload_0
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/getValue()Ljava/lang/String;
-	invokevirtual GoString/setValue(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/setValue(Ljava/lang/String;)V
 	aload_1
 	invokevirtual B/foo()V
 Label3:
@@ -65,11 +65,11 @@ Label1:
 .end method
 
 .method public static <clinit>()V
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putstatic MiniGoClass/a LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putstatic MiniGoClass/a LString_MiniGo;
 	new B
 	dup
 	invokespecial B/<init>()V

@@ -15,13 +15,13 @@ Label1:
 .limit locals 1
 .end method
 
-.method public main(LGoString;)V
+.method public main(LString_MiniGo;)V
 .var 0 is this LA; from Label0 to Label1
-.var 1 is s LGoString; from Label0 to Label1
+.var 1 is s LString_MiniGo; from Label0 to Label1
 Label0:
 Label2:
 	aload_1
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	aload_0
 	getfield A/x I

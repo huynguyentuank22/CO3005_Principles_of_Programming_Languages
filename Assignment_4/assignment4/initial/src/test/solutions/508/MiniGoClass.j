@@ -7,10 +7,10 @@
 Label0:
 Label2:
 .var 1 is a I from Label2 to Label3
-	bipush 10
+	bipush 20
 	istore_1
 .var 2 is b I from Label2 to Label3
-	bipush 20
+	bipush 30
 	istore_2
 	iload_1
 	iload_2

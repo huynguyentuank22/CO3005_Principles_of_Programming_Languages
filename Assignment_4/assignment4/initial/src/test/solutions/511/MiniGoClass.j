@@ -23,7 +23,7 @@ Label1:
 Label0:
 Label2:
 .var 1 is a I from Label2 to Label3
-	iconst_5
+	bipush 6
 	istore_1
 .var 2 is b F from Label2 to Label3
 	ldc 10.5

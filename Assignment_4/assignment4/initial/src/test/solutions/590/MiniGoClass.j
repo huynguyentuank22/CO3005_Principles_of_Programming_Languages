@@ -3,7 +3,7 @@
 .super java.lang.Object
 .field static final a [I
 .field static final b [F
-.field static final c [LGoString;
+.field static final c [LString_MiniGo;
 .field static final d [LA;
 .field static final e [[I
 
@@ -19,19 +19,19 @@ Label2:
 	iconst_1
 	faload
 	invokestatic io/putFloat(F)V
-	getstatic MiniGoClass/c [LGoString;
+	getstatic MiniGoClass/c [LString_MiniGo;
 	iconst_0
 	aaload
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	getstatic MiniGoClass/d [LA;
 	iconst_1
 	aaload
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "honors"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual A/main(LGoString;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual A/main(LString_MiniGo;)V
 	getstatic MiniGoClass/e [[I
 	iconst_0
 	aaload
@@ -86,22 +86,22 @@ Label1:
 	fastore
 	putstatic MiniGoClass/b [F
 	iconst_2
-	anewarray GoString
+	anewarray String_MiniGo
 	dup
 	iconst_0
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "hh"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
 	dup
 	iconst_1
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "ll"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	aastore
-	putstatic MiniGoClass/c [LGoString;
+	putstatic MiniGoClass/c [LString_MiniGo;
 	iconst_2
 	anewarray A
 	dup

@@ -1,18 +1,18 @@
 .source MiniGoClass.java
 .class public MiniGoClass
 .super java.lang.Object
-.field static a LGoString;
-.field static b LGoString;
+.field static a LString_MiniGo;
+.field static b LString_MiniGo;
 
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
 Label2:
-	getstatic MiniGoClass/a LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	getstatic MiniGoClass/a LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
-	getstatic MiniGoClass/b LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	getstatic MiniGoClass/b LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 Label3:
 Label1:
@@ -35,16 +35,16 @@ Label1:
 .end method
 
 .method public static <clinit>()V
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "ahhaaha"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putstatic MiniGoClass/a LGoString;
-	new GoString
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putstatic MiniGoClass/a LString_MiniGo;
+	new String_MiniGo
 	dup
 	ldc "hjhjhj"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	putstatic MiniGoClass/b LGoString;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	putstatic MiniGoClass/b LString_MiniGo;
 Label0:
 Label1:
 	return

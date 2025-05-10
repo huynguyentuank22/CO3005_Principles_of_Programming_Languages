@@ -1,0 +1,17 @@
+
+            type Score struct {
+                points int;
+            }
+            func (s Score) evaluate() string {
+                if (s.points >= 50) {
+                    return "Pass";
+                }
+                return "Fail";
+            }
+            func main(){
+                var s1 Score = Score{points: 75};
+                var s2 Score = Score{points: 30};
+                putStringLn(s1.evaluate());
+                putStringLn(s2.evaluate());
+            }
+            

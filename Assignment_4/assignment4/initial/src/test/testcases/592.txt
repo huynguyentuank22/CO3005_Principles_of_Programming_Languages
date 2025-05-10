@@ -1,0 +1,8 @@
+
+        func main(){
+            var x int = 7;
+            var y int = 3;
+            var z int = x % y + x * y;
+            putIntLn(z);
+        }
+        

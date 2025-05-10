@@ -1,22 +1,13 @@
 
-        var counter = 0
-
-        func main() {
-            // This should call incrementAndGet only once
-            if (false && incrementAndGet() > 0 && incrementAndGet() > 0) {
-                putStringLn("This won't print")
+        func sumEvenIndices(arr [4]int) int {
+            var sum int = 0;
+            for i := 0; i < 4; i += 2 {
+                sum += arr[i];
             }
-            putIntLn(counter) // expect 0
-            
-            counter := 0
-            // This should call incrementAndGet only once
-            if (true || incrementAndGet() > 0 || incrementAndGet() > 0) {
-                putIntLn(counter) // 0
-            }
+            return sum;
         }
-
-        func incrementAndGet() int {
-            counter += 1
-            return counter
+        func main(){
+            var arr [4]int = [4]int{5, 10, 15, 20};
+            putIntLn(sumEvenIndices(arr));
         }
         

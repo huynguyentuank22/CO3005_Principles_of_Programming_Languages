@@ -2,7 +2,7 @@
 .class public A
 .super java/lang/Object
 .implements B
-.field _s [LGoString;
+.field _s [LString_MiniGo;
 
 .method public <init>()V
 .var 0 is this LA; from Label0 to Label1
@@ -15,15 +15,15 @@ Label1:
 .limit locals 1
 .end method
 
-.method public setS([LGoString;)V
+.method public setS([LString_MiniGo;)V
 .var 0 is this LA; from Label0 to Label1
-.var 1 is s [LGoString; from Label0 to Label1
+.var 1 is s [LString_MiniGo; from Label0 to Label1
 Label0:
 Label2:
 	aload_0
 	aload_1
 
-	putfield A/_s [LGoString;
+	putfield A/_s [LString_MiniGo;
 Label3:
 Label1:
 	return
@@ -31,12 +31,12 @@ Label1:
 .limit locals 2
 .end method
 
-.method public getS()[LGoString;
+.method public getS()[LString_MiniGo;
 .var 0 is this LA; from Label0 to Label1
 Label0:
 Label2:
 	aload_0
-	getfield A/_s [LGoString;
+	getfield A/_s [LString_MiniGo;
 	areturn
 Label3:
 Label1:
@@ -72,10 +72,10 @@ Label4:
 Label9:
 Label12:
 	aload_0
-	getfield A/_s [LGoString;
+	getfield A/_s [LString_MiniGo;
 	iload_1
 	aaload
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 Label13:
 	goto Label4

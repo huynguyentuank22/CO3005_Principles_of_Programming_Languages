@@ -8,38 +8,26 @@ Label0:
 Label2:
 .var 1 is a Z from Label2 to Label3
 	iconst_1
-	dup
-	ifle Label4
-	pop
 	iconst_0
-Label4:
-	dup
-	ifgt Label5
-	pop
+	iand
 	iconst_1
-Label5:
+	ior
 	istore_1
 	iload_1
 	invokestatic io/putBoolLn(Z)V
 .var 2 is b Z from Label2 to Label3
 	iconst_0
-	dup
-	ifgt Label7
-	pop
 	iconst_1
-	dup
-	ifle Label6
-	pop
 	iconst_0
-Label6:
-Label7:
+	iand
+	ior
 	istore_2
 	iload_2
 	invokestatic io/putBoolLn(Z)V
 Label3:
 Label1:
 	return
-.limit stack 4
+.limit stack 3
 .limit locals 3
 .end method
 
@@ -48,8 +36,8 @@ Label1:
 Label0:
 	aload_0
 	invokespecial java/lang/Object/<init>()V
-Label8:
-Label9:
+Label4:
+Label5:
 Label1:
 	return
 .limit stack 1

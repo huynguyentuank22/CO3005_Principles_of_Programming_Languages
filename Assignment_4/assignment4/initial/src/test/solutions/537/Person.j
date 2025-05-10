@@ -2,7 +2,7 @@
 .class public Person
 .super java/lang/Object
 .implements AI
-.field name LGoString;
+.field name LString_MiniGo;
 .field age I
 .field cars [LCar;
 
@@ -22,8 +22,8 @@ Label1:
 Label0:
 Label2:
 	aload_0
-	getfield Person/name LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	getfield Person/name LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	aload_0
 	getfield Person/age I
@@ -45,16 +45,16 @@ Label1:
 Label0:
 Label2:
 	aload_0
- 	getfield Person/name LGoString;
+ 	getfield Person/name LString_MiniGo;
 
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Peter"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 
-	invokevirtual GoString/setValue(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/setValue(Ljava/lang/String;)V
 
 	aload_0
 	bipush 81

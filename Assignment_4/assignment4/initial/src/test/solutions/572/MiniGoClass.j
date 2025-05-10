@@ -2,25 +2,25 @@
 .class public MiniGoClass
 .super java.lang.Object
 
-.method public static test()LGoString;
+.method public static test()LString_MiniGo;
 Label0:
 Label2:
-.var 0 is a LGoString; from Label2 to Label3
-	new GoString
+.var 0 is a LString_MiniGo; from Label2 to Label3
+	new String_MiniGo
 	dup
 	ldc "Hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	astore_0
-.var 1 is b LGoString; from Label2 to Label3
-	new GoString
+.var 1 is b LString_MiniGo; from Label2 to Label3
+	new String_MiniGo
 	dup
 	ldc "World"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	astore_1
-.var 2 is c LGoString; from Label2 to Label3
+.var 2 is c LString_MiniGo; from Label2 to Label3
 	aload_0
 	aload_1
-	invokevirtual GoString/concat(LGoString;)LGoString;
+	invokevirtual String_MiniGo/concat(LString_MiniGo;)LString_MiniGo;
 	astore_2
 	aload_2
 	areturn
@@ -30,13 +30,13 @@ Label1:
 .limit locals 3
 .end method
 
-.method public static test1()LGoString;
+.method public static test1()LString_MiniGo;
 Label0:
 Label2:
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "vibe coding"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	areturn
 Label3:
 Label1:
@@ -44,28 +44,28 @@ Label1:
 .limit locals 0
 .end method
 
-.method public static foo(LGoString;)V
-.var 0 is s LGoString; from Label0 to Label1
+.method public static foo(LString_MiniGo;)V
+.var 0 is s LString_MiniGo; from Label0 to Label1
 Label0:
 Label2:
 	aload_0
 	aload_0
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "lala"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/concat(LGoString;)LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
-	invokevirtual GoString/setValue(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/concat(LString_MiniGo;)LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/setValue(Ljava/lang/String;)V
 	aload_0
 	aload_0
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "meowmeow"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/concat(LGoString;)LGoString;
-	invokevirtual GoString/getValue()Ljava/lang/String;
-	invokevirtual GoString/setValue(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/concat(LString_MiniGo;)LString_MiniGo;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/setValue(Ljava/lang/String;)V
 Label3:
 Label1:
 	return
@@ -77,24 +77,24 @@ Label1:
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
 Label2:
-.var 1 is str1 LGoString; from Label2 to Label3
-	invokestatic MiniGoClass/test()LGoString;
+.var 1 is str1 LString_MiniGo; from Label2 to Label3
+	invokestatic MiniGoClass/test()LString_MiniGo;
 	astore_1
 	aload_1
-	invokestatic MiniGoClass/foo(LGoString;)V
+	invokestatic MiniGoClass/foo(LString_MiniGo;)V
 	aload_1
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putString(Ljava/lang/String;)V
-.var 2 is str2 LGoString; from Label2 to Label3
-	invokestatic MiniGoClass/test1()LGoString;
+.var 2 is str2 LString_MiniGo; from Label2 to Label3
+	invokestatic MiniGoClass/test1()LString_MiniGo;
 	astore_2
 	aload_2
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putString(Ljava/lang/String;)V
 	aload_2
-	invokestatic MiniGoClass/foo(LGoString;)V
+	invokestatic MiniGoClass/foo(LString_MiniGo;)V
 	aload_2
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putString(Ljava/lang/String;)V
 Label3:
 Label1:

@@ -30,7 +30,7 @@ Label1:
 .end method
 
 .method public static <clinit>()V
-	ldc 3.14
+	ldc 3.14159
 	putstatic MiniGoClass/PI F
 Label0:
 Label1:

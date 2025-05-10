@@ -6,11 +6,11 @@
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
 Label2:
-	new GoString
+	new String_MiniGo
 	dup
 	ldc "Hello World"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 Label3:
 Label1:

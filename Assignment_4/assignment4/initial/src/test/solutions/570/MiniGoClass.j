@@ -5,14 +5,14 @@
 .method public static foo()V
 Label0:
 Label2:
-.var 0 is a LGoString; from Label2 to Label3
-	new GoString
+.var 0 is a LString_MiniGo; from Label2 to Label3
+	new String_MiniGo
 	dup
 	ldc "World"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	astore_0
 	aload_0
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 Label3:
 Label1:
@@ -25,18 +25,18 @@ Label1:
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
 Label2:
-.var 1 is a LGoString; from Label2 to Label3
-	new GoString
+.var 1 is a LString_MiniGo; from Label2 to Label3
+	new String_MiniGo
 	dup
 	ldc "Hello"
-	invokespecial GoString/<init>(Ljava/lang/String;)V
+	invokespecial String_MiniGo/<init>(Ljava/lang/String;)V
 	astore_1
 	aload_1
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 	invokestatic MiniGoClass/foo()V
 	aload_1
-	invokevirtual GoString/getValue()Ljava/lang/String;
+	invokevirtual String_MiniGo/getValue()Ljava/lang/String;
 	invokestatic io/putStringLn(Ljava/lang/String;)V
 Label3:
 Label1:

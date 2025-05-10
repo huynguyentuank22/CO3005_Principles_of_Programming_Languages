@@ -13,23 +13,17 @@ Label2:
 	getstatic MiniGoClass/b Z
 	invokestatic io/putBoolLn(Z)V
 	getstatic MiniGoClass/a Z
-	dup
-	ifle Label4
-	pop
 	getstatic MiniGoClass/b Z
-Label4:
+	iand
 	invokestatic io/putBoolLn(Z)V
 	getstatic MiniGoClass/a Z
-	dup
-	ifgt Label5
-	pop
 	getstatic MiniGoClass/b Z
-Label5:
+	ior
 	invokestatic io/putBoolLn(Z)V
 Label3:
 Label1:
 	return
-.limit stack 3
+.limit stack 2
 .limit locals 1
 .end method
 
@@ -38,8 +32,8 @@ Label1:
 Label0:
 	aload_0
 	invokespecial java/lang/Object/<init>()V
-Label6:
-Label7:
+Label4:
+Label5:
 Label1:
 	return
 .limit stack 1
