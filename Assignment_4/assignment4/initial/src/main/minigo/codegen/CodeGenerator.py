@@ -51,9 +51,17 @@ class Access():
         self.isLeft = isLeft
         self.isArrayFloat = isArrayFloat
 
-class CodeGenerator():
+class CodeGenerator(BaseVisitor, Utils):
     def __init__(self):
         self.libName = "io"
+        self.className = "MiniGoClass"
+        self.env = []
+        self.structTypes = {}
+        self.structMethods = {}
+        self.interfaceTypes = {}
+        self.path = None
+        self.emit = None
+        self.phase = None
         
     def init(self):
         return [Symbol("getInt", MType([], IntType()), CName(self.libName)),
@@ -71,71 +79,14 @@ class CodeGenerator():
                 Symbol("putLn", MType([], VoidType()), CName(self.libName))]
         
     def gen(self, ast, path):
-        gloabl_env = self.init() 
-        setup = SetupCodeGen(gloabl_env)
-        setup.visit(ast, None) 
-        code_gen = CodeGenVisitor(setup.env, path, setup.structTypes, setup.structMethods, setup.interfaceTypes)
-        code_gen.visit(ast, None)
-          
-class SetupCodeGen(BaseVisitor):
-    def __init__(self, env):
-        self.env = env
-        self.className = "MiniGoClass"    
-        self.structTypes = {} 
-        self.structMethods = {}
-        self.interfaceTypes = {}
-    
-    def visitProgram(self, ast, c): 
-        global_env = self.env
-
-        global_ast = [decl for decl in ast.decl if isinstance(decl, (FuncDecl, StructType, InterfaceType, VarDecl, ConstDecl))]
-        global_env = reduce(lambda acc,ele: self.visit(ele, acc), global_ast, global_env)
-
-        global_ast = [decl for decl in ast.decl if isinstance(decl, MethodDecl)]
-        global_env = reduce(lambda acc,ele: self.visit(ele, acc), global_ast, global_env)
-    
-        self.env = global_env
-        return c
-
-    def visitVarDecl(self, ast, c):
-        return c + [Symbol(ast.varName, ast, CName(self.className))]
-    
-    def visitConstDecl(self, ast, c):
-        return c + [Symbol(ast.conName, ast, CName(self.className))]
-    
-    def visitFuncDecl(self, ast, c): 
-        returnType = ast.retType
-        paramTypes = [param.parType for param in ast.params]
-        if isinstance(returnType, StringType):
-            returnType = ClassType("String_MiniGo")
-        return c + [Symbol(ast.name, MType(paramTypes, returnType), CName(self.className))]
-    
-    def visitStructType(self, ast, c): 
-        self.structTypes[ast.name] = ast
-        return c + [Symbol(ast.name, ClassType(ast.name), CName(self.className))]
-    
-    def visitInterfaceType(self, ast, c): 
-        self.interfaceTypes[ast.name] = ast
-        return c + [Symbol(ast.name, ClassType(ast.name), CName(self.className))]
-        
-    def visitMethodDecl(self, ast, c): 
-        structName = ast.recType.name
-        if structName not in self.structMethods:
-            self.structMethods[structName] = {}
-            
-        self.structMethods[structName][ast.fun.name] = ast
-        return c
-
-class CodeGenVisitor(BaseVisitor):
-    def __init__(self, env, path, structTypes, structMethods, interfaceTypes):
-        self.className = "MiniGoClass"
-        self.env = env 
+        self.env = self.init() 
         self.path = path
         self.emit = Emitter(path + "/" + self.className + ".j")
-        self.structTypes = structTypes
-        self.structMethods = structMethods
-        self.interfaceTypes = interfaceTypes
-
+        self.phase = "setup"
+        self.visit(ast, None)
+        self.phase = "codegen"
+        self.visit(ast, None)
+                
     def check_array_type(self, arr, type):
         return isinstance(arr, ArrayType) and isinstance(arr.eleType, type)  
      
@@ -564,197 +515,234 @@ class CodeGenVisitor(BaseVisitor):
         self.emit.printout(self.emit.emitINVOKESPECIAL(frame))
             
     def visitProgram(self, ast, c):
-        curr_env = {}
-        curr_env['env'] = [self.env]
+        if self.phase == "setup":
+            global_env = self.env
 
-        self.gen_String_MiniGo_type()
-        self.emit.printout(self.emit.emitPROLOG(self.className, "java.lang.Object"))
+            global_ast = [decl for decl in ast.decl if isinstance(decl, (FuncDecl, StructType, InterfaceType, VarDecl, ConstDecl))]
+            global_env = reduce(lambda acc,ele: self.visit(ele, acc), global_ast, global_env)
 
-        for decl in ast.decl:
-            if isinstance(decl, (VarDecl, ConstDecl)):
-                curr_env = self.visit(decl, curr_env)
+            global_ast = [decl for decl in ast.decl if isinstance(decl, MethodDecl)]
+            global_env = reduce(lambda acc,ele: self.visit(ele, acc), global_ast, global_env)
+        
+            self.env = global_env
+            return c
+        else:
+            curr_env = {}
+            curr_env['env'] = [self.env]
 
-        for iface_name, iface_ast in self.interfaceTypes.items():
-            self.gen_interface(iface_name)
+            self.gen_String_MiniGo_type()
+            self.emit.printout(self.emit.emitPROLOG(self.className, "java.lang.Object"))
 
-        for struct_name, struct_def in self.structTypes.items():
-            self.gen_struct(struct_name, struct_def.elements, self.structMethods.get(struct_name, {}))
+            for decl in ast.decl:
+                if isinstance(decl, (VarDecl, ConstDecl)):
+                    curr_env = self.visit(decl, curr_env)
 
-        curr_env['env'] = [[]] + curr_env['env']
+            for iface_name, iface_ast in self.interfaceTypes.items():
+                self.gen_interface(iface_name)
 
-        for decl in ast.decl:
-            if isinstance(decl, (VarDecl, ConstDecl)):
-                decl_name = decl.varName if isinstance(decl, VarDecl) else decl.conName
-                matched_sym = next((sym for sym in curr_env['env'][-1]
-                    if sym.name == decl_name and not isinstance(sym.mtype, (VarDecl, ConstDecl))),
-                    None
-                )
-                curr_env['env'][0] += [matched_sym]
-            elif not isinstance(decl, (StructType, MethodDecl, InterfaceType)):
-                curr_env = self.visit(decl, curr_env)
+            for struct_name, struct_def in self.structTypes.items():
+                self.gen_struct(struct_name, struct_def.elements, self.structMethods.get(struct_name, {}))
 
-        self.gen_method(FuncDecl("<init>", [], VoidType(), Block([])), curr_env, Frame("<init>", VoidType()))
-        self.gen_method(FuncDecl("<clinit>", [], VoidType(), Block([])), curr_env, Frame("<clinit>", VoidType()))
+            curr_env['env'] = [[]] + curr_env['env']
 
-        self.emit.printout(self.emit.emitEPILOG())
-        return curr_env
+            for decl in ast.decl:
+                if isinstance(decl, (VarDecl, ConstDecl)):
+                    decl_name = decl.varName if isinstance(decl, VarDecl) else decl.conName
+                    matched_sym = next((sym for sym in curr_env['env'][-1]
+                        if sym.name == decl_name and not isinstance(sym.mtype, (VarDecl, ConstDecl))),
+                        None
+                    )
+                    curr_env['env'][0] += [matched_sym]
+                elif not isinstance(decl, (StructType, MethodDecl, InterfaceType)):
+                    curr_env = self.visit(decl, curr_env)
+
+            self.gen_method(FuncDecl("<init>", [], VoidType(), Block([])), curr_env, Frame("<init>", VoidType()))
+            self.gen_method(FuncDecl("<clinit>", [], VoidType(), Block([])), curr_env, Frame("<clinit>", VoidType()))
+
+            self.emit.printout(self.emit.emitEPILOG())
+            return curr_env
 
     def visitVarDecl(self, ast, c):
-        if 'frame' not in c: 
-            if ast.varInit:
-                frame_tmp = Frame("<init>", VoidType())
-                code_gen, type = self.visit(ast.varInit, Access(frame_tmp, c['env'], False))
-                if not ast.varType:
-                    ast.varType = type
-                if isinstance(ast.varType, StringType):
-                    ast.varType = ClassType("String_MiniGo")
-            self.emit.printout(self.emit.emitATTRIBUTE(ast.varName, ast.varType, True, False, ""))
-            c['env'][0] += [Symbol(ast.varName, ast.varType, CName(self.className))]
-        else: 
-            frame = c['frame']
-            idx = frame.getNewIndex()
-            code_gen, type = "", None
-            
-            if ast.varType and isinstance(ast.varType, ArrayType) and not ast.varInit:
-                if isinstance(ast.varType.eleType, StringType):
-                    ast.varType.eleType = ClassType("String_MiniGo")
-                self.emit.printout(self.emit.emitVAR(idx, ast.varName, ast.varType, 
-                                                    frame.getStartLabel(), frame.getEndLabel(), frame))
+        if self.phase == "setup":
+            return c + [Symbol(ast.varName, ast, CName(self.className))]
+        else:
+            if 'frame' not in c: 
+                if ast.varInit:
+                    frame_tmp = Frame("<init>", VoidType())
+                    code_gen, type = self.visit(ast.varInit, Access(frame_tmp, c['env'], False))
+                    if not ast.varType:
+                        ast.varType = type
+                    if isinstance(ast.varType, StringType):
+                        ast.varType = ClassType("String_MiniGo")
+                self.emit.printout(self.emit.emitATTRIBUTE(ast.varName, ast.varType, True, False, ""))
+                c['env'][0] += [Symbol(ast.varName, ast.varType, CName(self.className))]
+            else: 
+                frame = c['frame']
+                idx = frame.getNewIndex()
+                code_gen, type = "", None
                 
-                dims = ast.varType.dimens
-                element_type = ast.varType.eleType
-                if len(dims) == 1:
-                    size = dims[0].value if hasattr(dims[0], 'value') else dims[0]
-                    if isinstance(size, Id):
-                        size = self.visit(size, Access(frame, c['env'], False))[0]
-                        self.emit.printout(size)
-                    else:
-                        self.emit.printout(self.emit.emitPUSHICONST(size, frame))
-                    if isinstance(element_type, (IntType, BoolType, FloatType)):
-                        self.emit.printout(self.emit.jvm.emitNEWARRAY(self.emit.getFullType(element_type)))
-                    else:
-                        self.emit.printout(self.emit.jvm.emitANEWARRAY(self.emit.getFullType(element_type)))
-                else:
-                    for dim in dims:
-                        dim_value = dim.value if hasattr(dim, 'value') else dim
-                        if isinstance(dim_value, Id):
-                            dim_value = self.visit(dim_value, Access(frame, c['env'], False))[0]
-                            self.emit.printout(dim_value)
-                        else:
-                            self.emit.printout(self.emit.emitPUSHICONST(dim_value, frame))
+                if ast.varType and isinstance(ast.varType, ArrayType) and not ast.varInit:
+                    if isinstance(ast.varType.eleType, StringType):
+                        ast.varType.eleType = ClassType("String_MiniGo")
+                    self.emit.printout(self.emit.emitVAR(idx, ast.varName, ast.varType, 
+                                                        frame.getStartLabel(), frame.getEndLabel(), frame))
                     
-                    self.emit.printout(self.emit.emitNEWARRAY(ast.varType, frame))
-                
-                self.emit.printout(self.emit.emitWRITEVAR(ast.varName, ast.varType, idx, frame))
-                c['env'][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
-                return c
-            
-            if ast.varType and isinstance(ast.varType, Id):
-                struct_name = ast.varType.name
-                ast.varType = ClassType(struct_name)
-                isStruct = struct_name in self.structTypes
-                self.emit.printout(self.emit.emitVAR(idx, ast.varName, ast.varType, 
-                                                    frame.getStartLabel(), frame.getEndLabel(), frame))
-                if not isStruct and not ast.varInit:
+                    dims = ast.varType.dimens
+                    element_type = ast.varType.eleType
+                    if len(dims) == 1:
+                        size = dims[0].value if hasattr(dims[0], 'value') else dims[0]
+                        if isinstance(size, Id):
+                            size = self.visit(size, Access(frame, c['env'], False))[0]
+                            self.emit.printout(size)
+                        else:
+                            self.emit.printout(self.emit.emitPUSHICONST(size, frame))
+                        if isinstance(element_type, (IntType, BoolType, FloatType)):
+                            self.emit.printout(self.emit.jvm.emitNEWARRAY(self.emit.getFullType(element_type)))
+                        else:
+                            self.emit.printout(self.emit.jvm.emitANEWARRAY(self.emit.getFullType(element_type)))
+                    else:
+                        for dim in dims:
+                            dim_value = dim.value if hasattr(dim, 'value') else dim
+                            if isinstance(dim_value, Id):
+                                dim_value = self.visit(dim_value, Access(frame, c['env'], False))[0]
+                                self.emit.printout(dim_value)
+                            else:
+                                self.emit.printout(self.emit.emitPUSHICONST(dim_value, frame))
+                        
+                        self.emit.printout(self.emit.emitNEWARRAY(ast.varType, frame))
+                    
+                    self.emit.printout(self.emit.emitWRITEVAR(ast.varName, ast.varType, idx, frame))
                     c['env'][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
                     return c
-                if ast.varInit:
-                    init_code, _ = self.visit(ast.varInit, Access(frame, c['env'], False))
-                    self.emit.printout(init_code)
-                elif isStruct:
-                    self.emit.printout(self.emit.emitNEW(struct_name, frame))
-                    self.emit.printout(self.emit.emitDUP(frame))
-                    self.emit.printout(self.emit.emitINVOKESPECIAL(frame, f"{struct_name}/<init>", MType([], VoidType())))
                 
+                if ast.varType and isinstance(ast.varType, Id):
+                    struct_name = ast.varType.name
+                    ast.varType = ClassType(struct_name)
+                    isStruct = struct_name in self.structTypes
+                    self.emit.printout(self.emit.emitVAR(idx, ast.varName, ast.varType, 
+                                                        frame.getStartLabel(), frame.getEndLabel(), frame))
+                    if not isStruct and not ast.varInit:
+                        c['env'][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
+                        return c
+                    if ast.varInit:
+                        init_code, _ = self.visit(ast.varInit, Access(frame, c['env'], False))
+                        self.emit.printout(init_code)
+                    elif isStruct:
+                        self.emit.printout(self.emit.emitNEW(struct_name, frame))
+                        self.emit.printout(self.emit.emitDUP(frame))
+                        self.emit.printout(self.emit.emitINVOKESPECIAL(frame, f"{struct_name}/<init>", MType([], VoidType())))
+                    
+                    self.emit.printout(self.emit.emitWRITEVAR(ast.varName, ast.varType, idx, frame))
+                    c['env'][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
+                    return c
+                
+                init_val = ast.varInit if ast.varInit else self.get_default_val(ast.varType)
+                code_gen, type = "", None
+                
+                if self.check_array_type(ast.varType, StringType):
+                    ast.varType.eleType = ClassType("String_MiniGo")
+                if not isinstance(init_val, NilLiteral):
+                    if isinstance(ast.varType, ArrayType) and isinstance(init_val, ArrayLiteral):
+                        i2f = (isinstance(ast.varType.eleType, FloatType) and isinstance(init_val.eleType, IntType))
+                        code_gen, type = self.visit(init_val, Access(frame, c['env'], False, i2f))
+                    else:
+                        code_gen, type = self.visit(init_val, Access(frame, c['env'], False))
+                
+                if not ast.varType and not isinstance(type, VoidType):
+                    if self.check_array_type(type, StringType):
+                        type.eleType = ClassType("String_MiniGo")
+                    ast.varType = type  
+                elif isinstance(ast.varType, Id):
+                    ast.varType = ClassType(ast.varType.name)
+                elif isinstance(ast.varType, StringType):
+                    ast.varType = ClassType("String_MiniGo")
+                
+                self.emit.printout(self.emit.emitVAR(idx, ast.varName, ast.varType, 
+                                                    frame.getStartLabel(), frame.getEndLabel(), frame))
+                self.emit.printout(code_gen)
                 self.emit.printout(self.emit.emitWRITEVAR(ast.varName, ast.varType, idx, frame))
                 c['env'][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
-                return c
-            
-            init_val = ast.varInit if ast.varInit else self.get_default_val(ast.varType)
-            code_gen, type = "", None
-            
-            if self.check_array_type(ast.varType, StringType):
-                ast.varType.eleType = ClassType("String_MiniGo")
-            if not isinstance(init_val, NilLiteral):
-                if isinstance(ast.varType, ArrayType) and isinstance(init_val, ArrayLiteral):
-                    i2f = (isinstance(ast.varType.eleType, FloatType) and isinstance(init_val.eleType, IntType))
-                    code_gen, type = self.visit(init_val, Access(frame, c['env'], False, i2f))
-                else:
-                    code_gen, type = self.visit(init_val, Access(frame, c['env'], False))
-            
-            if not ast.varType and not isinstance(type, VoidType):
-                if self.check_array_type(type, StringType):
-                    type.eleType = ClassType("String_MiniGo")
-                ast.varType = type  
-            elif isinstance(ast.varType, Id):
-                ast.varType = ClassType(ast.varType.name)
-            elif isinstance(ast.varType, StringType):
-                ast.varType = ClassType("String_MiniGo")
-            
-            self.emit.printout(self.emit.emitVAR(idx, ast.varName, ast.varType, 
-                                                frame.getStartLabel(), frame.getEndLabel(), frame))
-            self.emit.printout(code_gen)
-            self.emit.printout(self.emit.emitWRITEVAR(ast.varName, ast.varType, idx, frame))
-            c['env'][0] += [Symbol(ast.varName, ast.varType, Index(idx))]
-        return c
+            return c
     
     def visitConstDecl(self, ast, c):
-        if 'frame' not in c: 
-            frame_tmp = Frame("<init>", VoidType())
-            code_gen, type = self.visit(ast.iniExpr, Access(frame_tmp, c['env'], False))
-            ast.conType = type
-            self.emit.printout(self.emit.emitATTRIBUTE(ast.conName, ast.conType, True, True, ""))
-            c['env'][0] += [Symbol(ast.conName, ast.conType, CName(self.className))]
-        else: 
-            frame = c['frame']
-            idx = frame.getNewIndex()
-            code_gen, const_type = self.visit(ast.iniExpr, Access(frame, c['env'], False))
-            if self.check_array_type(const_type, StringType):
-                const_type.eleType = ClassType("String_MiniGo")
-            ast.conType = const_type
-            self.emit.printout(self.emit.emitVAR(idx, ast.conName, ast.conType, 
-                                                frame.getStartLabel(), frame.getEndLabel(), frame))
-            self.emit.printout(code_gen)
-            self.emit.printout(self.emit.emitWRITEVAR(ast.conName, ast.conType, idx, frame))
-                    
-            c['env'][0] = [Symbol(ast.conName, ast.conType, Index(idx))] + c['env'][0]
-        return c
+        if self.phase == "setup":
+            return c + [Symbol(ast.conName, ast, CName(self.className))]
+        else:
+            if 'frame' not in c: 
+                frame_tmp = Frame("<init>", VoidType())
+                code_gen, type = self.visit(ast.iniExpr, Access(frame_tmp, c['env'], False))
+                ast.conType = type
+                self.emit.printout(self.emit.emitATTRIBUTE(ast.conName, ast.conType, True, True, ""))
+                c['env'][0] += [Symbol(ast.conName, ast.conType, CName(self.className))]
+            else: 
+                frame = c['frame']
+                idx = frame.getNewIndex()
+                code_gen, const_type = self.visit(ast.iniExpr, Access(frame, c['env'], False))
+                if self.check_array_type(const_type, StringType):
+                    const_type.eleType = ClassType("String_MiniGo")
+                ast.conType = const_type
+                self.emit.printout(self.emit.emitVAR(idx, ast.conName, ast.conType, 
+                                                    frame.getStartLabel(), frame.getEndLabel(), frame))
+                self.emit.printout(code_gen)
+                self.emit.printout(self.emit.emitWRITEVAR(ast.conName, ast.conType, idx, frame))
+                        
+                c['env'][0] = [Symbol(ast.conName, ast.conType, Index(idx))] + c['env'][0]
+            return c
 
     def visitFuncDecl(self, ast, c):
-        frame = Frame(ast.name, ast.retType)
-        is_main = ast.name == "main"
-        c_local = c.copy()
-        mtype = None
-        
-        if is_main:
-            mtype = MType([ArrayType([None], StringType())], VoidType())
+        if self.phase == "setup":
+            returnType = ast.retType
+            paramTypes = [param.parType for param in ast.params]
+            if isinstance(returnType, StringType):
+                returnType = ClassType("String_MiniGo")
+            return c + [Symbol(ast.name, MType(paramTypes, returnType), CName(self.className))]
         else:
-            ret = ast.retType if not isinstance(ast.retType, Id) else ClassType(ast.retType.name)
-            if isinstance(ret, StringType):
-                ret = ClassType("String_MiniGo")
-            elif self.check_array_type(ret, StringType):
-                ret.eleType = ClassType("String_MiniGo")
-            params = []
-            for param in ast.params:
-                if isinstance(param.parType, Id):
-                    param.parType = ClassType(param.parType.name)
-                if isinstance(param.parType, StringType):
-                    param.parType = ClassType("String_MiniGo")
-                params += [param.parType]
-            mtype = MType(params, ret)
-        c_local['env'][0] += [Symbol(ast.name, mtype, CName(self.className))]
-        c_local['frame'] = frame
-        c_local['env'] = [[]] + c_local['env']
-        self.gen_method(ast, c_local, frame)
-        c['frame'] = frame        
-        return c
-    
+            frame = Frame(ast.name, ast.retType)
+            is_main = ast.name == "main"
+            c_local = c.copy()
+            mtype = None
+            
+            if is_main:
+                mtype = MType([ArrayType([None], StringType())], VoidType())
+            else:
+                ret = ast.retType if not isinstance(ast.retType, Id) else ClassType(ast.retType.name)
+                if isinstance(ret, StringType):
+                    ret = ClassType("String_MiniGo")
+                elif self.check_array_type(ret, StringType):
+                    ret.eleType = ClassType("String_MiniGo")
+                params = []
+                for param in ast.params:
+                    if isinstance(param.parType, Id):
+                        param.parType = ClassType(param.parType.name)
+                    if isinstance(param.parType, StringType):
+                        param.parType = ClassType("String_MiniGo")
+                    params += [param.parType]
+                mtype = MType(params, ret)
+            c_local['env'][0] += [Symbol(ast.name, mtype, CName(self.className))]
+            c_local['frame'] = frame
+            c_local['env'] = [[]] + c_local['env']
+            self.gen_method(ast, c_local, frame)
+            c['frame'] = frame        
+            return c
+        
+    def visitMethodDecl(self, ast, c):
+        if self.phase == "setup":
+            structName = ast.recType.name
+            if structName not in self.structMethods:
+                self.structMethods[structName] = {}
+            self.structMethods[structName][ast.fun.name] = ast
+            return c
+
     def visitParamDecl(self, ast, c):
+        if self.phase == "setup":
+            return c
         idx = c['frame'].getNewIndex()
         c['env'][0] = [Symbol(ast.parName, ast.parType, Index(idx))] + o['env'][0]
         return idx
 
     def visitBlock(self, ast, c):
+        if self.phase == "setup":
+            return c
         env = c.copy()
         frame = env['frame']
         env['env'] = [[]] + env['env'] 
@@ -779,6 +767,8 @@ class CodeGenVisitor(BaseVisitor):
         frame.exitScope()
     
     def visitAssign(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c['frame']
         env = c['env']
         if isinstance(ast.lhs, ArrayCell):
@@ -844,6 +834,8 @@ class CodeGenVisitor(BaseVisitor):
             return rc + lc, VoidType()
            
     def visitIf(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c['frame']
         env = c['env']
         
@@ -882,6 +874,8 @@ class CodeGenVisitor(BaseVisitor):
         return c
 
     def visitForBasic(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c['frame']
         env = c['env']
         
@@ -905,6 +899,8 @@ class CodeGenVisitor(BaseVisitor):
         return c
      
     def visitForStep(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c['frame']
         
         frame.enterLoop()
@@ -966,16 +962,22 @@ class CodeGenVisitor(BaseVisitor):
         return c
 
     def visitBreak(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c['frame']
         self.emit.printout(self.emit.emitGOTO(frame.getBreakLabel(), frame))
         return c
 
     def visitContinue(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c['frame']
         self.emit.printout(self.emit.emitGOTO(frame.getContinueLabel(), frame))
         return c
         
     def visitReturn(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c['frame']
         env = c['env']
         result = []
@@ -991,6 +993,8 @@ class CodeGenVisitor(BaseVisitor):
             self.emit.printout(''.join(result))
 
     def visitFieldAccess(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c.frame
         env = c.sym
         isLeft = c.isLeft
@@ -1016,6 +1020,8 @@ class CodeGenVisitor(BaseVisitor):
             return rec_code + self.emit.emitGETFIELD(f"{struct_name}/{ast.field}", field_type, frame), field_type
 
     def visitArrayCell(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c.frame
         env = c.sym
         is_left = c.isLeft
@@ -1039,6 +1045,8 @@ class CodeGenVisitor(BaseVisitor):
         return ''.join(code_parts), result_type
 
     def visitBinaryOp(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c.frame
         env = c.sym
 
@@ -1076,6 +1084,8 @@ class CodeGenVisitor(BaseVisitor):
         return left_code + right_code + op_code, result_type
 
     def visitUnaryOp(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c.frame
         env = c.sym
         
@@ -1088,6 +1098,8 @@ class CodeGenVisitor(BaseVisitor):
         return body_code, body_type
 
     def visitFuncCall(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c['frame'] if isinstance(c, dict) else c.frame
         env = c['env'] if isinstance(c, dict) else c.sym
         if ast.funName in ["getInt", "getFloat", "getBool", "getString"]:
@@ -1126,6 +1138,8 @@ class CodeGenVisitor(BaseVisitor):
             return (args_code + call_code, func_sym.mtype.rettype)
 
     def visitMethCall(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c['frame'] if isinstance(c, dict) else c.frame
         env = c['env'] if isinstance(c, dict) else c.sym
         rec_code, rec_type = self.visit(ast.receiver, Access(frame, env, False))
@@ -1172,6 +1186,8 @@ class CodeGenVisitor(BaseVisitor):
         return args_code + call_code, return_type
 
     def visitArrayLiteral(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c.frame
         env = c.sym
         isArrayFloat = c.isArrayFloat
@@ -1229,6 +1245,8 @@ class CodeGenVisitor(BaseVisitor):
         return ''.join(result), ArrayType(ast.dimens, ast.eleType)
 
     def visitStructLiteral(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c.frame
         env = c.sym
         result = []
@@ -1274,6 +1292,8 @@ class CodeGenVisitor(BaseVisitor):
         return ''.join(result), ClassType(ast.name)
 
     def visitIntLiteral(self, ast, c):
+        if self.phase == "setup":
+            return c
         val = ast.value
         if isinstance(val, str):
             if val.startswith("0b") or val.startswith("0B"):
@@ -1285,9 +1305,13 @@ class CodeGenVisitor(BaseVisitor):
         return self.emit.emitPUSHICONST(val, c.frame), IntType()
 
     def visitFloatLiteral(self, ast, c):
+        if self.phase == "setup":
+            return c
         return self.emit.emitPUSHFCONST(str(ast.value), c.frame), FloatType()
 
     def visitStringLiteral(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c.frame
         result = []
         result += [self.emit.emitNEW("String_MiniGo", frame),
@@ -1297,15 +1321,21 @@ class CodeGenVisitor(BaseVisitor):
         return ''.join(result), ClassType("String_MiniGo")
 
     def visitBooleanLiteral(self, ast, c):
+        if self.phase == "setup":
+            return c
         value = ast.value
         if isinstance(value, str):
             value = value.lower() == 'true'
         return self.emit.emitPUSHICONST(1 if value else 0, c.frame), BoolType()
 
     def visitNilLiteral(self, ast, c):
+        if self.phase == "setup":
+            return c
         return self.emit.jvm.emitPUSHNULL(), VoidType()
 
     def visitId(self, ast, c):
+        if self.phase == "setup":
+            return c
         frame = c.frame
         env = c.sym
         isLeft = c.isLeft
@@ -1326,4 +1356,12 @@ class CodeGenVisitor(BaseVisitor):
                         else:
                             return self.emit.emitGETSTATIC(f"{sym.value.value}/{sym.name}", sym.mtype, frame), sym.mtype
 
-    def visitStructType(self, ast, c): pass
+    def visitStructType(self, ast, c):
+        if self.phase == "setup":
+            self.structTypes[ast.name] = ast
+            return c + [Symbol(ast.name, ClassType(ast.name), CName(self.className))]
+        
+    def visitInterfaceType(self, ast, c):
+        if self.phase == "setup":
+            self.interfaceTypes[ast.name] = ast
+            return c + [Symbol(ast.name, ClassType(ast.name), CName(self.className))]
