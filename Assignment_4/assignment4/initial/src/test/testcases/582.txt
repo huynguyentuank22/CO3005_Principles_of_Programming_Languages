@@ -1,0 +1,12 @@
+
+        func main() {
+            var arr [2][2]float = [2][2]float{{1.1, 2.2}, {3.3, 4.4}};
+            for var i int = 0; i < 2; i := i + 1 {
+                for var j int = 0; j < 2; j := j + 1 {
+                    putFloat(arr[i][j]);
+                    putString(" ");
+                }
+                putStringLn("");
+            }
+        }
+        
